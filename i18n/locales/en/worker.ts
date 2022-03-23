@@ -1,0 +1,36 @@
+const worker = {
+  titleSection: 'Workers',
+  name: 'Name',
+  lastname: 'Lastname',
+  email: 'Email',
+  typeDocument: 'Type document',
+  document: 'Document',
+  phone: 'Phone',
+  photo: 'Photo',
+  codeWorker: 'Code worker',
+
+  serialDuplicated: 'Document or email already exists',
+  titleModalCreate: 'Create worker',
+  titleModalUpdate: 'Update worker',
+  titleModalUpdateGroup: 'Update group',
+  titleModalCreateGroup: 'Create group',
+  qr: 'QR code',
+  permanentCode: 'Permanent code',
+  temporalCode: 'Temporal code',
+  download: 'Download',
+  generateNewCode: 'Generate new code',
+  remainingTime: 'Remaining time',
+  timeEnd: 'End date',
+  deleteQR: 'Invalidate temporal code',
+  confirmDeleteQR: 'Do you want to invalidate temporal code',
+  canAccessToApp: 'App',
+  canAccessToWeb: 'Web',
+  abbreviation: 'Abbreviation',
+  group: 'Group',
+  nativeLocation: 'Native location',
+  canUseAuthenticator: 'Ipass Authenticator',
+  active: 'Active',
+  timeZone: 'Time zone'
+}
+
+export default worker

@@ -1,0 +1,65 @@
+@import './variables';
+html,
+body {
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:focus {
+  outline: none;
+}
+
+.editor {
+  display: flex;
+  width: 100%;
+  height: 70%;
+  background-color: #f4f6f8;
+  .editorBd {
+    flex: 1;
+  }
+}
+
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: $mainBackColor;
+  z-index: 50000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mainContainerApp-dark {
+  .loading {
+    background-color: $mainDarkBackColor;
+    .ant-spin {
+      color: $colorDarkText;
+    }
+  }
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container__buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}

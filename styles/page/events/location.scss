@@ -1,0 +1,20 @@
+.modalContent {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  align-items: center;
+  border-bottom: 2px rgba(128, 128, 128, 0.24) solid;
+  cursor: pointer;
+  p {
+    margin: 0;
+    svg {
+      vertical-align: 0;
+    }
+  }
+}
+
+// .modalCrud-dark {
+//   .modalContent {
+//     border: 1px solid white;
+//   }
+// }

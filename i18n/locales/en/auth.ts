@@ -1,0 +1,28 @@
+const auth = {
+  titleSinIn: 'Sign In',
+  buttonSignin: 'Sign In',
+  buttonSinup: 'Sing Up',
+  buttonToken: 'Confirm',
+  inputEmail: 'Email',
+  inputPassword: 'Enter your password',
+  inputPasswordRepit: 'Confirm Your Password',
+  inputNewPassword: 'Enter your new Password',
+  welcome: 'Welcome Back',
+  titleSingup: 'Sing Up',
+  inputName: 'Name',
+  inputPhone: 'Phone',
+  inputDocument: 'Document',
+  inputLastname: 'Lastname',
+  inputPrivilege: 'Role',
+  inputActive: 'Is the User active?',
+  input: '.',
+  inputToken: 'Verification Code.',
+  messagePreVerification: 'Please Check your Email, We send You a verificatión code to activate your account, this code will expire in 1 hour.',
+  messageLoginVerification: 'Please Check your Email, We send You a code to verify your login.',
+  messagePreForgotPassword: 'To recover your password insert your email.',
+  remember: 'Remember Me',
+  forgotPassword: 'Forgot Password',
+  messageAfterSubmidForgor: 'Check your Email to recover your password.',
+  titleForgot: 'Recover Password'
+}
+export default auth

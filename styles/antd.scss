@@ -1,0 +1,741 @@
+@import './variables';
+.mainContainerApp-dark,
+.modalCrud-dark {
+  h3,
+  h2,
+  p,
+  span {
+    color: $colorDarkText;
+  }
+
+  // Transfer
+
+  .ant-transfer-list {
+    border: 1px solid $mainOrange;
+  }
+  .ant-transfer-list-header {
+    background: $mainDarkBackColor;
+    border-bottom: 1px solid $mainOrange;
+  }
+
+  .ant-menu-dark.ant-menu-horizontal > .ant-menu-item:hover {
+    background-color: $lightOrange;
+    * {
+      color: #000 !important;
+    }
+  }
+  .ant-menu.ant-menu-dark .ant-menu-item-selected,
+  .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected {
+    background-color: $mainOrange;
+  }
+
+  .ant-btn:hover,
+  .ant-btn:focus {
+    color: $mainOrange;
+    border-color: $mainOrange;
+    background: transparent;
+  }
+
+  .site-page-header {
+    // border: 1px solid rgb(235, 237, 240);
+    border: none;
+    -webkit-box-shadow: 0px 5px 40px 0px rgba(0, 0, 0, 0.81);
+    -moz-box-shadow: 0px 5px 40px 0px rgba(0, 0, 0, 0.81);
+    box-shadow: 0px 5px 40px 0px rgba(0, 0, 0, 0.81);
+    background: $mainDarkColor;
+
+    span {
+      color: $colorDarkText;
+      fill: $colorDarkText;
+    }
+    .ant-tag {
+      color: $mainDarkColor;
+    }
+  }
+
+  //upload
+  .ant-upload {
+    background-color: $mainDarkBackColor;
+    width: 100%;
+    * {
+      color: $mainColor;
+    }
+  }
+
+  .ant-picker {
+    border: 1px solid $mainDarkColor;
+    background-color: $colorElementsDark;
+    color: $colorDarkText;
+    .ant-picker-suffix {
+      color: $mainOrange;
+    }
+    input {
+      color: $colorDarkText;
+    }
+  }
+
+  .ant-picker-focused {
+    border-color: $colorElementsDark;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 1);
+  }
+  .ant-picker:hover,
+  .ant-picker-focused {
+    border-color: $mainOrange;
+  }
+
+  //Switch
+  .ant-switch {
+    background-color: $colorElementsDark;
+  }
+  .ant-switch-checked {
+    background-color: $mainOrange;
+  }
+  .ant-switch-checked:focus {
+    box-shadow: none;
+  }
+  .ant-switch:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 1);
+  }
+
+  //Select
+  .ant-input-group-addon .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+    background-color: $colorElementsDark;
+    border: 1px solid $borderDarkColor;
+  }
+  .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    color: $colorDarkText;
+    background-color: $colorElementsDark;
+    border: 1px solid $borderDarkColor;
+  }
+  .ant-select-arrow {
+    color: $colorDarkText;
+  }
+  .ant-select-focused .ant-select-selector {
+    border-color: $borderDarkColor !important;
+    border-right-width: 0;
+    box-shadow: none !important;
+  }
+  .ant-select-multiple .ant-select-selection-item {
+    background-color: $mainDarkColor;
+  }
+  .ant-select-multiple .ant-select-selection-item-remove {
+    color: $colorDarkText;
+  }
+  .ant-select-clear {
+    color: $mainOrange;
+    background-color: transparent;
+  }
+
+  // Inputs
+  .ant-input {
+    border: 1px solid $mainDarkColor;
+    background-color: $colorElementsDark;
+    color: $colorDarkText;
+  }
+  .ant-input-affix-wrapper {
+    border: 1px solid $mainDarkColor;
+    background-color: $colorElementsDark;
+  }
+
+  .ant-input-password-icon {
+    color: $colorDarkText;
+  }
+
+  .ant-input-search .ant-input:hover,
+  .ant-input-search .ant-input:focus {
+    border-color: $mainOrange;
+  }
+
+  .ant-input-search .ant-input:hover + .ant-input-group-addon .ant-input-search-button:not(.ant-btn-primary),
+  .ant-input-search .ant-input:focus + .ant-input-group-addon .ant-input-search-button:not(.ant-btn-primary) {
+    border-left-color: $mainOrange;
+  }
+  .ant-input-search {
+    .ant-btn {
+      background: $mainOrange;
+    }
+  }
+
+  .ant-input:focus,
+  .ant-input-focused,
+  .ant-input-affix-wrapper:focus,
+  .ant-input-affix-wrapper-focused {
+    border-color: $borderDarkColor;
+    border-right-width: 1px !important;
+    outline: 0;
+    box-shadow: 0 0 0 2px $borderDarkColor;
+  }
+  .ant-form-item-has-error .ant-input,
+  .ant-form-item-has-error .ant-input-affix-wrapper,
+  .ant-form-item-has-error .ant-input:hover,
+  .ant-form-item-has-error .ant-input-affix-wrapper:hover {
+    background-color: $colorElementsDark;
+    border-color: #ff4d4f;
+  }
+
+  .ant-form-item-label > label {
+    color: $colorDarkText;
+  }
+  //input number
+  .ant-input-number {
+    border: 1px solid $mainDarkColor;
+    background-color: $colorElementsDark;
+    color: $colorDarkText;
+  }
+
+  .ant-form-item-has-error .ant-input-number:not([disabled]):hover,
+  .ant-form-item-has-error .ant-picker:not([disabled]):hover {
+    background-color: $colorElementsDark;
+    color: $colorDarkText;
+  }
+  //Button
+  .ant-btn-primary {
+    color: $colorDarkText;
+    background: $colorElementsDark;
+    border-color: $mainDarkColor;
+  }
+
+  .ant-btn {
+    background-color: $mainDarkBackColor;
+    border-color: $borderDarkColor;
+    color: $colorDarkText;
+  }
+  .buttonsCrud {
+    button {
+      background-color: $mainDarkColor;
+      -webkit-box-shadow: 0px 5px 40px 0px rgba(0, 0, 0, 0.81);
+      -moz-box-shadow: 0px 5px 40px 0px rgba(0, 0, 0, 0.81);
+      box-shadow: 0px 5px 40px 0px rgba(0, 0, 0, 0.81);
+    }
+  }
+
+  //Layout
+  .ant-layout-sider {
+    background-color: $mainDarkColor;
+    &::-webkit-scrollbar {
+      width: 5px;
+      background: $mainColor;
+      border-radius: 2.5px;
+    }
+
+    // /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: $mainOrange;
+      border-radius: 5px;
+      transition: ease-in-out 0.3s;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: rgba($color: $lightOrange, $alpha: 0.9);
+    }
+  }
+
+  .ant-menu.ant-menu-dark,
+  .ant-menu-dark .ant-menu-sub,
+  .ant-menu.ant-menu-dark .ant-menu-sub {
+    color: $colorDarkText;
+    background: $mainDarkColor;
+  }
+
+  .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected,
+  .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected * {
+    color: $mainDarkColor;
+    background: $lightOrange;
+    svg {
+      fill: $mainDarkColor;
+    }
+  }
+
+  //checkbox
+
+  //Table
+  .ant-table {
+    -webkit-box-shadow: 0px 5px 40px 0px rgba(0, 0, 0, 0.81);
+    -moz-box-shadow: 0px 5px 40px 0px rgba(0, 0, 0, 0.81);
+    box-shadow: 0px 5px 40px 0px rgba(0, 0, 0, 0.81);
+    background: $mainDarkColor;
+    color: $colorDarkText;
+
+    .ant-table-body {
+      &::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+        background: $mainDarkBackColor;
+        border-radius: 2.5px;
+      }
+
+      // /* Handle */
+      &::-webkit-scrollbar-thumb {
+        background: $mainOrange;
+        border-radius: 5px;
+        transition: ease-in-out 0.3s;
+      }
+
+      /* Handle on hover */
+      &::-webkit-scrollbar-thumb:hover {
+        background: rgba($color: $lightOrange, $alpha: 0.9);
+      }
+    }
+
+    .ant-table-thead > tr > th {
+      background-color: $mainDarkColor;
+      color: $colorDarkText;
+    }
+    .ant-table-thead > tr > th {
+      border-bottom: 2px solid $borderDarkColor;
+    }
+    .ant-table-tbody > tr {
+      overflow: hidden;
+    }
+    .ant-table-tbody > tr > td {
+      border-bottom: 1px solid $borderDarkColor;
+    }
+    .ant-table-tbody > tr.ant-table-row:hover > td {
+      background: $colorElementsDark;
+    }
+    .ant-table-cell-fix-left,
+    .ant-table-cell-fix-right {
+      background: $mainDarkColor;
+    }
+    .ant-table-cell-scrollbar {
+      box-shadow: none;
+    }
+  }
+
+  //Pagination
+  .ant-pagination-total-text {
+    color: $colorDarkText;
+  }
+  .ant-pagination-prev .ant-pagination-item-link,
+  .ant-pagination-next .ant-pagination-item-link {
+    background-color: $mainOrange;
+    border: none;
+  }
+  .ant-pagination-item {
+    background-color: $colorElementsDark;
+    border: none;
+  }
+  .ant-pagination-total-text .ant-pagination-prev button,
+  .ant-pagination-next button {
+    color: $colorDarkText;
+  }
+  .ant-pagination-prev:focus .ant-pagination-item-link,
+  .ant-pagination-next:focus .ant-pagination-item-link,
+  .ant-pagination-prev:hover .ant-pagination-item-link,
+  .ant-pagination-next:hover .ant-pagination-item-link {
+    color: #fff;
+  }
+  .ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-ellipsis,
+  .ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis {
+    color: $colorDarkText;
+  }
+  .ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-link-icon,
+  .ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-link-icon {
+    color: #fff;
+  }
+  .ant-pagination-item a {
+    color: $colorDarkText;
+  }
+  .ant-pagination-item-active {
+    background: $colorElementsDark;
+    border: 1px solid;
+    border-color: $mainOrange;
+  }
+
+  //dropdown
+  .ant-select-dropdown {
+    background-color: $mainDarkColor !important;
+    .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+      color: $colorDarkText;
+      font-weight: 600;
+      background-color: $colorElementsDark;
+    }
+    .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+      background-color: $colorElementsDark;
+      color: $colorDarkText;
+    }
+    .ant-select-item {
+      color: $colorDarkText;
+    }
+  }
+
+  //NoData
+  .ant-table-tbody > tr.ant-table-placeholder:hover > td {
+    background: $colorElementsDark;
+  }
+  .ant-empty-normal {
+    color: $colorDarkText;
+  }
+
+  //Checkbox
+  .ant-checkbox-wrapper {
+    span {
+      color: $colorDarkText;
+    }
+  }
+}
+
+.ant-message {
+  .ant-message-notice-content {
+    border-radius: 15px;
+  }
+  .-dark {
+    .ant-message-notice-content {
+      background: $mainDarkColor;
+      > div {
+        :nth-child(2) {
+          color: $colorDarkText;
+        }
+      }
+    }
+  }
+}
+
+.ant-table-container table > thead > tr:first-child th:first-child {
+  border-top-left-radius: 15px;
+}
+.ant-table-container table > thead > tr:first-child th:last-child {
+  border-top-right-radius: 15px;
+}
+.ant-table-tbody > tr:last-child > td:first-child {
+  border-bottom-left-radius: 15px;
+}
+.ant-table-tbody > tr:last-child > td:last-child {
+  border-bottom-right-radius: 15px;
+}
+.ant-table {
+  -webkit-box-shadow: 0px 5px 40px 0px rgba(112, 144, 176, 0.2);
+  -moz-box-shadow: 0px 5px 40px 0px rgba(112, 144, 176, 0.2);
+  box-shadow: 0px 5px 40px 0px rgba(112, 144, 176, 0.2);
+  border-radius: 15px;
+  .ant-table-body {
+    &::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+      background: $mainBackColor;
+      border-radius: 2.5px;
+    }
+
+    // /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: $mainOrange;
+      border-radius: 5px;
+      transition: ease-in-out 0.3s;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: rgba($color: $lightOrange, $alpha: 0.9);
+    }
+  }
+}
+
+//Dropdwon
+.dropDown-dark {
+  background-color: $mainDarkColor;
+  .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+    color: $colorDarkText;
+    font-weight: 600;
+    background-color: $colorElementsDark;
+  }
+  .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+    background-color: $colorElementsDark;
+    color: $colorDarkText;
+  }
+  .ant-select-item {
+    color: $colorDarkText;
+  }
+  .ant-dropdown-menu-item * {
+    color: $colorDarkText;
+  }
+  .ant-dropdown-menu-item-active * {
+    color: $mainDarkColor;
+  }
+}
+
+.ant-switch-checked {
+  background-color: $mainOrange;
+}
+
+//Modal
+.ant-modal-content {
+  .ant-modal-close {
+    top: -5px;
+    right: -15px;
+  }
+
+  border-radius: 25px;
+  -webkit-box-shadow: 0px 5px 40px 0px rgba(112, 144, 176, 0.2);
+  -moz-box-shadow: 0px 5px 40px 0px rgba(112, 144, 176, 0.2);
+  box-shadow: 0px 5px 40px 0px rgba(112, 144, 176, 0.2);
+
+  .createModal {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+}
+
+// input
+.ant-input:hover {
+  border-color: $mainOrange;
+  // border-right-width: 1px !important;
+}
+.ant-input:focus,
+.ant-input-focused {
+  border-color: $mainOrange;
+  box-shadow: none;
+}
+//input number
+.ant-input-number {
+  width: 100%;
+}
+.ant-input-number:hover {
+  border-color: $mainOrange;
+}
+
+.ant-input-number:focus,
+.ant-input-number-focused {
+  border-color: $mainOrange;
+
+  box-shadow: none;
+}
+//select
+
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+  border-color: $mainOrange;
+}
+
+.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  border-color: $mainOrange;
+  box-shadow: none;
+}
+
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background-color: rgba($color: $lightOrange, $alpha: 0.5);
+}
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) .ant-select-item-option-state {
+  color: $mainOrange;
+}
+
+//Date picker
+.ant-picker {
+  width: 100%;
+}
+.ant-picker:hover,
+.ant-picker-focused {
+  border-color: $mainOrange;
+  // border-right-width: 1px !important;
+}
+.picker-dark.ant-picker-dropdown {
+  .ant-picker-header button {
+    color: $mainColor;
+  }
+  .ant-picker-panel-container {
+    background-color: $mainDarkColor;
+    color: $mainColor;
+  }
+  .ant-picker-content th,
+  .ant-picker-content ul li div,
+  .ant-picker-content tr td {
+    color: $mainColor;
+  }
+  .ant-picker-cell-disabled::before {
+    background: $borderDarkColor;
+  }
+  .ant-picker-cell:hover:not(.ant-picker-cell-in-view) .ant-picker-cell-inner,
+  .ant-picker-cell:hover:not(.ant-picker-cell-selected):not(.ant-picker-cell-range-start):not(.ant-picker-cell-range-end):not(.ant-picker-cell-range-hover-start):not(.ant-picker-cell-range-hover-end)
+    .ant-picker-cell-inner {
+    background-color: $borderDarkColor;
+  }
+
+  .ant-picker-content ul li div:hover {
+    background-color: $borderDarkColor;
+  }
+  .ant-picker-time-panel-column > li.ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner {
+    background-color: $borderDarkColor;
+  }
+  .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+    border-color: $mainColor;
+  }
+  .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
+  .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+  .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+    background-color: $borderDarkColor;
+    color: $mainColor;
+  }
+}
+
+.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
+.ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+.ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+  background: $mainOrange;
+}
+.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+  border: 1px solid $mainOrange;
+}
+
+.ant-picker-today-btn {
+  color: $mainOrange;
+}
+
+.ant-modal-confirm-body > .anticon + .ant-modal-confirm-title + .ant-modal-confirm-content {
+  margin-top: 20px;
+  margin-left: 0px;
+}
+.ant-modal-confirm .ant-modal-confirm-btns {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalCrud-dark {
+  .ant-modal-content {
+    background-color: $mainDarkColor;
+    -webkit-box-shadow: 0px 5px 40px 0px rgba(0, 0, 0, 0.81);
+    -moz-box-shadow: 0px 5px 40px 0px rgba(0, 0, 0, 0.81);
+    box-shadow: 0px 5px 40px 0px rgba(0, 0, 0, 0.81);
+    .ant-modal-confirm-body .ant-modal-confirm-title,
+    .ant-modal-confirm-body .ant-modal-confirm-content {
+      color: $colorDarkText;
+    }
+    h3 {
+      color: $colorDarkText;
+    }
+    .checkboxForms {
+      span {
+        color: $colorDarkText;
+      }
+    }
+  }
+}
+
+.ant-modal-mask,
+.ant-image-preview-mask {
+  background-color: rgba($color: $backGrounModal, $alpha: 0.5);
+}
+
+.buttonsCrud {
+  margin: 20px 0 20px 0;
+}
+
+.formContainer {
+  // position: relative;
+  max-height: 50vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 10px;
+  &::-webkit-scrollbar {
+    width: 5px;
+    background: $mainColor;
+    border-radius: 2.5px;
+  }
+
+  // /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $mainOrange;
+    border-radius: 5px;
+    transition: ease-in-out 0.3s;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba($color: $lightOrange, $alpha: 0.9);
+  }
+}
+
+.ant-picker {
+  width: 100%;
+}
+
+.site-page-header {
+  width: 100%;
+  border: 1px solid rgb(235, 237, 240);
+  border-radius: 20px;
+  margin-bottom: 30px;
+  -webkit-box-shadow: 0px 5px 40px 0px rgba(112, 144, 176, 0.2);
+  -moz-box-shadow: 0px 5px 40px 0px rgba(112, 144, 176, 0.2);
+  box-shadow: 0px 5px 40px 0px rgba(112, 144, 176, 0.2);
+}
+
+.tableData {
+  border-radius: 20px;
+}
+
+.fullWidth {
+  padding: 10px;
+  width: 100%;
+}
+
+.ant-layout-sider {
+  &::-webkit-scrollbar {
+    width: 5px;
+    background: $mainColor;
+    border-radius: 2.5px;
+  }
+
+  // /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $mainOrange;
+    border-radius: 5px;
+    transition: ease-in-out 0.3s;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba($color: $lightOrange, $alpha: 0.9);
+  }
+}
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: $lightOrange;
+}
+.ant-menu-item-selected a,
+.ant-menu-item-selected a:hover {
+  color: $mainDarkColor;
+}
+
+.ant-menu-vertical .ant-menu-item::after,
+.ant-menu-vertical-left .ant-menu-item::after,
+.ant-menu-vertical-right .ant-menu-item::after,
+.ant-menu-inline .ant-menu-item::after {
+  border-right: 3px solid $mainOrange;
+}
+
+.ant-menu-item-selected {
+  color: $mainDarkColor;
+}
+
+.ant-menu-light .ant-menu-item:hover,
+.ant-menu-light .ant-menu-item-active,
+.ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open,
+.ant-menu-light .ant-menu-submenu-active,
+.ant-menu-light .ant-menu-submenu-title:hover {
+  color: $mainOrange;
+}
+
+.ant-menu-item a:hover {
+  color: $mainOrange;
+}
+
+.ant-btn:hover,
+.ant-btn:focus {
+  color: $mainOrange;
+  border-color: $mainOrange;
+  background: #fff;
+}
+
+.ant-btn-primary {
+  background-color: $mainOrange;
+  border-color: $mainOrange;
+}
+.ant-upload.ant-upload-select-picture-card {
+  // background-color: $colorElementsDark;
+  width: 100%;
+  padding: 10px;
+}
+
+.ant-upload.ant-upload-select-picture-card:hover {
+  border-color: $mainOrange;
+}

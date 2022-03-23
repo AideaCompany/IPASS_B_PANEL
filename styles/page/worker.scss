@@ -1,0 +1,71 @@
+.worker_modal {
+  .modal_container_worker {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.worker_QR_modal {
+  width: 100%;
+  height: 100%;
+  .container_QR {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: flex-start;
+    .parent_QR {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      margin: 10px;
+
+      .control_info_QR {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+        padding: 10px;
+        h3 {
+          margin: 0;
+          padding: 0;
+        }
+        .temporal_info {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+      }
+      .control_QR {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        h3 {
+          margin: 0;
+          padding: 0;
+        }
+      }
+    }
+  }
+}
+
+.mask {
+  position: absolute;
+  background-color: rgba($color: #fff, $alpha: 0.5);
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .text {
+    transform: rotate(-45deg);
+    h1 {
+      color: red;
+    }
+  }
+}

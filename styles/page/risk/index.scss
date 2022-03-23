@@ -1,0 +1,61 @@
+// .infoContainer {
+//   background: #fff;
+//   border: 1px solid #ebedf0;
+//   border-radius: 20px;
+//   box-shadow: 0px 5px 40px 0px rgb(112 144 176 / 20%);
+//   padding: 16px 24px;
+//   display: grid;
+//   grid-template-columns: 1fr 1fr;
+//   .infoDeviceContainer,
+//   .infoLocationContainer {
+//     h2 {
+//       text-align: center;
+//     }
+//     .propsContainer {
+//       display: grid;
+//       grid-template-columns: 1fr 1fr;
+//       align-items: center;
+//       justify-items: center;
+//       .propDevice {
+//         margin: 20px 0;
+//         display: flex;
+//         flex-direction: column;
+//         justify-content: center;
+//         align-items: center;
+//         width: 80%;
+//         border-bottom: 1px solid rgba(63, 63, 63, 0.185);
+//         span {
+//           font-weight: bold;
+//         }
+//       }
+//     }
+//   }
+// }
+
+.timeReset {
+  display: flex;
+  justify-content: space-around;
+  .timeReset__label {
+    width: 30%;
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid #ebedf0;
+    box-shadow: 0px 5px 40px 0px rgb(112 144 176 / 20%);
+    margin: 0 2%;
+    text-align: center;
+  }
+  .timeReset__dataEntry {
+    width: 30%;
+    margin: 0 2%;
+  }
+  .timeReset__accept {
+    width: 20%;
+    margin: 0 2%;
+  }
+}
+
+.mainContainerApp-dark {
+  .tag_risk {
+    color: $mainOrange !important;
+  }
+}

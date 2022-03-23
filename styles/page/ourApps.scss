@@ -1,0 +1,27 @@
+.ourAppsContainer {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  height: 100vh;
+  .ourApps {
+    width: 375px;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    .icons {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      .imageIcon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        object-fit: cover;
+        margin: 10px 0 10px 0;
+        width: 100%;
+      }
+    }
+  }
+}
