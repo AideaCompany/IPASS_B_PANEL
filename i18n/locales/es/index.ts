@@ -22,6 +22,7 @@ import board from './board'
 import verification from './verification'
 import eventExpress from './eventExpress'
 import dashboard from './dashboard'
+import clients from './clients'
 export default {
   common,
   auth,
@@ -46,5 +47,6 @@ export default {
   board,
   verification,
   eventExpress,
-  dashboard
+  dashboard,
+  clients
 }

@@ -3,6 +3,38 @@ import moment from 'moment'
 import { type } from 'node:os'
 import { basicTable } from './typeTemplate'
 
+export interface IClient extends basicTable {
+  password?: string
+  plus: boolean
+  name1?: string
+  name2?: string
+  photo?: fileType
+  lastname1?: string
+  lastname2?: string
+  lastname3: string
+  phone1?: string
+  phone2?: string
+  email?: string
+  privateAddress?: string
+  businessAddress?: string
+  occupation?: string
+  age?: Date
+  sex?: string
+  ranking?: number
+  channel?: string
+  trm?: string
+  pt?: string
+  rom?: string
+  lastVisit?: string
+  referrals?: string
+  servicesNotes?: string
+  productsNotes?: string
+  document?: string
+  medicalNotes?: string
+  socialMedia?: [string]
+  createdAt?: Date
+  updatedAt?: Date
+}
 export interface User extends basicTable {
   password?: string
   name?: string
