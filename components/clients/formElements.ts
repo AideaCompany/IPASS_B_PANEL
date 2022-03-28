@@ -12,8 +12,7 @@ export const formElements = (): FormFactory.FormFactoryType[] => [
   },
   {
     name: 'document',
-    type: 'string',
-    required: true
+    type: 'string'
   },
   {
     name: 'name1',
@@ -26,8 +25,8 @@ export const formElements = (): FormFactory.FormFactoryType[] => [
     required: true
   },
   {
-    name: 'email',
-    type: 'email',
+    name: 'phone1',
+    type: 'number',
     required: true
   },
   {
@@ -43,8 +42,8 @@ export const formElements = (): FormFactory.FormFactoryType[] => [
     type: 'string'
   },
   {
-    name: 'phone1',
-    type: 'number'
+    name: 'email',
+    type: 'email'
   },
   {
     name: 'phone2',

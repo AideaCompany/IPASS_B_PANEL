@@ -73,12 +73,6 @@ const columns = (props: {
         width: 100
       },
       {
-        name: 'document',
-        fixed: 'left',
-        search: true,
-        width: 150
-      },
-      {
         name: 'name1',
         fixed: 'left',
         search: true,
@@ -91,10 +85,21 @@ const columns = (props: {
         width: 200
       },
       {
+        name: 'phone1',
+        fixed: 'left',
+        search: true,
+        width: 150
+      },
+      {
         name: 'createdAt',
         fixed: 'left',
         search: true,
         width: 200
+      },
+      {
+        name: 'document',
+        search: true,
+        width: 150
       },
       {
         name: 'name2',
@@ -110,11 +115,6 @@ const columns = (props: {
         name: 'lastname3',
         search: true,
         width: 200
-      },
-      {
-        name: 'phone1',
-        search: true,
-        width: 150
       },
       {
         name: 'phone2',
