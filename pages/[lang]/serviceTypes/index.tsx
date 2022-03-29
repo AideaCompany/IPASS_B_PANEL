@@ -90,7 +90,6 @@ export default React.memo(ServiceTypes)
 
 export const getStaticProps: GetStaticProps = async ctx => {
   const localization = getLocalizationProps(ctx, 'serviceTypes')
-  console.log(localization)
   return {
     props: {
       localization

@@ -48,7 +48,7 @@ const common = {
   location: 'Locación',
   worker: 'Trabajadores',
   products: 'Productos',
-  serviceTypes: 'Tipos de servicio',
+  serviceTypes: 'Tipos de servicios',
   creating: 'Creando ...',
   updating: 'Actualizando ...',
   reload: 'Recargar',
