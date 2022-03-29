@@ -239,6 +239,19 @@ export interface ILocation extends Document, basicTable {
   abbreviation: string
 }
 
+export interface IProduct extends Document, basicTable {
+  name: string
+  abbreviation: string
+  brand: string
+  photo: fileType
+  productType: string
+  price: number
+  measureType: string
+  amount: number
+  services: string
+  designedFor: string
+}
+
 export interface IEvent extends Document, basicTable {
   name: string
   start: string | any
@@ -547,4 +560,8 @@ export type formatData = {
   brand?: string
   destiny?: string
   contact?: IContact
+}
+
+export interface IServiceType extends Document, basicTable {
+  name: string
 }

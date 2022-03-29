@@ -31,6 +31,8 @@ const common = {
   buttonDelete: 'Delete',
   somethingWentWrong: 'Something went wrong',
   buttonCreate: 'Create',
+  products: 'Products',
+  serviceTypes: 'Service types',
   errorEmail: 'Email is not valid',
   errorPassword: 'Password is not valid',
   errorConfirmPassword: 'Confirm password is not valid',

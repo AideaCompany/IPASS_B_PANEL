@@ -15,6 +15,8 @@ import {
   OrderedListOutlined,
   PieChartOutlined,
   PlusOutlined,
+  ShoppingOutlined,
+  TagsOutlined,
   UserOutlined,
   WarningOutlined
 } from '@ant-design/icons'
@@ -139,6 +141,16 @@ const MainLayout = (props: LayoutProps) => {
       path: '/worker',
       title: localization.translations.worker,
       icon: <Worker />
+    },
+    {
+      path: '/products',
+      title: localization.translations.products,
+      icon: <ShoppingOutlined />
+    },
+    {
+      path: '/serviceTypes',
+      title: localization.translations.serviceTypes,
+      icon: <TagsOutlined />
     },
     {
       path: '/users',

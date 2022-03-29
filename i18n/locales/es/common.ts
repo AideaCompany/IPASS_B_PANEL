@@ -48,6 +48,8 @@ const common = {
   titleDashboard: 'Panel de administración.',
   location: 'Locación',
   worker: 'Trabajadores',
+  products: 'Productos',
+  serviceTypes: 'Tipos de servicios',
   creating: 'Creando ...',
   updating: 'Actualizando ...',
   reload: 'Recargar',

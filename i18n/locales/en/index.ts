@@ -9,6 +9,8 @@ import eventExpress from './eventExpress'
 import contact from './contact'
 import worker from './worker'
 import device from './device'
+import products from './products'
+import serviceTypes from './serviceTypes'
 export default {
   common,
   auth,
@@ -20,5 +22,7 @@ export default {
   eventExpress,
   contact,
   worker,
-  device
+  device,
+  products,
+  serviceTypes
 }
