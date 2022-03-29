@@ -5,6 +5,7 @@ import MainLayout from '@/components/layout/Layout'
 import columns from '@/components/products/columns'
 import { formElements } from '@/components/products/formElements'
 import FormItems from '@/components/products/formItem'
+import UploadExcel from '@/components/clients/UploadExcel'
 import TableData from '@/components/TableDatas'
 import { createProduct } from '@/graphql/product/mutation/createProduct'
 //types
@@ -46,7 +47,9 @@ const Products = (props: { localization: Localization; lang: string }) => {
 
   const getData = async () => {
     setloading(true)
-    setdata(await getAllProductsFn())
+    const data = await getAllProductsFn()
+    console.log(data)
+    // setdata(await getAllProductsFn())
     setloading(false)
   }
 
@@ -70,17 +73,20 @@ const Products = (props: { localization: Localization; lang: string }) => {
         lang={lang}
         title={localization?.translations.titleSection}
       >
-        <TableData
-          columns={columns({
-            translations: localization.translations,
-            actualPermission: actualPermission as PermissionsPrivilege,
-            permision: permission,
-            lang: lang,
-            after: getData
-          })}
-          data={data}
-          loading={loading}
-        />
+        <>
+          <UploadExcel reload={getData} translations={localization.translations} />
+          <TableData
+            columns={columns({
+              translations: localization.translations,
+              actualPermission: actualPermission as PermissionsPrivilege,
+              permision: permission,
+              lang: lang,
+              after: getData
+            })}
+            data={data}
+            loading={loading}
+          />
+        </>
       </MainLayout>
     </>
   )
@@ -90,13 +96,13 @@ export default React.memo(Products)
 
 export const getStaticProps: GetStaticProps = async ctx => {
   const localization = getLocalizationProps(ctx, 'products')
-  console.log(localization)
   return {
     props: {
       localization
     }
   }
 }
+
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
