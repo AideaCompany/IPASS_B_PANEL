@@ -57,6 +57,11 @@ const MainLayout = (props: LayoutProps) => {
       icon: <DesktopOutlined />
     },
     {
+      path: '/clients',
+      title: localization.translations.clients,
+      icon: <DesktopOutlined />
+    },
+    {
       path: '/reports',
       title: localization.translations.reports,
       icon: <BarChartOutlined />
