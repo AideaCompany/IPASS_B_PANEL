@@ -3,7 +3,7 @@ import moment from 'moment'
 import { type } from 'node:os'
 import { basicTable } from './typeTemplate'
 
-export interface IClient extends basicTable {
+export interface IClient extends Document, basicTable {
   password?: string
   plus: boolean
   name1?: string

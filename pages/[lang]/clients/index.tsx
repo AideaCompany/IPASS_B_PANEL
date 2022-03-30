@@ -1,6 +1,7 @@
 import columns from '@/components/clients/columns'
 import { formElements } from '@/components/clients/formElements'
 import FormItems from '@/components/clients/formItems'
+import UploadExcel from '@/components/clients/UploadExcel'
 import CreateItem from '@/components/crudFunctions/create'
 //components
 import MainLayout from '@/components/layout/Layout'
@@ -25,6 +26,7 @@ import { gql } from '@apollo/client'
 import { Button, Tooltip } from 'antd'
 import * as cookie from 'cookie'
 import { Role } from 'icons/personalIcons'
+
 //next
 import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
@@ -103,6 +105,7 @@ const clients = (props: { localization: Localization; lang: string; page: number
         iconButton={true}
         FormItem={<FormItems isUpdate={true} translations={localization.translations} />}
       />
+      <UploadExcel reload={getData} translations={localization.translations} />
       {true && (
         <Tooltip title={localization.translations.buttonPrivilege}>
           <Button
