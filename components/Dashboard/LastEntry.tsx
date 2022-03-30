@@ -47,19 +47,19 @@ const LastEntry = () => {
   const convertToContact = (item: ILocationEntries): IContact => {
     if (item.worker) {
       return {
-        DPI: (item.worker as IWorker).document,
-        firstName: (item.worker as IWorker).name as string,
-        lastName: (item.worker as IWorker).lastname as string
+        DPI: item.worker.document,
+        firstName: item.worker.name as string,
+        lastName: item.worker.lastname as string
       } as IContact
     }
     if (item.user) {
       return {
-        DPI: (item.user as User).document,
-        firstName: (item.user as User).name as string,
-        lastName: (item.user as User).lastname as string
+        DPI: item.user.document,
+        firstName: item.user.name as string,
+        lastName: item.user.lastname as string
       } as IContact
     }
-    return item.contact as IContact
+    return item.contact
   }
 
   return (
@@ -97,7 +97,7 @@ const LastEntry = () => {
                       </span>
                     </Tooltip>
 
-                    <span>{(item.contact as IContact)?.verified && <Shield style={{ color: 'green', marginLeft: '5px' }} />}</span>
+                    <span>{item.contact?.verified && <Shield style={{ color: 'green', marginLeft: '5px' }} />}</span>
                   </div>
 
                   <div className="iconElements">
@@ -107,9 +107,9 @@ const LastEntry = () => {
                     </span>
                     {item.event && (
                       <Tooltip title={'Ver evento'}>
-                        <span style={{ cursor: 'pointer' }} onClick={() => seeEvent(item.event as IEvent)}>
+                        <span style={{ cursor: 'pointer' }} onClick={() => seeEvent(item.event)}>
                           <CalendarOutlined style={{ marginRight: '5px' }} />
-                          <span>{(item.event as IEvent)?.name}</span>
+                          <span>{item.event?.name}</span>
                         </span>
                       </Tooltip>
                     )}

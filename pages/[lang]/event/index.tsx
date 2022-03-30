@@ -17,7 +17,7 @@ import { Button, Tooltip } from 'antd'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-interface actualItem extends IEvent {}
+type actualItem = IEvent
 
 const masterLocation = (props: { localization: Localization; lang: string }) => {
   //props
@@ -35,7 +35,7 @@ const masterLocation = (props: { localization: Localization; lang: string }) => 
   }, [permission])
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       if (actualPermission) {
         getData()
       }

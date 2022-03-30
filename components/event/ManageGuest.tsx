@@ -25,7 +25,7 @@ const ManageGuest = (props: { translations: Translations; record: IEvent }): JSX
 
   const getData = async () => {
     const guestUsers = await getAllContactUser()
-    setinvitation(await getAllInvitationByEvent(record._id as string))
+    setinvitation(await getAllInvitationByEvent(record._id))
     setguestUsers(guestUsers)
     setSearchedGuest(guestUsers)
   }
@@ -55,7 +55,7 @@ const ManageGuest = (props: { translations: Translations; record: IEvent }): JSX
       onOk: async () => {
         message.loading({ content: translations.sendingInvitation, key: 'send', duration: 0 })
         // @ts-ignore
-        await createInvitation({ event: record._id as string, contact: user._id as string, confirmed: false, alreadySendInvitation: false })
+        await createInvitation({ event: record._id, contact: user._id, confirmed: false, alreadySendInvitation: false })
         getData()
         message.success({ content: translations.okInvitation, key: 'send' })
       },
@@ -68,7 +68,7 @@ const ManageGuest = (props: { translations: Translations; record: IEvent }): JSX
       title: 'Eliminar invitación',
       content: `¿Está seguro que desea eliminar la invitación a ${capitalize(user.firstName)} ${capitalize(user.lastName)}?`,
       onOk: async () => {
-        await deleteInvitation(invitation[pos]._id as string)
+        await deleteInvitation(invitation[pos]._id)
         getData()
       },
       okCancel: true

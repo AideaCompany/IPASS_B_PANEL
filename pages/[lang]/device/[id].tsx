@@ -75,6 +75,10 @@ const Device = (props: { localization: Localization; lang: string; device: IDevi
 }
 
 export default React.memo(Device)
+/**
+ *
+ * @param ctx
+ */
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const localization = getLocalizationProps(ctx, 'device')
   const device = await getDeviceById(ctx.query.id as string)

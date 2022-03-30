@@ -22,7 +22,7 @@ import { createTimeZone } from '@/graphql/timeZone/mutations/createTimeZone'
 import FormItems from '@/components/timeZone/formItem'
 import moment from 'moment-timezone'
 
-interface actualItem extends iTimeZone {}
+type actualItem = iTimeZone
 const visitorCategory = (props: { localization: Localization; lang: string }) => {
   //props
   const { localization, lang } = props
@@ -39,7 +39,7 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
   }, [permission])
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       if (actualPermission) {
         getData()
       }

@@ -2,7 +2,7 @@
 import IPassAuthenticator from '@/components/IPassAuthenticator/IPassAuthenticator'
 import Powered from '@/components/Powered'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { getWorkerFn } from '@/services/workers'
+import { getWorkerFn } from '@/services/staff'
 import { gql, useMutation } from '@apollo/client'
 //AntDesign
 import { Button, Checkbox, Descriptions, Form, Input, message, Modal } from 'antd'
@@ -26,7 +26,13 @@ import useAuth from '../../../providers/AuthContext'
 //context
 import { getLocalizationProps, LanguageProvider } from '../../../providers/LenguageContext'
 //types
-import { IWorker, User } from '../../../types/types'
+import { IUser, IWorker } from '../../../types/types'
+
+/**
+ *
+ * @param props
+ * @param props.localization
+ */
 export default function SignIn(props: { localization: Localization }): JSX.Element {
   //Props
   const { localization } = props
@@ -76,7 +82,7 @@ export default function SignIn(props: { localization: Localization }): JSX.Eleme
   }, [])
 
   //functions
-  const loginForm = async ({ email, password }: User) => {
+  const loginForm = async ({ email, password }: IUser) => {
     setSpinning(true)
     loginTrigger({ variables: { input: { email, password, lang: localization.locale } } })
       .then(res => {

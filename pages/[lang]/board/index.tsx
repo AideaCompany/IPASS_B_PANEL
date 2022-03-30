@@ -41,7 +41,7 @@ const board = (props: { localization: Localization; lang: string }) => {
   }, [permission])
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       if (actualPermission) {
         getData()
         const interval = setInterval(() => {

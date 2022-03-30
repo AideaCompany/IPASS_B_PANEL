@@ -18,6 +18,10 @@ const index = ({ locations, masterLocation }: { locations: ILocation[]; masterLo
 
 export default index
 
+/**
+ *
+ * @param ctx
+ */
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const locations = await getLocationsByMasterFn(ctx.query.id as string)
   const masterLocation = await getMasterLocationFn(ctx.query.id as string)

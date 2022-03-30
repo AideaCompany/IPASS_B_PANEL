@@ -1,11 +1,12 @@
 import { generalAnalythics } from '@/graphql/analythics/queries/generalAnalythics'
 import client from '@/graphql/config'
-import { iGeneralAnalythics } from '@/types/types'
+import { IGeneralAnalythics } from '@/types/types'
+
 import { gql } from 'apollo-boost'
 
-export const generalAnalythicsFn = async (): Promise<iGeneralAnalythics> => {
+export const generalAnalythicsFn = async (): Promise<IGeneralAnalythics> => {
   await client.cache.reset()
-  return await (
+  return (await (
     await client.query({ query: gql(generalAnalythics) })
-  ).data.generalAnalythics
+  ).data.generalAnalythics) as IGeneralAnalythics
 }

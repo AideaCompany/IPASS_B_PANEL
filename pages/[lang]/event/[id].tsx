@@ -44,7 +44,7 @@ const EventGuests = (props: { localization: Localization; lang: string }) => {
     if (value.guests) {
       value.guests.map(async (contactId: string) => {
         //@ts-ignore
-        await createInvitation({ event: router.query.id as string, contact: contactId as string, confirmed: false, alreadySendInvitation: false })
+        await createInvitation({ event: router.query.id as string, contact: contactId, confirmed: false, alreadySendInvitation: false })
       })
     }
 
@@ -66,6 +66,10 @@ const EventGuests = (props: { localization: Localization; lang: string }) => {
 }
 
 export default React.memo(EventGuests)
+/**
+ *
+ * @param ctx
+ */
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const localization = getLocalizationProps(ctx, 'event')
   const event = await getEventFn(ctx.query.id as string)

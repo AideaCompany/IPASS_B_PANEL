@@ -209,7 +209,7 @@ const columns = (props: {
         name: 'privilegeID',
         customRender: (render: User) => render.privilegeID.name as string,
         customFilter: '_id',
-        filter: privileges.map((privilege: Privilege) => ({ text: privilege.name as string, value: privilege._id as string })),
+        filter: privileges.map((privilege: Privilege) => ({ text: privilege.name as string, value: privilege._id })),
         width: 150,
         fixed: 'right'
       }

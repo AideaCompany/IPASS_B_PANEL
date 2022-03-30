@@ -22,8 +22,8 @@ import gql from 'graphql-tag'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React, { useEffect, useState } from 'react'
 
-interface actualItem extends IContact {}
-var uns: any
+type actualItem = IContact
+let uns: any
 
 const perNames = ['Super_admin', 'super_anfitrion', 'admin']
 
@@ -49,7 +49,7 @@ const contact = (props: { localization: Localization; lang: string }) => {
           getData(false)
           setLoading(false)
         },
-        perNames.includes(permission.name as string) ? null : (user._id as string)
+        perNames.includes(permission.name) ? null : user._id
       )
     }
 

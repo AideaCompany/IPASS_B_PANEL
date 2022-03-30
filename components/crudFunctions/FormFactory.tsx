@@ -43,8 +43,8 @@ const formFactory = (props: {
           rules: [rules],
           name: element.name
         }
-        var props = {}
-        var content: JSX.Element = <></>
+        let props = {}
+        let content: JSX.Element = <></>
         element.visible === undefined && (element.visible = true)
         if (element.visible) {
           switch (element.type) {
@@ -236,7 +236,7 @@ const formFactory = (props: {
                             : []
                           return (
                             <div key={index} className={'formContainer'}>
-                              {formFactory({ translate: translate, isUpdate: isUpdate, formElements: items as any, theme: theme })}
+                              {formFactory({ translate: translate, isUpdate: isUpdate, formElements: items, theme: theme })}
                               {fields.length > 1 ? (
                                 <MinusCircleOutlined className="dynamic-delete-button" onClick={() => remove(field.name)} />
                               ) : null}

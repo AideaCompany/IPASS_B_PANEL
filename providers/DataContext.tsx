@@ -1,23 +1,25 @@
+import { IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { ISections } from '@/types/interfaces/Sections/sections.interface'
 import { ApolloQueryResult, gql } from '@apollo/client'
 import React, { useContext, useEffect, useState } from 'react'
 import client from '../graphql/config'
 import { listPrivilege, listSection } from '../graphql/queries'
-import { Privilege, Sections } from '../types/types'
-type DataContext = {
-  privilege: Privilege[]
-  section: Sections[]
+
+type DataContextType = {
+  privilege: IPrivilege[]
+  section: ISections[]
   getData: () => Promise<void>
 }
 
-const DataContext = React.createContext<DataContext>({} as DataContext)
+const DataContext = React.createContext<DataContextType>({} as DataContextType)
 
 export const DataProvider = (props: { children: JSX.Element }) => {
   //props
   const { children } = props
 
   //states
-  const [privilege, setPrivilege] = useState<Privilege[]>([])
-  const [section, setSection] = useState<Sections[]>([])
+  const [privilege, setPrivilege] = useState<IPrivilege[]>([])
+  const [section, setSection] = useState<ISections[]>([])
 
   //effect
   useEffect(() => {
@@ -27,18 +29,19 @@ export const DataProvider = (props: { children: JSX.Element }) => {
   //functions
   const getData = async () => {
     await client.cache.reset()
-    var privilege: ApolloQueryResult<{
-      listPrivilege: Privilege[]
+    const currentPrivilege: ApolloQueryResult<{
+      listPrivilege: IPrivilege[]
     }> = await client.query({ query: gql(listPrivilege) })
     const sections: ApolloQueryResult<{
-      listSection: Sections[]
+      listSection: ISections[]
     }> = await client.query({ query: gql(listSection) })
-    setPrivilege(privilege.data.listPrivilege)
+    setPrivilege(currentPrivilege.data.listPrivilege)
     setSection(sections.data.listSection)
   }
   return <DataContext.Provider value={{ privilege, section, getData }}>{children}</DataContext.Provider>
 }
 
-export default function useData() {
+const useData = () => {
   return useContext(DataContext)
 }
+export default useData

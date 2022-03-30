@@ -12,6 +12,10 @@ const dummyRequest = ({ file, onSuccess }: any) => {
   }, 0)
 }
 
+/**
+ *
+ * @param file
+ */
 function getBase64(file: any) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -49,7 +53,7 @@ const uploadPhoto = (props: { name: any; translate: Translations; inicialData?: 
   }
   const handleChange = (input: { file: any; fileList: any }) => {
     const { file, fileList } = input
-    var err = false
+    let err = false
     if (fileList.length > 0) {
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/svg+xml'
       if (!isJpgOrPng) {

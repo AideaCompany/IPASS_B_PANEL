@@ -4,7 +4,7 @@ import { WebSocketLink } from '@apollo/client/link/ws'
 import { getMainDefinition } from '@apollo/client/utilities'
 import { createUploadLink } from 'apollo-upload-client'
 import Cookie from 'js-cookie'
-var token = Cookie.get('authRenapPanel')
+let token = Cookie.get('authRenapPanel')
 
 export const setToken = (tokenVal: string) => {
   token = tokenVal
@@ -25,7 +25,7 @@ const httpLink = authLink.concat(
   })
 )
 
-let myLink = process.browser
+const myLink = process.browser
   ? split(
       ({ query }) => {
         const definition = getMainDefinition(query)

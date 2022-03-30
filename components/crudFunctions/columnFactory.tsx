@@ -2,17 +2,17 @@ import { ColumnType } from 'antd/lib/table'
 import { Translations } from '../../i18n/types'
 import { ColumnFactoryType } from '@/types/typeTemplate'
 import GetColumnSearchProps from './GetColumnSearchProps'
-const ColumnFactory = (props: {
-  columns: ColumnFactoryType[]
+const ColumnFactory = <T,>(props: {
+  columns: ColumnFactoryType<T>[]
   translate: Translations
-  operations: (render: any, index?: number) => JSX.Element
-  operationOptions?: any
+  operations: (render: T, index?: number) => JSX.Element
+  operationOptions?: unknown
   nonShowOperation?: boolean
-}): ColumnType<any>[] => {
+}): ColumnType<T>[] => {
   const { columns, operations, translate, nonShowOperation, operationOptions } = props
   const getColumns = () => [
     ...columns.map(e => {
-      var allColumnns = { key: e.name, title: translate[e.name], dataIndex: e.name } as ColumnType<any>
+      let allColumnns = { key: e.name, title: translate[e.name], dataIndex: e.name } as ColumnType<T>
       if (e.customRender) {
         allColumnns = {
           ...allColumnns,
@@ -33,6 +33,8 @@ const ColumnFactory = (props: {
         }
       }
       if (e.sort) {
+        /*eslint-disable*/
+        //@ts-ignore
         allColumnns = { ...allColumnns, sorter: (a, b) => a[e.name] - b[e.name] }
       }
       if (e.width) {
@@ -56,8 +58,10 @@ const ColumnFactory = (props: {
           filters: e.filter,
           onFilter: (value, record) => {
             if (e.customFilter) {
+              //@ts-ignore
               return record[e.name][e.customFilter].includes(value)
             }
+            //@ts-ignore
             return record.name.indexOf(value) === 0
           }
         }
@@ -75,6 +79,7 @@ const ColumnFactory = (props: {
           title: translate.operationTable,
           dataIndex: 'operacion',
           width: 180,
+          //@ts-ignore
           ...operationOptions,
           render: (_, record, index) => operations(record, index)
         }

@@ -36,9 +36,7 @@ const columns = (props: {
       <EventInfo event={record} />
 
       {(((record?.contact as IContact)?.verifiedData !== null && (record?.contact as IContact)?.verifiedData?.documentNumber !== null) ||
-        (record?.contact as IContact)?.verifiedDataPDF !== null) && (
-        <ShowVerificationModal translations={translations} record={record.contact as IContact} />
-      )}
+        (record?.contact as IContact)?.verifiedDataPDF !== null) && <ShowVerificationModal translations={translations} record={record.contact} />}
       <UpdateItem
         // beforeShowUpdate={beforeShowUpdate}
         // beforeUpdate={beforeUpdateRecord}

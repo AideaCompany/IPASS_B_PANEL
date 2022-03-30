@@ -1,7 +1,7 @@
 //Graphql
 import Powered from '@/components/Powered'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { confirmSignUpWorkerFn } from '@/services/workers'
+import { confirmSignUpWorkerFn } from '@/services/staff'
 //AntDesign
 import { Button, Form, Input } from 'antd'
 //Next
@@ -22,6 +22,12 @@ type passwordForm = {
   confirmPassword: string
 }
 
+/**
+ *
+ * @param props
+ * @param props.localization
+ * @param props.lang
+ */
 export default function SignIn(props: { localization: Localization; lang: string }): JSX.Element {
   //Props
   const { localization, lang } = props

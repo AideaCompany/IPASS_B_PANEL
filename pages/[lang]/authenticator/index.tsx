@@ -19,7 +19,7 @@ import moment from 'moment-timezone'
 import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
-interface actualItem extends IAuthenticator {}
+type actualItem = IAuthenticator
 const visitorCategory = (props: { localization: Localization; lang: string; apps: IApps[]; page: number; limit: number }) => {
   //props
   const { localization, lang, apps, page, limit } = props
@@ -41,7 +41,7 @@ const visitorCategory = (props: { localization: Localization; lang: string; apps
   }, [permission])
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       if (actualPermission) {
         getData()
       }
@@ -95,7 +95,7 @@ const visitorCategory = (props: { localization: Localization; lang: string; apps
         apps: values.apps
       }
     })
-    let a = document.createElement('a')
+    const a = document.createElement('a')
     a.style.display = 'none'
     a.href = `${process.env.NEXT_PUBLIC_BACK_FILES}/report/${res}`
     document.body.appendChild(a)
@@ -115,7 +115,7 @@ const visitorCategory = (props: { localization: Localization; lang: string; apps
         apps: values.apps
       }
     })
-    let a = document.createElement('a')
+    const a = document.createElement('a')
     a.style.display = 'none'
     a.href = `${process.env.NEXT_PUBLIC_BACK_FILES}/report/${res}`
     document.body.appendChild(a)
@@ -212,6 +212,10 @@ const visitorCategory = (props: { localization: Localization; lang: string; apps
 }
 
 export default React.memo(visitorCategory)
+/**
+ *
+ * @param ctx
+ */
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const localization = getLocalizationProps(ctx, 'authenticator')
   const apps = await getAllApps()

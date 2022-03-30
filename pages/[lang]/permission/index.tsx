@@ -67,7 +67,7 @@ const Permissions = (props: { localization: Localization; lang: string }) => {
 
   //effect
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       setLoading(true)
       const privilegesData: ApolloQueryResult<{
         listPrivilege: Privilege[]
@@ -96,9 +96,9 @@ const Permissions = (props: { localization: Localization; lang: string }) => {
   }
 
   const getDataForm = (data: any) => {
-    var key = Object.keys(data.permissions)
+    const key = Object.keys(data.permissions)
     //@ts-ignore
-    var inputData: Privilege = { name: data.name, permissions: [] }
+    const inputData: Privilege = { name: data.name, permissions: [] }
     for (let k = 0; k < key.length; k++) {
       inputData.permissions?.push({
         ...data.permissions[key[k]]

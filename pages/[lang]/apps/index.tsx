@@ -20,7 +20,7 @@ import React, { useEffect, useState } from 'react'
 import { getAllApps } from '@/services/apps'
 import { createApps } from '@/graphql/apps/mutation/createApps'
 
-interface actualItem extends IVisitorCategory {}
+type actualItem = IVisitorCategory
 const visitorCategory = (props: { localization: Localization; lang: string }) => {
   //props
   const { localization, lang } = props
@@ -37,7 +37,7 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
   }, [permission])
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       if (actualPermission) {
         getData()
       }

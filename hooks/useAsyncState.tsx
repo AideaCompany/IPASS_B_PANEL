@@ -1,5 +1,9 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 
+/**
+ *
+ * @param initialState
+ */
 function useAsyncState(initialState: any) {
   const [state, setState] = useState(initialState)
   const resolveState = useRef()

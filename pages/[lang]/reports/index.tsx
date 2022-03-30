@@ -29,7 +29,7 @@ import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-interface actualItem extends ILocationEntries {}
+type actualItem = ILocationEntries
 
 const visitorCategory = (props: { localization: Localization; lang: string; page: number; limit: number }) => {
   //props
@@ -73,7 +73,7 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
   }, [permission])
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       if (actualPermission) {
         getData()
         sethosts(await getAllHostUsers())
@@ -151,7 +151,7 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
 
   const getFilteredHistory = async (filter: any) => {
     setloading(true)
-    var filtered = dataHis
+    let filtered = dataHis
     if (filter.start !== null && filter.end !== null) {
       filtered = filtered.filter((item: any) => moment(item.updatedAt).isBetween(filter.start, filter.end, 'days', '[]'))
     }
@@ -188,7 +188,7 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
         apps: values.apps
       }
     })
-    let a = document.createElement('a')
+    const a = document.createElement('a')
     a.style.display = 'none'
     a.href = `${process.env.NEXT_PUBLIC_BACK_FILES}/report/${res}`
     document.body.appendChild(a)
@@ -222,7 +222,7 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
         apps: values.apps
       }
     })
-    let a = document.createElement('a')
+    const a = document.createElement('a')
     a.style.display = 'none'
     a.href = `${process.env.NEXT_PUBLIC_BACK_FILES}/report/${res}`
     document.body.appendChild(a)
@@ -366,6 +366,10 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
 
 export default React.memo(visitorCategory)
 
+/**
+ *
+ * @param ctx
+ */
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const localization = getLocalizationProps(ctx, 'reports')
   const page = ctx.query.page ? parseInt(ctx.query.page as string) : 1

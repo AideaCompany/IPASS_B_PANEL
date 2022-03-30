@@ -6,5 +6,5 @@ import gql from 'graphql-tag'
 
 export const getResetTime = async (): Promise<IRiskReset[]> => {
   client.cache.reset()
-  return convertTotable<IRiskReset>(await (await client.query({ query: gql(listRiskReset) })).data.listRiskReset)
+  return convertTotable<IRiskReset>((await (await client.query({ query: gql(listRiskReset) })).data.listRiskReset) as IRiskReset[])
 }

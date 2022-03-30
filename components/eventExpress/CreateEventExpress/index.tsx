@@ -88,7 +88,7 @@ const CreateEventExpressModal: FC<iProps> = ({ translations, contacts, translati
     try {
       const data = formRef.current?.getFieldsValue()
       if (!data?.indicativo) {
-        ;(data as IContact).indicativo = '+502'
+        (data as IContact).indicativo = '+502'
       }
       const newContact = await createContactFn(data as IContact)
       await getContacts()

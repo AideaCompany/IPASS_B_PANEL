@@ -6,5 +6,5 @@ import gql from 'graphql-tag'
 
 export const getAllRisks = async (): Promise<IRisk[]> => {
   client.cache.reset()
-  return convertTotable<IRisk>(await (await client.query({ query: gql(listRisk) })).data.listRisk)
+  return convertTotable<IRisk>((await (await client.query({ query: gql(listRisk) })).data.listRisk) as IRisk[])
 }

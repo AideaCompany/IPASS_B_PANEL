@@ -6,5 +6,5 @@ import gql from 'graphql-tag'
 
 export const getAllApps = async (): Promise<IApps[]> => {
   client.cache.reset()
-  return convertTotable<IApps>(await (await client.query({ query: gql(listApps) })).data.listApps)
+  return convertTotable<IApps>((await (await client.query({ query: gql(listApps) })).data.listApps) as IApps[])
 }

@@ -23,6 +23,11 @@ type passwordForm = {
   confirmPassword: string
 }
 
+/**
+ *
+ * @param props
+ * @param props.localization
+ */
 export default function SignIn(props: { localization: Localization }): JSX.Element {
   //Props
   const { localization } = props

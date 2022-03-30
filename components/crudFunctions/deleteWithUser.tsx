@@ -33,7 +33,7 @@ const DeleteWithUser = (props: {
 
   const deleteModal = async (item: any) => {
     item.whoDeleted = user._id
-    var result
+    let result
     if (content) {
       result = await content(item)
     }

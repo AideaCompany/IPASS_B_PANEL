@@ -40,7 +40,7 @@ const common = {
   errorPrivilege: 'Privilege is not valid',
   errorDocument: 'Document is not valid',
   errorPhone: 'Phone is not valid',
-  error: `Error`,
+  error: 'Error',
   errorTokenConfirm: 'Token confirmation is not valid',
   generalError: 'General error',
   goBack: 'Go back',

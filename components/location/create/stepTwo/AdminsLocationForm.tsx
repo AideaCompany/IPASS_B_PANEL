@@ -86,7 +86,9 @@ const adminsLocationForm = ({ translate }: { translate: Translations }) => {
               style={{ pointerEvents: listDisabled ? 'none' : undefined }}
               onRow={({ key }) => ({
                 onClick: () => {
-                  if (listDisabled) return
+                  if (listDisabled) {
+                    return
+                  }
                   onItemSelect(key, !listSelectedKeys.includes(key))
                 }
               })}

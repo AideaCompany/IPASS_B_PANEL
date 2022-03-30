@@ -17,16 +17,16 @@ const confirmEvent = () => {
   const router = useRouter()
   const [loading, setloading] = useState<boolean>(true)
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       if (router.query.id) {
         const eventActual: IInvitationEvent = JSON.parse(JSON.stringify(await getinvitation(router.query.id as string)))
         if (router.query.confirm === 'true') {
           //@ts-ignore
-          await updateInvitation({ _id: eventActual._id as string, confirmed: true })
+          await updateInvitation({ _id: eventActual._id, confirmed: true })
           setcontent(showQRElemnt(eventActual))
         } else {
           //@ts-ignore
-          await updateInvitation({ _id: eventActual._id as string, confirmed: false })
+          await updateInvitation({ _id: eventActual._id, confirmed: false })
           setcontent(showSorry())
         }
         setloading(false)
@@ -36,7 +36,7 @@ const confirmEvent = () => {
 
   const drawBackground = (elem: HTMLImageElement) => {
     // create a new canvas
-    var c = document.createElement('canvas')
+    const c = document.createElement('canvas')
     // set its width&height to the required ones
     // draw our canvas to the new one
     c.height = elem.height + 9
@@ -74,15 +74,15 @@ const confirmEvent = () => {
       if (actualInvitation.confirmed) {
         return (
           <div className="confirmContainer">
-            <h1>{`Evento: ${(actualInvitation.event as IEvent).name}`}</h1>
-            <h3>{`La reunión con ${(actualInvitation.event as IEvent)?.host?.name} ${(actualInvitation.event as IEvent)?.host?.lastname}`}</h3>
+            <h1>{`Evento: ${actualInvitation.event.name}`}</h1>
+            <h3>{`La reunión con ${actualInvitation.event?.host?.name} ${actualInvitation.event?.host?.lastname}`}</h3>
             <div className="calendar">
-              <p>{`Desde:`}</p> <CalendarOutlined /> <p>{`${getTime((actualInvitation.event as IEvent)?.start)}`}</p>
+              <p>{'Desde:'}</p> <CalendarOutlined /> <p>{`${getTime(actualInvitation.event?.start)}`}</p>
             </div>
             <div className="calendar">
-              <p>{`Hasta:`}</p> <CalendarOutlined /> <p>{`${getTime((actualInvitation.event as IEvent)?.end)}`}</p>
+              <p>{'Hasta:'}</p> <CalendarOutlined /> <p>{`${getTime(actualInvitation.event?.end)}`}</p>
             </div>
-            <p>{`Te esperamos en :${(actualInvitation.event as IEvent)?.location.address}`}</p>
+            <p>{`Te esperamos en :${actualInvitation.event?.location.address}`}</p>
             <QrCode value={`${typeQr.event}-${actualInvitation._id}`} size={300} level={'M'} />
 
             <Button type="primary" onClick={download} style={{ margin: '10px' }}>
@@ -93,15 +93,15 @@ const confirmEvent = () => {
       } else {
         return (
           <div className="confirmContainer">
-            <h1>{`Evento confirmado: ${(actualInvitation.event as IEvent).name}`}</h1>
-            <h3>{`La reunión con ${(actualInvitation.event as IEvent)?.host?.name} ${(actualInvitation.event as IEvent)?.host?.lastname}`}</h3>
+            <h1>{`Evento confirmado: ${actualInvitation.event.name}`}</h1>
+            <h3>{`La reunión con ${actualInvitation.event?.host?.name} ${actualInvitation.event?.host?.lastname}`}</h3>
             <div className="calendar">
-              <p>{`Desde:`}</p> <CalendarOutlined /> <p>{`${getTime((actualInvitation.event as IEvent)?.start)}`}</p>
+              <p>{'Desde:'}</p> <CalendarOutlined /> <p>{`${getTime(actualInvitation.event?.start)}`}</p>
             </div>
             <div className="calendar">
-              <p>{`Hasta:`}</p> <CalendarOutlined /> <p>{`${getTime((actualInvitation.event as IEvent)?.end)}`}</p>
+              <p>{'Hasta:'}</p> <CalendarOutlined /> <p>{`${getTime(actualInvitation.event?.end)}`}</p>
             </div>
-            <p>{`Te esperamos en :${(actualInvitation.event as IEvent)?.location.address}`}</p>
+            <p>{`Te esperamos en :${actualInvitation.event?.location.address}`}</p>
             <QrCode value={`${typeQr.event}-${actualInvitation._id}`} size={300} level={'M'} />
 
             <Button type="primary" onClick={download} style={{ margin: '10px' }}>

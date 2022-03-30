@@ -2,10 +2,13 @@ import { Translations } from '@/i18n/types'
 import { getAvailableDevices } from '@/services/device'
 import { getAllLocationActive } from '@/services/locations'
 import { getUsersAdminFn } from '@/services/users'
+import { IDevice } from '@/types/interfaces/Device/Device.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
 import React, { useContext, useEffect, useState } from 'react'
-import { IDevice, ILocation, User } from '../types/types'
-type LocationViewContext = {
-  admins: User[]
+
+type LocationViewContextType = {
+  admins: IUser[]
   locations: ILocation[]
   devices: IDevice[]
   actualLocation: ILocation
@@ -14,13 +17,13 @@ type LocationViewContext = {
   lang: string
 }
 
-const LocationViewContext = React.createContext<LocationViewContext>({} as LocationViewContext)
+const LocationViewContext = React.createContext<LocationViewContextType>({} as LocationViewContextType)
 
 export const LocationViewProvider = (props: { children: JSX.Element; location: ILocation; translate: Translations; lang: string }) => {
   //props
   const { children, location, translate, lang } = props
   //states
-  const [admins, setAdmins] = useState<User[]>([])
+  const [admins, setAdmins] = useState<IUser[]>([])
   const [devices, setDevices] = useState<IDevice[]>([])
   const [locations, setLocations] = useState<ILocation[]>([])
   const [actualLocation, setActualLocation] = useState<ILocation>(location)
@@ -32,18 +35,18 @@ export const LocationViewProvider = (props: { children: JSX.Element; location: I
 
   //functions
   const getData = async () => {
-    const admins = await getUsersAdminFn()
-    const locations = await getAllLocationActive()
-    const devices = await getAvailableDevices()
+    const foundAdmins = await getUsersAdminFn()
+    const foundLocations = await getAllLocationActive()
+    const foundDevices = await getAvailableDevices()
 
-    var dev_actual
+    let dev_actual
     if (location.device) {
-      dev_actual = [...devices, location.device]
+      dev_actual = [...foundDevices, location.device]
     } else {
-      dev_actual = [...devices]
+      dev_actual = [...foundDevices]
     }
-    setAdmins(admins)
-    setLocations(locations)
+    setAdmins(foundAdmins)
+    setLocations(foundLocations)
     setDevices(dev_actual)
   }
 
@@ -54,6 +57,8 @@ export const LocationViewProvider = (props: { children: JSX.Element; location: I
   )
 }
 
-export default function useLocationView() {
+const useLocationView = () => {
   return useContext(LocationViewContext)
 }
+
+export default useLocationView

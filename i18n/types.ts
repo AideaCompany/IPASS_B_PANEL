@@ -17,6 +17,10 @@ export type Localization = {
   namespace: string
 }
 
+/**
+ *
+ * @param tested
+ */
 export function isLocale(tested: string): tested is Locale {
   return locales.some(locale => locale === tested)
 }

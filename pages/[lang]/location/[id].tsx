@@ -15,6 +15,10 @@ const viewLocation = ({ lang, localization, location }: { lang: string; localiza
 }
 
 export default viewLocation
+/**
+ *
+ * @param ctx
+ */
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const localization = getLocalizationProps(ctx, 'location')
   const location = await getLocationFn(ctx.query.id as string)

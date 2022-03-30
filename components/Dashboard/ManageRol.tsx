@@ -7,7 +7,7 @@ import SecurityScreen from './SecurityScreen'
 const ManageRol = ({ translate }: { translate: Translations }) => {
   const { lang } = useSecurity()
   return (
-    <MainLayout layoutMargin={{ margin: '0px 0px' }} notShowHeader hideButtons lang={lang} title={`Seguridad`}>
+    <MainLayout layoutMargin={{ margin: '0px 0px' }} notShowHeader hideButtons lang={lang} title={'Seguridad'}>
       <SecurityScreen translate={translate} />
     </MainLayout>
   )

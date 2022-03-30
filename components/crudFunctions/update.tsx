@@ -40,7 +40,7 @@ const UpdateItem = (props: {
   const formRef = useRef<FormInstance>(null)
   const updateItem = async (_id: string) => {
     message.loading({ content: translations.updating, key: 'update', duration: 0 })
-    var formData = (await formRef.current?.validateFields()) as any
+    let formData = await formRef.current?.validateFields()
     for (let k = 0; k < formElements.length; k++) {
       if (formData[formElements[k].name] !== null && formData[formElements[k].name] !== undefined) {
         switch (formElements[k].type) {
@@ -77,7 +77,7 @@ const UpdateItem = (props: {
   }
 
   const updateModal = (item: any) => {
-    var toShow = JSON.parse(JSON.stringify(item))
+    let toShow = JSON.parse(JSON.stringify(item))
     for (let k = 0; k < formElements.length; k++) {
       if (item[formElements[k].name] !== null && item[formElements[k].name] !== undefined) {
         switch (formElements[k].type) {

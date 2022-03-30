@@ -1,5 +1,5 @@
-export const deleteUser = /* GraphQL */` 
- mutation deleteUser($input: deleteUserInput){
+export const deleteUser = /* GraphQL */ `
+  mutation deleteUser($input: deleteUserInput) {
     deleteUser(input: $input)
-}
-`;
+  }
+`

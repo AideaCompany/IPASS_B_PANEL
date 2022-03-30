@@ -7,7 +7,7 @@ import gallery from './gallery'
 import timeZone from './timeZone'
 import eventExpress from './eventExpress'
 import contact from './contact'
-import worker from './worker'
+import staff from './staff'
 import device from './device'
 export default {
   common,
@@ -19,6 +19,6 @@ export default {
   timeZone,
   eventExpress,
   contact,
-  worker,
+  staff,
   device
 }

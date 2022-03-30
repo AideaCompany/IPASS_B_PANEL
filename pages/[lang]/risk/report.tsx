@@ -20,7 +20,7 @@ import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-interface actualItem extends IBreach {}
+type actualItem = IBreach
 
 const board = (props: { localization: Localization; lang: string; page: number; limit: number }) => {
   //props
@@ -46,7 +46,7 @@ const board = (props: { localization: Localization; lang: string; page: number; 
   }, [permission])
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       if (actualPermission) {
         getData()
       }
@@ -96,7 +96,7 @@ const board = (props: { localization: Localization; lang: string; page: number; 
         apps: values.apps
       }
     })
-    let a = document.createElement('a')
+    const a = document.createElement('a')
     a.style.display = 'none'
     a.href = `${process.env.NEXT_PUBLIC_BACK_FILES}/report/${res}`
     document.body.appendChild(a)
@@ -124,7 +124,7 @@ const board = (props: { localization: Localization; lang: string; page: number; 
         apps: values.apps
       }
     })
-    let a = document.createElement('a')
+    const a = document.createElement('a')
     a.style.display = 'none'
     a.href = `${process.env.NEXT_PUBLIC_BACK_FILES}/report/${res}`
     document.body.appendChild(a)
@@ -210,6 +210,10 @@ const board = (props: { localization: Localization; lang: string; page: number; 
 }
 
 export default React.memo(board)
+/**
+ *
+ * @param ctx
+ */
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const localization = getLocalizationProps(ctx, 'board')
   const page = ctx.query.page ? parseInt(ctx.query.page as string) : 1

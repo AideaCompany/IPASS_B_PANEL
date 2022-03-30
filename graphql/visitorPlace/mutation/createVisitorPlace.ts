@@ -1,10 +1,10 @@
-export const createVisitorPlace = /* GraphQL */` 
- mutation createVisitorPlace($input: VisitorPlaceInput){
-    createVisitorPlace(input: $input){
-        _id
-        name
-        createdAt
-        updatedAt
+export const createVisitorPlace = /* GraphQL */ `
+  mutation createVisitorPlace($input: VisitorPlaceInput) {
+    createVisitorPlace(input: $input) {
+      _id
+      name
+      createdAt
+      updatedAt
     }
-}
-`;
+  }
+`

@@ -9,55 +9,57 @@ import { listAllUsers } from '@/graphql/user/queries/listAllUsers'
 import { listUser } from '@/graphql/user/queries/listUser'
 import { resetToken } from '@/graphql/user/queries/resetToken'
 import { verifyKeyUser } from '@/graphql/user/queries/verifyKeyUser'
-import { Paginated, User } from '@/types/types'
+import { FilterType, IPaginated } from '@/types/interfaces/graphqlTypes'
+import { IUser } from '@/types/interfaces/user/User.interface'
+
 import { convertTotable } from '@/utils/utils'
 import { gql } from '@apollo/client'
 
-export const getUsersAdminFn = async (): Promise<User[]> => {
-  return convertTotable<User>(await (await client.query({ query: gql(getUsersAdmin) })).data.getUsersAdmin)
+export const getUsersAdminFn = async (): Promise<IUser[]> => {
+  return convertTotable<IUser>((await (await client.query({ query: gql(getUsersAdmin) })).data.getUsersAdmin) as IUser[])
 }
-export const getAllUsers = async (page: number, limit: number, filters: any): Promise<Paginated<User>> => {
+export const getAllUsers = async (page: number, limit: number, filters: FilterType): Promise<IPaginated<IUser>> => {
   client.cache.reset()
-  const paginated = await (await client.query({ query: gql(listUser), variables: { limit, page, filters } })).data.listUser
+  const paginated: IPaginated<IUser> = await (await client.query({ query: gql(listUser), variables: { limit, page, filters } })).data.listUser
   return paginated
 }
 
-export const listAllUsersFn = async (): Promise<User[]> => {
+export const listAllUsersFn = async (): Promise<IUser[]> => {
   client.cache.reset()
-  return convertTotable<User>(await (await client.query({ query: gql(listAllUsers) })).data.listAllUsers)
+  return convertTotable<IUser>((await (await client.query({ query: gql(listAllUsers) })).data.listAllUsers) as IUser[])
 }
 
-export const getUserFn = async (_id: string): Promise<User> => {
+export const getUserFn = async (_id: string): Promise<IUser> => {
   client.cache.reset()
-  return (await client.query({ query: gql(getUser), variables: { _id } })).data.getUser
+  return (await client.query({ query: gql(getUser), variables: { _id } })).data.getUser as IUser
 }
 
-export const getAllHostUsers = async (): Promise<User[]> => {
+export const getAllHostUsers = async (): Promise<IUser[]> => {
   client.cache.reset()
-  return convertTotable<User>(await (await client.query({ query: gql(getUserHost) })).data.getUserHost)
+  return convertTotable<IUser>((await (await client.query({ query: gql(getUserHost) })).data.getUserHost) as IUser[])
 }
 
-export const getAllSecurityUsers = async (): Promise<User[]> => {
+export const getAllSecurityUsers = async (): Promise<IUser[]> => {
   client.cache.reset()
-  return (await client.query({ query: gql(getUsersSecurity) })).data.getUsersSecurity
+  return (await client.query({ query: gql(getUsersSecurity) })).data.getUsersSecurity as IUser[]
 }
 
-export const verifyKeyUserFn = async () => {
+export const verifyKeyUserFn = async (): Promise<boolean> => {
   client.cache.reset()
-  return (await client.query({ query: gql(verifyKeyUser) })).data.verifyKeyUser
+  return (await client.query({ query: gql(verifyKeyUser) })).data.verifyKeyUser as boolean
 }
 
-export const addKeyUserFn = async (key: string) => {
+export const addKeyUserFn = async (key: string): Promise<boolean> => {
   client.cache.reset()
-  return (await client.mutate({ mutation: gql(addKeyUser), variables: { key } })).data.addKeyUser
+  return (await client.mutate({ mutation: gql(addKeyUser), variables: { key } })).data.addKeyUser as boolean
 }
 
-export const countUserWorkerFn = async () => {
+export const countUserWorkerFn = async (): Promise<number> => {
   client.cache.reset()
-  return (await client.query({ query: gql(countUserWorker) })).data.countUserWorker
+  return (await client.query({ query: gql(countUserWorker) })).data.countUserWorker as number
 }
 
-export const resetTokenFn = async (_id: string, type: string) => {
+export const resetTokenFn = async (_id: string, type: string): Promise<boolean> => {
   await client.cache.reset()
-  return (await client.mutate({ mutation: gql(resetToken), variables: { _id, type } })).data.resetToken
+  return (await client.mutate({ mutation: gql(resetToken), variables: { _id, type } })).data.resetToken as boolean
 }

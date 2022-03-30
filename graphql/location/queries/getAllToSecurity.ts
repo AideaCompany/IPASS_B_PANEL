@@ -1,5 +1,5 @@
-export const getAllToSecurity = /* GraphQL */` 
- query getAllToSecurity($locationID: String){
+export const getAllToSecurity = /* GraphQL */ `
+  query getAllToSecurity($locationID: String) {
     getAllToSecurity(locationID: $locationID)
-}
-`;
+  }
+`

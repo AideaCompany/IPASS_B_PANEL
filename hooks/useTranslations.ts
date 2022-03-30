@@ -1,13 +1,18 @@
 import { useContext } from 'react'
 import { LanguageContext } from '../providers/LenguageContext'
 
+/**
+ *
+ */
 export default function useTranslation() {
   const { localization } = useContext(LanguageContext)
+  /**
+   *
+   * @param key
+   */
   function t(key: string) {
     if (!localization.translations[key]) {
-      console.warn(
-        `Translation '${key}' for locale '${localization.locale}' not found.`
-      )
+      console.warn(`Translation '${key}' for locale '${localization.locale}' not found.`)
     }
     return localization.translations[key] || ''
   }

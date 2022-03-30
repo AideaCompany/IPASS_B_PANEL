@@ -36,7 +36,7 @@ const columns = (props: {
         translations={translations}
         mutation={updateMutation}
         record={record}
-        FormItems={<Formitems record={record} permission={permission} id={record._id as string} translations={translations} isUpdate />}
+        FormItems={<Formitems record={record} permission={permission} id={record._id} translations={translations} isUpdate />}
         formElements={formElements()}
         afterUpdate={after}
         manageMentError={manageMentError}

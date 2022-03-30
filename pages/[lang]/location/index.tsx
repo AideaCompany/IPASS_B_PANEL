@@ -17,7 +17,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { getAllLocationActive } from 'services/locations'
-interface actualItem extends ILocation {}
+type actualItem = ILocation
 
 const masterLocation = (props: { localization: Localization; lang: string }) => {
   //props
@@ -59,7 +59,7 @@ const masterLocation = (props: { localization: Localization; lang: string }) => 
   }, [toUpdate])
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       if (actualPermission) {
         getData()
       }

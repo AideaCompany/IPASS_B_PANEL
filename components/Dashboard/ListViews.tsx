@@ -103,14 +103,10 @@ const ListViews = ({ translate }: { translate: Translations }) => {
                   toReturn.push(
                     <>
                       <Tooltip title={'Ver evento'}>
-                        <CalendarOutlined
-                          onClick={() =>
-                            showEvent(typeQr.event === render.typeQr ? (render.event as IEvent) : (render.eventExpress as IEventExpress))
-                          }
-                        />
+                        <CalendarOutlined onClick={() => showEvent(typeQr.event === render.typeQr ? render.event : render.eventExpress)} />
                       </Tooltip>
                       <Tooltip title={'Ver usuario'}>
-                        <UserOutlined style={{ marginLeft: '5px' }} onClick={() => toSeeContact(render.contact as IContact)} />
+                        <UserOutlined style={{ marginLeft: '5px' }} onClick={() => toSeeContact(render.contact)} />
                       </Tooltip>
                     </>
                   )

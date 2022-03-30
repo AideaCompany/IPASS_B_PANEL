@@ -19,9 +19,9 @@ import { capitalize } from 'fogg-utils'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React, { useEffect, useState } from 'react'
 
-interface actualItem extends IEventExpress {}
-var unsContact: any
-var unsEveExpress: any
+type actualItem = IEventExpress
+let unsContact: any
+let unsEveExpress: any
 const EventExpress = (props: { localization: Localization; lang: string; localizationContact: Localization }) => {
   //props
   const { localization, lang, localizationContact } = props
@@ -45,7 +45,7 @@ const EventExpress = (props: { localization: Localization; lang: string; localiz
         (newData: boolean) => {
           getData(false)
         },
-        perNames.includes(permission.name as string) ? null : (user._id as string)
+        perNames.includes(permission.name) ? null : user._id
       )
       unsEveExpress = subListEventExpressFn((newData: boolean) => {
         getData(false)

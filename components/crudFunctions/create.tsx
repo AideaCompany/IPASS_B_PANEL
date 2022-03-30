@@ -40,7 +40,7 @@ const CreateItem = (props: {
   } = props
   const formRef = useRef<FormInstance>(null)
   const createItem = async () => {
-    var formData = (await formRef.current?.validateFields()) as any
+    let formData = await formRef.current?.validateFields()
     for (let k = 0; k < formElements.length; k++) {
       if (formData[formElements[k].name] !== null && formData[formElements[k].name] !== undefined) {
         switch (formElements[k].type) {

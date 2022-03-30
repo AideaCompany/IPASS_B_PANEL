@@ -3,7 +3,7 @@ import React from 'react'
 
 const ReportContent = (props: { element: any }) => {
   const { element } = props
-  var content: JSX.Element = <></>
+  let content: JSX.Element = <></>
   switch (element.type) {
     case 'Locación':
       content = (

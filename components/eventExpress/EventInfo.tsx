@@ -26,7 +26,7 @@ const EventInfo = ({ event }: { event: IEventExpress }) => {
 
   const accept = async () => {
     try {
-      await acceptEventExpressFn(event?._id as string)
+      await acceptEventExpressFn(event?._id)
     } catch (error) {
       console.log(error)
     } finally {
@@ -36,7 +36,7 @@ const EventInfo = ({ event }: { event: IEventExpress }) => {
 
   const deny = async () => {
     try {
-      await denyEventExpressFn(event?._id as string)
+      await denyEventExpressFn(event?._id)
     } catch (error) {
       console.log(error)
     } finally {
