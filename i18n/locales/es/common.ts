@@ -3,6 +3,8 @@ const common = {
   gallery: 'Galeria',
   cms: 'Seguridad',
   clients: 'Clientes',
+  services: 'Servicios',
+  subservices: 'SubServicios',
   event: 'Eventos',
   contact: 'Contactos',
   visitorCategory: 'Categorías visitante',

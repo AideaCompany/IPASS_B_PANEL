@@ -11,6 +11,7 @@ import {
   CodeOutlined,
   DesktopOutlined,
   FieldTimeOutlined,
+  HeartOutlined,
   LaptopOutlined,
   OrderedListOutlined,
   PieChartOutlined,
@@ -59,7 +60,17 @@ const MainLayout = (props: LayoutProps) => {
     {
       path: '/clients',
       title: localization.translations.clients,
-      icon: <DesktopOutlined />
+      icon: <UserOutlined />
+    },
+    {
+      path: '/services',
+      title: localization.translations.services,
+      icon: <HeartOutlined />
+    },
+    {
+      path: '/subServices',
+      title: localization.translations.subservices,
+      icon: <HeartOutlined />
     },
     {
       path: '/reports',

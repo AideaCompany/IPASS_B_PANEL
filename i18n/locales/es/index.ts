@@ -25,6 +25,8 @@ import dashboard from './dashboard'
 import products from './products'
 import serviceTypes from './serviceTypes'
 import clients from './clients'
+import services from './services'
+import subServices from './subServices'
 export default {
   common,
   auth,
@@ -52,5 +54,7 @@ export default {
   dashboard,
   products,
   serviceTypes,
-  clients
+  clients,
+  services,
+  subServices
 }
