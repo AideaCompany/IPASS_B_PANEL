@@ -9,8 +9,8 @@ const clients = {
   lastname3: 'Apellido 3',
   email: 'Correo',
   photo: 'Foto',
-  phone1: 'Teléfono 1',
-  phone2: 'Teléfono 2',
+  phone1: 'Celular',
+  phone2: 'Celular 2',
   privateAddress: 'Dirección privada',
   businessAddress: 'Dirección Empresarial',
   occupation: 'Profesión / Perfil',
@@ -40,7 +40,10 @@ const clients = {
   buttonPrivilege: 'Administración de permisos',
   privilegeID: 'Rol',
   verifyLogin: 'Doble autenticación',
-  titleModalUpdate: 'Actualizar cliente'
+  titleModalUpdate: 'Actualizar cliente',
+  errorName1: 'Por favor ingresa un nombre',
+  errorLastname1: 'Por favor ingresa un apellido',
+  errorPhone1: 'Por favor ingresa un numero de celular'
 }
 
 export default clients
