@@ -1,10 +1,10 @@
 import { operation, typeCheck } from '../index'
-import { IMasterLocation } from 'interfaces/MasterLocation/MasterLocation.interface'
-import { IUser } from 'interfaces/user/User.interface'
-import { Document } from 'mongoose'
-import { IDevice } from 'interfaces/Device/Device.interface'
+import { IMasterLocation } from '../MasterLocation/MasterLocation.interface'
+import { IUser } from '../user/User.interface'
+import { IDevice } from '../Device/Device.interface'
+import { basicTable } from '@/types/typeTemplate'
 
-export interface ILocation extends Document {
+export interface ILocation extends basicTable {
   _id: string
   masterLocation: IMasterLocation | string
   childLocations: string[] | ILocation[]

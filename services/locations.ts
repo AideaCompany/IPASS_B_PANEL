@@ -45,7 +45,7 @@ export const subscribeLocation = async (after: (data: ILocation[], isFirst: bool
   })
 }
 
-export const createLocationFn = async (input: { input: ICreateLocation }): Promise<boolean> => {
+export const createLocationFn = async (input: ICreateLocation): Promise<boolean> => {
   return (await client.mutate({ mutation: gql(createLocation), variables: { input } })).data.createLocation as boolean
 }
 

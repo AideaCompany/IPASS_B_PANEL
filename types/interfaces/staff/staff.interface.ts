@@ -1,7 +1,6 @@
-import { fileType } from 'interfaces'
-import { Document } from 'mongoose'
+import { basicTable, fileType } from '@/types/typeTemplate'
 
-export interface IStaff extends Document {
+export interface IStaff extends basicTable {
   _id: string
   name?: string
   name1?: string

@@ -1,28 +1,31 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 //types
-import { Translations } from '@/i18n/types'
-import { ILocation, ILocationEntries, Privilege } from '@/types/types'
-import { typeQr } from '@/types/valuesAddQr'
+import { ITranslations } from '@/i18n/types'
+import { ILocationEntries } from '@/types/interfaces/ILocationEntries/LocationEntries.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { ColumnType } from 'antd/lib/table'
 import moment from 'moment-timezone'
 import React from 'react'
 //component
 import ColumnFactory from '../crudFunctions/columnFactory'
+
 const columns = (props: {
-  translations: Translations
-  permision: Privilege
+  translations: ITranslations
+  permision: IPrivilege
   lang: string
-  beforeShowUpdate?: (param: any) => any
+  beforeShowUpdate?: (param: ILocationEntries) => void
 }): ColumnType<ILocationEntries>[] => {
   const { translations } = props
   const operations = () => <></>
 
   return ColumnFactory({
     columns: [
-      {
-        name: 'type',
-        customRender: (render: typeQr) => render,
-        search: true
-      },
+      // {
+      //   name: 'type',
+      //   customRender: (render: ILocationEntries) => render,
+      //   search: true
+      // },
       {
         name: 'date',
         customRender: (render: ILocationEntries) => <>{moment.tz(render.createdAt, 'America/Guatemala').format('YYYY-MM-DD')}</>
@@ -39,7 +42,7 @@ const columns = (props: {
       },
       {
         name: 'host',
-        customRender: (render: ILocationEntries) => render.host
+        customRender: (render: ILocationEntries) => render.host as string
       },
       {
         name: 'location',
@@ -47,16 +50,19 @@ const columns = (props: {
       },
       {
         name: 'name',
+        //@ts-ignore
         customRender: (render: string) => render,
         search: true
       },
       {
         name: 'lastname',
+        //@ts-ignore
         customRender: (render: string) => render,
         search: true
       },
       {
         name: 'document',
+        //@ts-ignore
         customRender: (render: string) => render,
         search: true
       }

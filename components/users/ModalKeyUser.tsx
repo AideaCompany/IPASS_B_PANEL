@@ -1,4 +1,5 @@
 import { addKeyUserFn } from '@/services/users'
+import { IUser } from '@/types/interfaces/user/User.interface'
 import { CommonPropsModal } from '@/utils/utils'
 import { Button, Form, Input, message, Modal } from 'antd'
 import React from 'react'
@@ -13,8 +14,8 @@ const ModalKeyUser = ({
   getData: () => void
 }) => {
   //#region functions
-  const addKey = async (data: any) => {
-    const res = await addKeyUserFn(data.key)
+  const addKey = async (data: IUser) => {
+    const res = await addKeyUserFn(data.key as string)
     if (res) {
       handleClose()
       getData()

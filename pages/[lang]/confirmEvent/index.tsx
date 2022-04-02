@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/no-extra-semi */
 //Provider
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getinvitation, updateInvitation } from '@/services/invitationEvent'
-import { IEvent, IInvitationEvent } from '@/types/types'
-import { typeQr } from '@/types/valuesAddQr'
+import { IEvent } from '@/types/interfaces/Event/event.interface'
+import { IInvitationEvent } from '@/types/interfaces/InvitationEvent/InvitationEvent.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
+import { typeQr } from '@/types/interfaces/valuesAddQr'
 import { getTime } from '@/utils/utils'
 import { CalendarOutlined } from '@ant-design/icons'
 import { Button, Spin } from 'antd'
@@ -17,15 +21,14 @@ const confirmEvent = () => {
   const router = useRouter()
   const [loading, setloading] = useState<boolean>(true)
   useEffect(() => {
-    (async () => {
+    // eslint-disable-next-line no-extra-semi
+    ;(async () => {
       if (router.query.id) {
         const eventActual: IInvitationEvent = JSON.parse(JSON.stringify(await getinvitation(router.query.id as string)))
         if (router.query.confirm === 'true') {
-          //@ts-ignore
           await updateInvitation({ _id: eventActual._id, confirmed: true })
           setcontent(showQRElemnt(eventActual))
         } else {
-          //@ts-ignore
           await updateInvitation({ _id: eventActual._id, confirmed: false })
           setcontent(showSorry())
         }
@@ -74,16 +77,18 @@ const confirmEvent = () => {
       if (actualInvitation.confirmed) {
         return (
           <div className="confirmContainer">
-            <h1>{`Evento: ${actualInvitation.event.name}`}</h1>
-            <h3>{`La reunión con ${actualInvitation.event?.host?.name} ${actualInvitation.event?.host?.lastname}`}</h3>
+            <h1>{`Evento: ${(actualInvitation.event as IEvent)?.name}`}</h1>
+            <h3>{`La reunión con ${((actualInvitation.event as IEvent)?.host as IUser)?.name as string} ${
+              ((actualInvitation.event as IEvent)?.host as IUser)?.lastName as string
+            }`}</h3>
             <div className="calendar">
-              <p>{'Desde:'}</p> <CalendarOutlined /> <p>{`${getTime(actualInvitation.event?.start)}`}</p>
+              <p>{'Desde:'}</p> <CalendarOutlined /> <p>{`${getTime((actualInvitation.event as IEvent)?.start)}`}</p>
             </div>
             <div className="calendar">
-              <p>{'Hasta:'}</p> <CalendarOutlined /> <p>{`${getTime(actualInvitation.event?.end)}`}</p>
+              <p>{'Hasta:'}</p> <CalendarOutlined /> <p>{`${getTime((actualInvitation.event as IEvent)?.end)}`}</p>
             </div>
-            <p>{`Te esperamos en :${actualInvitation.event?.location.address}`}</p>
-            <QrCode value={`${typeQr.event}-${actualInvitation._id}`} size={300} level={'M'} />
+            <p>{`Te esperamos en :${((actualInvitation.event as IEvent)?.location as ILocation)?.address}`}</p>
+            <QrCode value={`${typeQr.event}-${actualInvitation._id as string}`} size={300} level={'M'} />
 
             <Button type="primary" onClick={download} style={{ margin: '10px' }}>
               Descargar
@@ -93,16 +98,18 @@ const confirmEvent = () => {
       } else {
         return (
           <div className="confirmContainer">
-            <h1>{`Evento confirmado: ${actualInvitation.event.name}`}</h1>
-            <h3>{`La reunión con ${actualInvitation.event?.host?.name} ${actualInvitation.event?.host?.lastname}`}</h3>
+            <h1>{`Evento confirmado: ${(actualInvitation.event as IEvent).name}`}</h1>
+            <h3>{`La reunión con ${((actualInvitation.event as IEvent)?.host as IUser)?.name as string} ${
+              ((actualInvitation.event as IEvent)?.host as IUser)?.lastName as string
+            }`}</h3>
             <div className="calendar">
-              <p>{'Desde:'}</p> <CalendarOutlined /> <p>{`${getTime(actualInvitation.event?.start)}`}</p>
+              <p>{'Desde:'}</p> <CalendarOutlined /> <p>{`${getTime((actualInvitation.event as IEvent)?.start)}`}</p>
             </div>
             <div className="calendar">
-              <p>{'Hasta:'}</p> <CalendarOutlined /> <p>{`${getTime(actualInvitation.event?.end)}`}</p>
+              <p>{'Hasta:'}</p> <CalendarOutlined /> <p>{`${getTime((actualInvitation.event as IEvent)?.end)}`}</p>
             </div>
-            <p>{`Te esperamos en :${actualInvitation.event?.location.address}`}</p>
-            <QrCode value={`${typeQr.event}-${actualInvitation._id}`} size={300} level={'M'} />
+            <p>{`Te esperamos en :${((actualInvitation.event as IEvent)?.location as ILocation)?.address}`}</p>
+            <QrCode value={`${typeQr.event}-${actualInvitation._id as string}`} size={300} level={'M'} />
 
             <Button type="primary" onClick={download} style={{ margin: '10px' }}>
               Descargar
@@ -126,7 +133,7 @@ const confirmEvent = () => {
 }
 
 export default confirmEvent
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'confirmEvent')
   return {
     props: {
@@ -135,7 +142,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
   }
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false

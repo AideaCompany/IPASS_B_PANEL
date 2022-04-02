@@ -1,7 +1,9 @@
 //types
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
+import { IHistoryUser } from '@/types/interfaces/HistoryUser/HistoryUser.interface'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
 // import { ThemeContext } from '@/providers/ThemeContext'
-import { PermissionsPrivilege, Privilege } from '@/types/types'
 import { getTime } from '@/utils/utils'
 import { Tag } from 'antd'
 import { ColumnType } from 'antd/lib/table'
@@ -14,14 +16,14 @@ import SeeReport from '../SeeReport'
 
 // import DeleteItem from '../crudFuntions/delete'
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  permision: Privilege
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
+  permision: IPrivilege
   lang: string
-  beforeShowUpdate?: (param: any) => any
-}): ColumnType<any>[] => {
+  beforeShowUpdate?: (param: IHistoryUser) => IHistoryUser
+}): ColumnType<IHistoryUser>[] => {
   const { translations, actualPermission } = props
-  const operations = (record: any) => {
+  const operations = (record: IHistoryUser) => {
     return (
       <>
         <SeeReport actualPermisions={actualPermission} translations={translations} record={record} />
@@ -36,7 +38,7 @@ const columns = (props: {
       },
       {
         name: 'state',
-        customRender: (render: any) =>
+        customRender: (render: IHistoryUser) =>
           render.state === 'active' || render.state === 'enabled' ? (
             <Tag className="tag_risk_2" color="green">
               Activo
@@ -49,11 +51,11 @@ const columns = (props: {
       },
       {
         name: 'deletedDate',
-        customRender: (render: any) => (render.deletedDate ? <>{getTime(render.deletedDate)}</> : <>Activo</>)
+        customRender: (render: IHistoryUser) => (render.deletedDate ? <>{getTime(render.deletedDate)}</> : <>Activo</>)
       },
       {
         name: 'whoDeleted',
-        customRender: (render: any) => (render.whoDeleted ? <>{render.whoDeleted.email}</> : <>Activo</>)
+        customRender: (render: IHistoryUser) => (render.whoDeleted ? <>{(render.whoDeleted as IUser).email}</> : <>Activo</>)
       }
     ],
     translate: translations,

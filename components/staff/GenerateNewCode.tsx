@@ -1,33 +1,22 @@
-import { Translations } from '@/i18n/types'
-import { generateNewPermanentQRFn, generateNewTemporalQRFn } from '@/services/staff'
-import { IWorker } from '@/types/types'
+import { ITranslations } from '@/i18n/types'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { ReloadOutlined } from '@ant-design/icons'
 import { Button, message, Tooltip } from 'antd'
 import React from 'react'
 
-const GenerateNewCode = ({
-  translations,
-  worker,
-  reload,
-  isTemporal
-}: {
-  translations: Translations
-  worker: IWorker
-  reload: () => void
-  isTemporal: boolean
-}) => {
+const GenerateNewCode = ({ translations, reload }: { translations: ITranslations; staff: IStaff; reload: () => void; isTemporal: boolean }) => {
   //   const [visible, setVisible] = useState(false)
   //   const { theme } = useContext(ThemeContext)
-  const generateNewCode = async () => {
+  const generateNewCode = () => {
     try {
-      if (isTemporal) {
-        await generateNewTemporalQRFn(worker._id)
-      } else {
-        await generateNewPermanentQRFn(worker._id)
-      }
+      // if (isTemporal) {
+      //   await generateNewTemporalQRFn(worker._id)
+      // } else {
+      //   await generateNewPermanentQRFn(worker._id)
+      // }
       reload()
     } catch (error) {
-      message.error('Ocurrio un error')
+      message.error('Ocurrió un error')
     }
   }
   return (

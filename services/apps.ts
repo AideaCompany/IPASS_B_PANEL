@@ -1,6 +1,6 @@
 import { listApps } from '@/graphql/apps/queries/listApps'
 import client from '@/graphql/config'
-import { IApps } from '@/types/types'
+import { IApps } from '@/types/interfaces/Apps/Apps.interface'
 import { convertTotable } from '@/utils/utils'
 import gql from 'graphql-tag'
 

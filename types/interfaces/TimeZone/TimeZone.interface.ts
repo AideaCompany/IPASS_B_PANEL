@@ -1,10 +1,11 @@
 import { basicTable } from '@/types/typeTemplate'
+import { Moment } from 'moment-timezone'
 
 export interface ITimeZone extends basicTable {
   name: string
-  start: string
+  start: string | Moment
   abbreviation: string
-  end: string
+  end: string | Moment
   days: Days[]
 }
 

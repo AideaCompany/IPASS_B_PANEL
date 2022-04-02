@@ -14,7 +14,7 @@ export const listStaffFn = async (page: number, limit: number, filters: { [value
   return paginated
 }
 
-export const confirmSignUpStaffFn = async (input: { input: { password: string; _id: string } }): Promise<{ token: string }> => {
+export const confirmSignUpStaffFn = async (input: { password: string; _id: string }): Promise<{ token: string }> => {
   client.cache.reset()
   return (await client.mutate({ mutation: gql(signUpStaff), variables: { input } })).data.signUpStaff as { token: string }
 }

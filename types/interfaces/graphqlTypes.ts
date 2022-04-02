@@ -28,3 +28,7 @@ export interface IResponseMassive {
   success: boolean
   reason: string
 }
+
+export interface IManagementError {
+  graphQLErrors: { message: string }[]
+}

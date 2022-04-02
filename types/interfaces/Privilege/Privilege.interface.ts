@@ -1,7 +1,7 @@
+import { basicTable } from '@/types/typeTemplate'
 import { ISections } from '../Sections/sections.interface'
 
-export interface IPrivilege extends Document {
-  _id: string
+export interface IPrivilege extends basicTable {
   name: string
   createdAt?: Date
   UpdatedAt?: Date

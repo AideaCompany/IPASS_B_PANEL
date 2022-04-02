@@ -1,4 +1,5 @@
 export interface ICreateEvent {
+  rangeTime?: [Date, Date]
   name: string
   host: string
   start: Date

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-extra-semi */
 //react
 //Components
 import BarChart from '@/components/board/BarChart'
@@ -13,7 +14,9 @@ import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { generalAnalythicsFn } from '@/services/analythics'
 import { analythicsAttemptsByLocationFn, analythicsAttemptsFn } from '@/services/locationAttempts'
-import { iAttemptsByLocation, iGeneralAnalythics, iLocationAttemptAnalythics, PermissionsPrivilege } from '@/types/types'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IAttemptsByLocation, IGeneralAnalythics, ILocationAttemptAnalythics } from '@/types/types'
+
 //next
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React, { useEffect, useState } from 'react'
@@ -24,13 +27,13 @@ const board = (props: { localization: Localization; lang: string }) => {
   //props
   const { localization, lang } = props
   //states
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
 
   //#region cards
 
-  const [dataAnalythics, setDataAnalythics] = useState<iLocationAttemptAnalythics>()
-  const [dataAnalythicsByLocation, setDataAnalythicsByLocation] = useState<iAttemptsByLocation[]>([])
-  const [generalAnalythics, setGeneralAnalythics] = useState<iGeneralAnalythics>()
+  const [dataAnalythics, setDataAnalythics] = useState<ILocationAttemptAnalythics>()
+  const [dataAnalythicsByLocation, setDataAnalythicsByLocation] = useState<IAttemptsByLocation[]>([])
+  const [generalAnalythics, setGeneralAnalythics] = useState<IGeneralAnalythics>()
   //#endregion cards
 
   //providers
@@ -41,7 +44,8 @@ const board = (props: { localization: Localization; lang: string }) => {
   }, [permission])
 
   useEffect(() => {
-    (async () => {
+    // eslint-disable-next-line no-extra-semi
+    ;(() => {
       if (actualPermission) {
         getData()
         const interval = setInterval(() => {
@@ -91,7 +95,7 @@ const board = (props: { localization: Localization; lang: string }) => {
 
 export default React.memo(board)
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'board')
   return {
     props: {
@@ -99,7 +103,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
     }
   }
 }
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false

@@ -6,7 +6,7 @@ import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { IUser } from '@/types/interfaces/user/User.interface'
 import { typeQr } from '@/types/interfaces/valuesAddQr'
 
-export const getType = (type: typeQr) => {
+export const getType = (type?: typeQr) => {
   switch (type) {
     case typeQr.event:
       return 'Evento'

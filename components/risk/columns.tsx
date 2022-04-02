@@ -1,7 +1,9 @@
 //types
 import { updateRisk } from '@/graphql/risk/mutation/updateRisk'
-import { Translations } from '@/i18n/types'
-import { IRisk, PermissionsPrivilege, Privilege } from '@/types/types'
+import { ITranslations } from '@/i18n/types'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IRisk } from '@/types/interfaces/Risk/Risk.interface'
+
 import { Tag } from 'antd'
 import { ColumnType } from 'antd/lib/table'
 import gql from 'graphql-tag'
@@ -12,11 +14,11 @@ import UpdateItem from '../crudFunctions/update'
 import { formElements } from './formElements'
 import Formitems from './formItem'
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  permision: Privilege
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
+  permision: IPrivilege
   lang: string
-  beforeShowUpdate?: (param: any) => any
+  beforeShowUpdate?: (param: IRisk) => IRisk
   after: () => void
 }): ColumnType<IRisk>[] => {
   const { translations, actualPermission, after } = props

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { ApolloClient, InMemoryCache, split } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { WebSocketLink } from '@apollo/client/link/ws'
@@ -9,7 +10,7 @@ let token = Cookie.get('authRenapPanel')
 export const setToken = (tokenVal: string) => {
   token = tokenVal
 }
-const authLink = setContext((_: any, { headers }) => {
+const authLink = setContext((_: unknown, { headers }) => {
   return {
     /*  */
     headers: {
@@ -20,6 +21,7 @@ const authLink = setContext((_: any, { headers }) => {
 })
 
 const httpLink = authLink.concat(
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   createUploadLink({
     uri: process.env.NEXT_PUBLIC_URL
   })

@@ -1,9 +1,8 @@
 import { IUser } from '../user/User.interface'
-import { Document } from 'mongoose'
-import { ILocation } from 'interfaces/Location/Location.interface'
+import { ILocation } from '../Location/Location.interface'
+import { basicTable } from '@/types/typeTemplate'
 
-export interface IEvent extends Document {
-  _id: string
+export interface IEvent extends basicTable {
   name: string
   host: IUser | string
   start: Date

@@ -3,9 +3,9 @@ import { ILocation } from '../Location/Location.interface'
 import { IPrivilege } from '../Privilege/Privilege.interface'
 import { ITimeZone } from '../TimeZone/TimeZone.interface'
 import { IApps } from '../Apps/Apps.interface'
-import { fileType } from '../index'
+import { basicTable, fileType } from '@/types/typeTemplate'
 
-export interface IUser extends Document {
+export interface IUser extends basicTable {
   _id: string
   password?: string
   photo?: fileType

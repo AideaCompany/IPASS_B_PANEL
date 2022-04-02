@@ -9,7 +9,7 @@ import { listAttemptsToday } from '@/graphql/locationAttempt/queries/listAttempt
 import { listAttemptsYesterday } from '@/graphql/locationAttempt/queries/listAttemptsYesterday'
 import { listLocationAttempt } from '@/graphql/locationAttempt/queries/listLocationAttempt'
 import { ILocationAttempt } from '@/types/interfaces/LocationAttempt/LocationAttemp.interface'
-import { ILocationAttemptAnalythics } from '@/types/types'
+import { IAttemptsByLocation, ILocationAttemptAnalythics } from '@/types/types'
 
 import { gql } from 'apollo-boost'
 
@@ -55,8 +55,8 @@ export const analythicsAttemptsFn = async (): Promise<ILocationAttemptAnalythics
   return (await client.query({ query: gql(analythicsAttempts) })).data.analythicsAttempts as ILocationAttemptAnalythics
 }
 
-export const analythicsAttemptsByLocationFn = async (month?: string): Promise<ILocationAttemptAnalythics> => {
+export const analythicsAttemptsByLocationFn = async (month?: number): Promise<IAttemptsByLocation[]> => {
   await client.cache.reset()
   return (await client.query({ query: gql(analythicsAttemptsByLocation), variables: { month: month ? month : null } })).data
-    .analythicsAttemptsByLocation as ILocationAttemptAnalythics
+    .analythicsAttemptsByLocation as IAttemptsByLocation[]
 }

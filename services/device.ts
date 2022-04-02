@@ -25,7 +25,7 @@ export const getAvailableDevices = async (): Promise<IDevice[]> => {
   return convertTotable<IDevice>((await (await client.query({ query: gql(listAvailableDevices) })).data.listAvailableDevices) as IDevice[])
 }
 
-export const createDeviceFn = async (input: { input: ICreateDevice }): Promise<boolean> => {
+export const createDeviceFn = async (input: ICreateDevice): Promise<boolean> => {
   return (await client.mutate({ mutation: gql(createDevice), variables: { input } })).data.createDevice as boolean
 }
 

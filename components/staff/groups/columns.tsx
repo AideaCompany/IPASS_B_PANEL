@@ -1,9 +1,11 @@
 //types
-import { deleteGroupWorker } from '@/graphql/worker/mutation/deleteGroupWorker'
-import { updateGroupWorker } from '@/graphql/worker/mutation/updateGroupWorker'
-import { Translations } from '@/i18n/types'
+import { deleteStaff } from '@/graphql/Staff/mutation/deleteStaff'
+import { updateStaff } from '@/graphql/Staff/mutation/updateStaff'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { ILocation, IWorker, PermissionsPrivilege, Privilege } from '@/types/types'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { ColumnType } from 'antd/lib/table'
 import { gql } from 'apollo-boost'
 import React, { useContext } from 'react'
@@ -13,14 +15,14 @@ import DeleteItem from '../../crudFunctions/delete'
 import UpdateItem from '../../crudFunctions/update'
 import { formElements } from './formElements'
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  beforeShowUpdate?: (param: any) => any
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
+  beforeShowUpdate?: (param: IStaff) => IStaff
   formItem: JSX.Element
   after: () => void
-  permision: Privilege
+  permision: IPrivilege
   location: ILocation[]
-}): ColumnType<IWorker>[] => {
+}): ColumnType<IStaff>[] => {
   const { translations, actualPermission, location, after, formItem, beforeShowUpdate, permision } = props
   const { theme } = useContext(ThemeContext)
 
@@ -28,14 +30,14 @@ const columns = (props: {
     return formElements(location)
   }
 
-  const operations = (record: IWorker) => {
+  const operations = (record: IStaff) => {
     return (
       <>
         <UpdateItem
           beforeShowUpdate={beforeShowUpdate}
           actualPermission={actualPermission}
           translations={translations}
-          mutation={gql(updateGroupWorker)}
+          mutation={gql(updateStaff)}
           record={record}
           afterUpdate={after}
           FormItems={formItem}
@@ -46,7 +48,7 @@ const columns = (props: {
           afterDelete={after}
           actualPermission={actualPermission}
           translations={translations}
-          mutation={gql(deleteGroupWorker)}
+          mutation={gql(deleteStaff)}
           theme={theme}
           record={record}
         />

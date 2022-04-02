@@ -1,19 +1,18 @@
-import { Translations } from '@/i18n/types'
-import { deleteTemporalQRFn } from '@/services/staff'
-import { IWorker } from '@/types/types'
+import { ITranslations } from '@/i18n/types'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { DeleteOutlined } from '@ant-design/icons'
 import { Button, message, Modal, Tooltip } from 'antd'
 import React from 'react'
 
-const DeleteTemporalQR = ({ translations, worker, reload }: { translations: Translations; worker: IWorker; reload: () => void }) => {
+const DeleteTemporalQR = ({ translations, reload }: { translations: ITranslations; staff: IStaff; reload: () => void }) => {
   //   const [visible, setVisible] = useState(false)
   //   const { theme } = useContext(ThemeContext)
-  const deleteCode = async () => {
+  const deleteCode = () => {
     try {
-      await deleteTemporalQRFn(worker._id)
+      // await deleteTemporalQRFn(worker._id)
       reload()
     } catch (error) {
-      message.error('Ocurrio un error')
+      message.error('Ocurrió un error')
     }
   }
 

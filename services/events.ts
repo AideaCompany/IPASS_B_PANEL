@@ -21,7 +21,7 @@ export const listEvents = async (): Promise<IEvent[]> => {
   return convertTotable<IEvent>((await (await client.query({ query: gql(listAllEventsActive) })).data.listAllEventsActive) as IEvent[])
 }
 
-export const createEventFn = async (input: { input: ICreateEvent }): Promise<boolean> => {
+export const createEventFn = async (input: ICreateEvent): Promise<boolean> => {
   return (await client.mutate({ mutation: gql(createEvent), variables: { input } })).data.createEvent as boolean
 }
 

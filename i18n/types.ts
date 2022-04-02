@@ -3,24 +3,20 @@ import { locales } from './config'
 
 export type Locale = typeof locales[number]
 
-export interface Translations {
+export interface ITranslations {
   [key: string]: string
 }
 
 export type Strings = {
-  [key in Locale]: Translations
+  [key in Locale]: ITranslations
 }
 
 export type Localization = {
   locale: Locale
-  translations: Translations
+  translations: ITranslations
   namespace: string
 }
 
-/**
- *
- * @param tested
- */
-export function isLocale(tested: string): tested is Locale {
+export const isLocale = (tested: string): tested is Locale => {
   return locales.some(locale => locale === tested)
 }

@@ -6,12 +6,6 @@ import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import { LanguageContext } from '../providers/LenguageContext'
 
-/**
- *
- * @param props
- * @param props.children
- * @param props.title
- */
 const Main = (props: { children: JSX.Element; title?: string }): JSX.Element => {
   //props
   const { children, title = '' } = props

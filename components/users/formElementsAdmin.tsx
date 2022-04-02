@@ -1,13 +1,17 @@
-import { IGroupWorker, ILocation, iTimeZone, Privilege } from '@/types/types'
-import { FormFactory } from '@/types/typeTemplate'
+import { IGroupWorker } from '@/types/interfaces/GroupWorker/GroupWorker.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
+import { fileType, FormFactory } from '@/types/typeTemplate'
 
 export const formElementsAdmin = (
-  privilege: Privilege[],
+  privilege: IPrivilege[],
   locations: ILocation[],
-  timeZone: iTimeZone[],
+  timeZone: ITimeZone[],
   group: IGroupWorker[],
-  inicialData?: boolean
-): FormFactory.FormFactoryType[] => [
+  inicialData?: boolean | fileType
+): FormFactory.IFormFactoryType<IUser>[] => [
   {
     name: 'photo',
     type: 'avatar',

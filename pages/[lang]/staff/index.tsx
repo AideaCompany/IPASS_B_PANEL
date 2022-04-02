@@ -8,7 +8,7 @@ import columns from '@/components/staff/columns'
 import { formElements } from '@/components/staff/formElements'
 import FormItems from '@/components/staff/formItem'
 import UploadExcel from '@/components/staff/UploadExcel'
-import { createWorker } from '@/graphql/worker/mutation/createWorker'
+
 //types
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
@@ -17,8 +17,7 @@ import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllLocationActive } from '@/services/locations'
 import { listTimeZonesFn } from '@/services/timeZone'
 import { countUserWorkerFn, verifyKeyUserFn } from '@/services/users'
-import { listGroupWorkerIfExistFn, listWorkerFn } from '@/services/staff'
-import { IGroupWorker, ILocation, iTimeZone, IApps, IWorker, Paginated, PermissionsPrivilege } from '@/types/types'
+
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
 import { gql } from '@apollo/client'
 import { Button, message, Tooltip } from 'antd'
@@ -31,8 +30,17 @@ import * as cookie from 'cookie'
 import { setToken } from '@/graphql/config'
 import { getAllApps } from '@/services/apps'
 import { FileUnknownOutlined } from '@ant-design/icons'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
+import { IGroupWorker } from '@/types/interfaces/GroupWorker/GroupWorker.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
+import { IApps } from '@/types/interfaces/Apps/Apps.interface'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { FilterType, IPaginated } from '@/types/interfaces/graphqlTypes'
+import { listStaffFn } from '@/services/staff'
+import { createStaff } from '@/graphql/Staff/mutation/createStaff'
 
-type actualItem = IWorker
+type actualItem = IStaff
 const staff = (props: {
   localization: Localization
   lang: string
@@ -40,7 +48,7 @@ const staff = (props: {
   limit: number
   groups: IGroupWorker[]
   locations: ILocation[]
-  timeZone: iTimeZone[]
+  timeZone: ITimeZone[]
   apps: IApps[]
 }) => {
   //#region hooks
@@ -50,9 +58,9 @@ const staff = (props: {
   //props
   const { localization, lang, page, limit, apps, groups, locations, timeZone } = props
   //states
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setData] = useState<actualItem[]>([])
-  const [pagination, setPagination] = useState<Paginated<IWorker>>()
+  const [pagination, setPagination] = useState<IPaginated<IStaff>>()
   const [loading, setLoading] = useState<boolean>(true)
   const [actualLimit, setActualLimit] = useState(limit)
   const [actualPage, setActualPage] = useState(page)
@@ -92,19 +100,19 @@ const staff = (props: {
       setOpen(true)
     } else {
       setCountUsers(await countUserWorkerFn())
-      const result = await listWorkerFn(actualPage, actualLimit, filters)
+      const result = await listStaffFn(actualPage, actualLimit, filters)
       setPagination(result)
       setData(
         convertTotable(result.docs).map(e => ({
           ...e,
-          photo: e.photo ? { ...e.photo, key: `${process.env.NEXT_PUBLIC_S3}/${e.photo.key}` } : e.photo
+          photo: e.photo ? { ...e.photo, key: `${process.env.NEXT_PUBLIC_S3 as string}/${e.photo.key}` } : e.photo
         }))
       )
     }
     setLoading(false)
   }
 
-  const before = (item: IWorker) => {
+  const before = (item: IStaff) => {
     // const newItem = JSON.parse(JSON.stringify(item))
     // newItem.security = item.security.map((e: any) => e?._id)
     // return newItem
@@ -139,9 +147,9 @@ const staff = (props: {
         translations={localization.translations}
       />
       <CreateItem
-        actualPermission={actualPermission as PermissionsPrivilege}
+        actualPermission={actualPermission as IPermissionsPrivilege}
         translations={localization.translations}
-        mutation={gql(createWorker)}
+        mutation={gql(createStaff)}
         formElements={formElements(locations, groups, timeZone, apps)}
         afterCreate={getData}
         manageMentError={manageMentError}
@@ -160,8 +168,8 @@ const staff = (props: {
     </div>
   )
 
-  const onchange = (_: any, filters: any, sorter: any) => {
-    setFilters(formatFiltersTable(filters))
+  const onchange = (_: unknown, newFilters: FilterType) => {
+    setFilters(formatFiltersTable(newFilters))
   }
   return (
     <>
@@ -173,20 +181,22 @@ const staff = (props: {
         title={`${localization?.translations.titleSection} - ${countUsers - 1}/1500 usuarios y trabajadores`}
       >
         <>
-          <TableData
+          <TableData<IStaff>
             columns={columns({
               apps,
               after: getData,
               timeZone: timeZone,
               locations: locations,
               translations: localization.translations,
-              actualPermission: actualPermission as PermissionsPrivilege,
+              actualPermission: actualPermission as IPermissionsPrivilege,
               beforeShowUpdate: before,
               permision: permission,
               groups
             })}
             scroll={{ x: 1500, y: '40vh' }}
             data={data}
+            /* eslint-disable-next-line */
+            //@ts-ignore
             onChange={onchange}
             pagination={{
               pageSize: actualLimit,
@@ -194,18 +204,18 @@ const staff = (props: {
               total: pagination?.totalDocs,
               showTotal: (total, range) => `Mostrando ${range[0]}-${range[1]} de ${total} trabajadores`,
               current: actualPage,
-              onChange: page => {
-                setActualPage(page)
+              onChange: newPage => {
+                setActualPage(newPage)
                 router.replace({
                   pathname: router.pathname,
-                  query: { ...router.query, page }
+                  query: { ...router.query, page: newPage }
                 })
               },
-              onShowSizeChange: (_, limit) => {
-                setActualLimit(limit)
+              onShowSizeChange: (_, newLimit) => {
+                setActualLimit(newLimit)
                 router.replace({
                   pathname: router.pathname,
-                  query: { ...router.query, limit }
+                  query: { ...router.query, limit: newLimit }
                 })
               }
             }}
@@ -219,11 +229,7 @@ const staff = (props: {
 
 export default React.memo(staff)
 
-/**
- *
- * @param ctx
- */
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const token = ctx?.req?.headers?.cookie
   try {
     if (token) {
@@ -233,12 +239,12 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
         const page = ctx.query.page ? parseInt(ctx.query.page as string) : 1
         const limit = ctx.query.limit ? parseInt(ctx.query.limit as string) : 10
 
-        const groups = await listGroupWorkerIfExistFn()
+        // const groups = await listGro()
         const locations = await getAllLocationActive()
         const timeZone = await listTimeZonesFn()
         const apps = await getAllApps()
 
-        return { props: { localization, page, limit, groups, locations, timeZone, apps } }
+        return { props: { localization, page, limit, groups: [], locations, timeZone, apps } }
       } else {
         return {
           notFound: true

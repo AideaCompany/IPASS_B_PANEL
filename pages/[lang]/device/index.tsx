@@ -10,7 +10,9 @@ import useAuth from '@/providers/AuthContext'
 //Context
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllExistingDevices } from '@/services/device'
-import { IDevice, PermissionsPrivilege } from '@/types/types'
+import { IDevice } from '@/types/interfaces/Device/Device.interface'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Tooltip } from 'antd'
 //next
@@ -23,7 +25,7 @@ const masterLocation = (props: { localization: Localization; lang: string }) => 
   //props
   const { localization, lang } = props
   //states
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setData] = useState<actualItem[]>([])
   /* const [locations, setLocations] = useState<ILocation[]>([]) */
   const [loading, setLoading] = useState<boolean>(true)
@@ -35,11 +37,9 @@ const masterLocation = (props: { localization: Localization; lang: string }) => 
   }, [permission])
 
   useEffect(() => {
-    (async () => {
-      if (actualPermission) {
-        getData()
-      }
-    })()
+    if (actualPermission) {
+      getData()
+    }
   }, [actualPermission])
 
   const getData = async () => {
@@ -55,7 +55,14 @@ const masterLocation = (props: { localization: Localization; lang: string }) => 
       {actualPermission?.create && (
         <Tooltip title={localization.translations.titleModalCreate}>
           <Link href={{ pathname: '/[lang]/device/create', query: { lang } }}>
-            <Button style={{ margin: '5px' }} onClick={() => {}} shape="circle" icon={<PlusOutlined />} />
+            <Button
+              style={{ margin: '5px' }}
+              onClick={() => {
+                console.info('click')
+              }}
+              shape="circle"
+              icon={<PlusOutlined />}
+            />
           </Link>
         </Tooltip>
       )}
@@ -68,7 +75,7 @@ const masterLocation = (props: { localization: Localization; lang: string }) => 
         <TableData
           columns={columns({
             translations: localization.translations,
-            actualPermission: actualPermission as PermissionsPrivilege,
+            actualPermission: actualPermission as IPermissionsPrivilege,
             permision: permission,
             lang: lang,
             after: getData
@@ -83,7 +90,7 @@ const masterLocation = (props: { localization: Localization; lang: string }) => 
 
 export default React.memo(masterLocation)
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'device')
   return {
     props: {
@@ -91,7 +98,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
     }
   }
 }
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false

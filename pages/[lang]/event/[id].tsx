@@ -18,16 +18,16 @@ const EventGuests = (props: { localization: Localization; lang: string }) => {
   const [error, setError] = useState('')
   const router = useRouter()
 
-  const validateForm = async () => {
+  const validateForm = () => {
     formRef.current
       ?.validateFields()
       .then(() => {
         setError('')
         setDisabled(false)
       })
-      .catch(async (error: any) => {
-        if (error.errorFields.length > 0) {
-          if (error.errorFields[0].name.find((name: string) => name === 'admins')) {
+      .catch((currentError: { errorFields: { name: string[] }[] }) => {
+        if (currentError.errorFields.length > 0) {
+          if (currentError.errorFields[0].name.find((name: string) => name === 'admins')) {
             setError(localization.translations.selectMinimumAdmin)
             setDisabled(true)
           } else {
@@ -40,10 +40,9 @@ const EventGuests = (props: { localization: Localization; lang: string }) => {
         }
       })
   }
-  const onFinish = async (value: any) => {
+  const onFinish = (value: { guests: string[] }) => {
     if (value.guests) {
       value.guests.map(async (contactId: string) => {
-        //@ts-ignore
         await createInvitation({ event: router.query.id as string, contact: contactId, confirmed: false, alreadySendInvitation: false })
       })
     }
@@ -66,11 +65,8 @@ const EventGuests = (props: { localization: Localization; lang: string }) => {
 }
 
 export default React.memo(EventGuests)
-/**
- *
- * @param ctx
- */
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const localization = getLocalizationProps(ctx, 'event')
   const event = await getEventFn(ctx.query.id as string)
   if (!event) {

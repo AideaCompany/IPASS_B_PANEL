@@ -1,4 +1,4 @@
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { getAvailableDevices } from '@/services/device'
 import { getAllLocationActive } from '@/services/locations'
 import { getUsersAdminFn } from '@/services/users'
@@ -13,13 +13,13 @@ type LocationViewContextType = {
   devices: IDevice[]
   actualLocation: ILocation
   setActualLocation: React.Dispatch<React.SetStateAction<ILocation>>
-  translate: Translations
+  translate: ITranslations
   lang: string
 }
 
 const LocationViewContext = React.createContext<LocationViewContextType>({} as LocationViewContextType)
 
-export const LocationViewProvider = (props: { children: JSX.Element; location: ILocation; translate: Translations; lang: string }) => {
+export const LocationViewProvider = (props: { children: JSX.Element; location: ILocation; translate: ITranslations; lang: string }) => {
   //props
   const { children, location, translate, lang } = props
   //states

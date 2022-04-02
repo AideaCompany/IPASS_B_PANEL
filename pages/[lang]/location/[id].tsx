@@ -3,7 +3,8 @@ import { Localization } from '@/i18n/types'
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { LocationViewProvider } from '@/providers/ViewLocationContext'
 import { getLocationFn } from '@/services/locations'
-import { ILocation, User } from '@/types/types'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
 import { GetServerSidePropsContext } from 'next'
 import React from 'react'
 const viewLocation = ({ lang, localization, location }: { lang: string; localization: Localization; location: ILocation }) => {
@@ -15,11 +16,8 @@ const viewLocation = ({ lang, localization, location }: { lang: string; localiza
 }
 
 export default viewLocation
-/**
- *
- * @param ctx
- */
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const localization = getLocalizationProps(ctx, 'location')
   const location = await getLocationFn(ctx.query.id as string)
   if (!location) {
@@ -28,7 +26,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     }
   }
   const newLocation: ILocation = JSON.parse(JSON.stringify(location))
-  newLocation.admins = (location.admins as User[])?.map(admin => admin?._id).filter(e => e)
+  newLocation.admins = (location.admins as IUser[])?.map(admin => admin?._id).filter(e => e)
   newLocation.parentLocations = (location.parentLocations as ILocation[])?.map(parentLocation => parentLocation?._id)
   newLocation.childLocations = (location.childLocations as ILocation[])?.map(childLocation => childLocation?._id)
   return { props: { localization, location: newLocation } }

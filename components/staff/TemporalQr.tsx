@@ -1,5 +1,5 @@
-import { Translations } from '@/i18n/types'
-import { IWorker, IWorker_qr_temporal } from '@/types/types'
+import { ITranslations } from '@/i18n/types'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { download_qr } from '@/utils/QR_utils'
 import { DownloadOutlined } from '@ant-design/icons'
 import { Button, Tooltip } from 'antd'
@@ -7,11 +7,11 @@ import React from 'react'
 import Qr from '../Qr'
 import DeleteTemporalQR from './DeleteTemporalQR'
 import GenerateNewCode from './GenerateNewCode'
-const temporalQr = ({ translations, worker, reload }: { translations: Translations; worker: IWorker; reload: () => void }) => {
-  const isValid = worker.temporal_Qr ? (!worker.temporal_Qr.used ? (worker.temporal_Qr.valid ? true : false) : false) : false
+const temporalQr = ({ translations, staff, reload }: { translations: ITranslations; staff: IStaff; reload: () => void }) => {
+  const isValid = true
   return (
     <div className={'parent_QR'}>
-      <Qr hasMask={!isValid} value={isValid ? worker.temporal_Qr.QR : 'No data'} id={'temporal'} />
+      <Qr hasMask={!isValid} value={isValid ? ' ' : 'No data'} id={'temporal'} />
       <div className={'control_info_QR'}>
         <div className={'temporal_info'}>
           <h3>{`${translations.temporalCode}`}</h3>
@@ -21,12 +21,12 @@ const temporalQr = ({ translations, worker, reload }: { translations: Translatio
               key={2}
               shape="circle"
               disabled={!isValid}
-              onClick={() => download_qr('temporal', `temporal_${worker.name}_${worker.lastname}`)}
+              onClick={() => download_qr('temporal', `temporal_${staff.name as string}_${staff.lastName}`)}
               icon={<DownloadOutlined />}
             />
           </Tooltip>
-          <GenerateNewCode isTemporal reload={reload} worker={worker} translations={translations} />
-          <DeleteTemporalQR reload={reload} worker={worker} translations={translations} />
+          <GenerateNewCode isTemporal reload={reload} staff={staff} translations={translations} />
+          <DeleteTemporalQR reload={reload} staff={staff} translations={translations} />
         </div>
         {/* <div className={'qr_time'}>
           <p>{`${translations.remainingTime}: ${worker.temporal_Qr ? moment(worker.temporal_Qr.timeEnd).fromNow() : '00:00:00'}`}</p>

@@ -1,7 +1,10 @@
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { createMassiveWorkerFn } from '@/services/staff'
-import { IApps, IGroupWorker, ILocation, iTimeZone, IWorker } from '@/types/types'
+import { IApps } from '@/types/interfaces/Apps/Apps.interface'
+import { IGroupWorker } from '@/types/interfaces/GroupWorker/GroupWorker.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
 import { FileExcelOutlined } from '@ant-design/icons'
 import { Button, List, message, Modal, Tooltip, Upload } from 'antd'
 import { UploadChangeParam } from 'antd/lib/upload'
@@ -9,8 +12,8 @@ import { UploadFile } from 'antd/lib/upload/interface'
 import React, { useContext, useEffect, useState } from 'react'
 import readXlsxFile from 'read-excel-file'
 import ColumnFactory from '../crudFunctions/columnFactory'
-import RenderCheck from '../RenderCheck'
 import TableData from '../TableDatas'
+
 const UploadExcel = ({
   translations,
   reload,
@@ -19,23 +22,23 @@ const UploadExcel = ({
   timeZone,
   apps
 }: {
-  translations: Translations
+  translations: ITranslations
   reload: () => void
   groups: IGroupWorker[]
   locations: ILocation[]
-  timeZone: iTimeZone[]
+  timeZone: ITimeZone[]
   apps: IApps[]
 }) => {
   const [visible, setVisible] = useState(false)
 
   const [totalUser, setTotalUser] = useState(0)
-  const [results, setResults] = useState<{ email: string; success: boolean; reason: any }[]>([])
-  const [data, setData] = useState<IWorker[]>([])
+  const [results, setResults] = useState<{ email: string; success: boolean; reason: string }[]>([])
+  const [data, setData] = useState<IStaff[]>([])
   const [loading, setLoading] = useState(true)
   const { theme } = useContext(ThemeContext)
   // const [percent, setPercent] = useAsyncState(0)
 
-  const readInput = (value: UploadChangeParam<UploadFile<any>>) => {
+  const readInput = (value: UploadChangeParam<UploadFile<IStaff>>) => {
     if (!visible) {
       setVisible(true)
     }
@@ -106,28 +109,28 @@ const UploadExcel = ({
       }
       setTotalUser(result.length - 1)
       result.shift()
-      setData(result as any)
+      setData(result as unknown as IStaff[])
     }
     setLoading(false)
   }
 
-  const sendLargeData = async (values: any[], actualResults: []): Promise<any> => {
-    if (values.length > 20) {
-      const result = (await createMassiveWorkerFn(values.slice(0, 20))) as any
-      return [...actualResults, ...(await sendLargeData(values.slice(20, values.length), result))]
-    } else {
-      return [...actualResults, ...(await createMassiveWorkerFn(values))]
-    }
-  }
+  // const sendLargeData = async (values: unknown[], actualResults: []): Promise<unknown[]> => {
+  //   if (values.length > 20) {
+  //     const result = (await createMassiveWorkerFn(values.slice(0, 20))) as unknown
+  //     return [...actualResults, ...(await sendLargeData(values.slice(20, values.length), result))]
+  //   } else {
+  //     return [...actualResults, ...(await createMassiveWorkerFn(values))]
+  //   }
+  // }
 
-  const sendUsers = async () => {
-    try {
-      setResults(await sendLargeData(data, []))
-    } catch (error) {
-      console.error(error)
-      // message.error(error)
-    }
-  }
+  // const sendUsers = async () => {
+  //   try {
+  //     setResults(await sendLargeData(data, []))
+  //   } catch (error) {
+  //     console.error(error)
+  //     // message.error(error)
+  //   }
+  // }
 
   useEffect(() => {
     if (!visible) {
@@ -155,10 +158,10 @@ const UploadExcel = ({
               header={<h3>{`Registros exitosos ${results.filter(e => e.success).length}`}</h3>}
               dataSource={results.filter(e => e.success)}
               renderItem={(item, i) => {
-                const actual = data.find(e => e.email === item.email) as IWorker
+                const actual = data.find(e => e.email === item.email) as IStaff
                 return (
                   <List.Item key={i}>
-                    <p>{`${actual.name} ${actual.lastname} `}</p>
+                    <p>{`${actual.name as string} ${actual.lastName} `}</p>
                   </List.Item>
                 )
               }}
@@ -171,21 +174,26 @@ const UploadExcel = ({
               header={<h3>{`Registros Fallidos ${results.filter(e => !e.success).length}`}</h3>}
               dataSource={results.filter(e => !e.success)}
               renderItem={(item, i) => {
-                const actual = data.find(e => e.email === item.email) as IWorker
+                const actual = data.find(e => e.email === item.email) as IStaff
                 return (
                   <List.Item
                     key={i}
                     actions={[
+                      // eslint-disable-next-line react/jsx-key
                       <p>{`${
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        //@ts-ignore
                         item.reason.code === 11000
-                          ? Object.keys(item.reason.keyPattern)[0] === 'email'
+                          ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                            //@ts-ignore
+                            Object.keys((item.reason as unknown).keyPattern as object)[0] === 'email'
                             ? 'Email ya registrado'
                             : 'Documento ya registrado'
                           : 'Error desconocido'
                       }`}</p>
                     ]}
                   >
-                    <p>{`${actual.name} ${actual.lastname} `}</p>
+                    <p>{`${actual.name as string} ${actual.lastName} `}</p>
                   </List.Item>
                 )
               }}
@@ -214,7 +222,9 @@ const UploadExcel = ({
         width={'80vw'}
         onCancel={() => setVisible(false)}
         okButtonProps={{ disabled: !data || data.length === 0 }}
-        onOk={sendUsers}
+        onOk={() => {
+          console.info('ok')
+        }}
         className={`modalCrud${theme} worker_modal`}
         visible={visible}
       >
@@ -282,78 +292,77 @@ const UploadExcel = ({
                   search: true,
                   width: 120
                 },
-                {
-                  name: 'canAccessToApp',
-                  search: true,
-                  customRender: (render: any) => <RenderCheck value={render} />,
-                  width: 80
-                },
-                {
-                  name: 'canAccessToWeb',
-                  search: true,
-                  customRender: (render: any) => <RenderCheck value={render} />,
-                  width: 80
-                },
+                // {
+                //   name: 'canAccessToApp',
+                //   search: true,
+                //   customRender: (render: IStaff) => <RenderCheck value={render} />,
+                //   width: 80
+                // },
+                // {
+                //   name: 'canAccessToWeb',
+                //   search: true,
+                //   customRender: (render: IStaff) => <RenderCheck value={render} />,
+                //   width: 80
+                // },
                 {
                   name: 'rol',
                   search: true,
                   width: 100
-                },
-                {
-                  name: 'code',
-                  search: true,
-                  customRender: (render: any) => <RenderCheck value={render} />,
-                  width: 100
-                },
-                {
-                  name: 'timeZone',
-                  search: true,
-                  //@ts-ignore
-                  customRender: (render: any) =>
-                    timeZone
-                      .filter(e => render.includes(e._id))
-                      .map(e => e.abbreviation)
-                      .join(', '),
-                  width: 100
-                },
-                {
-                  name: 'group',
-                  search: true,
-                  //@ts-ignore
-                  customRender: (render: any) =>
-                    groups
-                      .filter(e => render.includes(e._id))
-                      .map(e => e.abbreviation)
-                      .join(', '),
-                  width: 150
-                },
-                {
-                  name: 'apps',
-                  search: true,
-                  //@ts-ignore
-                  customRender: (render: any) => {
-                    apps?.filter(e => render?.includes(e._id))
-
-                    return apps
-                      ?.filter(e => render?.includes(e._id))
-                      .map(e => e.abbreviation)
-                      .join(', ')
-                  },
-                  width: 150
-                },
-                {
-                  name: 'nativeLocation',
-                  search: true,
-                  //@ts-ignore
-                  customRender: (render: any) => locations.find(e => e._id === render)?.abbreviation,
-                  width: 100
-                },
-                {
-                  name: 'canUseAuthenticator',
-                  search: true,
-                  customRender: (render: any) => <RenderCheck value={render} />,
-                  width: 120
                 }
+                // {
+                //   name: 'code',
+                //   search: true,
+                //   customRender: (render: IStaff) => <RenderCheck value={render} />,
+                //   width: 100
+                // },
+                // {
+                //   name: 'timeZone',
+                //   search: true,
+                //   customRender: (render: IStaff) =>
+                //     timeZone
+                //       .filter(e => render.includes(e._id))
+                //       .map(e => e.abbreviation)
+                //       .join(', '),
+                //   width: 100
+                // },
+                // {
+                //   name: 'group',
+                //   search: true,
+                //   //@ts-ignore
+                //   customRender: (render: any) =>
+                //     groups
+                //       .filter(e => render.includes(e._id))
+                //       .map(e => e.abbreviation)
+                //       .join(', '),
+                //   width: 150
+                // },
+                // {
+                //   name: 'apps',
+                //   search: true,
+                //   //@ts-ignore
+                //   customRender: (render: any) => {
+                //     apps?.filter(e => render?.includes(e._id))
+
+                //     return apps
+                //       ?.filter(e => render?.includes(e._id))
+                //       .map(e => e.abbreviation)
+                //       .join(', ')
+                //   },
+                //   width: 150
+                // },
+                // {
+                //   name: 'nativeLocation',
+                //   search: true,
+                //   //@ts-ignore
+                //   customRender: (render: any) => locations.find(e => e._id === render)?.abbreviation,
+                //   width: 100
+                // },
+                // {
+                //   name: 'canUseAuthenticator',
+                //   search: true,
+                //   customRender: (render: any) => <RenderCheck value={render} />,
+                //   width: 120
+                // }
               ],
               translate: translations,
               operations: () => <></>,

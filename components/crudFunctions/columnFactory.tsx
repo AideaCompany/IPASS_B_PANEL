@@ -1,10 +1,10 @@
 import { ColumnType } from 'antd/lib/table'
-import { Translations } from '../../i18n/types'
+import { ITranslations } from '../../i18n/types'
 import { ColumnFactoryType } from '@/types/typeTemplate'
 import GetColumnSearchProps from './GetColumnSearchProps'
 const ColumnFactory = <T,>(props: {
   columns: ColumnFactoryType<T>[]
-  translate: Translations
+  translate: ITranslations
   operations: (render: T, index?: number) => JSX.Element
   operationOptions?: unknown
   nonShowOperation?: boolean

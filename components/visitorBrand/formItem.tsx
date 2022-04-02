@@ -1,11 +1,12 @@
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IVisitorCategory } from '@/types/types'
-import { useContext } from 'react'
+import { IVisitorCategory } from '@/types/interfaces/VisitorCategory/VisitorCategory.interface'
+import { fileType } from '@/types/types'
+import React, { useContext } from 'react'
 import FormFactory from '../crudFunctions/FormFactory'
 import { formElements } from './formElements'
 
-const FormItems = (props: { translations: Translations; isUpdate?: boolean; categories: IVisitorCategory[]; photo?: any }): JSX.Element => {
+const FormItems = (props: { translations: ITranslations; isUpdate?: boolean; categories: IVisitorCategory[]; photo?: fileType }): JSX.Element => {
   const { translations, isUpdate, categories, photo } = props
   const updating = isUpdate ? true : false
   const { theme } = useContext(ThemeContext)

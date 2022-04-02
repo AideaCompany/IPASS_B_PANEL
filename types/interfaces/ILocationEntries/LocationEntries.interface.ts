@@ -15,10 +15,10 @@ export interface ILocationEntries extends basicTable {
   location?: ILocation | string
   hourIn?: string
   hourOut?: string
-  host?: IUser | string
+  host?: IUser | string | IUser[] | string[]
   staff?: IStaff | string
   user?: IUser | string
-  typeQr: typeQr
+  typeQr?: typeQr
   qrType?: string
   // Residente, invitado, visitante
   type?: typeUser

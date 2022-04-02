@@ -6,19 +6,22 @@ import TableData from '@/components/TableDatas'
 import columns from '@/components/staff/groups/columns'
 import { formElements } from '@/components/staff/groups/formElements'
 import FormItem from '@/components/staff/groups/formItem'
-import { createGroupWorker } from '@/graphql/worker/mutation/createGroupWorker'
+
 //types
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 //Context
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllLocationActive } from '@/services/locations'
-import { listGroupWorkerIfExistFn } from '@/services/staff'
-import { IGroupWorker, ILocation, PermissionsPrivilege } from '@/types/types'
+
 import { gql } from 'apollo-boost'
 //next
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React, { useEffect, useState } from 'react'
+import { IGroupWorker } from '@/types/interfaces/GroupWorker/GroupWorker.interface'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { createStaff } from '@/graphql/Staff/mutation/createStaff'
 
 type actualItem = IGroupWorker
 
@@ -26,8 +29,8 @@ const masterLocation = (props: { localization: Localization; lang: string }) => 
   //props
   const { localization, lang } = props
   //states
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
-  const [data, setData] = useState<actualItem[]>([])
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
+  const [data] = useState<actualItem[]>([])
   const [locations, setLocations] = useState<ILocation[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   //providers
@@ -38,16 +41,14 @@ const masterLocation = (props: { localization: Localization; lang: string }) => 
   }, [permission])
 
   useEffect(() => {
-    ;(async () => {
-      if (actualPermission) {
-        getData()
-      }
-    })()
+    if (actualPermission) {
+      getData()
+    }
   }, [actualPermission])
 
   const getData = async () => {
     setLoading(true)
-    setData(await listGroupWorkerIfExistFn())
+    // setData(await listGroupWorkerIfExistF())
     setLocations(await getAllLocationActive())
     setLoading(false)
   }
@@ -57,9 +58,9 @@ const masterLocation = (props: { localization: Localization; lang: string }) => 
       <CreateItem
         paramTitle="titleModalCreateGroup"
         iconButton={true}
-        actualPermission={actualPermission as PermissionsPrivilege}
+        actualPermission={actualPermission as IPermissionsPrivilege}
         translations={localization.translations}
-        mutation={gql(createGroupWorker)}
+        mutation={gql(createStaff)}
         afterCreate={getData}
         formElements={formElements(locations)}
         FormItem={<FormItem location={locations} translations={localization.translations} />}
@@ -73,7 +74,7 @@ const masterLocation = (props: { localization: Localization; lang: string }) => 
         <TableData
           columns={columns({
             translations: localization.translations,
-            actualPermission: actualPermission as PermissionsPrivilege,
+            actualPermission: actualPermission as IPermissionsPrivilege,
             permision: permission,
             after: getData,
             formItem: <FormItem location={locations} translations={localization.translations} />,
@@ -89,7 +90,7 @@ const masterLocation = (props: { localization: Localization; lang: string }) => 
 
 export default React.memo(masterLocation)
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'worker')
   return {
     props: {
@@ -97,7 +98,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
     }
   }
 }
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false

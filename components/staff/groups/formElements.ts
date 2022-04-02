@@ -1,7 +1,8 @@
-import { ILocation } from '@/types/types'
+import { IGroupWorker } from '@/types/interfaces/GroupWorker/GroupWorker.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElements = (locations: ILocation[]): FormFactory.FormFactoryType[] => [
+export const formElements = (locations: ILocation[]): FormFactory.IFormFactoryType<IGroupWorker>[] => [
   {
     name: 'name',
     type: 'string',

@@ -1,10 +1,16 @@
 //types
-import { deleteWorker } from '@/graphql/worker/mutation/deleteWorker'
-import { updateWorker } from '@/graphql/worker/mutation/updateWorker'
-import { Translations } from '@/i18n/types'
+
+import { deleteStaff } from '@/graphql/Staff/mutation/deleteStaff'
+import { updateStaff } from '@/graphql/Staff/mutation/updateStaff'
+import { ITranslations } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IApps, IGroupWorker, ILocation, iTimeZone, IWorker, PermissionsPrivilege, Privilege, User } from '@/types/types'
+import { IApps } from '@/types/interfaces/Apps/Apps.interface'
+import { IGroupWorker } from '@/types/interfaces/GroupWorker/GroupWorker.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
 import { UserOutlined } from '@ant-design/icons'
 import { Image } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
@@ -22,21 +28,21 @@ import FormItems from './formItem'
 import QRWorker from './QRWorker'
 
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  beforeShowUpdate?: (param: any) => any
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
+  beforeShowUpdate?: (param: IStaff) => IStaff
   after: () => void
   locations: ILocation[]
-  permision: Privilege
+  permision: IPrivilege
   groups: IGroupWorker[]
-  timeZone: iTimeZone[]
+  timeZone: ITimeZone[]
   apps: IApps[]
-}): ColumnType<IWorker>[] => {
+}): ColumnType<IStaff>[] => {
   const { translations, actualPermission, locations, after, apps, beforeShowUpdate, groups, permision, timeZone } = props
   const { theme } = useContext(ThemeContext)
   const { permission } = useAuth()
 
-  const operations = (record: IWorker) => {
+  const operations = (record: IStaff) => {
     return (
       <>
         <QRWorker reload={after} worker={record} translations={translations} />
@@ -44,7 +50,7 @@ const columns = (props: {
           beforeShowUpdate={beforeShowUpdate}
           actualPermission={actualPermission}
           translations={translations}
-          mutation={gql(updateWorker)}
+          mutation={gql(updateStaff)}
           record={record}
           afterUpdate={after}
           FormItems={
@@ -65,7 +71,7 @@ const columns = (props: {
           afterDelete={after}
           actualPermission={actualPermission}
           translations={translations}
-          mutation={gql(deleteWorker)}
+          mutation={gql(deleteStaff)}
           theme={theme}
           record={record}
         />
@@ -80,7 +86,7 @@ const columns = (props: {
         name: 'photo',
         fixed: 'left',
         width: 60,
-        customRender: (record: User, index) => {
+        customRender: (record: IStaff) => {
           return (
             <div>
               {record?.photo?.key ? (
@@ -151,51 +157,51 @@ const columns = (props: {
         search: true,
         width: 150
       },
-      {
-        name: 'group',
-        width: 150,
-        customRender: (record: IWorker) => record?.group?.map(e => e.abbreviation).join(', ')
-      },
-      {
-        name: 'apps',
-        width: 150,
-        customRender: (record: IWorker) => record?.apps?.map(e => e.abbreviation).join(', ')
-      },
-      {
-        name: 'nativeLocation',
-        width: 150,
-        customRender: (record: IWorker) => record?.nativeLocation?.map(e => e.abbreviation).join(', ')
-      },
+      // {
+      //   name: 'group',
+      //   width: 150,
+      //   customRender: (record: IStaff) => record?.group?.map(e => e.abbreviation).join(', ')
+      // },
+      // {
+      //   name: 'apps',
+      //   width: 150,
+      //   customRender: (record: IStaff) => record?.apps?.map(e => e.abbreviation).join(', ')
+      // },
+      // {
+      //   name: 'nativeLocation',
+      //   width: 150,
+      //   customRender: (record: IStaff) => record?.nativeLocation?.map(e => e.abbreviation).join(', ')
+      // },
       {
         name: 'active',
         width: 80,
-        customRender: (record: IWorker) => <RenderCheck value={record.active} />
+        customRender: (record: IStaff) => <RenderCheck value={record.active} />
       },
-      {
-        name: 'code',
-        width: 80,
-        customRender: (record: IWorker) => <RenderCheck value={record.code} />
-      },
+      // {
+      //   name: 'code',
+      //   width: 80,
+      //   customRender: (record: IStaff) => <RenderCheck value={record.code} />
+      // },
       {
         name: 'canAccessToApp',
         width: 80,
-        customRender: (record: IWorker) => <RenderCheck value={record.canAccessToApp} />
+        customRender: (record: IStaff) => <RenderCheck value={record.canAccessToApp} />
       },
       {
         name: 'canAccessToWeb',
         width: 80,
-        customRender: (record: IWorker) => <RenderCheck value={record.canAccessToWeb} />
-      },
-      {
-        name: 'timeZone',
-        width: 150,
-        customRender: (record: IWorker) => record?.timeZone?.map(e => e.abbreviation).join(', ')
-      },
-      {
-        name: 'canUseAuthenticator',
-        width: 150,
-        customRender: (record: IWorker) => <RenderCheck value={record.canUseAuthenticator} />
+        customRender: (record: IStaff) => <RenderCheck value={record.canAccessToWeb} />
       }
+      // {
+      //   name: 'timeZone',
+      //   width: 150,
+      //   customRender: (record: IStaff) => record?.timeZone?.map(e => e.abbreviation).join(', ')
+      // },
+      // {
+      //   name: 'canUseAuthenticator',
+      //   width: 150,
+      //   customRender: (record: IStaff) => <RenderCheck value={record.canUseAuthenticator} />
+      // }
     ],
     translate: translations,
     operations: operations,

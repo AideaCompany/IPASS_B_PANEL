@@ -9,12 +9,12 @@ export type ColumnFactoryType<T> = {
   customFilter?: string
   filteredValue?: T
   fixed?: 'left' | 'right' | false
-  width?: string
+  width?: string | number
   ellipsis?: boolean
 }
 
 export type basicTable = {
-  _id: string
+  _id?: string
   key?: string
   createdAt?: Date
   updatedAt?: Date
@@ -53,12 +53,12 @@ export namespace FormFactory {
     adicionalProps?: object
     fullWidth?: boolean
     // Para selector
-    data?: T[]
+    data?: string[] | unknown[]
     //para Table
     actualFormRef?: FormInstance<T> | null | undefined
     FormItems?: (update: boolean, key?: string) => JSX.Element
     columnsItem?: ColumnFactoryType[]
-    inicialData?: object
+    inicialData?: object | boolean | fileType | unknown
     //Para dynamic
     formListElements?: FormFactoryType[]
     //mostrar

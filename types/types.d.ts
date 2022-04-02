@@ -1,9 +1,8 @@
 import { TablePaginationConfig, TableProps } from 'antd'
 import { ColumnType } from 'antd/lib/table'
-import moment from 'moment'
-import { basicTable } from './typeTemplate'
-import { TableProps as RcTableProps } from 'rc-table/lib/Table'
 import { FilterValue, SorterResult } from 'antd/lib/table/interface'
+import { TableProps as RcTableProps } from 'rc-table/lib/Table'
+import { basicTable } from './typeTemplate'
 
 export interface IUserSecurity extends DocumentNode, basicTable {
   user: User
@@ -110,39 +109,8 @@ export type verifiedData = {
 export type typeDevice = 'classic' | 'touch'
 export type statusDevice = 'available' | 'occupied'
 
-export interface IMasterLocation extends Document, basicTable {
-  name: string
-  address: string
-  location: ILocation[] | string[]
-  onlyAllowAuthUSers: boolean
-  state: string
-  tree: unknown
-  deletedDate: string
-  whoDeleted: IUser | string
-}
-
-export type fileType = {
-  filename: string
-  key: string
-}
-
-export interface IRisk extends Document, basicTable {
-  name: string
-  try: number
-  ban: number
-  actions: string[]
-}
-
 export interface IRiskReset extends Document, basicTable {
   time: number
-}
-
-export interface ITimeZone extends Document, basicTable {
-  name: string
-  start: string | moment
-  abbreviation: string
-  end: string | moment
-  days: Days[]
 }
 
 export type Days = 'Lunes' | 'Martes' | 'Miércoles' | 'Jueves' | 'Viernes' | 'Sabado' | 'Domingo'

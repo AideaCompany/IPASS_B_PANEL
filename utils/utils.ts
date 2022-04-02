@@ -56,6 +56,12 @@ export const disabledDateFn = (current: Moment) => {
 export const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 export const perNames = ['Super_admin', 'super_anfitrion', 'admin']
 
+export enum perNamesEnum {
+  'Super_admin' = 'Super_admin',
+  'super_anfitrion' = 'super_anfitrion',
+  'admin' = 'admin'
+}
+
 export const getFormatData = (data: ILocationEntries[]): formatData[] =>
   data.map(e => ({
     key: e._id,

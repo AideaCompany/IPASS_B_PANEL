@@ -1,5 +1,6 @@
 import locales from '@/i18n/locales'
 import { Stream } from 'stream'
+import { fileType } from '../typeTemplate'
 import { IContact } from './Contact/Contact.interface'
 import { ILocation } from './Location/Location.interface'
 import { IRisk } from './Risk/Risk.interface'
@@ -83,6 +84,7 @@ export type typeCheck = 'in' | 'out'
 export type statusLocation = 'enabled' | 'disabled'
 
 export interface IWorkerLocation {
+  _id: string
   Worker: string | IStaff
   location: string | ILocation
 }
@@ -99,11 +101,6 @@ export interface IQrUses {
     createdAt: string
     updatedAt: string
   }[]
-}
-
-export type fileType = {
-  filename: string
-  key: string
 }
 
 export type verifiedData = {

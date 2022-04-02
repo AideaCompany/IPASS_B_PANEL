@@ -12,21 +12,23 @@ import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllContactUser, subscribeContactUser } from '@/services/contact'
 import { listEventExpressFn, subListEventExpressFn } from '@/services/eventExpress'
 import { getAllLocationActive } from '@/services/locations'
-import { IContact, IEventExpress, ILocation, PermissionsPrivilege } from '@/types/types'
-import { perNames } from '@/utils/utils'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
+import { IEventExpress } from '@/types/interfaces/EventExpress/eventExpress.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { capitalize } from 'fogg-utils'
 //next
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React, { useEffect, useState } from 'react'
 
 type actualItem = IEventExpress
-let unsContact: any
-let unsEveExpress: any
+let unsContact: ZenObservable.Subscription
+let unsEveExpress: ZenObservable.Subscription
 const EventExpress = (props: { localization: Localization; lang: string; localizationContact: Localization }) => {
   //props
   const { localization, lang, localizationContact } = props
   //states
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setData] = useState<actualItem[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [locations, setLocations] = useState<ILocation[]>([])
@@ -42,13 +44,13 @@ const EventExpress = (props: { localization: Localization; lang: string; localiz
   useEffect(() => {
     if (actualPermission && user) {
       unsContact = subscribeContactUser(
-        (newData: boolean) => {
-          getData(false)
-        },
-        perNames.includes(permission.name) ? null : user._id
+        () => {
+          getData()
+        }
+        // perNames.includes(permission.name as perNamesEnum) ? null : user._id
       )
-      unsEveExpress = subListEventExpressFn((newData: boolean) => {
-        getData(false)
+      unsEveExpress = subListEventExpressFn(() => {
+        getData()
       })
     }
 
@@ -62,7 +64,7 @@ const EventExpress = (props: { localization: Localization; lang: string; localiz
     }
   }, [actualPermission, user])
 
-  const getData = async (toLoading?: boolean) => {
+  const getData = async () => {
     setLoading(true)
     const eventsExpress = await listEventExpressFn()
     await getContacts()
@@ -100,11 +102,13 @@ const EventExpress = (props: { localization: Localization; lang: string; localiz
           <TableDatas
             columns={columns({
               translations: localization.translations,
-              actualPermission: actualPermission as PermissionsPrivilege,
+              actualPermission: actualPermission as IPermissionsPrivilege,
               permision: permission,
               lang: lang,
               locations: locations,
-              after: () => {},
+              after: () => {
+                console.info('after')
+              },
               contacts
             })}
             data={data}
@@ -123,7 +127,7 @@ const EventExpress = (props: { localization: Localization; lang: string; localiz
 
 export default React.memo(EventExpress)
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'eventExpress')
   const localizationContact = getLocalizationProps(ctx, 'contact')
   return {
@@ -133,7 +137,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
     }
   }
 }
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false

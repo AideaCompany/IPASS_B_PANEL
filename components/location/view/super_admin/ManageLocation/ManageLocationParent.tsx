@@ -1,5 +1,5 @@
 import useLocationView from '@/providers/ViewLocationContext'
-import { ILocation } from '@/types/types'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
 import { Form, Table, Transfer } from 'antd'
 import { TableRowSelection } from 'antd/lib/table/interface'
 import { difference } from 'lodash'

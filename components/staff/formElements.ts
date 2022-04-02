@@ -1,18 +1,22 @@
-import { IApps, IGroupWorker, ILocation, iTimeZone } from '@/types/types'
+import { IApps } from '@/types/interfaces/Apps/Apps.interface'
+import { IGroupWorker } from '@/types/interfaces/GroupWorker/GroupWorker.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
 import { FormFactory } from '@/types/typeTemplate'
 
 export const formElements = (
   locations: ILocation[],
   group: IGroupWorker[],
-  timeZone: iTimeZone[],
+  timeZone: ITimeZone[],
   apps: IApps[],
-  inicialData?: any
-): FormFactory.FormFactoryType[] => [
+  inicialData?: boolean | unknown
+): FormFactory.IFormFactoryType<IStaff>[] => [
   {
     name: 'photo',
     type: 'avatar',
     show: true,
-    inicialData
+    inicialData: inicialData
   },
   {
     name: 'name',

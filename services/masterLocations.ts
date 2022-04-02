@@ -3,8 +3,8 @@ import { updateMasterLocation } from '@/graphql/masterLocations/mutation/updateM
 import { getMasterLocation } from '@/graphql/masterLocations/queries/getMasterLocation'
 import { listMasterLocation } from '@/graphql/masterLocations/queries/listMasterLocation'
 import { listMasterLocationActive } from '@/graphql/masterLocations/queries/listMasterLocationActive'
-import { IUpdateMasterLocation } from '@/types/interfaces/MasterLocation/MutationMasterLocation.inteface'
-import { IMasterLocation } from '@/types/types'
+import { IMasterLocation } from '@/types/interfaces/MasterLocation/MasterLocation.interface'
+import { IUpdateMasterLocation } from '@/types/interfaces/MasterLocation/MutationMasterLocation.interface'
 import { convertTotable } from '@/utils/utils'
 import gql from 'graphql-tag'
 
