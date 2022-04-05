@@ -1,6 +1,9 @@
 import useAuth from '@/providers/AuthContext'
 import { acceptEventExpressFn, denyEventExpressFn } from '@/services/eventExpress'
-import { IContact, IEventExpress, ILocation } from '@/types/types'
+import { verifiedData, verifiedDataPDF } from '@/types/interfaces'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
+import { IEventExpress } from '@/types/interfaces/EventExpress/eventExpress.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
 import { capitalize, CommonPropsModal, getTime } from '@/utils/utils'
 import { InfoOutlined } from '@ant-design/icons'
 import { Button, Descriptions, Image, Tooltip } from 'antd'
@@ -18,7 +21,6 @@ const EventInfo = ({ event }: { event: IEventExpress }) => {
   const [open, setOpen] = useState(false)
   //#endregion states
 
-  console.log(contact)
   //#region functions
   const handleCloseModal = () => {
     setOpen(false)
@@ -28,7 +30,7 @@ const EventInfo = ({ event }: { event: IEventExpress }) => {
     try {
       await acceptEventExpressFn(event?._id)
     } catch (error) {
-      console.log(error)
+      console.info(error)
     } finally {
       handleCloseModal()
     }
@@ -38,7 +40,7 @@ const EventInfo = ({ event }: { event: IEventExpress }) => {
     try {
       await denyEventExpressFn(event?._id)
     } catch (error) {
-      console.log(error)
+      console.info(error)
     } finally {
       handleCloseModal()
     }
@@ -79,10 +81,10 @@ const EventInfo = ({ event }: { event: IEventExpress }) => {
           </Descriptions>
           <Descriptions column={1} title="Información de visitante">
             <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Nombre">
-              {capitalize(contact?.firstName)}
+              {capitalize((contact as IContact)?.firstName)}
             </Descriptions.Item>
             <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Apellidos">
-              {capitalize(contact?.lastName)}
+              {capitalize((contact as IContact)?.lastName)}
             </Descriptions.Item>
             <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Email">
               {contact?.email}
@@ -114,15 +116,15 @@ const EventInfo = ({ event }: { event: IEventExpress }) => {
                 </Descriptions.Item>
               </Descriptions>
               <p style={{ fontWeight: 'bold' }}>Foto</p>
-              <Image width={'100%'} src={`${publicS3}/${contact?.verifiedData?.photo?.key}`} />
+              <Image width={'100%'} src={`${publicS3}/${((contact as IContact)?.verifiedData as verifiedData)?.photo?.key}`} />
               {contact.typeVerified !== 'PASS' && (
                 <>
                   <p style={{ fontWeight: 'bold' }}>Documento Lado A</p>
-                  <Image width={'100%'} src={`${publicS3}/${contact?.verifiedData?.documentA?.key}`} />
+                  <Image width={'100%'} src={`${publicS3}/${((contact as IContact)?.verifiedData as verifiedData)?.documentA?.key}`} />
                 </>
               )}
               <p style={{ fontWeight: 'bold' }}>{contact.typeVerified !== 'PASS' ? 'documento Lado B' : 'Documento'}</p>
-              <Image width={'100%'} src={`${publicS3}/${contact?.verifiedData?.documentB?.key}`} />
+              <Image width={'100%'} src={`${publicS3}/${((contact as IContact)?.verifiedData as verifiedData)?.documentB?.key}`} />
             </>
           )}
           {contact?.verified && contact.verifiedDataPDF && (
@@ -143,34 +145,39 @@ const EventInfo = ({ event }: { event: IEventExpress }) => {
                 </Descriptions.Item>
               </Descriptions>
               <p style={{ fontWeight: 'bold' }}>Foto</p>
-              <Image width={'100%'} src={`${publicS3}/${contact?.verifiedDataPDF?.photo?.key}`} />
+              <Image width={'100%'} src={`${publicS3}/${(contact?.verifiedDataPDF as verifiedDataPDF)?.photo?.key as string}`} />
               {contact.typeVerified !== 'PASS' && (
                 <>
                   <p style={{ fontWeight: 'bold' }}>Documento Lado A</p>
-                  <Image width={'100%'} src={`${publicS3}/${contact?.verifiedDataPDF?.documentA?.key}`} />
+                  <Image width={'100%'} src={`${publicS3}/${(contact?.verifiedDataPDF as verifiedDataPDF)?.documentA?.key as string}`} />
                 </>
               )}
               <p style={{ fontWeight: 'bold' }}>{contact.typeVerified !== 'PASS' ? 'documento Lado B' : 'Documento'}</p>
-              <Image width={'100%'} src={`${publicS3}/${contact?.verifiedDataPDF?.documentB?.key}`} />
+              <Image width={'100%'} src={`${publicS3}/${(contact?.verifiedDataPDF as verifiedDataPDF)?.documentB?.key as string}`} />
             </>
           )}
-          {event.invitados.length > 0 && (
-            <div>
-              <h2>Información de visitates extra</h2>
-              {(event.invitados as IContact[]).map(e => {
-                return (
-                  <Descriptions key={e._id} column={1} title={`${capitalize(e.firstName)} ${capitalize(e.lastName)}`}>
-                    <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Email">
-                      {e?.email}
-                    </Descriptions.Item>
-                    <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Teléfono">
-                      {e?.phone}
-                    </Descriptions.Item>
-                  </Descriptions>
-                )
-              })}
-            </div>
-          )}
+
+          {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore
+            event?.invitados?.length > 0 && (
+              <div>
+                <h2>Información de visitates extra</h2>
+                {(event.invitados as IContact[]).map(e => {
+                  return (
+                    <Descriptions key={e._id} column={1} title={`${capitalize(e.firstName)} ${capitalize(e.lastName)}`}>
+                      <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Email">
+                        {e?.email}
+                      </Descriptions.Item>
+                      <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Teléfono">
+                        {e?.phone}
+                      </Descriptions.Item>
+                    </Descriptions>
+                  )
+                })}
+              </div>
+            )
+          }
         </div>
         {permission.name !== 'super_anfitrion' && event.state === 'waiting' && event.contact?.verified && (
           <div className="container__buttons">

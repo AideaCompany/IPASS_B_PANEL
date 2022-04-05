@@ -56,7 +56,7 @@ export const getLocationFn = async (_id: string): Promise<ILocation> => {
   ).data.getLocation) as ILocation
 }
 
-export const updateLocationFn = async (input: { input: IUpdateLocation }): Promise<boolean> => {
+export const updateLocationFn = async (input: IUpdateLocation): Promise<boolean> => {
   return (await client.mutate({ mutation: gql(updateLocation), variables: { input } })).data.updateLocation as boolean
 }
 

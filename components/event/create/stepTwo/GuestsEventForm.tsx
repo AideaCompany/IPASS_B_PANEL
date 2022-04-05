@@ -1,11 +1,10 @@
-import { Translations } from '@/i18n/types'
 import { getAllContactUser } from '@/services/contact'
-import { IContact } from '@/types/types'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
 import { Form, Table, Transfer } from 'antd'
 import { TableRowSelection } from 'antd/lib/table/interface'
 import difference from 'lodash/difference'
 import React, { useEffect, useState } from 'react'
-const guestsEventForm = ({ translate, setDisabled }: { translate: Translations; setDisabled: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const guestsEventForm = () => {
   const [guestUsers, setGuestUsers] = useState<IContact[]>()
   const [targetKeys, setTargetKeys] = useState<string[]>([])
   // useEffect(() => {
@@ -14,8 +13,8 @@ const guestsEventForm = ({ translate, setDisabled }: { translate: Translations; 
   //   }
   // }, [targetKeys])
 
-  const onChange = (targetKeys: string[]) => {
-    setTargetKeys(targetKeys)
+  const onChange = (currentTargetKeys: string[]) => {
+    setTargetKeys(currentTargetKeys)
   }
 
   useEffect(() => {
@@ -23,8 +22,8 @@ const guestsEventForm = ({ translate, setDisabled }: { translate: Translations; 
   }, [])
 
   const getData = async () => {
-    const guestUsers = await getAllContactUser()
-    setGuestUsers(guestUsers)
+    const newGuestUsers = await getAllContactUser()
+    setGuestUsers(newGuestUsers)
   }
 
   const columns = [
@@ -73,9 +72,9 @@ const guestsEventForm = ({ translate, setDisabled }: { translate: Translations; 
       >
         {({ filteredItems, onItemSelectAll, onItemSelect, selectedKeys: listSelectedKeys, disabled: listDisabled }) => {
           const rowSelection: TableRowSelection<{
-            key: any
+            key: string
           }> = {
-            getCheckboxProps: item => ({ disabled: listDisabled }),
+            getCheckboxProps: () => ({ disabled: listDisabled }),
             onSelectAll(selected, selectedRows) {
               const treeSelectedKeys = selectedRows.map(({ key }) => key)
               const diffKeys = selected ? difference(treeSelectedKeys, listSelectedKeys) : difference(listSelectedKeys, treeSelectedKeys)
@@ -91,6 +90,7 @@ const guestsEventForm = ({ translate, setDisabled }: { translate: Translations; 
             <Table
               rowSelection={rowSelection}
               columns={columns}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               //@ts-ignore
               dataSource={filteredItems}
               size="small"

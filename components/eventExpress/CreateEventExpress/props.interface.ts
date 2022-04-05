@@ -1,10 +1,11 @@
-import { Translations } from '@/i18n/types'
-import { IContact, ILocation } from '@/types/types'
+import { ITranslations } from '@/i18n/types'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
 
-export interface iProps {
-  translations: Translations
+export interface IProps {
+  translations: ITranslations
   contacts: IContact[]
-  translationsContact: Translations
+  translationsContact: ITranslations
   getContacts: () => Promise<void>
   locations: ILocation[]
 }

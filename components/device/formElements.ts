@@ -1,6 +1,7 @@
+import { IDevice } from '@/types/interfaces/Device/Device.interface'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElements = (): FormFactory.FormFactoryType[] => [
+export const formElements = (): FormFactory.IFormFactoryType<IDevice>[] => [
   {
     name: 'name',
     type: 'string',

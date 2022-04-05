@@ -1,10 +1,9 @@
-import { Translations } from '@/i18n/types'
 import useLocation from '@/providers/LocationContext'
 import { Form, Table, Transfer } from 'antd'
 import { TableRowSelection } from 'antd/lib/table/interface'
 import difference from 'lodash/difference'
 import React, { useEffect, useState } from 'react'
-const adminsLocationForm = ({ translate }: { translate: Translations }) => {
+const adminsLocationForm = () => {
   const { data, admins, setDisabled } = useLocation()
   const [targetKeys, setTargetKeys] = useState<string[]>(data?.admins ? (data.admins as string[]) : [])
   useEffect(() => {
@@ -12,8 +11,8 @@ const adminsLocationForm = ({ translate }: { translate: Translations }) => {
       setDisabled(true)
     }
   }, [targetKeys])
-  const onChange = (targetKeys: string[]) => {
-    setTargetKeys(targetKeys)
+  const onChange = (currentTargetKeys: string[]) => {
+    setTargetKeys(currentTargetKeys)
   }
 
   const columns = [
@@ -54,7 +53,7 @@ const adminsLocationForm = ({ translate }: { translate: Translations }) => {
         showSearch={true}
         filterOption={(inputValue, item) =>
           item.name?.toLocaleLowerCase()?.indexOf(inputValue.toLocaleLowerCase()) !== -1 ||
-          item.lastname?.toLocaleLowerCase().indexOf(inputValue.toLocaleLowerCase()) !== -1 ||
+          item.lastName?.toLocaleLowerCase().indexOf(inputValue.toLocaleLowerCase()) !== -1 ||
           item.email?.toLocaleLowerCase().indexOf(inputValue.toLocaleLowerCase()) !== -1
         }
         titles={['Administradores', 'Seleccionados']}
@@ -62,9 +61,9 @@ const adminsLocationForm = ({ translate }: { translate: Translations }) => {
       >
         {({ filteredItems, onItemSelectAll, onItemSelect, selectedKeys: listSelectedKeys, disabled: listDisabled }) => {
           const rowSelection: TableRowSelection<{
-            key: any
+            key: string
           }> = {
-            getCheckboxProps: item => ({ disabled: listDisabled }),
+            getCheckboxProps: () => ({ disabled: listDisabled }),
             onSelectAll(selected, selectedRows) {
               const treeSelectedKeys = selectedRows.map(({ key }) => key)
               const diffKeys = selected ? difference(treeSelectedKeys, listSelectedKeys) : difference(listSelectedKeys, treeSelectedKeys)
@@ -80,6 +79,7 @@ const adminsLocationForm = ({ translate }: { translate: Translations }) => {
             <Table
               rowSelection={rowSelection}
               columns={columns}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               //@ts-ignore
               dataSource={filteredItems}
               size="small"

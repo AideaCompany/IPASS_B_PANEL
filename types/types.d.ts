@@ -57,7 +57,7 @@ export type LayoutProps = {
   create?: JSX.Element
   hideButtons?: boolean
   notShowHeader?: boolean
-  layoutMargin?: string
+  layoutMargin?: CSSProperties
 }
 
 //User Secction

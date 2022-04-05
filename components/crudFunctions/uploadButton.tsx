@@ -1,16 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { fileType } from '@/types/typeTemplate'
 import { UploadOutlined } from '@ant-design/icons'
 import { Button, Form, Upload } from 'antd'
-import { Translations } from 'i18n/types'
+import { ITranslations } from 'i18n/types'
 import React, { useState } from 'react'
 
 const normFile = (e: any) => {
   if (Array.isArray(e)) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return e
   }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return e && e.fileList
 }
-const uploadButton = (props: { translate: Translations; inicialProps: any; inicialData?: fileType }) => {
+const uploadButton = (props: { translate: ITranslations; inicialProps: any; inicialData?: fileType }) => {
   const { translate, inicialProps, inicialData } = props
   const [fileList, setfileList] = useState<any[]>(
     inicialData
@@ -28,8 +31,8 @@ const uploadButton = (props: { translate: Translations; inicialProps: any; inici
   return (
     <Form.Item {...inicialProps} getValueFromEvent={normFile}>
       <Upload
-        onChange={({ file, fileList }) => {
-          setfileList(fileList)
+        onChange={({ fileList: currentFileList }) => {
+          setfileList(currentFileList)
         }}
         fileList={fileList}
         name="logo"

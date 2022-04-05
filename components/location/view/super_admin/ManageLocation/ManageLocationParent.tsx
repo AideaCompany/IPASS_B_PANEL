@@ -14,9 +14,9 @@ const ManageLocationParent = ({
   const { translate, actualLocation } = useLocationView()
   const [targetKeys, setTargetKeys] = useState<string[]>(actualLocation?.parentLocations ? (actualLocation.parentLocations as string[]) : [])
 
-  const onChange = (targetKeys: string[]) => {
-    setSelectedLocations(targetKeys)
-    setTargetKeys(targetKeys)
+  const onChange = (currentTargetKeys: string[]) => {
+    setSelectedLocations(currentTargetKeys)
+    setTargetKeys(currentTargetKeys)
   }
   const columns = [
     {
@@ -47,7 +47,7 @@ const ManageLocationParent = ({
         >
           {({ filteredItems, onItemSelectAll, onItemSelect, selectedKeys: listSelectedKeys, disabled: listDisabled }) => {
             const rowSelection: TableRowSelection<{
-              key: any
+              key: string
             }> = {
               getCheckboxProps: () => ({ disabled: listDisabled }),
               onSelectAll(selected, selectedRows) {
@@ -65,6 +65,7 @@ const ManageLocationParent = ({
               <Table
                 rowSelection={rowSelection}
                 columns={columns}
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 //@ts-ignore
                 dataSource={filteredItems}
                 size="small"

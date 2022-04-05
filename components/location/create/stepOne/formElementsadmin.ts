@@ -1,7 +1,8 @@
-import { ILocation, User } from '@/types/types'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElementsAdmin = (locations?: ILocation[], adminsUsers?: User[], securityUsers?: User[]): FormFactory.FormFactoryType[] => [
+export const formElementsAdmin = (locations?: ILocation[], adminsUsers?: IUser[]): FormFactory.IFormFactoryType<ILocation>[] => [
   {
     name: 'childLocations',
     type: 'selectMultiple',

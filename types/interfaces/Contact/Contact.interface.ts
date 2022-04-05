@@ -1,9 +1,9 @@
-import { fileType, verifiedData, verifiedDataPDF } from 'interfaces'
-import { ILocation } from 'interfaces/Location/Location.interface'
-import { IUser } from 'interfaces/user/User.interface'
-import { Document } from 'mongoose'
+import { verifiedData, verifiedDataPDF } from '@/types/types'
+import { basicTable, fileType } from '@/types/typeTemplate'
+import { ILocation } from '../Location/Location.interface'
+import { IUser } from '../user/User.interface'
 
-export interface IContact extends Document {
+export interface IContact extends basicTable {
   _id: string
   photo: fileType
   documentA: fileType
@@ -22,6 +22,7 @@ export interface IContact extends Document {
   host?: IUser | string
   indicativo?: string
   nickname?: string
+  typeVerified: string
   verified?: boolean
   askVerification?: boolean | string
   verifiedData?: verifiedData

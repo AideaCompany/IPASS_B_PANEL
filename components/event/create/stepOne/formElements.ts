@@ -1,8 +1,9 @@
-import { ILocation } from '@/types/types'
+import { IEvent } from '@/types/interfaces/Event/event.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
 import { FormFactory } from '@/types/typeTemplate'
 import { disabledDateFn } from '@/utils/utils'
 
-export const formElements = (locations?: ILocation[]): FormFactory.FormFactoryType[] => [
+export const formElements = (locations?: ILocation[]): FormFactory.IFormFactoryType<IEvent>[] => [
   {
     name: 'name',
     type: 'string',

@@ -6,8 +6,8 @@ import { difference } from 'lodash'
 const AdminLocation = () => {
   const { admins, actualLocation } = useLocationView()
   const [targetKeys, setTargetKeys] = useState<string[]>(actualLocation?.admins ? (actualLocation.admins as string[]) : [])
-  const onChange = (targetKeys: string[]) => {
-    setTargetKeys(targetKeys)
+  const onChange = (currentTargetKeys: string[]) => {
+    setTargetKeys(currentTargetKeys)
   }
 
   const columns = [
@@ -35,17 +35,17 @@ const AdminLocation = () => {
         showSearch={true}
         filterOption={(inputValue, item) =>
           item.name?.toLocaleLowerCase()?.indexOf(inputValue.toLocaleLowerCase()) !== -1 ||
-          item.lastname?.toLocaleLowerCase().indexOf(inputValue.toLocaleLowerCase()) !== -1 ||
+          item.lastName?.toLocaleLowerCase().indexOf(inputValue.toLocaleLowerCase()) !== -1 ||
           item.email?.toLocaleLowerCase().indexOf(inputValue.toLocaleLowerCase()) !== -1
         }
         titles={['Administradores', 'Seleccionados']}
         style={{ marginBottom: 16 }}
       >
-        {({ direction, filteredItems, onItemSelectAll, onItemSelect, selectedKeys: listSelectedKeys, disabled: listDisabled }) => {
+        {({ filteredItems, onItemSelectAll, onItemSelect, selectedKeys: listSelectedKeys, disabled: listDisabled }) => {
           const rowSelection: TableRowSelection<{
-            key: any
+            key: string
           }> = {
-            getCheckboxProps: item => ({ disabled: listDisabled }),
+            getCheckboxProps: () => ({ disabled: listDisabled }),
             onSelectAll(selected, selectedRows) {
               const treeSelectedKeys = selectedRows.map(({ key }) => key)
               const diffKeys = selected ? difference(treeSelectedKeys, listSelectedKeys) : difference(listSelectedKeys, treeSelectedKeys)
@@ -61,6 +61,7 @@ const AdminLocation = () => {
             <Table
               rowSelection={rowSelection}
               columns={columns}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               //@ts-ignore
               dataSource={filteredItems}
               size="small"

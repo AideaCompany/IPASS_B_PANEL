@@ -1,11 +1,11 @@
 import FormFactory from '@/components/crudFunctions/FormFactory'
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import { ThemeContext } from '@/providers/ThemeContext'
 import React, { useContext, useEffect } from 'react'
 import { formElements } from '../formElements'
 
-const DeviceForm = ({ translate, validate }: { translate: Translations; validate: () => void }) => {
+const DeviceForm = ({ translate, validate }: { translate: ITranslations; validate: () => void }) => {
   const { theme } = useContext(ThemeContext)
   const { permission } = useAuth()
 
