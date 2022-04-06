@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { DocumentNode } from 'graphql'
 import { ITranslations } from '../../i18n/types'
@@ -20,19 +21,21 @@ const DeleteItem = (props: {
   const deleteItem = (data: any) => {
     client
       .mutate({ mutation: mutation, variables: { input: { _id: data._id } } })
-      .then(res => {
+      .then(() => {
         message.success(translations.successfullyDeleted)
-        afterDelete && afterDelete()
+        if (afterDelete) {
+          afterDelete()
+        }
       })
       .catch(err => {
-        console.error(err)
+        console.info(err)
         message.error(translations.errorDeleted)
       })
   }
 
   const deleteModal = (item: any) => {
     Modal.confirm({
-      title: `${translations.titleModalDelete} ${item.name}?`,
+      title: `${translations.titleModalDelete} ${item.name as string}?`,
       okText: translations.buttonDelete,
       onOk: () => deleteItem(item),
       cancelText: translations.cancel,

@@ -1,11 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useContext } from 'react'
 import { Input, Button } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import Highlighter from 'react-highlight-words'
 //context
 import { ThemeContext } from '@/providers/ThemeContext'
+import { ITranslations } from '@/i18n/types'
 
-const GetColumnSearchProps = (dataIndex: any, translations: any, name: string, customRender?: (render: any) => any, filteredValue?: any): object => {
+const GetColumnSearchProps = (dataIndex: string, translations: ITranslations, name: string, customRender?: (render: any) => any): object => {
   //States
   const [searchText, setSearchText] = useState<string>('')
   const [searchedColumn, setSearchedColumn] = useState<string>('')
@@ -14,25 +18,27 @@ const GetColumnSearchProps = (dataIndex: any, translations: any, name: string, c
   const { theme } = useContext(ThemeContext)
 
   //Functions
-  const handleSearch = (selectedKeys: any, confirm: any, dataIndex: any) => {
+  const handleSearch = (selectedKeys: string[], confirm: () => void, currentDataIndex: string) => {
     confirm()
     setSearchText(selectedKeys[0])
-    setSearchedColumn(dataIndex)
+    setSearchedColumn(currentDataIndex)
   }
-  const handleReset = (clearFilters: any) => {
+  const handleReset = (clearFilters: () => void) => {
     clearFilters()
     setSearchText('')
   }
 
   return {
-    filterDropdown: (props: { setSelectedKeys: any; selectedKeys: any; confirm: any; clearFilters: any }) => {
+    filterDropdown: (props: {
+      setSelectedKeys: (value: string[]) => void
+      selectedKeys: string[]
+      confirm: () => void
+      clearFilters: () => void
+    }) => {
       const { setSelectedKeys, selectedKeys, confirm, clearFilters } = props
       return (
         <div className={`searchContainer${theme}`} style={{ padding: 8 }}>
           <Input
-            ref={node => {
-              //  searchInput = node;
-            }}
             placeholder={`${translations.search} ${name?.toLocaleLowerCase()}`}
             value={selectedKeys[0]}
             onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
@@ -67,7 +73,7 @@ const GetColumnSearchProps = (dataIndex: any, translations: any, name: string, c
         ? customRender(record[dataIndex])?.toString()?.toLowerCase()?.includes(value?.toLowerCase())
         : record[dataIndex]?.toString()?.toLowerCase()?.includes(value?.toLowerCase())
     },
-    render: (text: any, test: any) => {
+    render: (text: any) => {
       return searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
