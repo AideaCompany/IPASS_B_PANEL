@@ -3,7 +3,9 @@ import { deleteVisitorCategory } from '@/graphql/visitorCategory/mutation/delete
 import { updateVisitorCategory } from '@/graphql/visitorCategory/mutation/updateVisitorCategory'
 import { Translations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IVisitorCategory, PermissionsPrivilege, Privilege } from '@/types/types'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IVisitorPlace } from '@/types/interfaces/VisitorPlace/visitorPlace.interface'
+
 import { ColumnType } from 'antd/lib/table'
 import gql from 'graphql-tag'
 import React, { useContext } from 'react'
@@ -15,14 +17,14 @@ import { formElements } from './formElements'
 import Formitems from './formItem'
 const columns = (props: {
   translations: Translations
-  actualPermission: PermissionsPrivilege
-  permision: Privilege
+  actualPermission: IPermissionsPrivilege
+  permision: IPrivilege
   lang: string
-  beforeShowUpdate?: (param: any) => any
-}): ColumnType<IVisitorCategory>[] => {
+  beforeShowUpdate?: (param: IVisitorPlace) => void
+}): ColumnType<IVisitorPlace>[] => {
   const { translations, actualPermission } = props
   const { theme } = useContext(ThemeContext)
-  const operations = (record: IVisitorCategory) => (
+  const operations = (record: IVisitorPlace) => (
     <>
       <UpdateItem
         // beforeShowUpdate={beforeShowUpdate}
@@ -43,7 +45,7 @@ const columns = (props: {
     </>
   )
 
-  return ColumnFactory({
+  return ColumnFactory<IVisitorPlace>({
     columns: [
       {
         name: 'name',

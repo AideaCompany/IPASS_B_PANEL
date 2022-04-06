@@ -1,18 +1,21 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { fileType } from '@/types/typeTemplate'
 
 import { PlusOutlined } from '@ant-design/icons'
 import { Form, message, Modal, Upload } from 'antd'
+import { UploadFile } from 'antd/lib/upload/interface'
 import { capitalize } from 'fogg-utils'
-import { Translations } from 'i18n/types'
+import { ITranslations } from 'i18n/types'
 import React, { useState } from 'react'
 
-const dummyRequest = ({ file, onSuccess }: any) => {
+const dummyRequest = ({ onSuccess }: { onSuccess: (value: string) => void }) => {
   setTimeout(() => {
     onSuccess('ok')
   }, 0)
 }
 
-function getBase64(file: any) {
+const getBase64 = (file: Blob) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.readAsDataURL(file)
@@ -20,16 +23,19 @@ function getBase64(file: any) {
     reader.onerror = error => reject(error)
   })
 }
-const uploadPhoto = (props: { name: any; translate: Translations; inicialData?: fileType; required: boolean; size?: string }) => {
+const uploadPhoto = (props: { name: string; translate: ITranslations; inicialData?: fileType; required: boolean; size?: string }) => {
   const { name, translate, inicialData, required, size } = props
-  const [fileList, setfileList] = useState<any[]>(
-    inicialData && (inicialData?.key || (inicialData as any).originFileObj)
+  //@ts-ignore
+  const [fileList, setfileList] = useState<UploadFile[]>(
+    //@ts-ignore
+    inicialData && (inicialData?.key || inicialData.originFileObj)
       ? [
           {
             uid: inicialData._id ? inicialData._id : '-1',
             name: inicialData && inicialData.filename ? inicialData.filename : '',
             status: 'done',
-            originFileObj: (inicialData as any).originFileObj ? (inicialData as any).originFileObj : null,
+            //@ts-ignore
+            originFileObj: inicialData.originFileObj ? inicialData.originFileObj : null,
             url: inicialData.key
           }
         ]
@@ -41,16 +47,20 @@ const uploadPhoto = (props: { name: any; translate: Translations; inicialData?: 
 
   const handlePreview = async (file: any) => {
     if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj)
+      //@ts-ignore
+      file.preview = await getBase64(file.originFileObj as Blob)
     }
-    setpreviewImage(file.url || file.preview)
+    //@ts-ignore
+    setpreviewImage((file.url as string) || (file.preview as string))
+    //@ts-ignore
     setpreviewVisible(true)
-    setpreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1))
+    //@ts-ignore
+    setpreviewTitle((file.name as string) || (file.url as string).substring((file.url as string).lastIndexOf('/') + 1))
   }
-  const handleChange = (input: { file: any; fileList: any }) => {
-    const { file, fileList } = input
-    var err = false
-    if (fileList.length > 0) {
+  const handleChange = (input: { file: any; currentFileList: any }) => {
+    const { file, currentFileList } = input
+    let err = false
+    if (currentFileList.length > 0) {
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/svg+xml'
       if (!isJpgOrPng) {
         message.error('Solo puedes subir archivos JPG/PNG/SVG!')
@@ -64,15 +74,15 @@ const uploadPhoto = (props: { name: any; translate: Translations; inicialData?: 
         setfileList([])
       }
       if (!err) {
-        setfileList(fileList)
+        setfileList(currentFileList as UploadFile<any>[])
       }
     } else {
       setfileList([])
     }
   }
-  const normalize = ({ fileList }: { file: any; fileList: any }) => {
+  const normalize = ({ currentFileList }: { file: any; currentFileList: UploadFile<any>[] }) => {
     try {
-      return fileList[0].originFileObj
+      return currentFileList[0].originFileObj
     } catch (error) {
       return []
     }
@@ -92,10 +102,12 @@ const uploadPhoto = (props: { name: any; translate: Translations; inicialData?: 
         rules={[{ required, message: translate[`error${capitalize(Array.isArray(name) ? name[name.length - 1] : name)}`] }]}
       >
         <Upload
+          //@ts-ignore
           customRequest={dummyRequest}
           name="avatar"
           listType="picture-card"
           fileList={fileList}
+          //@ts-ignore
           onChange={handleChange}
           onPreview={e => handlePreview(e)}
         >

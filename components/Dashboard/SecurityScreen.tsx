@@ -14,7 +14,7 @@ let uns: any
 const SecurityScreen = ({ translate }: { translate: Translations }) => {
   const { selectedLocation, setActualEvents, setInvitations, setEntries, setLastEntries } = useSecurity()
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       if (selectedLocation) {
         getData()
         uns = subscribeSecurity(selectedLocation._id, () => {
@@ -30,7 +30,7 @@ const SecurityScreen = ({ translate }: { translate: Translations }) => {
   }, [selectedLocation])
 
   const getData = async () => {
-    const data = await getAllToSecurityFn((selectedLocation as ILocation)._id as string)
+    const data = await getAllToSecurityFn((selectedLocation as ILocation)._id)
     const entries = data.entries as ILocationEntries[]
     setActualEvents([...data.events, ...data.eventsExpress.map((e: any) => ({ ...e, express: true }))].reverse())
     setInvitations(data.invitations)

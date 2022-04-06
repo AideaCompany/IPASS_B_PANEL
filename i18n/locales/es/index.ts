@@ -4,7 +4,7 @@ import layout from './layout'
 import user from './user'
 import permission from './permission'
 import gallery from './gallery'
-import worker from './worker'
+import staff from './staff'
 import location from './location'
 import event from './event'
 import contact from './contact'
@@ -32,7 +32,7 @@ export default {
   user,
   permission,
   gallery,
-  worker,
+  staff,
   location,
   event,
   contact,

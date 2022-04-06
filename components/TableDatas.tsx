@@ -1,8 +1,8 @@
 import React from 'react'
 import { Table } from 'antd'
-import { TablePropsCompoenet } from '../types/types'
+import { ITablePropsComponent } from '../types/types'
 
-const TableData = (props: TablePropsCompoenet): JSX.Element => {
+const TableData = <T,>(props: ITablePropsComponent<T>): JSX.Element => {
   const { data, columns, loading, pagination, onChange, scroll, aditionalProps } = props
   return (
     <Table
@@ -23,4 +23,4 @@ const TableData = (props: TablePropsCompoenet): JSX.Element => {
   )
 }
 
-export default React.memo(TableData)
+export default TableData

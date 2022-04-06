@@ -1,7 +1,7 @@
 import MainLayout from '@/components/layout/Layout'
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getDeviceById } from '@/services/device'
-import { IDevice } from '@/types/types'
+import { IDevice } from '@/types/interfaces/Device/Device.interface'
 import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons'
 import { Localization } from 'i18n/types'
 import { GetServerSidePropsContext } from 'next'
@@ -16,7 +16,7 @@ const Device = (props: { localization: Localization; lang: string; device: IDevi
         <div className="infoDeviceContainer">
           <h2>{translations.infoDevice}</h2>
           <div className="propsContainer">
-            {Object.keys(device).map((key: any) => {
+            {Object.keys(device).map((key: string) => {
               if (key !== 'actualLocation' && key !== '_id') {
                 if (key === 'enableVideo' || key === 'enableTalk') {
                   return (
@@ -75,7 +75,8 @@ const Device = (props: { localization: Localization; lang: string; device: IDevi
 }
 
 export default React.memo(Device)
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const localization = getLocalizationProps(ctx, 'device')
   const device = await getDeviceById(ctx.query.id as string)
   if (!device) {

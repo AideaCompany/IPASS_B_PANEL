@@ -8,53 +8,55 @@ import { listAttemptsMonthInternal } from '@/graphql/locationAttempt/queries/lis
 import { listAttemptsToday } from '@/graphql/locationAttempt/queries/listAttemptsToday'
 import { listAttemptsYesterday } from '@/graphql/locationAttempt/queries/listAttemptsYesterday'
 import { listLocationAttempt } from '@/graphql/locationAttempt/queries/listLocationAttempt'
-import { ILocationAttempt, iLocationAttemptAnalythics } from '@/types/types'
+import { ILocationAttempt } from '@/types/interfaces/LocationAttempt/LocationAttemp.interface'
+import { IAttemptsByLocation, ILocationAttemptAnalythics } from '@/types/types'
+
 import { gql } from 'apollo-boost'
 
 export const listLocationAttempts = async (): Promise<ILocationAttempt[]> => {
   await client.cache.reset()
-  return (await client.query({ query: gql(listLocationAttempt) })).data.listLocationAttempt
+  return (await client.query({ query: gql(listLocationAttempt) })).data.listLocationAttempt as ILocationAttempt[]
 }
 
 export const listLocationAttemptsToday = async (): Promise<ILocationAttempt[]> => {
   await client.cache.reset()
 
-  return (await client.query({ query: gql(listAttemptsToday) })).data.listAttemptsToday
+  return (await client.query({ query: gql(listAttemptsToday) })).data.listAttemptsToday as ILocationAttempt[]
 }
 
 export const listLocationAttemptsYesterday = async (): Promise<ILocationAttempt[]> => {
   await client.cache.reset()
 
-  return (await client.query({ query: gql(listAttemptsYesterday) })).data.listAttemptsYesterday
+  return (await client.query({ query: gql(listAttemptsYesterday) })).data.listAttemptsYesterday as ILocationAttempt[]
 }
 
 export const listAttemptsMonthInternalFn = async (): Promise<ILocationAttempt[]> => {
   await client.cache.reset()
 
-  return (await client.query({ query: gql(listAttemptsMonthInternal) })).data.listAttemptsMonthInternal
+  return (await client.query({ query: gql(listAttemptsMonthInternal) })).data.listAttemptsMonthInternal as ILocationAttempt[]
 }
 
 export const listAttemptsMonthExternalFn = async (): Promise<ILocationAttempt[]> => {
   await client.cache.reset()
-  return (await client.query({ query: gql(listAttemptsMonthExternal) })).data.listAttemptsMonthExternal
+  return (await client.query({ query: gql(listAttemptsMonthExternal) })).data.listAttemptsMonthExternal as ILocationAttempt[]
 }
 
 export const listAttemptsAllInternalFn = async (): Promise<ILocationAttempt[]> => {
-  return (await client.query({ query: gql(listAttemptsAllInternal) })).data.listAttemptsAllInternal
+  return (await client.query({ query: gql(listAttemptsAllInternal) })).data.listAttemptsAllInternal as ILocationAttempt[]
 }
 
 export const listAttemptsAllExternalFn = async (): Promise<ILocationAttempt[]> => {
   await client.cache.reset()
-  return (await client.query({ query: gql(listAttemptsAllExternal) })).data.listAttemptsAllExternal
+  return (await client.query({ query: gql(listAttemptsAllExternal) })).data.listAttemptsAllExternal as ILocationAttempt[]
 }
 
-export const analythicsAttemptsFn = async (): Promise<iLocationAttemptAnalythics> => {
+export const analythicsAttemptsFn = async (): Promise<ILocationAttemptAnalythics> => {
   await client.cache.reset()
-  return (await client.query({ query: gql(analythicsAttempts) })).data.analythicsAttempts
+  return (await client.query({ query: gql(analythicsAttempts) })).data.analythicsAttempts as ILocationAttemptAnalythics
 }
 
-export const analythicsAttemptsByLocationFn = async (month?: any) => {
+export const analythicsAttemptsByLocationFn = async (month?: number): Promise<IAttemptsByLocation[]> => {
   await client.cache.reset()
   return (await client.query({ query: gql(analythicsAttemptsByLocation), variables: { month: month ? month : null } })).data
-    .analythicsAttemptsByLocation
+    .analythicsAttemptsByLocation as IAttemptsByLocation[]
 }

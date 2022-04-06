@@ -1,11 +1,12 @@
-import { useContext } from 'react'
-import { Translations } from '@/i18n/types'
+import React, { useContext } from 'react'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
 import FormFactory from '../crudFunctions/FormFactory'
-import { ILocation } from '@/types/types'
-import { formElements } from './formElements'
 
-const FormItems = (props: { translations: Translations; isUpdate?: boolean; locations: ILocation[] }): JSX.Element => {
+import { formElements } from './formElements'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+
+const FormItems = (props: { translations: ITranslations; isUpdate?: boolean; locations: ILocation[] }): JSX.Element => {
   const { translations, isUpdate, locations } = props
   const updating = isUpdate ? true : false
   const { theme } = useContext(ThemeContext)

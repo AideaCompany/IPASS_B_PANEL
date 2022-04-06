@@ -6,9 +6,9 @@ import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import { LanguageContext } from '../providers/LenguageContext'
 
-export default function main(props: { children: JSX.Element; title?: string }): JSX.Element {
+const Main = (props: { children: JSX.Element; title?: string }): JSX.Element => {
   //props
-  const { children, title } = props
+  const { children, title = '' } = props
   //provider
   const { theme } = useContext(ThemeContext)
   const { spinning } = useAuth()
@@ -32,3 +32,5 @@ export default function main(props: { children: JSX.Element; title?: string }): 
     </>
   )
 }
+
+export default Main

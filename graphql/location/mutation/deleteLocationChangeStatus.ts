@@ -1,5 +1,5 @@
-export const deleteLocationChangeStatus = /* GraphQL */` 
- mutation deleteLocationChangeStatus($input: deleteLocationInputStatus){
+export const deleteLocationChangeStatus = /* GraphQL */ `
+  mutation deleteLocationChangeStatus($input: deleteLocationInputStatus) {
     deleteLocationChangeStatus(input: $input)
-}
-`;
+  }
+`

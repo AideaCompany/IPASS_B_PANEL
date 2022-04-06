@@ -1,6 +1,9 @@
 import { getPrivilege } from '@/graphql/privilege/queries/getPrivilege'
 import { listSection } from '@/graphql/queries'
 import { getUserFn } from '@/services/users'
+import { IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { ISections } from '@/types/interfaces/Sections/sections.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
 import { gql } from '@apollo/client'
 import Cookie from 'js-cookie'
 import jwt from 'jsonwebtoken'
@@ -9,20 +12,20 @@ import { useRouter } from 'next/router'
 import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
 import { $security } from '../config'
 import client, { default as Client, setToken } from '../graphql/config'
-import { Privilege, Sections, User } from '../types/types'
+
 import useData from './DataContext'
 
 type typeAuthContext = {
-  user: User
+  user: IUser
   isAuthenticated: boolean
   login: (token: string, firstLogin?: boolean) => Promise<void>
   loading: boolean
   logout: () => void
-  permission: Privilege
+  permission: IPrivilege
   setLoading: Dispatch<SetStateAction<boolean>>
   setSpinning: Dispatch<SetStateAction<boolean>>
   spinning: boolean
-  section: Sections[]
+  section: ISections[]
 }
 
 const AuthContext = React.createContext<typeAuthContext>({} as typeAuthContext)
@@ -34,22 +37,22 @@ export const AuthProvider = (props: { children: JSX.Element }) => {
   //next
   const router = useRouter()
   //States
-  const [user, setUser] = useState<User>({} as User)
-  //@ts-ignore
-  const [permission, setPermission] = useState<Privilege>({})
+  const [user, setUser] = useState<IUser>({} as IUser)
+  const [permission, setPermission] = useState<IPrivilege>({} as IPrivilege)
   const [loading, setLoading] = useState<boolean>(true)
   const [spinning, setSpinning] = useState(true)
 
   //Effect
   useEffect(() => {
+    // eslint-disable-next-line no-extra-semi,@typescript-eslint/no-extra-semi
     ;(async () => {
       setLoading(true)
       if (section.length > 0) {
         if (Cookie.get('authRenapPanel') !== undefined) {
-          const data = jwt.verify(Cookie.get('authRenapPanel') as string, $security.secretKey) as { data: User }
-          const user = await getUserFn(data.data._id as string)
-          setUser(user)
-          var totalPrivilege: Privilege = JSON.parse(JSON.stringify(user.privilegeID))
+          const data = jwt.verify(Cookie.get('authRenapPanel') as string, $security.secretKey) as { data: IUser }
+          const currentUser = await getUserFn(data.data._id)
+          setUser(currentUser)
+          const totalPrivilege: IPrivilege = JSON.parse(JSON.stringify(currentUser.privilegeID))
           totalPrivilege.permissions?.map(l => (l.sectionName = section.find(r => r._id === l.sectionID)?.name))
           setPermission(totalPrivilege)
         } else {
@@ -70,8 +73,8 @@ export const AuthProvider = (props: { children: JSX.Element }) => {
             ].includes(router.pathname) &&
             !router.pathname.includes('session')
           ) {
-            console.log('60')
-            router.push(`${router.query?.lang ? `/${router.query.lang}/session` : '/'}`)
+            console.info('60')
+            router.push(`${router.query?.lang ? `/${router.query.lang as string}/session` : '/'}`)
           }
         }
       }
@@ -83,21 +86,22 @@ export const AuthProvider = (props: { children: JSX.Element }) => {
   //functions
 
   const login = async (token: string, firstLogin?: boolean) => {
-    const data = jwt.verify(token, $security.secretKey) as { data: User }
-    const user = await getUserFn(data.data._id as string)
-    if (user.active) {
-      setUser(user)
-      const perm = await Client.query<{ getPrivilege: Privilege }>({
+    const data = jwt.verify(token, $security.secretKey) as { data: IUser }
+    const currentUser = await getUserFn(data.data._id)
+    if (currentUser.active) {
+      setUser(currentUser)
+      const perm = await Client.query<{ getPrivilege: IPrivilege }>({
         query: gql(getPrivilege),
-        variables: { _id: (user.privilegeID as Privilege)._id }
+        variables: { _id: currentUser.privilegeID._id }
       })
+      let totalPrivilege: IPrivilege
       if (firstLogin) {
-        const sections: Sections[] = (await client.query({ query: gql(listSection) })).data.listSection
-        var totalPrivilege: Privilege = JSON.parse(JSON.stringify(perm.data.getPrivilege))
+        const sections: ISections[] = (await client.query({ query: gql(listSection) })).data.listSection
+        totalPrivilege = JSON.parse(JSON.stringify(perm.data.getPrivilege))
         totalPrivilege.permissions?.map(l => (l.sectionName = sections.find(r => r._id === l.sectionID)?.name))
         setPermission(totalPrivilege)
       } else {
-        var totalPrivilege: Privilege = JSON.parse(JSON.stringify(perm.data.getPrivilege))
+        totalPrivilege = JSON.parse(JSON.stringify(perm.data.getPrivilege))
         totalPrivilege.permissions?.map(l => (l.sectionName = section.find(r => r._id === l.sectionID)?.name))
         setPermission(totalPrivilege)
       }
@@ -110,11 +114,10 @@ export const AuthProvider = (props: { children: JSX.Element }) => {
   }
 
   const logout = () => {
-    setUser({} as User)
-    //@ts-ignore
-    setPermission({})
+    setUser({} as IUser)
+    setPermission({} as IPrivilege)
     Cookie.remove('authRenapPanel')
-    console.log('100')
+    console.info('100')
     router.push({ pathname: '/[lang]/session', query: { lang: router.query.lang } })
   }
 
@@ -138,6 +141,7 @@ export const AuthProvider = (props: { children: JSX.Element }) => {
   )
 }
 
-export default function useAuth() {
+const useAuth = () => {
   return useContext(AuthContext)
 }
+export default useAuth

@@ -162,7 +162,7 @@ const MainLayout = (props: LayoutProps) => {
   useEffect(() => {
     if (section) {
       layoutObj.map((e, i) => {
-        if (router.asPath.replace(`/${router.query.lang}/`, '/').includes(e.path)) {
+        if (router.asPath.replace(`/${router.query.lang as string}/`, '/').includes(e.path)) {
           setSelectOption([(i + 1).toString()])
         }
       })
@@ -195,11 +195,11 @@ const MainLayout = (props: LayoutProps) => {
             mode="inline"
           >
             {layoutObj.map((e, i) => {
-              const actual = permission.permissions?.find(l => `/${l.sectionName?.toLocaleLowerCase()}` === e.path.toLocaleLowerCase())
+              const actual = permission.permissions?.find(l => `/${(l.sectionName as string)?.toLocaleLowerCase()}` === e.path.toLocaleLowerCase())
               if (actual?.read || e.path === '/dashboard' || e.path === '/config') {
                 return (
                   <Menu.Item key={(i + 1).toString()} icon={e.icon}>
-                    <Link href={`/${router.query.lang}${e.path}`}>{e.title ? e.title : 'Sin traduccion'}</Link>
+                    <Link href={`/${router.query.lang as string}${e.path}`}>{e.title ? e.title : 'Sin traduccion'}</Link>
                   </Menu.Item>
                 )
               }

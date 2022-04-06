@@ -1,6 +1,7 @@
 import { TablePaginationConfig, TableProps } from 'antd'
-import moment from 'moment'
-import { type } from 'node:os'
+import { ColumnType } from 'antd/lib/table'
+import { FilterValue, SorterResult } from 'antd/lib/table/interface'
+import { TableProps as RcTableProps } from 'rc-table/lib/Table'
 import { basicTable } from './typeTemplate'
 
 export interface IClient extends Document, basicTable {
@@ -68,61 +69,12 @@ export interface User extends basicTable {
   apps: IApps[]
 }
 
-export interface userSecurity extends DocumentNode, basicTable {
+export interface IUserSecurity extends DocumentNode, basicTable {
   user: User
 }
 
-export interface IEventExpress extends Document, basicTable {
-  name: string
-  host: User | string
-  start: string
-  end: string
-  location: ILocation | string
-  state: string
-  firstName?: string
-  lastName?: string
-  email?: string
-  phone?: string
-  verified?: boolean
-  verifiedData?: verifiedData
-  verifiedDataPDF?: verifiedDataPDF
-  typeVerified?: string
-  contact?: IContact
-  motivo: string
-  authorizedBy: IUser | string
-  hourIn: string | Date
-  invitados: IContact[] | string[]
-  hourOut: string | Date
-}
-
-export interface iUserForm extends User {
+export interface IUserForm extends User {
   confirmPassword?: string
-}
-
-export interface Privilege extends basicTable {
-  name?: string
-  permissions?: PermissionsPrivilege[]
-}
-
-export type PermissionsPrivilege = {
-  sectionID?: Sections['_id']
-  read?: boolean
-  create?: boolean
-  delete?: boolean
-  update?: boolean
-  canRead?: boolean
-  canCreate?: boolean
-  canDelete?: boolean
-  canUpdate?: boolean
-  sectionName?: string
-}
-
-export type Sections = {
-  _id: string
-  name: string
-  description: string
-  createdAt: Date
-  UpdatedAt: Date
 }
 
 export type HistoryAction = {
@@ -132,15 +84,15 @@ export type HistoryAction = {
   updatedAt: string
 }
 
-export type TablePropsCompoenet = {
-  data?: any[]
-  columns: any[]
+export interface ITablePropsComponent<T> {
+  data?: T[]
+  columns: ColumnType<T>[]
   loading?: boolean
   pagination?: false | TablePaginationConfig
-  scroll?: any
-  onChange?: (pagination: TablePaginationConfig, filters: any, sorter: any) => void
-  expandedRowRender?: any
-  summary?: (data: any) => any
+  scroll?: RcTableProps<T>['scroll']
+  onChange?: (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: SorterResult<T> | SorterResult<T>[]) => void
+  expandedRowRender?: boolean
+  summary?: (data: T) => JSX.Element
   aditionalProps?: TableProps
 }
 
@@ -153,8 +105,8 @@ export type CardProps = {
   attempts: ILocationAttempt[]
 }
 
-export type ListProps = {
-  data?: any[]
+export type ListProps<T> = {
+  data?: T[]
   loading?: boolean
   actualPermission: PermissionsPrivilege
   translations: Translations
@@ -170,7 +122,7 @@ export type LayoutProps = {
   create?: JSX.Element
   hideButtons?: boolean
   notShowHeader?: boolean
-  layoutMargin?: any
+  layoutMargin?: CSSProperties
 }
 
 //User Secction
@@ -180,45 +132,12 @@ export type ButtonsCrudProps = {
   functionCreate?: () => void
 }
 
-export interface IWorker_qr_temporal extends Document, basicTable {
+export interface IWorkerQrTemporal extends Document, basicTable {
   worker: IWorker
   timeEnd: string
   QR: string
   used: boolean
   valid: boolean
-}
-
-export interface IGroupWorker extends Document, basicTable {
-  name: string
-  locations: ILocation[]
-  abbreviation: string
-  exists: boolean
-}
-
-export interface IWorker extends Document, basicTable {
-  name?: string
-  lastname?: string
-  email?: string
-  photo?: fileType
-  apps: IApps[]
-  codeWorker?: string
-  code?: boolean
-  // privilegeID?: IPrivilege
-  active?: boolean
-  createdAt?: Date
-  updatedAt?: Date
-  QR: string
-  document?: string
-  typeDocument?: string
-  temporal_Qr: IWorker_qr_temporal
-  group: IGroupWorker[]
-  nativeLocation: ILocation[]
-  canAccessToApp: boolean
-  canAccessToWeb: boolean
-  canUseAuthenticator: boolean
-  timeZone: iTimeZone[]
-  banFinish: string
-  tokenExpo?: string
 }
 
 export type typeCheck = 'in' | 'out'
@@ -336,136 +255,14 @@ export type verifiedData = {
   correctionNumber: string
 }
 
-export interface IVisitorCategory extends Document, basicTable {
-  name: string
-}
-
 export type typeDevice = 'classic' | 'touch'
 export type statusDevice = 'available' | 'occupied'
-
-export interface IDevice extends Document, basicTable {
-  name: string
-  type: typeDevice
-  serialNumber: string
-  status: statusDevice
-  actualLocation: ILocation
-  enableVideo: boolean
-  enableTalk: boolean
-  timeWait: number
-}
-
-export interface IMasterLocation extends Document, basicTable {
-  name: string
-  address: string
-  location: ILocation[] | string[]
-  onlyAllowAuthUSers: boolean
-  state: string
-  tree: any
-  deletedDate: string
-  whoDeleted: IUser | string
-}
-
-export type fileType = {
-  filename: string
-  key: string
-}
-
-export interface IVisitorBrand extends Document, basicTable {
-  name: string
-  photo: fileType
-  category: IVisitorCategory
-}
-
-export interface IVisitorPlace extends Document, basicTable {
-  name: string
-}
-
-export interface IApps extends Document, basicTable {
-  name: string
-  url: string
-  abbreviation: string
-  clientID: string
-}
-
-export interface IAuthenticator extends Document, basicTable {
-  app: IApps
-  code: string
-  status: string
-  user: User
-  worker: IWorker
-}
-
-export interface ILocationEntries extends Document, basicTable {
-  event: IEvent | string
-  contact: IContact | string
-  location: ILocation | string
-  hourIn: string
-  eventExpress: IEventExpress | string
-  hourOut: string
-  host: IUser | string
-  worker: IWorker | string
-  typeQr: typeQr
-  user: IUser | string
-  // Residente, invitado, visitante
-  type: typeUser
-  // visitantData: visitantData
-}
-
-// HISTORY
-export interface IHistoryUser extends Document, basicTable {
-  name?: string
-  lastname?: string
-  email?: string
-  // password?: string
-  privilegeID?: IPrivilege['_id']
-  active?: boolean
-  // token?: string
-  admin: IUser | string
-  canCreateHost: boolean
-  allEventWithAuth: boolean
-  // encryptPassword: (password: string) => Promise<string>
-  // matchPassword: (password: string) => Promise<boolean>
-  lang: LanguageType
-  whoDeleted: IUser | string
-  state: string
-  deletedDate: string
-  createdAt?: Date
-  updatedAt?: Date
-  origID: string
-}
-
-export interface IRisk extends Document, basicTable {
-  name: string
-  try: number
-  ban: number
-  actions: string[]
-}
-
-export interface IInvitationEvent extends Document, basicTable {
-  event?: IEvent | string
-  contact?: IContact | string
-  confirmed?: boolean
-  alreadySendInvitation?: boolean
-  isIn?: boolean
-  hourIn?: string
-  host?: string | IUser
-  expiration?: string
-  location?: ILocation | string
-}
 
 export interface IRiskReset extends Document, basicTable {
   time: number
 }
 
-export interface iTimeZone extends Document, basicTable {
-  name: string
-  start: string | moment
-  abbreviation: string
-  end: string | moment
-  days: Days[]
-}
-
-export type Days = 'Lunes' | 'Martes' | 'Miercoles' | 'Jueves' | 'Viernes' | 'Sabado' | 'Domingo'
+export type Days = 'Lunes' | 'Martes' | 'Miércoles' | 'Jueves' | 'Viernes' | 'Sabado' | 'Domingo'
 
 export type ReadedMRZ = {
   birthDate?: string
@@ -497,37 +294,26 @@ export interface ILocationAttempt extends Document, basicTable {
   updatedAt?: Date
 }
 
-export interface IBreach extends Document, basicTable {
-  grade: string
-  location: ILocation
-  status: string
-  worker: IWorker
-  user: User
-  contact: IContact
-  createdAt?: Date
-  updatedAt?: Date
-}
-
-export interface iLocationAttemptAnalythics extends Document, basicTable {
+export interface ILocationAttemptAnalythics extends Document, basicTable {
   dataCumpIncp: DataCumpIncp[]
   dataEvents: DataEvents[]
 }
 
-export interface iAttemptsByLocation {
-  location: String
+export interface IAttemptsByLocation {
+  location: string
   CUMP: number
   INCP: number
   EVEP: number
   EVEE: number
 }
 
-export interface iDataEvents {
+export interface IDataEvents {
   month: string
   Eventos: number
   EventosExpress: number
 }
 
-export interface iDataCumpIncp {
+export interface IDataCumpIncp {
   month: string
   CEXT: number
   CINT: number
@@ -535,13 +321,13 @@ export interface iDataCumpIncp {
   IEXT: number
 }
 
-export interface iGeneralAnalythics {
+export interface IGeneralAnalythics {
   eventos: iGeneralValues
   eventosExpress: iGeneralValues
   incumplimientos: iGeneralValues
 }
 
-export interface iGeneralValues {
+export interface IGeneralValues {
   yesterday: number
   today: number
   tomorrow: number

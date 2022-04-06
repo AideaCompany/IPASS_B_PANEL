@@ -3,6 +3,7 @@ import Powered from '@/components/Powered'
 import useData from '@/providers/DataContext'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { verifyKeyFn } from '@/services/auth'
+import { IUserForm } from '@/types/types'
 import { gql, useMutation } from '@apollo/client'
 //AntDesign
 import { Button, Form, Input, message } from 'antd'
@@ -21,17 +22,15 @@ import { Localization } from '../../../i18n/types'
 import useAuth from '../../../providers/AuthContext'
 //Provider
 import { getLocalizationProps } from '../../../providers/LenguageContext'
-//Types
-import { iUserForm } from '../../../types/types'
 
-export default function SignIn(props: { localization: Localization }): JSX.Element {
+const SignIn = (props: { localization: Localization }): JSX.Element => {
   //Props
   const { localization } = props
   const router = useRouter()
   //State
   const [confirmForm, setConfirmForm] = useState<boolean>(false)
   const [lic, setLic] = useState(true)
-  const [getStoredLocale, setStoredLocale] = useLocalStorage('init_config')
+  const [getStoredLocale, setStoredLocale] = useLocalStorage<boolean>('init_config', false)
   //provider
   const { login, setSpinning } = useAuth()
   const { getData } = useData()
@@ -46,7 +45,7 @@ export default function SignIn(props: { localization: Localization }): JSX.Eleme
   }, [getStoredLocale])
 
   //functions
-  const signUp = async (data: iUserForm) => {
+  const signUp = async (data: IUserForm) => {
     delete data['confirmPassword']
     setSpinning(true)
     await getData()
@@ -60,7 +59,7 @@ export default function SignIn(props: { localization: Localization }): JSX.Eleme
         }
       })
       .catch(err => {
-        console.error(err)
+        console.info(err)
         setSpinning(false)
       })
   }
@@ -71,7 +70,10 @@ export default function SignIn(props: { localization: Localization }): JSX.Eleme
       variables: { input: { token: data.token, lang: localization.locale } }
     })
       .then(async res => {
+        // eslint-disable-next-line
+        //@ts-ignore
         setStoredLocale(true)
+        // eslint-disable-next-line
         await login(res.data.confirmUser.token, true)
         setSpinning(false)
       })
@@ -261,7 +263,7 @@ export default function SignIn(props: { localization: Localization }): JSX.Eleme
   )
 }
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'auth')
   return {
     props: {
@@ -270,9 +272,11 @@ export const getStaticProps: GetStaticProps = async ctx => {
   }
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false
   }
 }
+
+export default SignIn

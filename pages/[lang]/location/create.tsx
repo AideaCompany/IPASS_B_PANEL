@@ -6,7 +6,8 @@ import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { LocationProvider } from '@/providers/LocationContext'
 import { createLocationFn } from '@/services/locations'
-import { ILocation } from '@/types/types'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { ICreateLocation } from '@/types/interfaces/Location/MutationLocation.interface'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Form, FormInstance, message } from 'antd'
 import { Localization } from 'i18n/types'
@@ -14,7 +15,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import React, { useCallback, useRef, useState } from 'react'
 
-const create = (props: { localization: Localization; lang: string }) => {
+const createLocation = (props: { localization: Localization; lang: string }) => {
   //#region props
   const { localization, lang } = props
   //#end region props
@@ -36,16 +37,20 @@ const create = (props: { localization: Localization; lang: string }) => {
 
   //#region functions
   const HandleChangeCurrent = useCallback(
-    async (type: 'next' | 'back') => {
-      const data = formRef.current?.getFieldsValue() as ILocation
-      setData(current => ({ ...current, ...data }))
-      type === 'next' ? setCurrent(current + 1) : setCurrent(current - 1)
+    (type: 'next' | 'back') => {
+      const currentData = formRef.current?.getFieldsValue() as ILocation
+      setData(currentVal => ({ ...currentVal, ...currentData }))
+      if (type === 'next') {
+        setCurrent(current + 1)
+      } else {
+        setCurrent(current - 1)
+      }
     },
     [current]
   )
 
-  const manageMentError = (error: any) => {
-    if (error['graphQLErrors'][0].message.includes('E11000 duplicate')) {
+  const manageMentError = (currentError: { graphQLErrors: { message: string }[] }) => {
+    if (currentError['graphQLErrors'][0].message.includes('E11000 duplicate')) {
       message.error({ content: localization.translations.serialDuplicated, key: 'creating' })
     } else {
       message.error({ content: localization.translations.errorCreated, key: 'creating' })
@@ -58,27 +63,32 @@ const create = (props: { localization: Localization; lang: string }) => {
     setData(finalData)
     setSpinning(true)
     try {
-      await createLocationFn(finalData)
+      await createLocationFn(finalData as unknown as ICreateLocation)
       message.success(localization.translations.successfullyCreated)
       router.push('/[lang]/location', `/${lang}/location`)
-    } catch (error: any) {
-      console.error(error)
-      manageMentError(error)
+    } catch (currentError) {
+      manageMentError(
+        currentError as {
+          graphQLErrors: {
+            message: string
+          }[]
+        }
+      )
     } finally {
       setSpinning(false)
     }
   }
 
-  const validateForm = async () => {
+  const validateForm = () => {
     formRef.current
       ?.validateFields()
       .then(() => {
         setError('')
         setDisabled(false)
       })
-      .catch(async (error: any) => {
-        if (error.errorFields.length > 0) {
-          if (error.errorFields[0].name.find((name: string) => name === 'admins')) {
+      .catch((actualError: { errorFields: { name: string[] }[] }) => {
+        if (actualError.errorFields.length > 0) {
+          if (actualError.errorFields[0].name.find((name: string) => name === 'admins')) {
             setError(localization.translations.selectMinimumAdmin)
             setDisabled(true)
           } else {
@@ -140,8 +150,8 @@ const create = (props: { localization: Localization; lang: string }) => {
   )
 }
 
-export default React.memo(create)
-export const getStaticProps: GetStaticProps = async ctx => {
+export default React.memo(createLocation)
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'location')
   return {
     props: {
@@ -149,7 +159,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
     }
   }
 }
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false

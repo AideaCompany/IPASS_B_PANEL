@@ -1,7 +1,7 @@
 //Graphql
 import Powered from '@/components/Powered'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { confirmSignUpWorkerFn } from '@/services/workers'
+import { confirmSignUpStaffFn } from '@/services/staff'
 //AntDesign
 import { Button, Form, Input } from 'antd'
 //Next
@@ -22,7 +22,7 @@ type passwordForm = {
   confirmPassword: string
 }
 
-export default function SignIn(props: { localization: Localization; lang: string }): JSX.Element {
+const SignIn = (props: { localization: Localization; lang: string }): JSX.Element => {
   //Props
   const { localization, lang } = props
   //provider
@@ -33,10 +33,10 @@ export default function SignIn(props: { localization: Localization; lang: string
   const confirmSignUpForm = async (data: passwordForm) => {
     setLoading(true)
     try {
-      await confirmSignUpWorkerFn({ password: data.password, _id: router.query.id })
+      await confirmSignUpStaffFn({ password: data.password, _id: router.query.id as string })
       router.push(`/${lang}/ourApps`)
     } catch (error) {
-      console.log(error)
+      console.info(error)
     } finally {
       setLoading(false)
     }
@@ -103,7 +103,7 @@ export default function SignIn(props: { localization: Localization; lang: string
   )
 }
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'auth')
   return {
     props: {
@@ -112,9 +112,10 @@ export const getStaticProps: GetStaticProps = async ctx => {
   }
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false
   }
 }
+export default SignIn

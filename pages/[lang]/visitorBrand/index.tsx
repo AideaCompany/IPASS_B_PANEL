@@ -14,19 +14,21 @@ import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllVisitorBrand } from '@/services/visitorBrand'
 import { getAllVisitorCategory } from '@/services/visitorCategory'
-import { IVisitorCategory, PermissionsPrivilege } from '@/types/types'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IVisitorCategory } from '@/types/interfaces/VisitorCategory/VisitorCategory.interface'
+import { IVisitorBrand } from '@/types/interfaces/VistorBrand/VisitorBrand.interface'
 import { gql } from '@apollo/client'
 //next
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React, { useEffect, useState } from 'react'
 
-interface actualItem extends IVisitorCategory {}
+type actualItem = IVisitorBrand
 const visitorCategory = (props: { localization: Localization; lang: string }) => {
   //props
   const { localization, lang } = props
 
   //states
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setdata] = useState<actualItem[]>([])
   const [categories, setCategories] = useState<IVisitorCategory[]>([])
   const [loading, setloading] = useState<boolean>(true)
@@ -38,11 +40,9 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
   }, [permission])
 
   useEffect(() => {
-    ;(async () => {
-      if (actualPermission) {
-        getData()
-      }
-    })()
+    if (actualPermission) {
+      getData()
+    }
   }, [actualPermission])
 
   const getData = async () => {
@@ -58,7 +58,7 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
         create={
           <CreateItem
             iconButton={true}
-            actualPermission={actualPermission as PermissionsPrivilege}
+            actualPermission={actualPermission as IPermissionsPrivilege}
             translations={localization.translations}
             mutation={gql(createVisitorBrand)}
             formElements={formElements(categories)}
@@ -70,10 +70,10 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
         lang={lang}
         title={localization?.translations.titleSection}
       >
-        <TableData
+        <TableData<IVisitorBrand>
           columns={columns({
             translations: localization.translations,
-            actualPermission: actualPermission as PermissionsPrivilege,
+            actualPermission: actualPermission as IPermissionsPrivilege,
             permision: permission,
             lang: lang,
             categories: categories
@@ -88,7 +88,7 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
 
 export default React.memo(visitorCategory)
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'visitorBrand')
   return {
     props: {
@@ -96,7 +96,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
     }
   }
 }
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false

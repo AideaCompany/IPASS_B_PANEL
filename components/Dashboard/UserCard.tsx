@@ -137,7 +137,7 @@ const UserCard = () => {
                           <div>
                             <h2>Genero:</h2>
                             <div>
-                              <p>{getSex((lastEntries.contact as IContact)?.verifiedData?.sex as any)}</p>
+                              <p>{getSex((lastEntries.contact as IContact)?.verifiedData?.sex)}</p>
                             </div>
                           </div>
                           <div>
@@ -248,58 +248,58 @@ const UserCard = () => {
               <>
                 <h2>Datos de trabajador</h2>
                 <div className="info">
-                  {(lastEntries.worker as IWorker)?.photo?.key && (
+                  {lastEntries.worker?.photo?.key && (
                     <div className="images">
                       <a
                         target="blank"
                         style={{ display: 'flex', justifyContent: 'center' }}
-                        href={`${process.env.NEXT_PUBLIC_S3}/${(lastEntries.worker as IWorker)?.photo?.key}`}
+                        href={`${process.env.NEXT_PUBLIC_S3}/${lastEntries.worker?.photo?.key}`}
                         className="images"
                       >
-                        <img src={`${process.env.NEXT_PUBLIC_S3}/${(lastEntries.worker as IWorker)?.photo?.key}`} />
+                        <img src={`${process.env.NEXT_PUBLIC_S3}/${lastEntries.worker?.photo?.key}`} />
                       </a>
                     </div>
                   )}
                   <div>
                     <h2>Nombre:</h2>
                     <div>
-                      <span>{(lastEntries.worker as IWorker)?.name}</span>
+                      <span>{lastEntries.worker?.name}</span>
                     </div>
                   </div>
                   <div>
                     <h2>Apellido:</h2>
                     <div>
-                      <span>{(lastEntries?.worker as IWorker)?.lastname}</span>
+                      <span>{lastEntries?.worker?.lastname}</span>
                     </div>
                   </div>
                   <div>
                     <h2>Email:</h2>
                     <div>
-                      <span>{(lastEntries?.worker as IWorker)?.email}</span>
+                      <span>{lastEntries?.worker?.email}</span>
                     </div>
                   </div>
                   <div>
                     <h2>Documento:</h2>
                     <div>
-                      <span>{(lastEntries?.worker as IWorker)?.document}</span>
+                      <span>{lastEntries?.worker?.document}</span>
                     </div>
                   </div>
                   <div>
                     <h2>Locación nativa:</h2>
                     <div>
-                      <span>{((lastEntries?.worker as IWorker)?.nativeLocation as ILocation[]).map(e => e.abbreviation).join(' ,')}</span>
+                      <span>{(lastEntries?.worker?.nativeLocation).map(e => e.abbreviation).join(' ,')}</span>
                     </div>
                   </div>
                   <div>
                     <h2>Grupo:</h2>
                     <div>
-                      <span>{((lastEntries?.worker as IWorker)?.group as IGroupWorker[]).map(e => e.abbreviation).join(' ,')}</span>
+                      <span>{(lastEntries?.worker?.group).map(e => e.abbreviation).join(' ,')}</span>
                     </div>
                   </div>
                   <div>
                     <h2>Horario:</h2>
                     <div>
-                      <span>{((lastEntries?.worker as IWorker)?.timeZone as iTimeZone[]).map(e => e.abbreviation).join(' ,')}</span>
+                      <span>{(lastEntries?.worker?.timeZone).map(e => e.abbreviation).join(' ,')}</span>
                     </div>
                   </div>
                 </div>
@@ -436,7 +436,7 @@ const UserCard = () => {
                           <div>
                             <h2>Genero:</h2>
                             <div>
-                              <p>{getSex((lastEntries.contact as IContact)?.verifiedData?.sex as any)}</p>
+                              <p>{getSex((lastEntries.contact as IContact)?.verifiedData?.sex)}</p>
                             </div>
                           </div>
                           <div>
@@ -525,15 +525,15 @@ const UserCard = () => {
                   <div>
                     <h2>Anfitrión:</h2>
                     <div>
-                      <span>{`${((lastEntries.eventExpress as IEventExpress)?.host as User)?.name} ${
-                        ((lastEntries.eventExpress as IEventExpress)?.host as User)?.lastname
+                      <span>{`${(lastEntries.eventExpress as IEventExpress)?.host?.name} ${
+                        (lastEntries.eventExpress as IEventExpress)?.host?.lastname
                       }`}</span>
                     </div>
                   </div>
                   <div>
                     <h2>Email anfitrión:</h2>
                     <div>
-                      <span>{`${((lastEntries.eventExpress as IEventExpress)?.host as User)?.email}`}</span>
+                      <span>{`${(lastEntries.eventExpress as IEventExpress)?.host?.email}`}</span>
                     </div>
                   </div>
                   <div>

@@ -11,7 +11,10 @@ import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllApps } from '@/services/apps'
 import { generateExcelAuthenticatorFn, generatePDFAuthenticatorFn, getAllAuthenticator } from '@/services/authenticator'
-import { IApps, IAuthenticator, Paginated, PermissionsPrivilege } from '@/types/types'
+import { IApps } from '@/types/interfaces/Apps/Apps.interface'
+import { IAuthenticator } from '@/types/interfaces/Authenticator/Authenticator.interface'
+import { FilterType, IPaginated } from '@/types/interfaces/graphqlTypes'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
 import { Button, Form, FormInstance } from 'antd'
 import moment from 'moment-timezone'
@@ -19,17 +22,17 @@ import moment from 'moment-timezone'
 import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
-interface actualItem extends IAuthenticator {}
+type actualItem = IAuthenticator
 const visitorCategory = (props: { localization: Localization; lang: string; apps: IApps[]; page: number; limit: number }) => {
   //props
   const { localization, lang, apps, page, limit } = props
   //states
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setData] = useState<actualItem[]>([])
   const [loading, setloading] = useState<boolean>(true)
-  const [pagination, setPagination] = useState<Paginated<IAuthenticator>>()
+  const [pagination, setPagination] = useState<IPaginated<IAuthenticator>>()
   const formRef = useRef<FormInstance>(null)
-  const [filters, setFilters] = useState<any>([])
+  const [filters, setFilters] = useState<FilterType[]>([])
   const [actualLimit, setActualLimit] = useState(limit)
   const [actualPage, setActualPage] = useState(page)
   //providers
@@ -41,17 +44,17 @@ const visitorCategory = (props: { localization: Localization; lang: string; apps
   }, [permission])
 
   useEffect(() => {
-    ;(async () => {
-      if (actualPermission) {
-        getData()
-      }
-    })()
+    if (actualPermission) {
+      getData()
+    }
   }, [actualPermission])
 
   const getData = async () => {
     setloading(true)
     const values = await formRef.current?.validateFields()
     const result = await getAllAuthenticator(actualPage, actualLimit, {
+      /*eslint-disable*/
+      //@ts-ignore
       filters,
       ...{
         start: moment.tz(values.from, 'America/Guatemala').startOf('day').format(),
@@ -61,9 +64,11 @@ const visitorCategory = (props: { localization: Localization; lang: string; apps
     })
     setPagination(result)
     setData(
+      //@ts-ignore
       convertTotable(
+        //@ts-ignore
         result.docs.map(e => {
-          const valUser = e?.user ? e?.user : e.worker
+          const valUser = e?.user ? e?.user : e.Worker
           return {
             ...e,
             name: valUser?.name,
@@ -75,10 +80,11 @@ const visitorCategory = (props: { localization: Localization; lang: string; apps
         })
       )
     )
+    /*eslint-enable*/
     setloading(false)
   }
-  const onchange = (_: any, filters: any, sorter: any) => {
-    setFilters(formatFiltersTable(filters))
+  const onchange = (_: unknown, currentFilters: FilterType) => {
+    setFilters(formatFiltersTable(currentFilters))
   }
   useEffect(() => {
     getData()
@@ -88,6 +94,8 @@ const visitorCategory = (props: { localization: Localization; lang: string; apps
     setloading(true)
     const values = await formRef.current?.validateFields()
     const res = await generateExcelAuthenticatorFn({
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       filters,
       ...{
         start: moment.tz(values.from, 'America/Guatemala').startOf('day').format(),
@@ -95,9 +103,9 @@ const visitorCategory = (props: { localization: Localization; lang: string; apps
         apps: values.apps
       }
     })
-    let a = document.createElement('a')
+    const a = document.createElement('a')
     a.style.display = 'none'
-    a.href = `${process.env.NEXT_PUBLIC_BACK_FILES}/report/${res}`
+    a.href = `${process.env.NEXT_PUBLIC_BACK_FILES as string}/report/${res}`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -108,6 +116,8 @@ const visitorCategory = (props: { localization: Localization; lang: string; apps
     setloading(true)
     const values = await formRef.current?.validateFields()
     const res = await generatePDFAuthenticatorFn({
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       filters,
       ...{
         start: moment.tz(values.from, 'America/Guatemala').startOf('day').format(),
@@ -115,9 +125,9 @@ const visitorCategory = (props: { localization: Localization; lang: string; apps
         apps: values.apps
       }
     })
-    let a = document.createElement('a')
+    const a = document.createElement('a')
     a.style.display = 'none'
-    a.href = `${process.env.NEXT_PUBLIC_BACK_FILES}/report/${res}`
+    a.href = `${process.env.NEXT_PUBLIC_BACK_FILES as string}/report/${res}`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -176,10 +186,12 @@ const visitorCategory = (props: { localization: Localization; lang: string; apps
           <TableData
             columns={columns({
               translations: localization.translations,
-              actualPermission: actualPermission as PermissionsPrivilege,
+              actualPermission: actualPermission as IPermissionsPrivilege,
               permision: permission,
               lang: lang
             })}
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore
             onChange={onchange}
             pagination={{
               pageSize: actualLimit,
@@ -187,18 +199,18 @@ const visitorCategory = (props: { localization: Localization; lang: string; apps
               total: pagination?.totalDocs,
               showTotal: (total, range) => `Mostrando ${range[0]}-${range[1]} de ${total} registros`,
               current: actualPage,
-              onChange: page => {
-                setActualPage(page)
+              onChange: currentPage => {
+                setActualPage(currentPage)
                 router.replace({
                   pathname: router.pathname,
-                  query: { ...router.query, page }
+                  query: { ...router.query, page: currentPage }
                 })
               },
-              onShowSizeChange: (_, limit) => {
-                setActualLimit(limit)
+              onShowSizeChange: (_, currentLimit) => {
+                setActualLimit(currentLimit)
                 router.replace({
                   pathname: router.pathname,
-                  query: { ...router.query, limit }
+                  query: { ...router.query, limit: currentLimit }
                 })
               }
             }}
@@ -212,7 +224,8 @@ const visitorCategory = (props: { localization: Localization; lang: string; apps
 }
 
 export default React.memo(visitorCategory)
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const localization = getLocalizationProps(ctx, 'authenticator')
   const apps = await getAllApps()
   const page = ctx.query.page ? parseInt(ctx.query.page as string) : 1

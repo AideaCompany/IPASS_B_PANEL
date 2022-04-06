@@ -1,16 +1,16 @@
 //types
 import ColumnFactory from '@/components/crudFunctions/columnFactory'
-import { Translations } from '@/i18n/types'
-import { IDevice } from '@/types/types'
+import { ITranslations } from '@/i18n/types'
+import { IDevice } from '@/types/interfaces/Device/Device.interface'
 import { ColumnType } from 'antd/lib/table'
 import React from 'react'
 import QRDevice from './QRDevice'
 //component
 
-const columns = (props: { translations: Translations }): ColumnType<IDevice>[] => {
+const columns = (props: { translations: ITranslations }): ColumnType<IDevice>[] => {
   const { translations } = props
 
-  const operations = (record: any) => (
+  const operations = (record: IDevice) => (
     <>
       <QRDevice device={record} translations={translations} />
     </>
@@ -24,7 +24,7 @@ const columns = (props: { translations: Translations }): ColumnType<IDevice>[] =
       },
       {
         name: 'registro',
-        customRender: (_: any, index?: number) => <span>{(index as number) + 1}</span>
+        customRender: (_: IDevice, index?: number) => <span>{(index as number) + 1}</span>
       },
       {
         name: 'actualLocation',

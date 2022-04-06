@@ -21,7 +21,7 @@ const ModalGuest = (): JSX.Element => {
         onOk={() => setShowInvitation(false)}
         className={`modalCrud${theme}`}
         visible={showInvitation}
-        title={``}
+        title={''}
         maskClosable={true}
         centered
         width={700}

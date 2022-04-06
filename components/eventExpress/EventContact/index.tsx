@@ -1,4 +1,5 @@
-import { IContact } from '@/types/types'
+import { verifiedData } from '@/types/interfaces'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
 import { capitalize, CommonPropsModal } from '@/utils/utils'
 import { UserOutlined } from '@ant-design/icons'
 import { Button, Descriptions, Image, Modal, Tooltip } from 'antd'
@@ -59,15 +60,15 @@ const EventContact = ({ contact }: { contact: IContact }) => {
                 </Descriptions.Item>
               </Descriptions>
               <p style={{ fontWeight: 'bold' }}>Foto</p>
-              <Image width={'100%'} src={`${publicS3}/${contact?.verifiedData?.photo.key}`} />
+              <Image width={'100%'} src={`${publicS3}/${(contact?.verifiedData as verifiedData)?.photo.key}`} />
               {contact.typeVerified !== 'PASS' && (
                 <>
                   <p style={{ fontWeight: 'bold' }}>Documento Lado A</p>
-                  <Image width={'100%'} src={`${publicS3}/${contact?.verifiedData?.documentA.key}`} />
+                  <Image width={'100%'} src={`${publicS3}/${(contact?.verifiedData as verifiedData)?.documentA.key}`} />
                 </>
               )}
               <p style={{ fontWeight: 'bold' }}>{contact.typeVerified !== 'PASS' ? 'Documento Lado B' : 'Documento'}</p>
-              <Image width={'100%'} src={`${publicS3}/${contact?.verifiedData?.documentB.key}`} />
+              <Image width={'100%'} src={`${publicS3}/${(contact?.verifiedData as verifiedData)?.documentB.key}`} />
             </>
           )}
         </div>

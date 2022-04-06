@@ -1,21 +1,26 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { getAllContactUser } from '@/services/contact'
 import { createInvitation, deleteInvitation, getAllInvitationByEvent } from '@/services/invitationEvent'
-import { IContact, IEvent, InvitationEvent } from '@/types/types'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
+import { IEvent } from '@/types/interfaces/Event/event.interface'
+import { IInvitationEvent } from '@/types/interfaces/InvitationEvent/InvitationEvent.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
 import { getTime } from '@/utils/utils'
 import { CheckCircleOutlined, CheckOutlined, CloseCircleOutlined, UserOutlined } from '@ant-design/icons'
 import { Input, message, Modal, Tooltip } from 'antd'
 import { Shield } from 'icons/personalIcons'
 import { capitalize } from 'lodash'
 import React, { useContext, useEffect, useState } from 'react'
-import { Translations } from '../../i18n/types'
+import { ITranslations } from '../../i18n/types'
 import { ThemeContext } from '../../providers/ThemeContext'
-const ManageGuest = (props: { translations: Translations; record: IEvent }): JSX.Element => {
+
+const ManageGuest = (props: { translations: ITranslations; record: IEvent }): JSX.Element => {
   const { translations, record } = props
   const { theme } = useContext(ThemeContext)
   const [visible, setvisible] = useState<boolean>(false)
   const [searchedGuest, setSearchedGuest] = useState<IContact[]>([])
   const [guestUsers, setguestUsers] = useState<IContact[]>([])
-  const [invitation, setinvitation] = useState<InvitationEvent[]>([])
+  const [invitation, setinvitation] = useState<IInvitationEvent[]>([])
   // useEffect(() => {
   //   getData()
   // }, [])
@@ -24,38 +29,40 @@ const ManageGuest = (props: { translations: Translations; record: IEvent }): JSX
   }, [record])
 
   const getData = async () => {
-    const guestUsers = await getAllContactUser()
+    const currentGuestUsers = await getAllContactUser()
     setinvitation(await getAllInvitationByEvent(record._id as string))
-    setguestUsers(guestUsers)
-    setSearchedGuest(guestUsers)
+    setguestUsers(currentGuestUsers)
+    setSearchedGuest(currentGuestUsers)
   }
 
   const onSearch = (value: React.ChangeEvent<HTMLInputElement>) => {
-    value.target.value !== ''
-      ? setSearchedGuest(
-          guestUsers &&
-            guestUsers.filter(e => `${e.firstName?.toLowerCase()} ${e.lastName?.toLowerCase()}`.includes(value.target.value.toLowerCase()))
-        )
-      : setSearchedGuest(guestUsers)
-  }
-
-  const asingGuest = async (user: IContact, checked: boolean, pos: number) => {
-    if (!checked) {
-      await askToSendInvitation(user)
-      //  @ts-ignore
+    if (value.target.value !== '') {
+      setSearchedGuest(
+        guestUsers &&
+          guestUsers.filter(e =>
+            `${(e.firstName as string)?.toLowerCase()} ${(e.lastName as string)?.toLowerCase()}`.includes(value.target.value.toLowerCase())
+          )
+      )
     } else {
-      await askToDeleteInvitation(user, pos)
+      setSearchedGuest(guestUsers)
     }
   }
 
-  const askToSendInvitation = async (user: IContact) => {
+  const asingGuest = (user: IContact, checked: boolean, pos: number) => {
+    if (!checked) {
+      askToSendInvitation(user)
+    } else {
+      askToDeleteInvitation(user, pos)
+    }
+  }
+
+  const askToSendInvitation = (user: IContact) => {
     Modal.warning({
       title: 'Enviar invitación',
       content: `¿Está seguro que desea enviar una invitación a ${capitalize(user.firstName)} ${capitalize(user.lastName)}?`,
       onOk: async () => {
         message.loading({ content: translations.sendingInvitation, key: 'send', duration: 0 })
-        // @ts-ignore
-        await createInvitation({ event: record._id as string, contact: user._id as string, confirmed: false, alreadySendInvitation: false })
+        await createInvitation({ event: record._id, contact: user._id, confirmed: false, alreadySendInvitation: false })
         getData()
         message.success({ content: translations.okInvitation, key: 'send' })
       },
@@ -63,7 +70,7 @@ const ManageGuest = (props: { translations: Translations; record: IEvent }): JSX
     })
   }
 
-  const askToDeleteInvitation = async (user: IContact, pos: number) => {
+  const askToDeleteInvitation = (user: IContact, pos: number) => {
     Modal.error({
       title: 'Eliminar invitación',
       content: `¿Está seguro que desea eliminar la invitación a ${capitalize(user.firstName)} ${capitalize(user.lastName)}?`,
@@ -92,19 +99,20 @@ const ManageGuest = (props: { translations: Translations; record: IEvent }): JSX
         centered
       >
         <>
-          <h2>{`${record?.name} ${record?.location?.name}`}</h2>
+          <h2>{`${record?.name} ${(record?.location as ILocation)?.name}`}</h2>
           <Input.Search onChange={onSearch} />
           {searchedGuest?.map((user, i) => {
             const pos = invitation?.findIndex(e => (e?.contact as IContact)?._id === user._id)
             const checked = pos !== -1
             return (
-              <Tooltip title={checked ? 'Cancelar invitación' : 'Enviar invitación'}>
+              <Tooltip key={i} title={checked ? 'Cancelar invitación' : 'Enviar invitación'}>
                 <div key={i} className="modalContent" onClick={() => asingGuest(user, checked, pos)}>
-                  <p>{`${user?.firstName} ${user.lastName} - ${user.email}`}</p>
+                  <p>{`${user?.firstName as string} ${user.lastName as string} - ${user.email as string}`}</p>
                   <div>
                     {checked && invitation[pos].isIn && getTime(invitation[pos].hourIn as string)}
                     {user.verified && (
                       <Tooltip title={'El contacto es verificado'}>
+                        {/* @ts-ignore */}
                         <Shield style={{ color: 'green', marginRight: '5px' }} />
                       </Tooltip>
                     )}

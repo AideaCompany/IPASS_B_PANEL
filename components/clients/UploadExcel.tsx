@@ -1,10 +1,9 @@
 import { Translations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { createMassiveClientFn } from '@/services/clients'
-import { createMassiveWorkerFn } from '@/services/workers'
-import { IApps, IClient, IGroupWorker, ILocation, iTimeZone, IWorker } from '@/types/types'
+import { IClient } from '@/types/types'
 import { FileExcelOutlined } from '@ant-design/icons'
-import { Button, List, message, Modal, Tooltip, Upload } from 'antd'
+import { Button, Divider, Form, List, message, Modal, Tooltip, Upload } from 'antd'
 import { UploadChangeParam } from 'antd/lib/upload'
 import { UploadFile } from 'antd/lib/upload/interface'
 import React, { useContext, useEffect, useState } from 'react'
@@ -14,6 +13,7 @@ import RenderCheck from '../RenderCheck'
 import TableData from '../TableDatas'
 const UploadExcel = ({ translations, reload }: { translations: Translations; reload: () => void }) => {
   const [visible, setVisible] = useState(false)
+  const [visible2, setVisible2] = useState(false)
 
   const [totalClients, setTotalClients] = useState(0)
   const [results, setResults] = useState<{ email: string; success: boolean; reason: any }[]>([])
@@ -168,13 +168,54 @@ const UploadExcel = ({ translations, reload }: { translations: Translations; rel
     }
   }, [results])
 
+  const downloadTemplate = () => {
+    let a = document.createElement('a')
+    a.style.display = 'none'
+    a.href = `/test.xlsx`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+  }
+
   return (
     <div className="containerDropFile ">
-      <Upload listType="text" showUploadList={false} maxCount={1} accept={'.xlsx,.xls,.csv'} name="logo" onChange={readInput}>
-        <Tooltip title="Subir excel">
-          <Button style={{ margin: '5px' }} shape={'circle'} icon={<FileExcelOutlined />} />
-        </Tooltip>
-      </Upload>
+      <Tooltip title="Excel">
+        <Button style={{ margin: '5px' }} shape={'circle'} icon={<FileExcelOutlined />} onClick={() => setVisible2(true)} />
+      </Tooltip>
+      <Modal
+        destroyOnClose
+        maskClosable={false}
+        centered
+        onCancel={() => setVisible2(false)}
+        footer={null}
+        onOk={() => console.log('ok')}
+        className={`modalCrud${theme} worker_modal`}
+        visible={visible2}
+      >
+        <div className="modalCrud_header">
+          <h2>¿Qué deseas realizar?</h2>
+          <p style={{ fontStyle: 'italic' }}>Nota: Para subir información desde Excel es necesario usar la plantilla.</p>
+          <div className="flex" style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+            <Upload
+              className="uploadAntd"
+              style={{ width: '100%' }}
+              listType="text"
+              showUploadList={false}
+              maxCount={1}
+              accept={'.xlsx,.xls,.csv'}
+              name="logo"
+              onChange={readInput}
+            >
+              <Button shape={'round'} style={{ width: '100%', marginBottom: '1em' }} type={'primary'}>
+                Subir Excel
+              </Button>
+            </Upload>
+            <Button shape={'round'} style={{ width: '100%', marginBottom: '1em' }} onClick={downloadTemplate}>
+              Descargar Plantilla
+            </Button>
+          </div>
+        </div>
+      </Modal>
       <Modal
         destroyOnClose
         maskClosable={false}

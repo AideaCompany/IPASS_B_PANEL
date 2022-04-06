@@ -1,3 +1,4 @@
+/* eslint-disable no-extra-semi */
 //components
 import MainLayout from '@/components/layout/Layout'
 import TableData from '@/components/TableDatas'
@@ -10,8 +11,9 @@ import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { ThemeContext } from '@/providers/ThemeContext'
+import { ICreatePrivilege, IUpdatePrivilege } from '@/types/interfaces/Privilege/MutationPrivilega.interface'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 //Types
-import { PermissionsPrivilege, Privilege } from '@/types/types'
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
 //Apollo
 import { ApolloQueryResult, gql } from '@apollo/client'
@@ -26,12 +28,12 @@ const Permissions = (props: { localization: Localization; lang: string }) => {
   const { localization, lang } = props
   //state
   const [loading, setLoading] = useState<boolean>(false)
-  const [privilege, setPrivilege] = useState<Privilege[]>()
-  const [permissionPermission, setPermissionPermission] = useState<PermissionsPrivilege>()
+  const [privilege, setPrivilege] = useState<IPrivilege[]>()
+  const [permissionPermission, setPermissionPermission] = useState<IPermissionsPrivilege>()
   const { permission, section } = useAuth()
   const { theme } = useContext(ThemeContext)
   //const
-  const columns: ColumnType<Privilege>[] = [
+  const columns: ColumnType<IPrivilege>[] = [
     {
       key: 'name',
       title: localization.translations.rolName,
@@ -67,10 +69,11 @@ const Permissions = (props: { localization: Localization; lang: string }) => {
 
   //effect
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-extra-semi
     ;(async () => {
       setLoading(true)
       const privilegesData: ApolloQueryResult<{
-        listPrivilege: Privilege[]
+        listPrivilege: IPrivilege[]
       }> = await client.query({ query: gql(listPrivilege) })
       const privileges = privilegesData.data.listPrivilege.map(e => ({ ...e, key: e._id }))
       setPrivilege(privileges)
@@ -87,7 +90,7 @@ const Permissions = (props: { localization: Localization; lang: string }) => {
   //functions
   const refetchData = async () => {
     const privilegesData: ApolloQueryResult<{
-      listPrivilege: Privilege[]
+      listPrivilege: IPrivilege[]
     }> = await client.query({ query: gql(listPrivilege), fetchPolicy: 'no-cache' })
     const privileges = privilegesData.data.listPrivilege.map(e => ({ ...e, key: e._id }))
 
@@ -95,30 +98,33 @@ const Permissions = (props: { localization: Localization; lang: string }) => {
     setLoading(false)
   }
 
-  const getDataForm = (data: any) => {
-    var key = Object.keys(data.permissions)
-    //@ts-ignore
-    var inputData: Privilege = { name: data.name, permissions: [] }
-    for (let k = 0; k < key.length; k++) {
+  const getDataForm = (data: { permissions: string[]; name: string }) => {
+    const key = Object.keys(data.permissions)
+
+    const inputData: IPrivilege = { name: data.name, permissions: [] }
+
+    for (const currentKey of key) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       inputData.permissions?.push({
-        ...data.permissions[key[k]]
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        ...data.permissions[currentKey]
       })
     }
     return inputData
   }
 
   //Create
-  const createPrivilegeForm = (data: any) => {
+  const createPrivilegeForm = (data: ICreatePrivilege) => {
     setLoading(true)
     client
       .mutate({ mutation: gql(createPrivilege), variables: { input: getDataForm(data) } })
-      .then(res => {
+      .then(() => {
         refetchData()
       })
-      .catch(err => console.error(err))
+      .catch(err => console.info(err))
   }
 
-  // @ts-ignore
   const createModal = () => {
     Modal.info({
       title: localization.translations.titleModalCreate,
@@ -138,22 +144,23 @@ const Permissions = (props: { localization: Localization; lang: string }) => {
     })
   }
   //update
-  const updatePrivilegeForm = (data: any, id: string) => {
-    //@ts-ignore
+  const updatePrivilegeForm = (data: IUpdatePrivilege, id: string) => {
     const toUpdate = { _id: id, ...getDataForm(data) }
     setLoading(true)
     client
       .mutate({ mutation: gql(updatePrivilege), variables: { input: toUpdate } })
-      .then(res => {
+      .then(() => {
         refetchData()
       })
-      .catch(err => console.error(err))
+      .catch(err => console.info(err))
   }
 
-  const updateModal = (data?: any) => {
-    const perms: any = {}
-    data.permissions.forEach((e: any) => {
-      perms[e.sectionID] = { ...e }
+  const updateModal = (data: IPrivilege) => {
+    const perms: IPrivilege = {} as IPrivilege
+    data.permissions.forEach(e => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      perms[e.sectionID as string] = { ...e }
     })
     const initialData = {
       name: data.name,
@@ -167,7 +174,7 @@ const Permissions = (props: { localization: Localization; lang: string }) => {
           <Form
             name="basic"
             autoComplete="off"
-            onFinish={values => updatePrivilegeForm(values, data._id)}
+            onFinish={(values: IUpdatePrivilege) => updatePrivilegeForm(values, data._id as string)}
             id={'updateForm'}
             initialValues={initialData}
           >
@@ -188,13 +195,13 @@ const Permissions = (props: { localization: Localization; lang: string }) => {
     setLoading(true)
     client
       .mutate({ mutation: gql(deletePrivilege), variables: { input: { _id: id } } })
-      .then(res => {
+      .then(() => {
         refetchData()
       })
-      .catch(err => console.error(err))
+      .catch(err => console.info(err))
   }
 
-  const deleteModal = (role: Privilege) => {
+  const deleteModal = (role: IPrivilege) => {
     Modal.warn({
       title: localization.translations.titleModalDelete,
       content: <p>{`${localization.translations.deleteQuestion} ${role.name} ?`}</p>,
@@ -223,7 +230,7 @@ const Permissions = (props: { localization: Localization; lang: string }) => {
 
 export default Permissions
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'permission')
   return {
     props: {
@@ -232,7 +239,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
   }
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false

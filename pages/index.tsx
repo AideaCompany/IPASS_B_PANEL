@@ -1,22 +1,24 @@
 import useAuth from '@/providers/AuthContext'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Main from '../components/main'
 import { useRouter } from 'next/router'
 import { getInitialLocale } from 'i18n/getInitialLocale'
 
-export default function Home() {
+const Home = () => {
   const router = useRouter()
   const { setSpinning } = useAuth()
 
   useEffect(() => {
     setSpinning(true)
-    console.log('12')
+    console.info('12')
     router.push(`/${getInitialLocale()}/session`)
   }, [])
 
   return (
-    <Main title={''}>
+    <Main>
       <></>
     </Main>
   )
 }
+
+export default Home
