@@ -146,6 +146,7 @@ const Permissions = (props: { localization: Localization; lang: string }) => {
   //update
   const updatePrivilegeForm = (data: IUpdatePrivilege, id: string) => {
     const toUpdate = { _id: id, ...getDataForm(data) }
+    console.log(toUpdate)
     setLoading(true)
     client
       .mutate({ mutation: gql(updatePrivilege), variables: { input: toUpdate } })

@@ -143,6 +143,11 @@ const MainLayout = (props: LayoutProps) => {
       icon: <Worker />
     },
     {
+      path: '/staff',
+      title: localization.translations.worker,
+      icon: <Worker />
+    },
+    {
       path: '/products',
       title: localization.translations.products,
       icon: <ShoppingOutlined />

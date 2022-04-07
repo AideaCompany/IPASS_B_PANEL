@@ -1,4 +1,4 @@
-import { graphqlFile, uploadedFile } from 'interfaces'
+import { graphqlFile, uploadedFile } from '..'
 
 export interface ICreateStaff {
   name?: string

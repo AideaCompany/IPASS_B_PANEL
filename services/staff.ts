@@ -19,7 +19,7 @@ export const confirmSignUpStaffFn = async (input: { password: string; _id: strin
   return (await client.mutate({ mutation: gql(signUpStaff), variables: { input } })).data.signUpStaff as { token: string }
 }
 
-export const createMassiveStaffFn = async (input: { input: ICreateStaff[] }): Promise<IResponseMassive[]> => {
+export const createMassiveStaffFn = async (input: ICreateStaff[]): Promise<IResponseMassive[]> => {
   client.cache.reset()
   return (await (
     await client.mutate({ mutation: gql(createMassiveStaff), variables: { input } })

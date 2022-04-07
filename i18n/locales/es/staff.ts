@@ -2,10 +2,8 @@ const staff = {
   codeWorker: 'Código del trabajador',
   titleSection: 'Trabajadores',
   name: 'Nombre',
-  lastname: 'Apellido',
+  lastName: 'Apellido',
   email: 'Correo',
-  typeDocument: 'Tipo de documento',
-  document: 'Documento',
   phone: 'Telefono',
   photo: 'Foto',
   serialDuplicated: 'Documento o correo ya existente',
@@ -24,17 +22,21 @@ const staff = {
   confirmDeleteQR: 'Deseas invalidar código temporal',
   canAccessToApp: 'App',
   canAccessToWeb: 'Web',
+  plus: 'Plus',
   abbreviation: 'Abreviación',
-  group: 'Grupo',
-  nativeLocation: 'Locación nativa',
   canUseAuthenticator: 'Ipass Authenticator',
   active: 'Activo',
   timeZone: 'Zona horaria',
   apps: 'Aplicaciones',
   name1: 'Nombre 1',
   name2: 'Nombre 2',
-  lastname1: 'Apellido 1',
-  lastname2: 'Apellido 2'
+  lastName1: 'Apellido 1',
+  lastName2: 'Apellido 2',
+  address: 'Dirección',
+  stores: 'Tiendas',
+  specialty: 'Especialidad',
+  phone1: 'Teléfono 1',
+  AET: 'AET'
 }
 
 export default staff

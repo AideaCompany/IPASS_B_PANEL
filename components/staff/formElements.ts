@@ -1,23 +1,10 @@
-import { IApps } from '@/types/interfaces/Apps/Apps.interface'
-import { IGroupWorker } from '@/types/interfaces/GroupWorker/GroupWorker.interface'
-import { ILocation } from '@/types/interfaces/Location/Location.interface'
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
-import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
 import { FormFactory } from '@/types/typeTemplate'
 
 export const formElements = (
-  locations: ILocation[],
-  group: IGroupWorker[],
-  timeZone: ITimeZone[],
-  apps: IApps[],
+  // stores: IStores[],
   inicialData?: boolean | unknown
 ): FormFactory.IFormFactoryType<IStaff>[] => [
-  {
-    name: 'photo',
-    type: 'avatar',
-    show: true,
-    inicialData: inicialData
-  },
   {
     name: 'name',
     type: 'string',
@@ -32,17 +19,40 @@ export const formElements = (
     type: 'string'
   },
   {
-    name: 'lastname',
+    name: 'lastName',
     type: 'string',
     required: true
   },
   {
-    name: 'lastname1',
+    name: 'lastName1',
     type: 'string'
   },
   {
-    name: 'lastname2',
+    name: 'lastName2',
     type: 'string'
+  },
+  {
+    name: 'address',
+    type: 'string'
+  },
+  {
+    name: 'stores',
+    type: 'select',
+    data: []
+  },
+  {
+    name: 'phone',
+    type: 'string'
+  },
+  {
+    name: 'phone1',
+    type: 'string'
+  },
+  {
+    name: 'photo',
+    type: 'avatar',
+    show: true,
+    inicialData: inicialData
   },
   {
     name: 'email',
@@ -50,18 +60,12 @@ export const formElements = (
     required: true
   },
   {
-    name: 'typeDocument',
+    name: 'specialty',
     type: 'select',
-    data: ['DPI', 'Documento extranjero'],
-    required: true
+    data: []
   },
   {
-    name: 'document',
-    type: 'string',
-    required: true
-  },
-  {
-    name: 'phone',
+    name: 'AET',
     type: 'string'
   },
   {
@@ -73,32 +77,7 @@ export const formElements = (
     type: 'boolean'
   },
   {
-    name: 'code',
+    name: 'plus',
     type: 'boolean'
-  },
-  {
-    name: 'canUseAuthenticator',
-    type: 'boolean'
-  },
-  {
-    name: 'group',
-    type: 'selectMultiple',
-    data: group
-  },
-
-  {
-    name: 'nativeLocation',
-    type: 'selectMultiple',
-    data: locations
-  },
-  {
-    name: 'timeZone',
-    type: 'selectMultiple',
-    data: timeZone
-  },
-  {
-    name: 'apps',
-    type: 'selectMultiple',
-    data: apps
   }
 ]

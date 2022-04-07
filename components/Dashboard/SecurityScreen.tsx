@@ -14,7 +14,7 @@ let uns: any
 const SecurityScreen = ({ translate }: { translate: Translations }) => {
   const { selectedLocation, setActualEvents, setInvitations, setEntries, setLastEntries } = useSecurity()
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       if (selectedLocation) {
         getData()
         uns = subscribeSecurity(selectedLocation._id, () => {
@@ -39,11 +39,11 @@ const SecurityScreen = ({ translate }: { translate: Translations }) => {
   }
   return (
     <div>
-      <Buttons />
+      {/* <Buttons />
       <ManageView translate={translate} />
       <EventModal />
       <InvitationsModal />
-      <ModalContact />
+      <ModalContact /> */}
     </div>
   )
 }

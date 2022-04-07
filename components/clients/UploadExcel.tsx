@@ -1,9 +1,9 @@
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { createMassiveClientFn } from '@/services/clients'
 import { IClient } from '@/types/types'
 import { FileExcelOutlined } from '@ant-design/icons'
-import { Button, Divider, Form, List, message, Modal, Tooltip, Upload } from 'antd'
+import { Button, List, message, Modal, Tooltip, Upload } from 'antd'
 import { UploadChangeParam } from 'antd/lib/upload'
 import { UploadFile } from 'antd/lib/upload/interface'
 import React, { useContext, useEffect, useState } from 'react'
@@ -11,7 +11,7 @@ import readXlsxFile from 'read-excel-file'
 import ColumnFactory from '../crudFunctions/columnFactory'
 import RenderCheck from '../RenderCheck'
 import TableData from '../TableDatas'
-const UploadExcel = ({ translations, reload }: { translations: Translations; reload: () => void }) => {
+const UploadExcel = ({ translations, reload }: { translations: ITranslations; reload: () => void }) => {
   const [visible, setVisible] = useState(false)
   const [visible2, setVisible2] = useState(false)
 
@@ -171,7 +171,7 @@ const UploadExcel = ({ translations, reload }: { translations: Translations; rel
   const downloadTemplate = () => {
     let a = document.createElement('a')
     a.style.display = 'none'
-    a.href = `/test.xlsx`
+    a.href = `/plantillaClientes.xlsx`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)

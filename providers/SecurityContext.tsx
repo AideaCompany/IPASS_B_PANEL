@@ -1,4 +1,4 @@
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { getAllLocationActive } from '@/services/locations'
 import { IContact } from '@/types/interfaces/Contact/Contact.interface'
 
@@ -13,7 +13,7 @@ type SecurityContextType = {
   locations: ILocation[]
   selectedLocation: ILocation | null
   setSelectedLocation: React.Dispatch<React.SetStateAction<ILocation | null>>
-  translate: Translations
+  translate: ITranslations
   lang: string
   view: 'default' | 'list'
   setView: React.Dispatch<React.SetStateAction<'default' | 'list'>>
@@ -41,7 +41,7 @@ type SecurityContextType = {
 
 const SecurityContext = React.createContext<SecurityContextType>({} as SecurityContextType)
 
-export const SecurityProvider = (props: { children: JSX.Element; lang: string; translate: Translations }) => {
+export const SecurityProvider = (props: { children: JSX.Element; lang: string; translate: ITranslations }) => {
   //props
   const { children, translate, lang } = props
   //states

@@ -56,7 +56,7 @@ const staff = (props: {
   //#endregion hooks
 
   //props
-  const { localization, lang, page, limit, apps, groups, locations, timeZone } = props
+  const { localization, lang, page, limit } = props
   //states
   const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setData] = useState<actualItem[]>([])
@@ -65,14 +65,13 @@ const staff = (props: {
   const [actualLimit, setActualLimit] = useState(limit)
   const [actualPage, setActualPage] = useState(page)
   const [filters, setFilters] = useState({})
-  const [open, setOpen] = useState(false)
   const [countUsers, setCountUsers] = useState(0)
 
   //providers
   const { permission } = useAuth()
   //Effect
   useEffect(() => {
-    setActualPermission(permission.permissions?.find(e => e.sectionName?.toLocaleLowerCase() === 'worker'))
+    setActualPermission(permission.permissions?.find(e => e.sectionName?.toLocaleLowerCase() === 'staff'))
   }, [permission])
 
   const manageMentError = (error: string) => {
@@ -96,9 +95,7 @@ const staff = (props: {
   const getData = async () => {
     setLoading(true)
     const res = await verifyKeyUserFn()
-    if (!res) {
-      setOpen(true)
-    } else {
+    if (res) {
       setCountUsers(await countUserWorkerFn())
       const result = await listStaffFn(actualPage, actualLimit, filters)
       setPagination(result)
@@ -122,47 +119,23 @@ const staff = (props: {
 
   const createButton = (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <Tooltip title="Descargar plantilla">
-        <Button
-          style={{ margin: '5px' }}
-          onClick={() => router.push({ pathname: 'https://renapbackend.ipass.com.gt/plantilla', query: { lang: router.query.lang } })}
-          shape={'circle'}
-          icon={<FileUnknownOutlined />}
-        />
-      </Tooltip>
-      <Tooltip title="Grupos de trabajadores">
+      {/* <Tooltip title="Grupos de trabajadores">
         <Button
           style={{ margin: '5px' }}
           onClick={() => router.push({ pathname: '/[lang]/worker/groups', query: { lang: router.query.lang } })}
           shape={'circle'}
           icon={<Role />}
         />
-      </Tooltip>
-      <UploadExcel
-        apps={props.apps}
-        timeZone={timeZone}
-        groups={groups}
-        locations={locations}
-        reload={getData}
-        translations={localization.translations}
-      />
+      </Tooltip> */}
+      <UploadExcel reload={getData} translations={localization.translations} />
       <CreateItem
         actualPermission={actualPermission as IPermissionsPrivilege}
         translations={localization.translations}
         mutation={gql(createStaff)}
-        formElements={formElements(locations, groups, timeZone, apps)}
+        formElements={formElements()}
         afterCreate={getData}
         manageMentError={manageMentError}
-        FormItem={
-          <FormItems
-            apps={apps}
-            timeZone={timeZone}
-            groups={groups}
-            permission={permission}
-            locations={locations}
-            translations={localization.translations}
-          />
-        }
+        FormItem={<FormItems permission={permission} translations={localization.translations} />}
         iconButton={true}
       />
     </div>
@@ -173,7 +146,7 @@ const staff = (props: {
   }
   return (
     <>
-      <ModalKeyUser setOpen={setOpen} visible={open} getData={getData} />
+      {/* <ModalKeyUser setOpen={setOpen} visible={open} getData={getData} /> */}
       <MainLayout
         getData={getData}
         create={createButton}
@@ -183,15 +156,11 @@ const staff = (props: {
         <>
           <TableData<IStaff>
             columns={columns({
-              apps,
               after: getData,
-              timeZone: timeZone,
-              locations: locations,
               translations: localization.translations,
               actualPermission: actualPermission as IPermissionsPrivilege,
               beforeShowUpdate: before,
-              permision: permission,
-              groups
+              permision: permission
             })}
             scroll={{ x: 1500, y: '40vh' }}
             data={data}

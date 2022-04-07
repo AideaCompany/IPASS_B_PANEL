@@ -5,12 +5,8 @@ import { updateStaff } from '@/graphql/Staff/mutation/updateStaff'
 import { ITranslations } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IApps } from '@/types/interfaces/Apps/Apps.interface'
-import { IGroupWorker } from '@/types/interfaces/GroupWorker/GroupWorker.interface'
-import { ILocation } from '@/types/interfaces/Location/Location.interface'
 import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
-import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
 import { UserOutlined } from '@ant-design/icons'
 import { Image } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
@@ -32,20 +28,17 @@ const columns = (props: {
   actualPermission: IPermissionsPrivilege
   beforeShowUpdate?: (param: IStaff) => IStaff
   after: () => void
-  locations: ILocation[]
+
   permision: IPrivilege
-  groups: IGroupWorker[]
-  timeZone: ITimeZone[]
-  apps: IApps[]
 }): ColumnType<IStaff>[] => {
-  const { translations, actualPermission, locations, after, apps, beforeShowUpdate, groups, permision, timeZone } = props
+  const { translations, actualPermission, after, beforeShowUpdate, permision } = props
   const { theme } = useContext(ThemeContext)
   const { permission } = useAuth()
 
   const operations = (record: IStaff) => {
     return (
       <>
-        <QRWorker reload={after} worker={record} translations={translations} />
+        <QRWorker reload={after} staff={record} translations={translations} />
         <UpdateItem
           beforeShowUpdate={beforeShowUpdate}
           actualPermission={actualPermission}
@@ -53,19 +46,8 @@ const columns = (props: {
           mutation={gql(updateStaff)}
           record={record}
           afterUpdate={after}
-          FormItems={
-            <FormItems
-              apps={apps}
-              permission={permision}
-              locations={locations}
-              isUpdate
-              inicialData={record.photo}
-              timeZone={timeZone}
-              translations={translations}
-              groups={groups}
-            />
-          }
-          formElements={formElements(locations, groups, timeZone, apps, record.photo)}
+          FormItems={<FormItems permission={permision} isUpdate inicialData={record.photo} translations={translations} />}
+          formElements={formElements(record.photo)}
         />
         <DeleteItem
           afterDelete={after}
@@ -106,13 +88,13 @@ const columns = (props: {
         width: 150
       },
       {
-        name: 'lastname',
+        name: 'lastName',
         search: true,
         fixed: 'left',
         width: 150
       },
       {
-        name: 'codeWorker',
+        name: 'email',
         search: true,
         fixed: 'left',
         width: 200
@@ -128,27 +110,22 @@ const columns = (props: {
         width: 150
       },
       {
-        name: 'lastname1',
+        name: 'lastName1',
         search: true,
         width: 150
       },
       {
-        name: 'lastname2',
+        name: 'lastName2',
         search: true,
         width: 150
       },
       {
-        name: 'email',
-        search: true,
-        width: 250
-      },
-      {
-        name: 'typeDocument',
+        name: 'address',
         search: true,
         width: 150
       },
       {
-        name: 'document',
+        name: 'stores',
         search: true,
         width: 150
       },
@@ -157,6 +134,22 @@ const columns = (props: {
         search: true,
         width: 150
       },
+      {
+        name: 'phone1',
+        search: true,
+        width: 150
+      },
+      {
+        name: 'specialty',
+        search: true,
+        width: 150
+      },
+      {
+        name: 'AET',
+        search: true,
+        width: 150
+      },
+
       // {
       //   name: 'group',
       //   width: 150,
@@ -191,6 +184,11 @@ const columns = (props: {
         name: 'canAccessToWeb',
         width: 80,
         customRender: (record: IStaff) => <RenderCheck value={record.canAccessToWeb} />
+      },
+      {
+        name: 'plus',
+        width: 80,
+        customRender: (record: IStaff) => <RenderCheck value={record.plus} />
       }
       // {
       //   name: 'timeZone',
