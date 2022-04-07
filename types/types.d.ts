@@ -3,6 +3,49 @@ import moment from 'moment'
 import { type } from 'node:os'
 import { basicTable } from './typeTemplate'
 
+export type IProducts = {
+  product: IProduct | string
+  productQuantity: number
+}
+export interface IService extends basicTable {
+  plus?: boolean
+  abbreviation?: string
+  name?: string
+  type?: IServiceType | string
+  products?: IProducts[]
+  photo?: fileType
+  staffers?: string[]
+  eta?: string
+  price?: number
+  cost?: number
+  serviceFee?: number
+  taxes?: number
+  discounts?: number
+  serviceTime?: number[]
+  returnTime?: number
+  sex?: string
+  stores?: string[]
+  subService?: ISubService[]
+}
+
+export interface ISubService extends basicTable {
+  plus?: boolean
+  abbreviation?: string
+  name?: string
+  products?: IProducts[]
+  photo?: fileType
+  staffers?: string[]
+  eta?: string
+  price?: number
+  cost?: number
+  subServiceFee?: number
+  taxes?: number
+  discounts?: number
+  subServiceTime?: number[]
+  returnTime?: number
+  stores?: string[]
+}
+
 export interface IClient extends basicTable {
   password?: string
   plus: boolean

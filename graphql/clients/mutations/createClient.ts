@@ -1,5 +1,5 @@
-export const createClient = /* GraphQL */` 
- mutation createClient($input: ClientInput){
+export const createClient = /* GraphQL */ `
+  mutation createClient($input: ClientInput) {
     createClient(input: $input)
-}
-`;
+  }
+`
