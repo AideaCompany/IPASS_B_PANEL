@@ -12,7 +12,9 @@ import { getLocalizationProps } from '@/providers/LenguageContext'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { getAllBreach2Days } from '@/services/breach'
 import { generaReportBreachFn, generaReportBreachPDFFn } from '@/services/report'
-import { IBreach, Paginated, PermissionsPrivilege } from '@/types/types'
+import { IBreach } from '@/types/interfaces/Breach/Breach.inteface'
+import { FilterType, IPaginated } from '@/types/interfaces/graphqlTypes'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { Button, Form, FormInstance } from 'antd'
 import moment from 'moment-timezone'
 //next
@@ -20,21 +22,21 @@ import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-interface actualItem extends IBreach {}
+type actualItem = IBreach
 
 const board = (props: { localization: Localization; lang: string; page: number; limit: number }) => {
   //props
   const { localization, lang, page, limit } = props
   //states
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setData] = useState<actualItem[]>([])
   const { theme } = useContext(ThemeContext)
   const [loading, setloading] = useState<boolean>(true)
   //#region cards
-  const [filters, _] = useState<any>([])
+  const [filters] = useState<FilterType[]>([])
   const [actualLimit, setActualLimit] = useState(limit)
   const [actualPage, setActualPage] = useState(page)
-  const [pagination, setPagination] = useState<Paginated<actualItem>>()
+  const [pagination, setPagination] = useState<IPaginated<actualItem>>()
   //#endregion cards
   const router = useRouter()
   //providers
@@ -46,11 +48,9 @@ const board = (props: { localization: Localization; lang: string; page: number; 
   }, [permission])
 
   useEffect(() => {
-    ;(async () => {
-      if (actualPermission) {
-        getData()
-      }
-    })()
+    if (actualPermission) {
+      getData()
+    }
   }, [actualPermission])
 
   const getData = async () => {
@@ -60,9 +60,15 @@ const board = (props: { localization: Localization; lang: string; page: number; 
     delete values.start
     delete values.end
     const result = await getAllBreach2Days(actualPage, actualLimit, {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       filters: [...filters],
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       selected: [
-        ...Object.keys(values)
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        ...Object.keys(values as unknown)
           .filter(e => values[e])
           .map(e => ({ [e]: values[e] }))
       ],
@@ -84,9 +90,15 @@ const board = (props: { localization: Localization; lang: string; page: number; 
     delete values.end
     setloading(true)
     const res = await generaReportBreachFn(actualPage, actualLimit, {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       filters: [...filters],
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       selected: [
-        ...Object.keys(values)
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        ...Object.keys(values as unknown)
           .filter(e => values[e])
           .map(e => ({ [e]: values[e] }))
       ],
@@ -96,9 +108,9 @@ const board = (props: { localization: Localization; lang: string; page: number; 
         apps: values.apps
       }
     })
-    let a = document.createElement('a')
+    const a = document.createElement('a')
     a.style.display = 'none'
-    a.href = `${process.env.NEXT_PUBLIC_BACK_FILES}/report/${res}`
+    a.href = `${process.env.NEXT_PUBLIC_BACK_FILES as string}/report/${res}`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -112,9 +124,15 @@ const board = (props: { localization: Localization; lang: string; page: number; 
     delete values.end
     setloading(true)
     const res = await generaReportBreachPDFFn(actualPage, actualLimit, {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       filters: [...filters],
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       selected: [
-        ...Object.keys(values)
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        ...Object.keys(values as unknown)
           .filter(e => values[e])
           .map(e => ({ [e]: values[e] }))
       ],
@@ -124,9 +142,9 @@ const board = (props: { localization: Localization; lang: string; page: number; 
         apps: values.apps
       }
     })
-    let a = document.createElement('a')
+    const a = document.createElement('a')
     a.style.display = 'none'
-    a.href = `${process.env.NEXT_PUBLIC_BACK_FILES}/report/${res}`
+    a.href = `${process.env.NEXT_PUBLIC_BACK_FILES as string}/report/${res}`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -173,7 +191,7 @@ const board = (props: { localization: Localization; lang: string; page: number; 
           <TableData
             columns={columns({
               translations: localization.translations,
-              actualPermission: actualPermission as PermissionsPrivilege,
+              actualPermission: actualPermission as IPermissionsPrivilege,
               permision: permission,
               lang: lang,
               after: getData
@@ -185,18 +203,18 @@ const board = (props: { localization: Localization; lang: string; page: number; 
               total: pagination?.totalDocs,
               showTotal: (total, range) => `Mostrando ${range[0]}-${range[1]} de ${total} registros`,
               current: actualPage,
-              onChange: page => {
-                setActualPage(page)
+              onChange: currentPage => {
+                setActualPage(currentPage)
                 router.replace({
                   pathname: router.pathname,
-                  query: { ...router.query, page }
+                  query: { ...router.query, page: currentPage }
                 })
               },
-              onShowSizeChange: (_, limit) => {
-                setActualLimit(limit)
+              onShowSizeChange: (_, currentLimit) => {
+                setActualLimit(currentLimit)
                 router.replace({
                   pathname: router.pathname,
-                  query: { ...router.query, limit }
+                  query: { ...router.query, currentLimit }
                 })
               }
             }}
@@ -210,7 +228,8 @@ const board = (props: { localization: Localization; lang: string; page: number; 
 }
 
 export default React.memo(board)
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+
+export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
   const localization = getLocalizationProps(ctx, 'board')
   const page = ctx.query.page ? parseInt(ctx.query.page as string) : 1
   const limit = ctx.query.limit ? parseInt(ctx.query.limit as string) : 10

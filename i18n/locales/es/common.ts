@@ -43,7 +43,7 @@ const common = {
   errorPrivilege: 'Por favor, Selecciona el Rol del usuario.',
   errorDocument: 'Por favor, Inserta tu documento',
   errorPhone: 'Por favor, Inserta tu teléfono',
-  error: `Por favor, Selecciona el país del usuario.`,
+  error: 'Por favor, Selecciona el país del usuario.',
   errorTokenConfirm: 'Por favor inserta tu código de verificación.',
   generalError: 'Algo salió mal',
   goBack: 'Regresar',

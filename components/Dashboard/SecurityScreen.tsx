@@ -30,7 +30,7 @@ const SecurityScreen = ({ translate }: { translate: Translations }) => {
   }, [selectedLocation])
 
   const getData = async () => {
-    const data = await getAllToSecurityFn((selectedLocation as ILocation)._id as string)
+    const data = await getAllToSecurityFn((selectedLocation as ILocation)._id)
     const entries = data.entries as ILocationEntries[]
     setActualEvents([...data.events, ...data.eventsExpress.map((e: any) => ({ ...e, express: true }))].reverse())
     setInvitations(data.invitations)
@@ -39,11 +39,11 @@ const SecurityScreen = ({ translate }: { translate: Translations }) => {
   }
   return (
     <div>
-      <Buttons />
+      {/* <Buttons />
       <ManageView translate={translate} />
       <EventModal />
       <InvitationsModal />
-      <ModalContact />
+      <ModalContact /> */}
     </div>
   )
 }

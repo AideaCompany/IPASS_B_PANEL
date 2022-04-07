@@ -11,7 +11,7 @@ const mantenimiento = () => {
             <img src="/IPASS_R_pages-to-jpg-0006.png" alt="licencia" />
           </div>
           <div className="infoKey">
-            <Descriptions column={1} title={`Certificado: DESARROLLO EN OPTIMIZACINES Y MEJORAS R+`} bordered>
+            <Descriptions column={1} title={'Certificado: DESARROLLO EN OPTIMIZACINES Y MEJORAS R+'} bordered>
               <Descriptions.Item label="Estado">Activo</Descriptions.Item>
               <Descriptions.Item label="Fecha de emisión">ENERO 25 DEL 2022</Descriptions.Item>
               <Descriptions.Item label="Fecha de caducidad">ENERO 25 DEL 2023</Descriptions.Item>

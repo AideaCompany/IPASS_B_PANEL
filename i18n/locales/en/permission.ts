@@ -14,7 +14,7 @@ const permission = {
   titleModalUpdate: 'Update Rol',
   titleModalDelete: 'Delete Rol',
   errorNamePrivilege: 'Please, Enter the Rol Name',
-  inputName: `Rol Name`
+  inputName: 'Rol Name'
 }
 
 export default permission

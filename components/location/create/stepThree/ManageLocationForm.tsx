@@ -1,11 +1,12 @@
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import useLocation from '@/providers/LocationContext'
-import { ILocation } from '@/types/types'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+
 import lodash from 'lodash'
 import React, { useEffect, useState } from 'react'
 import ManageLocationChild from './ManageLocationChild'
 import ManageLocationParent from './ManageLocationParent'
-const adminsLocationForm = ({ translate }: { translate: Translations }) => {
+const adminsLocationForm = ({ translate }: { translate: ITranslations }) => {
   const { locations } = useLocation()
   const [parentLocation, setParentLocation] = useState(locations)
   const [selectedParent, setSelectedParent] = useState<string[]>([])

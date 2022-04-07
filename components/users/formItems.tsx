@@ -1,21 +1,28 @@
-import { Translations } from '@/i18n/types'
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IApps, IGroupWorker, ILocation, iTimeZone, Privilege } from '@/types/types'
-import { useContext } from 'react'
+import { IApps } from '@/types/interfaces/Apps/Apps.interface'
+import { IGroupWorker } from '@/types/interfaces/GroupWorker/GroupWorker.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
+import { fileType } from '@/types/typeTemplate'
+
+import React, { useContext } from 'react'
 import FormFactory from '../crudFunctions/FormFactory'
 import { formElements } from './formElements'
-import { formElementsSuperAdmin } from './formElementsSuperAdmin'
 import { formElementsAdmin } from './formElementsAdmin'
+import { formElementsSuperAdmin } from './formElementsSuperAdmin'
 const FormItems = (props: {
-  permission: Privilege
-  translations: Translations
+  permission: IPrivilege
+  translations: ITranslations
   isUpdate?: boolean
-  privileges: Privilege[]
+  privileges: IPrivilege[]
   locations: ILocation[]
-  timeZone: iTimeZone[]
+  timeZone: ITimeZone[]
   group: IGroupWorker[]
   apps: IApps[]
-  inicialData?: boolean
+  inicialData?: boolean | fileType
 }): JSX.Element => {
   const { translations, isUpdate, apps, privileges, permission, locations, group, timeZone, inicialData } = props
   const updating = isUpdate ? true : false

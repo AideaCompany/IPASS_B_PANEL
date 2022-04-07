@@ -36,8 +36,8 @@ const TableComponent = (props: {
   }, [actualRef, inicialData])
 
   const createItem = async () => {
-    var formData = await formRef.current?.validateFields()
-    var actualData = actualRef?.getFieldValue(name)
+    const formData = await formRef.current?.validateFields()
+    let actualData = actualRef?.getFieldValue(name)
     if (actualData) {
       actualData.push({ ...formData })
     } else {
@@ -66,8 +66,8 @@ const TableComponent = (props: {
     })
   }
   const updateItem = async (key: string) => {
-    var formData: any = await formRef.current?.validateFields()
-    var actualData: any = actualRef?.getFieldValue(name)
+    const formData: any = await formRef.current?.validateFields()
+    const actualData: any = actualRef?.getFieldValue(name)
     const pos = actualData.findIndex((e: any) => e.key === key)
     if (pos !== -1) {
       actualData[pos] = { ...formData, key }
@@ -92,7 +92,7 @@ const TableComponent = (props: {
     })
   }
   const deleteItem = async (key: string) => {
-    var actualData: any = actualRef?.getFieldValue(name)
+    const actualData: any = actualRef?.getFieldValue(name)
     const pos = actualData.findIndex((e: any) => e.key === key)
     if (pos !== -1) {
       actualData.splice(pos, 1)

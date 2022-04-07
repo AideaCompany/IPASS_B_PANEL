@@ -1,13 +1,17 @@
-import { IApps, ILocation, iTimeZone, Privilege } from '@/types/types'
-import { FormFactory } from '@/types/typeTemplate'
+import { IApps } from '@/types/interfaces/Apps/Apps.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
+import { fileType, FormFactory } from '@/types/typeTemplate'
 
 export const formElements = (
-  privilege: Privilege[],
+  privilege: IPrivilege[],
   apps: IApps[],
   locations: ILocation[],
-  timeZone: iTimeZone[],
-  inicialData?: boolean
-): FormFactory.FormFactoryType[] => [
+  timeZone: ITimeZone[],
+  inicialData?: boolean | fileType
+): FormFactory.IFormFactoryType<IUser>[] => [
   {
     name: 'photo',
     type: 'avatar',

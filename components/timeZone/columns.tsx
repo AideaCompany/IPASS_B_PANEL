@@ -1,9 +1,10 @@
 //types
 import { deleteTimeZone } from '@/graphql/timeZone/mutations/deleteTimeZone'
 import { updateTimeZone } from '@/graphql/timeZone/mutations/updateTimeZone'
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IRisk, iTimeZone, PermissionsPrivilege, Privilege } from '@/types/types'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
 import { ColumnType } from 'antd/lib/table'
 import gql from 'graphql-tag'
 import moment from 'moment'
@@ -16,18 +17,18 @@ import { formElements } from './formElements'
 import Formitems from './formItem'
 
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  permision: Privilege
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
+  permision: IPrivilege
   lang: string
-  beforeShowUpdate?: (param: any) => any
+  beforeShowUpdate?: (param: ITimeZone) => void
   after: () => void
-}): ColumnType<iTimeZone>[] => {
+}): ColumnType<ITimeZone>[] => {
   const { translations, actualPermission, after } = props
 
   const { theme } = useContext(ThemeContext)
 
-  const operations = (record: IRisk) => (
+  const operations = (record: ITimeZone) => (
     <>
       <UpdateItem
         afterUpdate={after}
@@ -57,8 +58,7 @@ const columns = (props: {
       },
       {
         name: 'start',
-        customRender: (record: iTimeZone) => <span>{moment(record.start).format('HH:mm')}</span>
-
+        customRender: (record: ITimeZone) => <span>{moment(record.start).format('HH:mm')}</span>
         // search: true
       },
       {
@@ -67,7 +67,7 @@ const columns = (props: {
 
       {
         name: 'end',
-        customRender: (record: iTimeZone) => <span>{moment(record.end).format('HH:mm')}</span>
+        customRender: (record: ITimeZone) => <span>{moment(record.end).format('HH:mm')}</span>
 
         // search: true
       }

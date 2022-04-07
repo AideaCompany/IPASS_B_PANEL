@@ -3,7 +3,7 @@ import QrCode from 'qrcode.react'
 import React, { useEffect, useState } from 'react'
 import { QRCodeIcon } from './personalIcons'
 import { getQr, verifyQrStatus } from './services'
-var myInterval: any
+let myInterval: any
 const IPassAuthenticator = ({ onLogin }: { onLogin: (value: string, isWorker: boolean) => void }) => {
   const [visible, setVisible] = useState(false)
   const [code, setCode] = useState('')
@@ -23,7 +23,7 @@ const IPassAuthenticator = ({ onLogin }: { onLogin: (value: string, isWorker: bo
     const code = await getQr(process.env.NEXT_PUBLIC_CLIENT_ID as string)
     setCode(code.code ? code.code : '')
     setLoading(false)
-    var tries = 0
+    let tries = 0
     myInterval = setInterval(async function () {
       if (tries === 50) {
         clearInterval(myInterval)

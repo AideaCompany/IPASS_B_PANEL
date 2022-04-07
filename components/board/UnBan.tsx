@@ -28,7 +28,7 @@ const UnBan = (props: {
   }
 
   const unBanModal = async (item: any) => {
-    var result
+    let result
     if (content) {
       result = await content(item)
     }

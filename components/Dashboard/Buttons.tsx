@@ -20,7 +20,7 @@ const Buttons = () => {
             defaultValue={locations[0]?._id}
             allowClear={false}
             filterOption={(input, option: any) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-            onChange={value => setSelectedLocation((locations as ILocation[])?.find(e => e._id === value) as ILocation)}
+            onChange={value => setSelectedLocation(locations?.find(e => e._id === value) as ILocation)}
           >
             {locations?.map(e => (
               <Select.Option key={e._id} value={e._id}>

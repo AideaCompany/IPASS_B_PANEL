@@ -15,23 +15,22 @@ import useAuth from '@/providers/AuthContext'
 //Context
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllContactUser, subscribeContactUser } from '@/services/contact'
-import { IContact, PermissionsPrivilege } from '@/types/types'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { message } from 'antd'
 import gql from 'graphql-tag'
 //next
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React, { useEffect, useState } from 'react'
 
-interface actualItem extends IContact {}
-var uns: any
-
-const perNames = ['Super_admin', 'super_anfitrion', 'admin']
+type actualItem = IContact
+let uns: ZenObservable.Subscription
 
 const contact = (props: { localization: Localization; lang: string }) => {
   //props
   const { localization, lang } = props
   //states
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setData] = useState<actualItem[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   //providers
@@ -45,11 +44,11 @@ const contact = (props: { localization: Localization; lang: string }) => {
     if (actualPermission && user) {
       getData(true)
       uns = subscribeContactUser(
-        (newData: boolean) => {
+        () => {
           getData(false)
           setLoading(false)
-        },
-        perNames.includes(permission.name as string) ? null : (user._id as string)
+        }
+        // perNames.includes(permission.name) ? null : user._id
       )
     }
 
@@ -61,21 +60,25 @@ const contact = (props: { localization: Localization; lang: string }) => {
   }, [actualPermission, user])
 
   const getData = async (toLoading?: boolean) => {
-    toLoading && setLoading(true)
+    if (toLoading) {
+      setLoading(true)
+    }
     const contacts = await getAllContactUser()
     setData(contacts)
-    toLoading && setLoading(false)
+    if (toLoading) {
+      setLoading(false)
+    }
   }
 
-  const manageMentError = (error: any) => {
-    if (error.search('E11000 duplicate key error collection') > -1) {
+  const manageMentError = (currenTerror: string) => {
+    if (currenTerror.search('E11000 duplicate key error collection') > -1) {
       message.error({ content: 'Contacto con DPI ya existente', key: 'creating' })
     } else {
       message.error({ content: localization.translations.errorCreated, key: 'creating' })
     }
   }
 
-  const manageMentErrorUpdate = (error: any) => {
+  const manageMentErrorUpdate = (error: string) => {
     if (error.search('E11000 duplicate key error collection') > -1) {
       message.error({ content: 'Contacto con DPI ya existente', key: 'update' })
     } else {
@@ -89,7 +92,7 @@ const contact = (props: { localization: Localization; lang: string }) => {
         create={
           <CreateItem
             iconButton={true}
-            actualPermission={actualPermission as PermissionsPrivilege}
+            actualPermission={actualPermission as IPermissionsPrivilege}
             translations={localization.translations}
             mutation={gql(createContact)}
             formElements={formElements()}
@@ -107,7 +110,7 @@ const contact = (props: { localization: Localization; lang: string }) => {
           <TableDatas
             columns={columns({
               translations: localization.translations,
-              actualPermisions: actualPermission as PermissionsPrivilege,
+              actualPermisions: actualPermission as IPermissionsPrivilege,
               deleteMutation: gql(deleteContact),
               updateMutation: gql(updateContact),
               after: getData,
@@ -125,7 +128,7 @@ const contact = (props: { localization: Localization; lang: string }) => {
 
 export default React.memo(contact)
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'contact')
   return {
     props: {
@@ -133,7 +136,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
     }
   }
 }
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false

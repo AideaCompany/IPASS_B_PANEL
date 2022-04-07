@@ -24,7 +24,7 @@ type passwordForm = {
   confirmPassword: string
 }
 
-export default function SignIn(props: { localization: Localization }): JSX.Element {
+const SignIn = (props: { localization: Localization }): JSX.Element => {
   //Props
   const { localization } = props
   //provider
@@ -39,10 +39,11 @@ export default function SignIn(props: { localization: Localization }): JSX.Eleme
       variables: { input: { password: data.password, _id: router.query.id } }
     })
       .then(res => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         login(res.data.changePassword.token)
         setLoading(false)
       })
-      .catch(err => console.error(err))
+      .catch(err => console.info(err))
   }
 
   const [changePasswordTrigger] = useMutation(gql(changePassword))
@@ -108,7 +109,7 @@ export default function SignIn(props: { localization: Localization }): JSX.Eleme
   )
 }
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'auth')
   return {
     props: {
@@ -117,9 +118,11 @@ export const getStaticProps: GetStaticProps = async ctx => {
   }
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false
   }
 }
+
+export default SignIn

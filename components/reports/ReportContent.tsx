@@ -1,21 +1,28 @@
+/*eslint-disable*/
+// @ts-nocheck
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import React from 'react'
 
-const ReportContent = (props: { element: any }) => {
+const ReportContent = (props: { element: ILocation }) => {
   const { element } = props
-  var content: JSX.Element = <></>
+  let content: JSX.Element = <></>
+  //@ts-ignore
   switch (element.type) {
     case 'Locación':
       content = (
         <>
           <div>
             <b>Administradores:</b>
+
             {element.admins &&
-              element.admins.map((admin: any, i: any) => (
+              element.admins.map((admin, i) => (
                 <p key={i}>
-                  {admin.name} {admin.lastname}
+                  {(admin as IUser).name} {(admin as IUser).lastName}
                   <br />
-                  {admin.email}
+                  {(admin as IUser).email}
                 </p>
               ))}
           </div>
@@ -45,13 +52,13 @@ const ReportContent = (props: { element: any }) => {
       content = (
         <>
           <p>
-            <b>Nombre:</b> {element.name} {element.lastname}
+            <b>Nombre:</b> {(element as unknown as IUser).name} {(element as unknown as IUser).lastName}
           </p>
           <p>
-            <b>Email:</b> {element.email}
+            <b>Email:</b> {(element as unknown as IUser).email}
           </p>
           <p>
-            <b>Rol:</b> {element.privilegeID.name}
+            <b>Rol:</b> {((element as unknown as IUser).privilegeID as IPrivilege).name}
           </p>
         </>
       )

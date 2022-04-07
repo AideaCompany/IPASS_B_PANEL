@@ -10,76 +10,78 @@ import { listLocation } from '@/graphql/location/queries/listLocation'
 import { listLocationActive } from '@/graphql/location/queries/listLocationActive'
 import { subListLocation } from '@/graphql/location/subscrition/subListLocation'
 import { subSecurityByLocation } from '@/graphql/location/subscrition/subSecurityByLocation'
-import { ILocation } from '@/types/types'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { ICreateLocation, IUpdateLocation } from '@/types/interfaces/Location/MutationLocation.interface'
+
 import { convertTotable } from '@/utils/utils'
 import { gql } from '@apollo/client'
 
 export const getAllLocation = async (): Promise<ILocation[]> => {
   client.cache.reset()
-  return convertTotable<ILocation>(await (await client.query({ query: gql(listLocation) })).data.listLocation)
+  return convertTotable<ILocation>((await (await client.query({ query: gql(listLocation) })).data.listLocation) as ILocation[])
 }
 
-export const getLocationsByMasterFn = async (_id: string) => {
+export const getLocationsByMasterFn = async (_id: string): Promise<ILocation[]> => {
   client.cache.reset()
-  return convertTotable<ILocation>((await client.query({ query: gql(getLocationsByMaster), variables: { _id } })).data.getLocationsByMaster)
+  return convertTotable<ILocation>(
+    (await client.query({ query: gql(getLocationsByMaster), variables: { _id } })).data.getLocationsByMaster as ILocation[]
+  )
 }
 
 export const getAllLocationActive = async (): Promise<ILocation[]> => {
   client.cache.reset()
-  return convertTotable<ILocation>(await (await client.query({ query: gql(listLocationActive) })).data.listLocationActive)
+  return convertTotable<ILocation>((await (await client.query({ query: gql(listLocationActive) })).data.listLocationActive) as ILocation[])
 }
 
 export const subscribeLocation = async (after: (data: ILocation[], isFirst: boolean) => void): Promise<ZenObservable.Subscription> => {
   after(await getAllLocation(), true)
   return client.subscribe({ query: gql(subListLocation) }).subscribe({
     next(data) {
-      after(data.data.subListLocation, false)
+      after(data.data.subListLocation as ILocation[], false)
     },
     error(error) {
-      console.error(error)
+      throw new Error(String(error))
     }
   })
 }
 
-export const createLocationFn = async (input: any): Promise<boolean> => {
-  return (await client.mutate({ mutation: gql(createLocation), variables: { input } })).data.createLocation
+export const createLocationFn = async (input: ICreateLocation): Promise<boolean> => {
+  return (await client.mutate({ mutation: gql(createLocation), variables: { input } })).data.createLocation as boolean
 }
 
 export const getLocationFn = async (_id: string): Promise<ILocation> => {
   client.cache.reset()
-  return await (
+  return (await (
     await client.query({ query: gql(getLocation), variables: { _id } })
-  ).data.getLocation
+  ).data.getLocation) as ILocation
 }
 
-export const updateLocationFn = async (input: any): Promise<boolean> => {
-  return (await client.mutate({ mutation: gql(updateLocation), variables: { input } })).data.updateLocation
+export const updateLocationFn = async (input: IUpdateLocation): Promise<boolean> => {
+  return (await client.mutate({ mutation: gql(updateLocation), variables: { input } })).data.updateLocation as boolean
 }
 
-export const getAllToSecurityFn = async (locationID: string): Promise<any> => {
+export const getAllToSecurityFn = async (locationID: string): Promise<unknown> => {
   client.cache.reset()
-  return (await client.query({ query: gql(getAllToSecurity), variables: { locationID } })).data.getAllToSecurity
+  return (await client.query({ query: gql(getAllToSecurity), variables: { locationID } })).data.getAllToSecurity as unknown
 }
 
-export const generateExcelSecurityFn = async (locationID: string): Promise<any> => {
+export const generateExcelSecurityFn = async (locationID: string): Promise<string> => {
   client.cache.reset()
-  return (await client.query({ query: gql(generateExcelSecurity), variables: { locationID } })).data.generateExcelSecurity
+  return (await client.query({ query: gql(generateExcelSecurity), variables: { locationID } })).data.generateExcelSecurity as string
 }
 
-export const generatePDFSecurityFn = async (locationID: string): Promise<any> => {
+export const generatePDFSecurityFn = async (locationID: string): Promise<string> => {
   client.cache.reset()
-  return (await client.query({ query: gql(generatePDFSecurity), variables: { locationID } })).data.generatePDFSecurity
+  return (await client.query({ query: gql(generatePDFSecurity), variables: { locationID } })).data.generatePDFSecurity as string
 }
 
-export const subscribeSecurity = async (locationID: string, after: (id: ILocation[]) => void): Promise<ZenObservable.Subscription> => {
-  console.log(locationID)
+export const subscribeSecurity = (locationID: string, after: (id: ILocation[]) => void): ZenObservable.Subscription => {
   return client.subscribe({ query: gql(subSecurityByLocation), variables: { locationID } }).subscribe({
     next(data) {
-      after(data.data.subSecurityByLocation)
+      after(data.data.subSecurityByLocation as ILocation[])
     },
     error(error) {
-      console.log('error subscribeSecurity', error)
-      console.error(error)
+      throw new Error(String(error))
     }
   })
 }

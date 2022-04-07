@@ -14,6 +14,7 @@ import ColumnFactory from '../crudFunctions/columnFactory'
 import DeleteItem from '../crudFunctions/delete'
 import UpdateItem from '../crudFunctions/update'
 import { formElements } from './formElements'
+import RenderCheck from '../RenderCheck'
 import FormItems from './formItems'
 
 const columns = (props: {
@@ -69,6 +70,7 @@ const columns = (props: {
       {
         name: 'plus',
         fixed: 'left',
+        customRender: (record: IClient) => <RenderCheck value={record.plus} />,
         search: true,
         width: 100
       },

@@ -1,9 +1,13 @@
 //types
 import { deleteEventExpress } from '@/graphql/eventExpress/mutations/deleteEventExpress'
 import { updateEventExpress } from '@/graphql/eventExpress/mutations/updateEventExpress'
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IContact, IEvent, IEventExpress, ILocation, PermissionsPrivilege, Privilege } from '@/types/types'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
+import { IEventExpress } from '@/types/interfaces/EventExpress/eventExpress.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
 import { getTime } from '@/utils/utils'
 import { CheckCircleOutlined, ClockCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import { ColumnType } from 'antd/lib/table'
@@ -20,15 +24,15 @@ import { formElements } from './formElements'
 import FormItems from './formItem'
 
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  permision: Privilege
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
+  permision: IPrivilege
   lang: string
   locations: ILocation[]
   contacts: IContact[]
-  beforeShowUpdate?: (param: any) => any
+  beforeShowUpdate?: (param: IEventExpress) => void
   after: () => void
-}): ColumnType<IEvent>[] => {
+}): ColumnType<IEventExpress>[] => {
   const { translations, actualPermission, locations, contacts } = props
   const { theme } = useContext(ThemeContext)
   const operations = (record: IEventExpress) => (
@@ -36,9 +40,7 @@ const columns = (props: {
       <EventInfo event={record} />
 
       {(((record?.contact as IContact)?.verifiedData !== null && (record?.contact as IContact)?.verifiedData?.documentNumber !== null) ||
-        (record?.contact as IContact)?.verifiedDataPDF !== null) && (
-        <ShowVerificationModal translations={translations} record={record.contact as IContact} />
-      )}
+        (record?.contact as IContact)?.verifiedDataPDF !== null) && <ShowVerificationModal translations={translations} record={record.contact} />}
       <UpdateItem
         // beforeShowUpdate={beforeShowUpdate}
         // beforeUpdate={beforeUpdateRecord}
@@ -77,7 +79,7 @@ const columns = (props: {
       },
       {
         name: 'end',
-        customRender: (render: IEventExpress, index?: number) => {
+        customRender: (render: IEventExpress) => {
           return render.end ? getTime(render.end) : <span>-</span>
         },
         width: 180
@@ -87,7 +89,11 @@ const columns = (props: {
         name: 'authorizedBy',
         ellipsis: true,
         customRender: (render: IEventExpress) =>
-          render.authorizedBy ? `${capitalize(render.authorizedBy.name)} ${capitalize(render.authorizedBy.lastname)}` : <span>-</span>
+          render.authorizedBy ? (
+            `${capitalize((render.authorizedBy as IUser).name)} ${capitalize((render.authorizedBy as IUser).lastName)}`
+          ) : (
+            <span>-</span>
+          )
       },
       {
         name: 'state',

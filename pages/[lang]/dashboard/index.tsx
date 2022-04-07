@@ -13,7 +13,8 @@ const index = ({ localization, lang }: { localization: Localization; lang: strin
 }
 
 export default React.memo(index)
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+
+export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
   const localization = getLocalizationProps(ctx, 'dashboard')
 
   return { props: { localization } }

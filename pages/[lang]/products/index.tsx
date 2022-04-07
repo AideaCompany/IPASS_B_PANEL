@@ -5,7 +5,6 @@ import MainLayout from '@/components/layout/Layout'
 import columns from '@/components/products/columns'
 import { formElements } from '@/components/products/formElements'
 import FormItems from '@/components/products/formItem'
-import UploadExcel from '@/components/clients/UploadExcel'
 import TableData from '@/components/TableDatas'
 import { createProduct } from '@/graphql/product/mutation/createProduct'
 //types
@@ -74,7 +73,6 @@ const Products = (props: { localization: Localization; lang: string }) => {
         title={localization?.translations.titleSection}
       >
         <>
-          <UploadExcel reload={getData} translations={localization.translations} />
           <TableData
             columns={columns({
               translations: localization.translations,

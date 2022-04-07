@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+import React from 'react'
 import Icon from '@ant-design/icons'
 
 const academicSVG = () => (
@@ -316,12 +318,12 @@ const ShieldSvg = () => (
   </svg>
 )
 
-export const Academic = (props: any) => <Icon component={academicSVG} {...props} />
-export const Raspberry = (props: any) => <Icon component={RasbperrySvg} {...props} />
-export const Worker = (props: any) => <Icon component={WorkerSvg} {...props} />
-export const Role = (props: any) => <Icon component={RoleSvg} {...props} />
-export const CategoryIcon = (props: any) => <Icon component={CategorySvg} {...props} />
-export const BrandIcon = (props: any) => <Icon component={BrandSvg} {...props} />
-export const HouseIcon = (props: any) => <Icon component={HouseSvg} {...props} />
-export const Building = (props: any) => <Icon component={BuildingSvg} {...props} />
-export const Shield = (props: any) => <Icon component={ShieldSvg} {...props} />
+export const Academic = (props: unknown) => <Icon component={academicSVG} {...props} />
+export const Raspberry = (props: unknown) => <Icon component={RasbperrySvg} {...props} />
+export const Worker = (props: unknown) => <Icon component={WorkerSvg} {...props} />
+export const Role = (props: unknown) => <Icon component={RoleSvg} {...props} />
+export const CategoryIcon = (props: unknown) => <Icon component={CategorySvg} {...props} />
+export const BrandIcon = (props: unknown) => <Icon component={BrandSvg} {...props} />
+export const HouseIcon = (props: unknown) => <Icon component={HouseSvg} {...props} />
+export const Building = (props: unknown) => <Icon component={BuildingSvg} {...props} />
+export const Shield = (props: unknown) => <Icon component={ShieldSvg} {...props} />

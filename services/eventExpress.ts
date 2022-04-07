@@ -5,38 +5,39 @@ import { denyEventExpress } from '@/graphql/eventExpress/mutations/denyEventExpr
 import { sendQREventExpress } from '@/graphql/eventExpress/mutations/sendQREventExpress'
 import { listEventExpress } from '@/graphql/eventExpress/queries/listEventExpress'
 import { subListEventExpress } from '@/graphql/eventExpress/suscriptions/subListEventExpress'
-import { IEventExpress } from '@/types/types'
+import { IEventExpress } from '@/types/interfaces/EventExpress/eventExpress.interface'
+import { ICreateEventExpress } from '@/types/interfaces/EventExpress/MutationEventeExpress.interface'
 import { convertTotable } from '@/utils/utils'
 import { gql } from 'apollo-boost'
 
 export const listEventExpressFn = async (): Promise<IEventExpress[]> => {
   await client.cache.reset()
-  return convertTotable<IEventExpress>((await client.query({ query: gql(listEventExpress) })).data.listEventExpress)
+  return convertTotable<IEventExpress>((await client.query({ query: gql(listEventExpress) })).data.listEventExpress as IEventExpress[])
 }
 
-export const createEventExpressFn = async (input: any) => {
-  return (await client.mutate({ mutation: gql(createEventExpress), variables: { input } })).data.createEventExpress
+export const createEventExpressFn = async (input: { input: ICreateEventExpress }): Promise<IEventExpress> => {
+  return (await client.mutate({ mutation: gql(createEventExpress), variables: { input } })).data.createEventExpress as IEventExpress
 }
 
-export const acceptEventExpressFn = async (_id: string) => {
-  return (await client.mutate({ mutation: gql(acceptEventExpress), variables: { _id } })).data.acceptEventExpress
+export const acceptEventExpressFn = async (_id: string): Promise<boolean> => {
+  return (await client.mutate({ mutation: gql(acceptEventExpress), variables: { _id } })).data.acceptEventExpress as boolean
 }
 
-export const denyEventExpressFn = async (_id: string) => {
-  return (await client.mutate({ mutation: gql(denyEventExpress), variables: { _id } })).data.denyEventExpress
+export const denyEventExpressFn = async (_id: string): Promise<boolean> => {
+  return (await client.mutate({ mutation: gql(denyEventExpress), variables: { _id } })).data.denyEventExpress as boolean
 }
 
-export const sendQREventExpressFn = async (_id: string) => {
-  return (await client.mutate({ mutation: gql(sendQREventExpress), variables: { _id } })).data.denyEventExpress
+export const sendQREventExpressFn = async (_id: string): Promise<boolean> => {
+  return (await client.mutate({ mutation: gql(sendQREventExpress), variables: { _id } })).data.denyEventExpress as boolean
 }
 
-export const subListEventExpressFn = async (after: (data: boolean) => void) => {
+export const subListEventExpressFn = (after: (data: boolean) => void): ZenObservable.Subscription => {
   return client.subscribe({ query: gql(subListEventExpress) }).subscribe({
     next: ({ data }) => {
-      after(data.subListEventExpress)
+      after(data.subListEventExpress as boolean)
     },
     error(err) {
-      console.log('err', err)
+      throw new Error(String(err))
     }
   })
 }

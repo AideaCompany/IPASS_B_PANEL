@@ -12,23 +12,24 @@ import useAuth from '@/providers/AuthContext'
 //Context
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { listTimeZonesFn } from '@/services/timeZone'
-/* import { getAllAuthenticator } from '@/services/risk' */
-import { iTimeZone, PermissionsPrivilege } from '@/types/types'
+
 //next
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React, { useEffect, useState } from 'react'
 import gql from 'graphql-tag'
 import { createTimeZone } from '@/graphql/timeZone/mutations/createTimeZone'
 import FormItems from '@/components/timeZone/formItem'
-import moment from 'moment-timezone'
+import moment, { Moment } from 'moment-timezone'
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 
-interface actualItem extends iTimeZone {}
+type actualItem = ITimeZone
 const visitorCategory = (props: { localization: Localization; lang: string }) => {
   //props
   const { localization, lang } = props
 
   //states
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setdata] = useState<actualItem[]>([])
   const [loading, setloading] = useState<boolean>(true)
   //providers
@@ -39,11 +40,9 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
   }, [permission])
 
   useEffect(() => {
-    ;(async () => {
-      if (actualPermission) {
-        getData()
-      }
-    })()
+    if (actualPermission) {
+      getData()
+    }
   }, [actualPermission])
 
   const getData = async () => {
@@ -53,10 +52,10 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
     setloading(false)
   }
 
-  const beforeCreate = (data: iTimeZone) => {
-    data.start = data.start.format('HH:mm')
-    data.end = data.end.format('HH:mm')
-    return data
+  const beforeCreate = (currentData: ITimeZone) => {
+    currentData.start = (currentData.start as Moment).format('HH:mm')
+    currentData.end = (currentData.end as Moment).format('HH:mm')
+    return currentData
   }
 
   return (
@@ -65,7 +64,7 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
         create={
           <CreateItem
             iconButton={true}
-            actualPermission={actualPermission as PermissionsPrivilege}
+            actualPermission={actualPermission as IPermissionsPrivilege}
             translations={localization.translations}
             mutation={gql(createTimeZone)}
             formElements={formElements()}
@@ -83,7 +82,7 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
         <TableData
           columns={columns({
             translations: localization.translations,
-            actualPermission: actualPermission as PermissionsPrivilege,
+            actualPermission: actualPermission as IPermissionsPrivilege,
             permision: permission,
             lang: lang,
             after: getData
@@ -98,7 +97,7 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
 
 export default React.memo(visitorCategory)
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'timeZone')
   return {
     props: {
@@ -106,7 +105,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
     }
   }
 }
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false
