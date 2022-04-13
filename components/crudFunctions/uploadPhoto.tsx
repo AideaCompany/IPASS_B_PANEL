@@ -57,10 +57,11 @@ const uploadPhoto = (props: { name: string; translate: ITranslations; inicialDat
     //@ts-ignore
     setpreviewTitle((file.name as string) || (file.url as string).substring((file.url as string).lastIndexOf('/') + 1))
   }
-  const handleChange = (input: { file: any; currentFileList: any }) => {
-    const { file, currentFileList } = input
+  const handleChange = (input: { file: any; fileList: any }) => {
+    const { file, fileList } = input
     let err = false
-    if (currentFileList.length > 0) {
+    console.log(input)
+    if (fileList.length > 0) {
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/svg+xml'
       if (!isJpgOrPng) {
         message.error('Solo puedes subir archivos JPG/PNG/SVG!')
@@ -74,15 +75,15 @@ const uploadPhoto = (props: { name: string; translate: ITranslations; inicialDat
         setfileList([])
       }
       if (!err) {
-        setfileList(currentFileList as UploadFile<any>[])
+        setfileList(fileList as UploadFile<any>[])
       }
     } else {
       setfileList([])
     }
   }
-  const normalize = ({ currentFileList }: { file: any; currentFileList: UploadFile<any>[] }) => {
+  const normalize = ({ fileList }: { file: any; fileList: UploadFile<any>[] }) => {
     try {
-      return currentFileList[0].originFileObj
+      return fileList[0].originFileObj
     } catch (error) {
       return []
     }

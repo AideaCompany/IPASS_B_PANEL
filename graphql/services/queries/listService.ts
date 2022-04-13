@@ -24,13 +24,17 @@ export const listService = /* GraphQL */ `
             price
             measureType
             amount
-            services
+            services {
+              _id
+            }
             designedFor
           }
           productQuantity
         }
         eta
-        staffers
+        staffers {
+          _id
+        }
         price
         cost
         serviceFee
@@ -50,7 +54,9 @@ export const listService = /* GraphQL */ `
           name
           abbreviation
           eta
-          staffers
+          staffers {
+            _id
+          }
           price
           cost
           subServiceFee

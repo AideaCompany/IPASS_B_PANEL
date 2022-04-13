@@ -1,6 +1,7 @@
+import { IService } from '@/types/types'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElements = (): FormFactory.FormFactoryType[] => [
+export const formElements = (services: IService[]): FormFactory.IFormFactoryType<IService>[] => [
   {
     name: 'name',
     type: 'string',
@@ -41,7 +42,7 @@ export const formElements = (): FormFactory.FormFactoryType[] => [
   {
     name: 'services',
     type: 'selectMultiple',
-    data: []
+    data: services
   },
   {
     name: 'designedFor',

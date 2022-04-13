@@ -3,7 +3,7 @@ import { deleteProduct } from '@/graphql/product/mutation/deleteProduct'
 import { updateProduct } from '@/graphql/product/mutation/updateProduct'
 import { Translations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { ILocation, PermissionsPrivilege, Privilege } from '@/types/types'
+import { ILocation, IProduct, IProducts, IService, PermissionsPrivilege, Privilege } from '@/types/types'
 import { ColumnType } from 'antd/lib/table'
 import { gql } from 'apollo-boost'
 import React, { useContext } from 'react'
@@ -17,10 +17,11 @@ const columns = (props: {
   translations: Translations
   actualPermission: PermissionsPrivilege
   permision: Privilege
+  services: IService[]
   lang: string
   after: () => void
-}): ColumnType<ILocation>[] => {
-  const { translations, actualPermission, permision, after } = props
+}): ColumnType<IProduct>[] => {
+  const { translations, actualPermission, permision, after, services } = props
   const { theme } = useContext(ThemeContext)
 
   // const getFormElements = () => {
@@ -32,7 +33,7 @@ const columns = (props: {
   //   }
   // }
 
-  const operations = (record: ILocation) => {
+  const operations = (record: IProduct) => {
     return (
       <>
         <UpdateItem
@@ -43,7 +44,7 @@ const columns = (props: {
           mutation={gql(updateProduct)}
           record={record}
           FormItems={<FormItems translations={translations} isUpdate />}
-          formElements={formElements()}
+          formElements={formElements(services)}
         />
         <DeleteItem
           afterDelete={after}

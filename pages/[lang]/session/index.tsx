@@ -94,7 +94,7 @@ const SignIn = (props: { localization: Localization }): JSX.Element => {
         }
       })
       .catch(err => {
-        console.info(err)
+        message.error('El usuario o la contraseña son incorrectos')
       })
       .finally(() => setSpinning(false))
   }

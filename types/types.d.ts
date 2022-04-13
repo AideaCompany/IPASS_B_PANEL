@@ -210,7 +210,7 @@ export interface IProduct extends Document, basicTable {
   price: number
   measureType: string
   amount: number
-  services: string
+  services: IService[] | string[]
   designedFor: string
 }
 

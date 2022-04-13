@@ -1,6 +1,6 @@
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElements = (): FormFactory.FormFactoryType[] => [
+export const formElements = (): FormFactory.IFormFactoryType<any>[] => [
   {
     name: 'photo',
     type: 'avatar',

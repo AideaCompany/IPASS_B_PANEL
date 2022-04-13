@@ -13,7 +13,8 @@ import useAuth from '@/providers/AuthContext'
 //Context
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllProductsFn } from '@/services/products'
-import { IProduct, PermissionsPrivilege } from '@/types/types'
+import { getAllServices, listAllServicesFn } from '@/services/services'
+import { IProduct, IService, PermissionsPrivilege } from '@/types/types'
 import { gql } from '@apollo/client'
 //next
 import { GetStaticPaths, GetStaticProps } from 'next'
@@ -28,6 +29,7 @@ const Products = (props: { localization: Localization; lang: string }) => {
   //states
   const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
   const [data, setdata] = useState<actualItem[]>([])
+  const [services, setServices] = useState<IService[]>([])
   const [loading, setloading] = useState<boolean>(true)
   //providers
   const { permission } = useAuth()
@@ -47,8 +49,10 @@ const Products = (props: { localization: Localization; lang: string }) => {
   const getData = async () => {
     setloading(true)
     const data = await getAllProductsFn()
-    console.log(data)
-    // setdata(await getAllProductsFn())
+    setdata(data)
+    const services = await listAllServicesFn()
+    console.log(services)
+    setServices(services)
     setloading(false)
   }
 
@@ -61,7 +65,7 @@ const Products = (props: { localization: Localization; lang: string }) => {
             actualPermission={actualPermission as PermissionsPrivilege}
             translations={localization.translations}
             mutation={gql(createProduct)}
-            formElements={formElements()}
+            formElements={formElements(services)}
             FormItem={<FormItems isUpdate={true} translations={localization.translations} />}
             afterCreate={getData}
 
@@ -79,6 +83,7 @@ const Products = (props: { localization: Localization; lang: string }) => {
               actualPermission: actualPermission as PermissionsPrivilege,
               permision: permission,
               lang: lang,
+              services,
               after: getData
             })}
             data={data}
