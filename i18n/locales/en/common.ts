@@ -50,6 +50,7 @@ const common = {
   creating: 'Creating',
   updating: 'Updating',
   reload: 'Reload',
+  stores: 'Establecimientos',
 
   // general message
   successfullyCreated: 'Successfully created',

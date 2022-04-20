@@ -22,6 +22,9 @@ import board from './board'
 import verification from './verification'
 import eventExpress from './eventExpress'
 import dashboard from './dashboard'
+import stores from './stores'
+import brands from './brands'
+import styleHair from './styleHair'
 export default {
   common,
   auth,
@@ -46,5 +49,8 @@ export default {
   board,
   verification,
   eventExpress,
-  dashboard
+  dashboard,
+  stores,
+  brands,
+  styleHair
 }

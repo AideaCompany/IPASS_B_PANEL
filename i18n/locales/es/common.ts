@@ -50,6 +50,9 @@ const common = {
   creating: 'Creando ...',
   updating: 'Actualizando ...',
   reload: 'Recargar',
+  stores: 'Establecimientos',
+  brands: 'Marcas',
+  styleHair: 'Estilos de cabello',
   // general message
   successfullyCreated: 'Creado con exito',
   errorCreated: 'Ocurrio un error creando',
