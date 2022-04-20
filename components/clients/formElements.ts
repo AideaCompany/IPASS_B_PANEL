@@ -26,7 +26,7 @@ export const formElements = (): FormFactory.FormFactoryType[] => [
   },
   {
     name: 'phone1',
-    type: 'number',
+    type: 'string',
     required: true
   },
   {
