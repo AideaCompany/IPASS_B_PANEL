@@ -103,12 +103,12 @@ const columns = (props: {
       //   width: 150,
       //   search: true
       // },
-      {
-        name: 'plus',
-        search: true,
-        customRender: (record: IService) => <RenderCheck value={record.plus} />,
-        width: 150
-      },
+      // {
+      //   name: 'plus',
+      //   search: true,
+      //   customRender: (record: IService) => <RenderCheck value={record.plus} />,
+      //   width: 150
+      // },
       {
         name: 'staffers',
         search: true,

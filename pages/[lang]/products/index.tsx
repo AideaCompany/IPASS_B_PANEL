@@ -56,7 +56,7 @@ const Products = (props: { localization: Localization; lang: string }) => {
     setdata(data)
     const services = await listAllServicesFn()
     setBrands(await getAllBrands())
-    console.log(services)
+    console.log('esto es serivcios', services)
     setServices(services)
     setloading(false)
   }

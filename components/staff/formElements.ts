@@ -59,8 +59,7 @@ export const formElements = (stores: IStores[], inicialData?: boolean | unknown)
   },
   {
     name: 'specialty',
-    type: 'select',
-    data: []
+    type: 'string'
   },
   {
     name: 'AET',

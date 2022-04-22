@@ -132,7 +132,7 @@ const staff = (props: {
         formElements={formElements(stores)}
         afterCreate={getData}
         manageMentError={manageMentError}
-        FormItem={<FormItems stores={stores} permission={permission} translations={localization.translations} />}
+        FormItem={<FormItems stores={stores} isUpdate={true} permission={permission} translations={localization.translations} />}
         iconButton={true}
       />
     </div>

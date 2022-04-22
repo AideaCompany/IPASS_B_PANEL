@@ -74,7 +74,6 @@ const columns = (props: {
       {
         name: 'brand',
         customRender: (record: IProduct) => {
-          console.log(record)
           return record.brand ? (record.brand as IBrands).name : ''
         }
       },
