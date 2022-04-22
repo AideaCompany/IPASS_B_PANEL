@@ -1,23 +1,25 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useRef, useContext } from 'react'
 import { message, Modal, Form, Tooltip, Button } from 'antd'
 import { FormInstance } from 'antd/lib/form'
 import { DocumentNode } from 'graphql'
 import client from '../../graphql/config'
-import { Translations } from '../../i18n/types'
-import { PermissionsPrivilege } from '../../types/types'
+import { ITranslations } from '../../i18n/types'
+
 import ButtonsCrud from '../ButtonsCrud'
 import { ThemeContext } from '../../providers/ThemeContext'
 import { FormFactory } from '@/types/typeTemplate'
 import { PlusOutlined } from '@ant-design/icons'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 const CreateItem = (props: {
-  actualPermission: PermissionsPrivilege
-  translations: Translations
+  actualPermission: IPermissionsPrivilege
+  translations: ITranslations
   mutation: DocumentNode
   beforeCreate?: (data: any) => any
   FormItem: JSX.Element
   initialValues?: any
-  formElements: FormFactory.FormFactoryType[]
-  afterCreate?: any
+  formElements: FormFactory.IFormFactoryType<any>[]
+  afterCreate?: () => void
   manageMentError?: (err: any) => void
   customButton?: JSX.Element
   iconButton?: boolean
@@ -41,11 +43,11 @@ const CreateItem = (props: {
   const formRef = useRef<FormInstance>(null)
   const createItem = async () => {
     let formData = await formRef.current?.validateFields()
-    for (let k = 0; k < formElements.length; k++) {
-      if (formData[formElements[k].name] !== null && formData[formElements[k].name] !== undefined) {
-        switch (formElements[k].type) {
+    for (const currentFormElement of formElements) {
+      if (formData[currentFormElement.name] !== null && formData[currentFormElement.name] !== undefined) {
+        switch (currentFormElement.type) {
           case 'boolean':
-            formData[formElements[k].name] = formData[formElements[k].name] ? true : false
+            formData[currentFormElement.name] = formData[currentFormElement.name] ? true : false
             break
         }
       }
@@ -56,7 +58,7 @@ const CreateItem = (props: {
     message.loading({ content: translations.creating, key: 'creating', duration: 0 })
     client
       .mutate({ mutation: mutation, variables: { input: { ...formData } } })
-      .then(res => {
+      .then(() => {
         message.success({ content: translations.successfullyCreated, key: 'creating' })
         if (afterCreate) {
           afterCreate()
