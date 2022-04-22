@@ -59,16 +59,16 @@ const MainLayout = (props: LayoutProps) => {
       title: localization.translations.clients,
       icon: <UserOutlined />
     },
-    // {
-    //   path: '/services',
-    //   title: localization.translations.services,
-    //   icon: <HeartOutlined />
-    // },
-    // {
-    //   path: '/subServices',
-    //   title: localization.translations.subservices,
-    //   icon: <HeartOutlined />
-    // },
+    {
+      path: '/services',
+      title: localization.translations.services,
+      icon: <HeartOutlined />
+    },
+    {
+      path: '/subServices',
+      title: localization.translations.subservices,
+      icon: <HeartOutlined />
+    },
     // {
     //   path: '/reports',
     //   title: localization.translations.reports,
@@ -149,11 +149,11 @@ const MainLayout = (props: LayoutProps) => {
       title: localization.translations.stores,
       icon: <Building />
     },
-    // {
-    //   path: '/brands',
-    //   title: localization.translations.brands,
-    //   icon: <ShoppingOutlined />
-    // },
+    {
+      path: '/brands',
+      title: localization.translations.brands,
+      icon: <ShoppingOutlined />
+    },
     // {
     //   path: '/styleHair',
     //   title: localization.translations.styleHair,
@@ -164,16 +164,16 @@ const MainLayout = (props: LayoutProps) => {
       title: localization.translations.staff,
       icon: <Worker />
     },
-    // {
-    //   path: '/products',
-    //   title: localization.translations.products,
-    //   icon: <ShoppingOutlined />
-    // },
-    // {
-    //   path: '/serviceTypes',
-    //   title: localization.translations.serviceTypes,
-    //   icon: <TagsOutlined />
-    // },
+    {
+      path: '/products',
+      title: localization.translations.products,
+      icon: <ShoppingOutlined />
+    },
+    {
+      path: '/serviceTypes',
+      title: localization.translations.serviceTypes,
+      icon: <TagsOutlined />
+    },
     {
       path: '/users',
       title: localization.translations.user,

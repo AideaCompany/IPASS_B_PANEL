@@ -42,7 +42,6 @@ export const listProduct = /* GraphQL */ `
           lastName1
           lastName2
           address
-          stores
           phone
           phone1
           email

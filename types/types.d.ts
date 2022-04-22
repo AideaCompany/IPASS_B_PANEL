@@ -204,7 +204,7 @@ export interface ILocation extends Document, basicTable {
 export interface IProduct extends Document, basicTable {
   name: string
   abbreviation: string
-  brand: string
+  brand: string | IBrand
   photo: fileType
   productType: string
   price: number

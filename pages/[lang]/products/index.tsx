@@ -12,8 +12,10 @@ import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 //Context
 import { getLocalizationProps } from '@/providers/LenguageContext'
+import { getAllBrands } from '@/services/brands'
 import { getAllProductsFn } from '@/services/products'
 import { listAllServicesFn } from '@/services/services'
+import { IBrands } from '@/types/interfaces/Brands/Brands.interface'
 import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { IProduct, IService } from '@/types/types'
 import { gql } from '@apollo/client'
@@ -32,6 +34,7 @@ const Products = (props: { localization: Localization; lang: string }) => {
   const [data, setdata] = useState<actualItem[]>([])
   const [services, setServices] = useState<IService[]>([])
   const [loading, setloading] = useState<boolean>(true)
+  const [brands, setBrands] = useState<IBrands[]>([])
   //providers
   const { permission } = useAuth()
   //Effect
@@ -52,6 +55,7 @@ const Products = (props: { localization: Localization; lang: string }) => {
     const data = await getAllProductsFn()
     setdata(data)
     const services = await listAllServicesFn()
+    setBrands(await getAllBrands())
     console.log(services)
     setServices(services)
     setloading(false)
@@ -66,8 +70,8 @@ const Products = (props: { localization: Localization; lang: string }) => {
             actualPermission={actualPermission as IPermissionsPrivilege}
             translations={localization.translations}
             mutation={gql(createProduct)}
-            formElements={formElements(services)}
-            FormItem={<FormItems isUpdate={true} translations={localization.translations} />}
+            formElements={formElements(services, brands)}
+            FormItem={<FormItems isUpdate={false} translations={localization.translations} brands={brands} services={services} />}
             afterCreate={getData}
 
             /* manageMentError={manageMentError} */
@@ -85,7 +89,8 @@ const Products = (props: { localization: Localization; lang: string }) => {
               permision: permission,
               lang: lang,
               services,
-              after: getData
+              after: getData,
+              brands
             })}
             data={data}
             loading={loading}

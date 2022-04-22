@@ -1,9 +1,13 @@
 //types
 import { deleteProduct } from '@/graphql/product/mutation/deleteProduct'
 import { updateProduct } from '@/graphql/product/mutation/updateProduct'
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { ILocation, IProduct, IProducts, IService, PermissionsPrivilege, Privilege } from '@/types/types'
+import { IBrands } from '@/types/interfaces/Brands/Brands.interface'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IProduct, IService } from '@/types/types'
+import { UserOutlined } from '@ant-design/icons'
+import { Avatar, Image } from 'antd'
 import { ColumnType } from 'antd/lib/table'
 import { gql } from 'apollo-boost'
 import React, { useContext } from 'react'
@@ -14,14 +18,15 @@ import UpdateItem from '../crudFunctions/update'
 import { formElements } from './formElements'
 import FormItems from './formItem'
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  permision: Privilege
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
+  permision: IPrivilege
   services: IService[]
   lang: string
   after: () => void
+  brands: IBrands[]
 }): ColumnType<IProduct>[] => {
-  const { translations, actualPermission, permision, after, services } = props
+  const { translations, actualPermission, permision, brands, after, services } = props
   const { theme } = useContext(ThemeContext)
 
   // const getFormElements = () => {
@@ -43,8 +48,8 @@ const columns = (props: {
           translations={translations}
           mutation={gql(updateProduct)}
           record={record}
-          FormItems={<FormItems translations={translations} isUpdate />}
-          formElements={formElements(services)}
+          FormItems={<FormItems translations={translations} isUpdate services={services} brands={brands} />}
+          formElements={formElements(services, brands)}
         />
         <DeleteItem
           afterDelete={after}
@@ -67,10 +72,29 @@ const columns = (props: {
         name: 'abbreviation'
       },
       {
-        name: 'brand'
+        name: 'brand',
+        customRender: (record: IProduct) => {
+          console.log(record)
+          return record.brand ? (record.brand as IBrands).name : ''
+        }
       },
       {
-        name: 'photo'
+        name: 'photo',
+        width: 60,
+        customRender: (record: IService, index) => {
+          return (
+            <div>
+              {record?.photo?.key ? (
+                <Avatar
+                  style={{ border: '1px solid #ff8623', overflow: 'hidden' }}
+                  src={<Image preview={true} src={`${process.env.NEXT_PUBLIC_S3}/${record.photo.key}`} />}
+                />
+              ) : (
+                <Avatar style={{ border: '1px solid #ff8623' }} icon={<UserOutlined />} />
+              )}
+            </div>
+          )
+        }
       },
       {
         name: 'productType'

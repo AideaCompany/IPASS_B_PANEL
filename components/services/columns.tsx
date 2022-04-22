@@ -1,9 +1,10 @@
 //types
 import { deleteService } from '@/graphql/services/mutations/deleteService'
 import { updateService } from '@/graphql/services/mutations/updateService'
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IService, IProduct, IServiceType, PermissionsPrivilege, Privilege } from '@/types/types'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IService, IProduct, IServiceType } from '@/types/types'
 import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Image } from 'antd'
 import { ColumnType } from 'antd/lib/table'
@@ -17,10 +18,10 @@ import { formElements } from './formElements'
 import FormItems from './formItems'
 
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
   beforeShowUpdate?: (param: any) => any
-  privileges: Privilege[]
+  privileges: IPrivilege[]
   after: () => void
   // filters: any[]
   dataServiceType: IServiceType[] | undefined

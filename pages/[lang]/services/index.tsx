@@ -15,8 +15,9 @@ import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllProductsFn } from '@/services/products'
 import { getAllServices } from '@/services/services'
 import { getAllServiceTypesFn } from '@/services/serviceTypes'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 //apollo
-import { IProduct, IService, IServiceType, Paginated, PermissionsPrivilege } from '@/types/types'
+import { IProduct, IService, IServiceType, Paginated } from '@/types/types'
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
 import { gql } from '@apollo/client'
 import * as cookie from 'cookie'
@@ -41,8 +42,8 @@ const services = (props: {
   //state
   const [data, setData] = useState<IService[]>()
   const [loading, setLoading] = useState<boolean>(true)
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
-  const [_, setPermissionPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
+  const [_, setPermissionPermission] = useState<IPermissionsPrivilege>()
   const [filters, setFilters] = useState<any>([])
   const [actualLimit, setActualLimit] = useState(limit)
   const [actualPage, setActualPage] = useState(page)
@@ -96,7 +97,7 @@ const services = (props: {
   const createButton = (
     <div className="ButtonsUp">
       <CreateItem
-        actualPermission={actualPermission as PermissionsPrivilege}
+        actualPermission={actualPermission as IPermissionsPrivilege}
         translations={localization.translations}
         mutation={gql(createService)}
         formElements={formElements(dataServiceType, dataProducts)}
@@ -104,7 +105,7 @@ const services = (props: {
         beforeCreate={beforeCreate}
         iconButton={true}
         FormItem={
-          <FormItems dataProducts={dataProducts} dataServiceType={dataServiceType} isUpdate={true} translations={localization.translations} />
+          <FormItems dataProducts={dataProducts} dataServiceType={dataServiceType} isUpdate={false} translations={localization.translations} />
         }
       />
     </div>
@@ -121,7 +122,7 @@ const services = (props: {
           <TableData
             columns={columns({
               translations: localization.translations,
-              actualPermission: actualPermission as PermissionsPrivilege,
+              actualPermission: actualPermission as IPermissionsPrivilege,
               after: getData,
               privileges: privilege,
               dataServiceType: dataServiceType,
