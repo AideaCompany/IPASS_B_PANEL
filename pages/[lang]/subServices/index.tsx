@@ -13,9 +13,14 @@ import useAuth from '@/providers/AuthContext'
 import useData from '@/providers/DataContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllProductsFn } from '@/services/products'
+import { listStaffFn } from '@/services/staff'
+import { getAllStores } from '@/services/stores'
 import { getAllSubServices } from '@/services/subServices'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
+import { IStores } from '@/types/interfaces/Stores/stores.interface'
 //apollo
-import { IProduct, IService, Paginated, PermissionsPrivilege } from '@/types/types'
+import { IProduct, IService, Paginated } from '@/types/types'
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
 import { gql } from '@apollo/client'
 import * as cookie from 'cookie'
@@ -23,9 +28,17 @@ import * as cookie from 'cookie'
 import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-const subServices = (props: { localization: Localization; lang: string; page: number; limit: number; dataProducts: IProduct[] }): JSX.Element => {
+const subServices = (props: {
+  localization: Localization
+  lang: string
+  page: number
+  limit: number
+  dataProducts: IProduct[]
+  staff: IStaff[]
+  stores: IStores[]
+}): JSX.Element => {
   //props
-  const { localization, lang, page, limit, dataProducts } = props
+  const { localization, lang, page, limit, dataProducts, staff, stores } = props
   //context
   const { privilege } = useData()
   const { permission } = useAuth()
@@ -33,8 +46,8 @@ const subServices = (props: { localization: Localization; lang: string; page: nu
   //state
   const [data, setData] = useState<IService[]>()
   const [loading, setLoading] = useState<boolean>(true)
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
-  const [_, setPermissionPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
+  const [_, setPermissionPermission] = useState<IPermissionsPrivilege>()
   const [filters, setFilters] = useState<any>([])
   const [actualLimit, setActualLimit] = useState(limit)
   const [actualPage, setActualPage] = useState(page)
@@ -87,14 +100,14 @@ const subServices = (props: { localization: Localization; lang: string; page: nu
   const createButton = (
     <div className="ButtonsUp">
       <CreateItem
-        actualPermission={actualPermission as PermissionsPrivilege}
+        actualPermission={actualPermission as IPermissionsPrivilege}
         translations={localization.translations}
         mutation={gql(createSubService)}
-        formElements={formElements(dataProducts)}
+        formElements={formElements(dataProducts, staff, stores)}
         afterCreate={getData}
         beforeCreate={beforeCreate}
         iconButton={true}
-        FormItem={<FormItems dataProducts={dataProducts} isUpdate={true} translations={localization.translations} />}
+        FormItem={<FormItems staff={staff} stores={stores} dataProducts={dataProducts} isUpdate={true} translations={localization.translations} />}
       />
     </div>
   )
@@ -109,8 +122,10 @@ const subServices = (props: { localization: Localization; lang: string; page: nu
         <div>
           <TableData
             columns={columns({
+              staff,
+              stores,
               translations: localization.translations,
-              actualPermission: actualPermission as PermissionsPrivilege,
+              actualPermission: actualPermission as IPermissionsPrivilege,
               after: getData,
               privileges: privilege,
               dataProducts: dataProducts
@@ -160,7 +175,9 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       // const queriesNames = Object.keys(ctx.query).filter((e: string) => e !== 'page' && e !== 'limit' && e !== 'lang')
       // const filters = queriesNames.length > 0 && queriesNames.map(e => ({ [e]: ctx.query[e] as string }))
       const dataProducts = await getAllProductsFn()
-      return { props: { localization, page, limit, dataProducts } }
+      const staff = (await listStaffFn(1, 100, {})).docs
+      const stores = await getAllStores()
+      return { props: { localization, page, limit, dataProducts, staff, stores } }
     } else {
       return {
         notFound: true

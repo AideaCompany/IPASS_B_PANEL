@@ -101,7 +101,7 @@ const clients = (props: { localization: Localization; lang: string; page: number
         afterCreate={getData}
         beforeCreate={beforeCreate}
         iconButton={true}
-        FormItem={<FormItems isUpdate={false} translations={localization.translations} />}
+        FormItem={<FormItems isUpdate={true} translations={localization.translations} />}
       />
 
       {/* {true && (

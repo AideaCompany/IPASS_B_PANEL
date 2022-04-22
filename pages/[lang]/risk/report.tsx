@@ -166,7 +166,7 @@ const board = (props: { localization: Localization; lang: string; page: number; 
             >
               <div className="top">
                 <FormFactory
-                  isUpdate={false}
+                  isUpdate={true}
                   theme={theme}
                   translate={localization.translations}
                   formElements={[

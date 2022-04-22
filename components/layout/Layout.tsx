@@ -3,23 +3,9 @@ import { LanguageContext } from '@/providers/LenguageContext'
 //provider
 import { ThemeContext } from '@/providers/ThemeContext'
 import { LayoutProps } from '@/types/types'
-import {
-  AuditOutlined,
-  BarcodeOutlined,
-  CalendarOutlined,
-  CodeOutlined,
-  DesktopOutlined,
-  FieldTimeOutlined,
-  HeartOutlined,
-  LaptopOutlined,
-  OrderedListOutlined,
-  PlusOutlined,
-  ShoppingOutlined,
-  TagsOutlined,
-  UserOutlined
-} from '@ant-design/icons'
+import { DesktopOutlined, FieldTimeOutlined, HeartOutlined, PlusOutlined, ShoppingOutlined, TagsOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Layout, Menu, Tooltip } from 'antd'
-import { Building, CategoryIcon, HouseIcon, Raspberry, Worker } from 'icons/personalIcons'
+import { Building, Worker } from 'icons/personalIcons'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useState } from 'react'
@@ -154,11 +140,11 @@ const MainLayout = (props: LayoutProps) => {
       title: localization.translations.brands,
       icon: <ShoppingOutlined />
     },
-    // {
-    //   path: '/styleHair',
-    //   title: localization.translations.styleHair,
-    //   icon: <Building />
-    // },
+    {
+      path: '/styleHair',
+      title: localization.translations.styleHair,
+      icon: <Building />
+    },
     {
       path: '/staff',
       title: localization.translations.staff,

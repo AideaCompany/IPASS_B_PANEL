@@ -71,7 +71,7 @@ const Products = (props: { localization: Localization; lang: string }) => {
             translations={localization.translations}
             mutation={gql(createProduct)}
             formElements={formElements(services, brands)}
-            FormItem={<FormItems isUpdate={false} translations={localization.translations} brands={brands} services={services} />}
+            FormItem={<FormItems isUpdate={true} translations={localization.translations} brands={brands} services={services} />}
             afterCreate={getData}
 
             /* manageMentError={manageMentError} */

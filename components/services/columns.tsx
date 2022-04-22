@@ -4,7 +4,9 @@ import { updateService } from '@/graphql/services/mutations/updateService'
 import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
-import { IService, IProduct, IServiceType } from '@/types/types'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
+import { IStores } from '@/types/interfaces/Stores/stores.interface'
+import { IService, IProduct, IServiceType, ISubService } from '@/types/types'
 import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Image } from 'antd'
 import { ColumnType } from 'antd/lib/table'
@@ -14,6 +16,7 @@ import React, { useContext } from 'react'
 import ColumnFactory from '../crudFunctions/columnFactory'
 import DeleteItem from '../crudFunctions/delete'
 import UpdateItem from '../crudFunctions/update'
+import RenderCheck from '../RenderCheck'
 import { formElements } from './formElements'
 import FormItems from './formItems'
 
@@ -23,11 +26,14 @@ const columns = (props: {
   beforeShowUpdate?: (param: any) => any
   privileges: IPrivilege[]
   after: () => void
+  staff: IStaff[]
+  stores: IStores[]
   // filters: any[]
   dataServiceType: IServiceType[] | undefined
   dataProducts: IProduct[] | undefined
+  subServices: ISubService[]
 }): ColumnType<IService>[] => {
-  const { translations, actualPermission, after, beforeShowUpdate, dataServiceType, dataProducts } = props
+  const { translations, actualPermission, staff, subServices, stores, after, beforeShowUpdate, dataServiceType, dataProducts } = props
   const { theme } = useContext(ThemeContext)
   const operations = (record: any) => (
     <>
@@ -38,8 +44,18 @@ const columns = (props: {
         mutation={gql(updateService)}
         record={record}
         afterUpdate={after}
-        FormItems={<FormItems dataProducts={dataProducts} dataServiceType={dataServiceType} translations={translations} isUpdate />}
-        formElements={formElements(dataServiceType, dataProducts)}
+        FormItems={
+          <FormItems
+            staff={staff}
+            stores={stores}
+            dataProducts={dataProducts}
+            dataServiceType={dataServiceType}
+            translations={translations}
+            isUpdate
+            subServices={subServices}
+          />
+        }
+        formElements={formElements(dataServiceType, dataProducts, staff, stores, subServices)}
       />
       <DeleteItem
         actualPermission={actualPermission}
@@ -81,26 +97,25 @@ const columns = (props: {
         width: 150,
         search: true
       },
-      {
-        name: 'type',
-        fixed: 'left',
-        width: 150,
-        search: true
-      },
+      // {
+      //   name: 'type',
+      //   fixed: 'left',
+      //   width: 150,
+      //   search: true
+      // },
       {
         name: 'plus',
         search: true,
-        width: 150
-      },
-      {
-        name: 'products',
-        search: true,
+        customRender: (record: IService) => <RenderCheck value={record.plus} />,
         width: 150
       },
       {
         name: 'staffers',
         search: true,
-        width: 150
+        width: 150,
+        customRender: (record: unknown) => {
+          return (record as IStaff[]).map(e => e.name).join(', ')
+        }
       },
       {
         name: 'eta',
@@ -144,16 +159,6 @@ const columns = (props: {
       },
       {
         name: 'sex',
-        search: true,
-        width: 150
-      },
-      {
-        name: 'stores',
-        search: true,
-        width: 150
-      },
-      {
-        name: 'subService',
         search: true,
         width: 150
       }

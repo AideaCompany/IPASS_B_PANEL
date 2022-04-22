@@ -1,8 +1,10 @@
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
+import { IStores } from '@/types/interfaces/Stores/stores.interface'
 import { IProduct } from '@/types/types'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElements = (dataProducts: IProduct[] | undefined): FormFactory.FormFactoryType[] => {
-  const formElementsDynamicProducts: FormFactory.FormFactoryType[] = [
+export const formElements = (dataProducts: IProduct[] | undefined, staff: IStaff[], stores: IStores[]): FormFactory.IFormFactoryType<undefined>[] => {
+  const formElementsDynamicProducts: FormFactory.IFormFactoryType<undefined>[] = [
     {
       name: 'product',
       type: 'selectMultiple',
@@ -40,7 +42,7 @@ export const formElements = (dataProducts: IProduct[] | undefined): FormFactory.
     {
       name: 'staffers',
       type: 'selectMultiple',
-      data: ['staffer1', 'staffer2']
+      data: staff
     },
     {
       name: 'eta',
@@ -77,7 +79,7 @@ export const formElements = (dataProducts: IProduct[] | undefined): FormFactory.
     {
       name: 'stores',
       type: 'selectMultiple',
-      data: ['store1', 'store2']
+      data: stores
     }
   ]
 }

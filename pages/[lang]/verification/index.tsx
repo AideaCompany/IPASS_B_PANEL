@@ -329,7 +329,7 @@ const Verification = (props: { localization: Localization }) => {
                       <FormFactory
                         translate={localization.translations}
                         theme={theme}
-                        isUpdate={false}
+                        isUpdate={true}
                         formElements={[
                           {
                             name: 'photo',
@@ -349,7 +349,7 @@ const Verification = (props: { localization: Localization }) => {
                         <FormFactory
                           translate={localization.translations}
                           theme={theme}
-                          isUpdate={false}
+                          isUpdate={true}
                           formElements={[
                             {
                               name: 'documentA',
@@ -369,7 +369,7 @@ const Verification = (props: { localization: Localization }) => {
                       <FormFactory
                         translate={localization.translations}
                         theme={theme}
-                        isUpdate={false}
+                        isUpdate={true}
                         formElements={[
                           {
                             name: selectedMethod === 'PASS' ? 'documentPass' : 'documentB',

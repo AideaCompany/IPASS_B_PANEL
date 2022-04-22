@@ -1,7 +1,7 @@
 const common = {
   uploadGallery: 'Subir Galeria',
   gallery: 'Galeria',
-  cms: 'Seguridad',
+  cms: 'Dashboard',
   clients: 'Clientes',
   services: 'Servicios',
   subservices: 'SubServicios',

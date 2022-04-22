@@ -141,7 +141,7 @@ const CreateEventExpressModal: FC<IProps> = ({ translations, contacts, translati
               <>
                 <div className="formContainer">
                   <Form initialValues={{ verificationRegistro: true }} ref={formRef}>
-                    <FormFactory translate={translationsContact} theme={theme} formElements={formElementsSuperanfitrion()} isUpdate={false} />
+                    <FormFactory translate={translationsContact} theme={theme} formElements={formElementsSuperanfitrion()} isUpdate={true} />
                   </Form>
                 </div>
               </>
@@ -183,7 +183,7 @@ const CreateEventExpressModal: FC<IProps> = ({ translations, contacts, translati
                   translate={translations}
                   theme={theme}
                   formElements={formElementsCreate(locations, contactsInvitation)}
-                  isUpdate={false}
+                  isUpdate={true}
                 />
               </Form>
             </div>

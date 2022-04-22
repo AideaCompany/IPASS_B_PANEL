@@ -348,7 +348,7 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
             <Form ref={formHistory} onFinish={getFilteredHistory}>
               <div className="top">
                 <FormFactory
-                  isUpdate={false}
+                  isUpdate={true}
                   theme={theme}
                   translate={localization.translations}
                   formElements={[

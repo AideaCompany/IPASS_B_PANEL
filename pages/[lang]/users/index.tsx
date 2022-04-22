@@ -161,12 +161,7 @@ const user = (props: {
   return (
     <>
       <ModalKeyUser getData={getData} visible={open} setOpen={setOpen} />
-      <MainLayout
-        getData={getData}
-        create={createButton}
-        lang={lang}
-        title={`${localization?.translations.titleSection} - ${countUsers - 1}/1500 usuarios`}
-      >
+      <MainLayout getData={getData} create={createButton} lang={lang} title={`${localization?.translations.titleSection}`}>
         <div>
           <TableData
             columns={columns({

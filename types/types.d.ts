@@ -2,6 +2,7 @@ import { TablePaginationConfig, TableProps } from 'antd'
 import { ColumnType } from 'antd/lib/table'
 import { FilterValue, SorterResult } from 'antd/lib/table/interface'
 import { TableProps as RcTableProps } from 'rc-table/lib/Table'
+import { IStaff } from './interfaces/staff/staff.interface'
 import { basicTable } from './typeTemplate'
 
 export type IProducts = {
@@ -35,7 +36,7 @@ export interface ISubService extends basicTable {
   name?: string
   products?: IProducts[]
   photo?: fileType
-  staffers?: string[]
+  staffers?: string[] | IStaff[]
   eta?: string
   price?: number
   cost?: number

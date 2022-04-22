@@ -24,7 +24,7 @@ const DeviceForm = ({ translate, validate }: { translate: ITranslations; validat
 
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-      <FormFactory isUpdate={false} formElements={getFormElements()} theme={theme} translate={translate} />
+      <FormFactory isUpdate={true} formElements={getFormElements()} theme={theme} translate={translate} />
     </div>
   )
 }

@@ -35,7 +35,7 @@ const InfoLocationForm = ({ translate }: { translate: ITranslations }) => {
 
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-      <FormFactory isUpdate={false} formElements={getFormElements()} theme={theme} translate={translate} />
+      <FormFactory isUpdate={true} formElements={getFormElements()} theme={theme} translate={translate} />
     </div>
   )
 }

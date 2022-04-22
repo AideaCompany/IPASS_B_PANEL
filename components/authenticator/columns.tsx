@@ -1,15 +1,17 @@
 //types
-import { Translations } from '@/i18n/types'
-import { IAuthenticator, PermissionsPrivilege, Privilege } from '@/types/types'
+import { ITranslations } from '@/i18n/types'
+import { IAuthenticator } from '@/types/interfaces/Authenticator/Authenticator.interface'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+
 import { ColumnType } from 'antd/lib/table'
 import moment from 'moment-timezone'
 import React from 'react'
 //component
 import ColumnFactory from '../crudFunctions/columnFactory'
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  permision: Privilege
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
+  permision: IPrivilege
   lang: string
   beforeShowUpdate?: (param: any) => any
 }): ColumnType<IAuthenticator>[] => {
