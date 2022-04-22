@@ -9,7 +9,7 @@ export const listEventExpress = /* GraphQL */ `
       authorizedBy {
         _id
         name
-        lastname
+        lastName
       }
       invitados {
         _id
@@ -22,7 +22,7 @@ export const listEventExpress = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
       }
       start

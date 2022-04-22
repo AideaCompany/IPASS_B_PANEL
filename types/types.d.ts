@@ -53,9 +53,9 @@ export interface IClient extends basicTable {
   name1?: string
   name2?: string
   photo?: fileType
-  lastname1?: string
-  lastname2?: string
-  lastname3: string
+  lastName1?: string
+  lastName2?: string
+  lastName3: string
   phone1?: string
   phone2?: string
   email?: string
@@ -83,7 +83,7 @@ export interface User extends basicTable {
   password?: string
   name?: string
   canUseAuthenticator?: boolean
-  lastname?: string
+  lastName?: string
   email?: string
   nativeLocation?: ILocation[]
   privilegeID?: IPrivilege

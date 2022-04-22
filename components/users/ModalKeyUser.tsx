@@ -33,7 +33,7 @@ const ModalKeyUser = ({
   return (
     <Modal visible={visible} {...CommonPropsModal} width={500}>
       <Form onFinish={addKey}>
-        <h2>Para habilitar la creación de usuarios y trabajadores, inserta la llave de activación de usuarios</h2>
+        <h2>Para habilitar la creación de usuarios y staffers, inserta la llave de activación de usuarios</h2>
         <Form.Item name="key" rules={[{ required: true, message: 'Clave obligatoria' }]}>
           <Input placeholder="Key"></Input>
         </Form.Item>

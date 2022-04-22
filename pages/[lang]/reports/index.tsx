@@ -144,7 +144,7 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
           date: e.createdAt,
           host: getHost(e),
           name: getName(e),
-          lastname: getLastName(e),
+          lastName: getLastName(e),
           in: e.hourIn,
           out: e.hourOut,
           location: e.location,

@@ -3,7 +3,7 @@ export const getUser = /* GraphQL */ `
     getUser(_id: $_id) {
       _id
       name
-      lastname
+      lastName
       email
       photo {
         filename

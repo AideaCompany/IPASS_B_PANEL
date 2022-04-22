@@ -6,7 +6,7 @@ export const listAttemptsMonthExternal = /* GraphQL */ `
       worker {
         _id
         name
-        lastname
+        lastName
         email
         verifyLogin
         active
@@ -58,7 +58,7 @@ export const listAttemptsMonthExternal = /* GraphQL */ `
       user {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -122,7 +122,7 @@ export const listAttemptsMonthExternal = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -216,7 +216,7 @@ export const listAttemptsMonthExternal = /* GraphQL */ `
         admins {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -239,7 +239,7 @@ export const listAttemptsMonthExternal = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -262,7 +262,7 @@ export const listAttemptsMonthExternal = /* GraphQL */ `
         security {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -302,7 +302,7 @@ export const listAttemptsMonthExternal = /* GraphQL */ `
         whoDeleted {
           _id
           name
-          lastname
+          lastName
           email
           active
           country

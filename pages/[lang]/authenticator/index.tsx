@@ -72,7 +72,7 @@ const visitorCategory = (props: { localization: Localization; lang: string; apps
           return {
             ...e,
             name: valUser?.name,
-            lastname: valUser?.lastname,
+            lastName: valUser?.lastName,
             email: valUser?.email,
             typeDocument: valUser?.typeDocument,
             document: valUser?.document

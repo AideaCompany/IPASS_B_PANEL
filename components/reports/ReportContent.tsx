@@ -103,7 +103,7 @@ const ReportContent = (props: { element: ILocation }) => {
       content = (
         <>
           <p>
-            <b>Host:</b> {element.host.name} {element.host.lastname}
+            <b>Host:</b> {element.host.name} {element.host.lastName}
           </p>
           <p>
             <b>Locación:</b> {element.location.name}

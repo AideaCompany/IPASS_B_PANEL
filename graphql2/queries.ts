@@ -11,7 +11,7 @@ export const filterLocationEntries = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           privilegeID {
             _id
@@ -91,7 +91,7 @@ export const filterLocationEntries = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -103,7 +103,7 @@ export const filterLocationEntries = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -115,7 +115,7 @@ export const filterLocationEntries = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -131,7 +131,7 @@ export const filterLocationEntries = /* GraphQL */ `
           admin {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -164,7 +164,7 @@ export const filterLocationEntries = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -234,7 +234,7 @@ export const filterLocationEntries = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           token
@@ -287,7 +287,7 @@ export const getContact = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -351,7 +351,7 @@ export const getContact = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -363,7 +363,7 @@ export const getContact = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -375,7 +375,7 @@ export const getContact = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -407,7 +407,7 @@ export const getContact = /* GraphQL */ `
         admin {
           _id
           name
-          lastname
+          lastName
           email
           privilegeID {
             _id
@@ -440,7 +440,7 @@ export const getContact = /* GraphQL */ `
           admin {
             _id
             name
-            lastname
+            lastName
             email
             active
             token
@@ -502,7 +502,7 @@ export const getEvent = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -566,7 +566,7 @@ export const getEvent = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -578,7 +578,7 @@ export const getEvent = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -590,7 +590,7 @@ export const getEvent = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -622,7 +622,7 @@ export const getEvent = /* GraphQL */ `
         admin {
           _id
           name
-          lastname
+          lastName
           email
           privilegeID {
             _id
@@ -655,7 +655,7 @@ export const getEvent = /* GraphQL */ `
           admin {
             _id
             name
-            lastname
+            lastName
             email
             active
             token
@@ -705,7 +705,7 @@ export const getInvitationEvent = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           privilegeID {
             _id
@@ -785,7 +785,7 @@ export const getInvitationEvent = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -797,7 +797,7 @@ export const getInvitationEvent = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -809,7 +809,7 @@ export const getInvitationEvent = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -825,7 +825,7 @@ export const getInvitationEvent = /* GraphQL */ `
           admin {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -858,7 +858,7 @@ export const getInvitationEvent = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -905,7 +905,7 @@ export const getInvitationEvent = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           token
@@ -1018,7 +1018,7 @@ export const getLocation = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1030,7 +1030,7 @@ export const getLocation = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1042,7 +1042,7 @@ export const getLocation = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1098,7 +1098,7 @@ export const getLocation = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1110,7 +1110,7 @@ export const getLocation = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1122,7 +1122,7 @@ export const getLocation = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1143,7 +1143,7 @@ export const getLocation = /* GraphQL */ `
           admins {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -1176,7 +1176,7 @@ export const getLocation = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1193,7 +1193,7 @@ export const getLocation = /* GraphQL */ `
           host {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -1226,7 +1226,7 @@ export const getLocation = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1243,7 +1243,7 @@ export const getLocation = /* GraphQL */ `
           security {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -1276,7 +1276,7 @@ export const getLocation = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1330,7 +1330,7 @@ export const getLocation = /* GraphQL */ `
       admins {
         _id
         name
-        lastname
+        lastName
         email
         active
         token
@@ -1342,7 +1342,7 @@ export const getLocation = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         active
         token
@@ -1354,7 +1354,7 @@ export const getLocation = /* GraphQL */ `
       security {
         _id
         name
-        lastname
+        lastName
         email
         active
         token
@@ -1432,7 +1432,7 @@ export const getLocationBySerialNumber = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1444,7 +1444,7 @@ export const getLocationBySerialNumber = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1456,7 +1456,7 @@ export const getLocationBySerialNumber = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1512,7 +1512,7 @@ export const getLocationBySerialNumber = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1524,7 +1524,7 @@ export const getLocationBySerialNumber = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1536,7 +1536,7 @@ export const getLocationBySerialNumber = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1557,7 +1557,7 @@ export const getLocationBySerialNumber = /* GraphQL */ `
           admins {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -1590,7 +1590,7 @@ export const getLocationBySerialNumber = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1607,7 +1607,7 @@ export const getLocationBySerialNumber = /* GraphQL */ `
           host {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -1640,7 +1640,7 @@ export const getLocationBySerialNumber = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1657,7 +1657,7 @@ export const getLocationBySerialNumber = /* GraphQL */ `
           security {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -1690,7 +1690,7 @@ export const getLocationBySerialNumber = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1744,7 +1744,7 @@ export const getLocationBySerialNumber = /* GraphQL */ `
       admins {
         _id
         name
-        lastname
+        lastName
         email
         active
         token
@@ -1756,7 +1756,7 @@ export const getLocationBySerialNumber = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         active
         token
@@ -1768,7 +1768,7 @@ export const getLocationBySerialNumber = /* GraphQL */ `
       security {
         _id
         name
-        lastname
+        lastName
         email
         active
         token
@@ -1796,7 +1796,7 @@ export const getLocationEntriesByLocation = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           privilegeID {
             _id
@@ -1876,7 +1876,7 @@ export const getLocationEntriesByLocation = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1888,7 +1888,7 @@ export const getLocationEntriesByLocation = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1900,7 +1900,7 @@ export const getLocationEntriesByLocation = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1916,7 +1916,7 @@ export const getLocationEntriesByLocation = /* GraphQL */ `
           admin {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -1949,7 +1949,7 @@ export const getLocationEntriesByLocation = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2019,7 +2019,7 @@ export const getLocationEntriesByLocation = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           token
@@ -2113,7 +2113,7 @@ export const getLocationSecurity = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2125,7 +2125,7 @@ export const getLocationSecurity = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2137,7 +2137,7 @@ export const getLocationSecurity = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2193,7 +2193,7 @@ export const getLocationSecurity = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2205,7 +2205,7 @@ export const getLocationSecurity = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2217,7 +2217,7 @@ export const getLocationSecurity = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2238,7 +2238,7 @@ export const getLocationSecurity = /* GraphQL */ `
           admins {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -2271,7 +2271,7 @@ export const getLocationSecurity = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2288,7 +2288,7 @@ export const getLocationSecurity = /* GraphQL */ `
           host {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -2321,7 +2321,7 @@ export const getLocationSecurity = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2338,7 +2338,7 @@ export const getLocationSecurity = /* GraphQL */ `
           security {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -2371,7 +2371,7 @@ export const getLocationSecurity = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2425,7 +2425,7 @@ export const getLocationSecurity = /* GraphQL */ `
       admins {
         _id
         name
-        lastname
+        lastName
         email
         active
         token
@@ -2437,7 +2437,7 @@ export const getLocationSecurity = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         active
         token
@@ -2449,7 +2449,7 @@ export const getLocationSecurity = /* GraphQL */ `
       security {
         _id
         name
-        lastname
+        lastName
         email
         active
         token
@@ -2512,7 +2512,7 @@ export const getMasterLocation = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2524,7 +2524,7 @@ export const getMasterLocation = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2536,7 +2536,7 @@ export const getMasterLocation = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2600,7 +2600,7 @@ export const getUser = /* GraphQL */ `
     getUser(_id: $_id) {
       _id
       name
-      lastname
+      lastName
       email
       privilegeID {
         _id
@@ -2675,7 +2675,7 @@ export const getUser = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2687,7 +2687,7 @@ export const getUser = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2699,7 +2699,7 @@ export const getUser = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2755,7 +2755,7 @@ export const getUser = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2767,7 +2767,7 @@ export const getUser = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2779,7 +2779,7 @@ export const getUser = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2800,7 +2800,7 @@ export const getUser = /* GraphQL */ `
           admins {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -2833,7 +2833,7 @@ export const getUser = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2850,7 +2850,7 @@ export const getUser = /* GraphQL */ `
           host {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -2883,7 +2883,7 @@ export const getUser = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2900,7 +2900,7 @@ export const getUser = /* GraphQL */ `
           security {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -2933,7 +2933,7 @@ export const getUser = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2970,7 +2970,7 @@ export const getUser = /* GraphQL */ `
       admin {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -3003,7 +3003,7 @@ export const getUser = /* GraphQL */ `
         admin {
           _id
           name
-          lastname
+          lastName
           email
           active
           token
@@ -3029,7 +3029,7 @@ export const getUserHost = /* GraphQL */ `
     getUserHost {
       _id
       name
-      lastname
+      lastName
       email
       privilegeID {
         _id
@@ -3104,7 +3104,7 @@ export const getUserHost = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3116,7 +3116,7 @@ export const getUserHost = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3128,7 +3128,7 @@ export const getUserHost = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3184,7 +3184,7 @@ export const getUserHost = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3196,7 +3196,7 @@ export const getUserHost = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3208,7 +3208,7 @@ export const getUserHost = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3229,7 +3229,7 @@ export const getUserHost = /* GraphQL */ `
           admins {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -3262,7 +3262,7 @@ export const getUserHost = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3279,7 +3279,7 @@ export const getUserHost = /* GraphQL */ `
           host {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -3312,7 +3312,7 @@ export const getUserHost = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3329,7 +3329,7 @@ export const getUserHost = /* GraphQL */ `
           security {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -3362,7 +3362,7 @@ export const getUserHost = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3399,7 +3399,7 @@ export const getUserHost = /* GraphQL */ `
       admin {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -3432,7 +3432,7 @@ export const getUserHost = /* GraphQL */ `
         admin {
           _id
           name
-          lastname
+          lastName
           email
           active
           token
@@ -3458,7 +3458,7 @@ export const getUsersAdmin = /* GraphQL */ `
     getUsersAdmin {
       _id
       name
-      lastname
+      lastName
       email
       privilegeID {
         _id
@@ -3533,7 +3533,7 @@ export const getUsersAdmin = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3545,7 +3545,7 @@ export const getUsersAdmin = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3557,7 +3557,7 @@ export const getUsersAdmin = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3613,7 +3613,7 @@ export const getUsersAdmin = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3625,7 +3625,7 @@ export const getUsersAdmin = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3637,7 +3637,7 @@ export const getUsersAdmin = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3658,7 +3658,7 @@ export const getUsersAdmin = /* GraphQL */ `
           admins {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -3691,7 +3691,7 @@ export const getUsersAdmin = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3708,7 +3708,7 @@ export const getUsersAdmin = /* GraphQL */ `
           host {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -3741,7 +3741,7 @@ export const getUsersAdmin = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3758,7 +3758,7 @@ export const getUsersAdmin = /* GraphQL */ `
           security {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -3791,7 +3791,7 @@ export const getUsersAdmin = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3828,7 +3828,7 @@ export const getUsersAdmin = /* GraphQL */ `
       admin {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -3861,7 +3861,7 @@ export const getUsersAdmin = /* GraphQL */ `
         admin {
           _id
           name
-          lastname
+          lastName
           email
           active
           token
@@ -3888,7 +3888,7 @@ export const getUsersSecurity = /* GraphQL */ `
       user {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -3952,7 +3952,7 @@ export const getUsersSecurity = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3964,7 +3964,7 @@ export const getUsersSecurity = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -3976,7 +3976,7 @@ export const getUsersSecurity = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -4008,7 +4008,7 @@ export const getUsersSecurity = /* GraphQL */ `
         admin {
           _id
           name
-          lastname
+          lastName
           email
           privilegeID {
             _id
@@ -4041,7 +4041,7 @@ export const getUsersSecurity = /* GraphQL */ `
           admin {
             _id
             name
-            lastname
+            lastName
             email
             active
             token
@@ -4076,7 +4076,7 @@ export const listContact = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -4140,7 +4140,7 @@ export const listContact = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -4152,7 +4152,7 @@ export const listContact = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -4164,7 +4164,7 @@ export const listContact = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -4196,7 +4196,7 @@ export const listContact = /* GraphQL */ `
         admin {
           _id
           name
-          lastname
+          lastName
           email
           privilegeID {
             _id
@@ -4229,7 +4229,7 @@ export const listContact = /* GraphQL */ `
           admin {
             _id
             name
-            lastname
+            lastName
             email
             active
             token
@@ -4291,12 +4291,12 @@ export const listEvent = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         admin {
           _id
           name
-          lastname
+          lastName
           active
           token
           location {
@@ -4314,7 +4314,7 @@ export const listEvent = /* GraphQL */ `
           admin {
             _id
             name
-            lastname
+            lastName
             email
             active
             token
@@ -4364,7 +4364,7 @@ export const listInvitationEvent = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           privilegeID {
             _id
@@ -4444,7 +4444,7 @@ export const listInvitationEvent = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -4456,7 +4456,7 @@ export const listInvitationEvent = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -4468,7 +4468,7 @@ export const listInvitationEvent = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -4484,7 +4484,7 @@ export const listInvitationEvent = /* GraphQL */ `
           admin {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -4517,7 +4517,7 @@ export const listInvitationEvent = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -4564,7 +4564,7 @@ export const listInvitationEvent = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           token
@@ -4625,7 +4625,7 @@ export const listInvitationEventByEvent = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           privilegeID {
             _id
@@ -4705,7 +4705,7 @@ export const listInvitationEventByEvent = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -4717,7 +4717,7 @@ export const listInvitationEventByEvent = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -4729,7 +4729,7 @@ export const listInvitationEventByEvent = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -4745,7 +4745,7 @@ export const listInvitationEventByEvent = /* GraphQL */ `
           admin {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -4778,7 +4778,7 @@ export const listInvitationEventByEvent = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -4825,7 +4825,7 @@ export const listInvitationEventByEvent = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           token
@@ -4938,7 +4938,7 @@ export const listLocation = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -4950,7 +4950,7 @@ export const listLocation = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -4962,7 +4962,7 @@ export const listLocation = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5018,7 +5018,7 @@ export const listLocation = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5030,7 +5030,7 @@ export const listLocation = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5042,7 +5042,7 @@ export const listLocation = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5063,7 +5063,7 @@ export const listLocation = /* GraphQL */ `
           admins {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -5096,7 +5096,7 @@ export const listLocation = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5113,7 +5113,7 @@ export const listLocation = /* GraphQL */ `
           host {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -5146,7 +5146,7 @@ export const listLocation = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5163,7 +5163,7 @@ export const listLocation = /* GraphQL */ `
           security {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -5196,7 +5196,7 @@ export const listLocation = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5250,7 +5250,7 @@ export const listLocation = /* GraphQL */ `
       admins {
         _id
         name
-        lastname
+        lastName
         email
         active
         token
@@ -5262,7 +5262,7 @@ export const listLocation = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         active
         token
@@ -5274,7 +5274,7 @@ export const listLocation = /* GraphQL */ `
       security {
         _id
         name
-        lastname
+        lastName
         email
         active
         token
@@ -5337,7 +5337,7 @@ export const listMasterLocation = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5349,7 +5349,7 @@ export const listMasterLocation = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5361,7 +5361,7 @@ export const listMasterLocation = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5426,7 +5426,7 @@ export const listUser = /* GraphQL */ `
     listUser {
       _id
       name
-      lastname
+      lastName
       email
       privilegeID {
         _id
@@ -5501,7 +5501,7 @@ export const listUser = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5513,7 +5513,7 @@ export const listUser = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5525,7 +5525,7 @@ export const listUser = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5581,7 +5581,7 @@ export const listUser = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5593,7 +5593,7 @@ export const listUser = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5605,7 +5605,7 @@ export const listUser = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5626,7 +5626,7 @@ export const listUser = /* GraphQL */ `
           admins {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -5659,7 +5659,7 @@ export const listUser = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5676,7 +5676,7 @@ export const listUser = /* GraphQL */ `
           host {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -5709,7 +5709,7 @@ export const listUser = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5726,7 +5726,7 @@ export const listUser = /* GraphQL */ `
           security {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -5759,7 +5759,7 @@ export const listUser = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5796,7 +5796,7 @@ export const listUser = /* GraphQL */ `
       admin {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -5829,7 +5829,7 @@ export const listUser = /* GraphQL */ `
         admin {
           _id
           name
-          lastname
+          lastName
           email
           active
           token
@@ -5861,7 +5861,7 @@ export const getEventContact = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           privilegeID {
             _id
@@ -5941,7 +5941,7 @@ export const getEventContact = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5953,7 +5953,7 @@ export const getEventContact = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5965,7 +5965,7 @@ export const getEventContact = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -5981,7 +5981,7 @@ export const getEventContact = /* GraphQL */ `
           admin {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -6014,7 +6014,7 @@ export const getEventContact = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -6061,7 +6061,7 @@ export const getEventContact = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           token

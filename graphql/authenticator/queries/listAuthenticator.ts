@@ -16,7 +16,7 @@ export const listAuthenticator = /* GraphQL */ `
         worker {
           _id
           name
-          lastname
+          lastName
           email
           verifyLogin
           active
@@ -35,7 +35,7 @@ export const listAuthenticator = /* GraphQL */ `
         user {
           _id
           name
-          lastname
+          lastName
           email
           active
           country

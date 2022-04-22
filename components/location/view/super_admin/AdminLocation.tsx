@@ -16,7 +16,7 @@ const AdminLocation = () => {
       title: 'Nombre'
     },
     {
-      dataIndex: 'lastname',
+      dataIndex: 'lastName',
       title: 'Apellido'
     },
     {

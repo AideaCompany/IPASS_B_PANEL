@@ -20,7 +20,7 @@ export const formElements = (): FormFactory.IFormFactoryType<any>[] => [
     required: true
   },
   {
-    name: 'lastname1',
+    name: 'lastName1',
     type: 'string',
     required: true
   },
@@ -34,11 +34,11 @@ export const formElements = (): FormFactory.IFormFactoryType<any>[] => [
     type: 'string'
   },
   {
-    name: 'lastname2',
+    name: 'lastName2',
     type: 'string'
   },
   {
-    name: 'lastname3',
+    name: 'lastName3',
     type: 'string'
   },
   {

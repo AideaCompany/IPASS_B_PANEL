@@ -49,7 +49,7 @@ const common = {
   goBack: 'Regresar',
   titleDashboard: 'Panel de administración.',
   location: 'Locación',
-  worker: 'Trabajadores',
+  staff: 'Staffer',
   products: 'Productos',
   serviceTypes: 'Tipos de servicios',
   creating: 'Creando ...',

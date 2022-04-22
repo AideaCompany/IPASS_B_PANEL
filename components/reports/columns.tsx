@@ -55,7 +55,7 @@ const columns = (props: {
         search: true
       },
       {
-        name: 'lastname',
+        name: 'lastName',
         //@ts-ignore
         customRender: (render: string) => render,
         search: true

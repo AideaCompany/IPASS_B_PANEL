@@ -81,7 +81,7 @@ const columns = (props: {
           if (record.user) {
             return (
               <>
-                {record.user.name} {record.user.lastname}
+                {record.user.name} {record.user.lastName}
               </>
             )
           } else if (record.contact) {
@@ -93,7 +93,7 @@ const columns = (props: {
           } else if (record.worker) {
             return (
               <>
-                {record.worker.name} {record.worker.lastname}
+                {record.worker.name} {record.worker.lastName}
               </>
             )
           } else {

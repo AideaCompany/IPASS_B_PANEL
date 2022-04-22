@@ -37,7 +37,7 @@ export const listLocationEntriesPaginated = /* GraphQL */ `
           host {
             _id
             name
-            lastname
+            lastName
             email
             codeWorker
             active
@@ -71,7 +71,7 @@ export const listLocationEntriesPaginated = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -95,7 +95,7 @@ export const listLocationEntriesPaginated = /* GraphQL */ `
         worker {
           _id
           name
-          lastname
+          lastName
           email
           verifyLogin
           active
@@ -114,7 +114,7 @@ export const listLocationEntriesPaginated = /* GraphQL */ `
         user {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -146,7 +146,7 @@ export const listLocationEntriesPaginated = /* GraphQL */ `
           host {
             _id
             name
-            lastname
+            lastName
             email
             codeWorker
             active

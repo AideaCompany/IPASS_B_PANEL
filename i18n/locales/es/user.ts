@@ -1,7 +1,7 @@
 const user = {
   titleSection: 'Lista de usuarios',
   name: 'Nombres',
-  lastname: 'Apellidos',
+  lastName: 'Apellidos',
   email: 'Correo',
   privilege: 'Rol',
   active: 'Estado',
@@ -9,7 +9,7 @@ const user = {
   isActive: 'Activo',
   isNotActive: 'Inactivo',
   code: 'Código Temporal',
-  codeWorker: 'Código de Trabajador',
+  codeWorker: 'Código de staffer',
   editUser: 'Editar usuario',
   updatedUser: 'Usuario actualizado',
   deleteUserQuestion: 'Desea eliminar el usuario',
@@ -32,8 +32,8 @@ const user = {
   timeZone: 'Zona horaria',
   name1: 'Nombre 1',
   name2: 'Nombre 2',
-  lastname1: 'Apellido 1',
-  lastname2: 'Apellido 2'
+  lastName1: 'Apellido 1',
+  lastName2: 'Apellido 2'
 }
 
 export default user

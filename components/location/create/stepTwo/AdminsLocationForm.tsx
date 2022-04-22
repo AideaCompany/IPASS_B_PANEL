@@ -21,7 +21,7 @@ const adminsLocationForm = () => {
       title: 'Nombre'
     },
     {
-      dataIndex: 'lastname',
+      dataIndex: 'lastName',
       title: 'Apellido'
     },
     {

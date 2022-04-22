@@ -226,7 +226,7 @@ const UserCard = () => {
                   <div>
                     <h2>Anfitrión:</h2>
                     <div>
-                      <span>{`${(lastEntries.event as IEvent)?.host?.name} ${(lastEntries.event as IEvent)?.host?.lastname}`}</span>
+                      <span>{`${(lastEntries.event as IEvent)?.host?.name} ${(lastEntries.event as IEvent)?.host?.lastName}`}</span>
                     </div>
                   </div>
                   <div>
@@ -246,7 +246,7 @@ const UserCard = () => {
             )}
             {[typeQr.worker, typeQr.worker_temporal].includes(lastEntries.typeQr) && (
               <>
-                <h2>Datos de trabajador</h2>
+                <h2>Datos de staffer</h2>
                 <div className="info">
                   {lastEntries.worker?.photo?.key && (
                     <div className="images">
@@ -269,7 +269,7 @@ const UserCard = () => {
                   <div>
                     <h2>Apellido:</h2>
                     <div>
-                      <span>{lastEntries?.worker?.lastname}</span>
+                      <span>{lastEntries?.worker?.lastName}</span>
                     </div>
                   </div>
                   <div>
@@ -330,7 +330,7 @@ const UserCard = () => {
                   <div>
                     <h2>Apellido:</h2>
                     <div>
-                      <span>{(lastEntries?.user as User)?.lastname}</span>
+                      <span>{(lastEntries?.user as User)?.lastName}</span>
                     </div>
                   </div>
                   <div>
@@ -526,7 +526,7 @@ const UserCard = () => {
                     <h2>Anfitrión:</h2>
                     <div>
                       <span>{`${(lastEntries.eventExpress as IEventExpress)?.host?.name} ${
-                        (lastEntries.eventExpress as IEventExpress)?.host?.lastname
+                        (lastEntries.eventExpress as IEventExpress)?.host?.lastName
                       }`}</span>
                     </div>
                   </div>
@@ -560,7 +560,7 @@ const UserCard = () => {
                   <div>
                     <h2>Apellido:</h2>
                     <div>
-                      <span>{(lastEntries?.host as User)?.lastname}</span>
+                      <span>{(lastEntries?.host as User)?.lastName}</span>
                     </div>
                   </div>
                   <div>

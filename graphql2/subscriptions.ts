@@ -9,7 +9,7 @@ export const invitationEventByEvent = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           privilegeID {
             _id
@@ -89,7 +89,7 @@ export const invitationEventByEvent = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -101,7 +101,7 @@ export const invitationEventByEvent = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -113,7 +113,7 @@ export const invitationEventByEvent = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -129,7 +129,7 @@ export const invitationEventByEvent = /* GraphQL */ `
           admin {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -162,7 +162,7 @@ export const invitationEventByEvent = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -209,7 +209,7 @@ export const invitationEventByEvent = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           token
@@ -268,7 +268,7 @@ export const listEventByLocationID = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -332,7 +332,7 @@ export const listEventByLocationID = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -344,7 +344,7 @@ export const listEventByLocationID = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -356,7 +356,7 @@ export const listEventByLocationID = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -388,7 +388,7 @@ export const listEventByLocationID = /* GraphQL */ `
         admin {
           _id
           name
-          lastname
+          lastName
           email
           privilegeID {
             _id
@@ -421,7 +421,7 @@ export const listEventByLocationID = /* GraphQL */ `
           admin {
             _id
             name
-            lastname
+            lastName
             email
             active
             token
@@ -471,7 +471,7 @@ export const subAccess = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           privilegeID {
             _id
@@ -551,7 +551,7 @@ export const subAccess = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -563,7 +563,7 @@ export const subAccess = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -575,7 +575,7 @@ export const subAccess = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -591,7 +591,7 @@ export const subAccess = /* GraphQL */ `
           admin {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -624,7 +624,7 @@ export const subAccess = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -671,7 +671,7 @@ export const subAccess = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           token
@@ -730,7 +730,7 @@ export const subEvent = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -794,7 +794,7 @@ export const subEvent = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -806,7 +806,7 @@ export const subEvent = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -818,7 +818,7 @@ export const subEvent = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -850,7 +850,7 @@ export const subEvent = /* GraphQL */ `
         admin {
           _id
           name
-          lastname
+          lastName
           email
           privilegeID {
             _id
@@ -883,7 +883,7 @@ export const subEvent = /* GraphQL */ `
           admin {
             _id
             name
-            lastname
+            lastName
             email
             active
             token
@@ -934,7 +934,7 @@ export const subListContact = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -998,7 +998,7 @@ export const subListContact = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1010,7 +1010,7 @@ export const subListContact = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1022,7 +1022,7 @@ export const subListContact = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1054,7 +1054,7 @@ export const subListContact = /* GraphQL */ `
         admin {
           _id
           name
-          lastname
+          lastName
           email
           privilegeID {
             _id
@@ -1087,7 +1087,7 @@ export const subListContact = /* GraphQL */ `
           admin {
             _id
             name
-            lastname
+            lastName
             email
             active
             token
@@ -1149,7 +1149,7 @@ export const subListEvent = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -1213,7 +1213,7 @@ export const subListEvent = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1225,7 +1225,7 @@ export const subListEvent = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1237,7 +1237,7 @@ export const subListEvent = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1269,7 +1269,7 @@ export const subListEvent = /* GraphQL */ `
         admin {
           _id
           name
-          lastname
+          lastName
           email
           privilegeID {
             _id
@@ -1302,7 +1302,7 @@ export const subListEvent = /* GraphQL */ `
           admin {
             _id
             name
-            lastname
+            lastName
             email
             active
             token
@@ -1404,7 +1404,7 @@ export const subListLocation = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1416,7 +1416,7 @@ export const subListLocation = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1428,7 +1428,7 @@ export const subListLocation = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1484,7 +1484,7 @@ export const subListLocation = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1496,7 +1496,7 @@ export const subListLocation = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1508,7 +1508,7 @@ export const subListLocation = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1529,7 +1529,7 @@ export const subListLocation = /* GraphQL */ `
           admins {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -1562,7 +1562,7 @@ export const subListLocation = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1579,7 +1579,7 @@ export const subListLocation = /* GraphQL */ `
           host {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -1612,7 +1612,7 @@ export const subListLocation = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1629,7 +1629,7 @@ export const subListLocation = /* GraphQL */ `
           security {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -1662,7 +1662,7 @@ export const subListLocation = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1716,7 +1716,7 @@ export const subListLocation = /* GraphQL */ `
       admins {
         _id
         name
-        lastname
+        lastName
         email
         active
         token
@@ -1728,7 +1728,7 @@ export const subListLocation = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         active
         token
@@ -1740,7 +1740,7 @@ export const subListLocation = /* GraphQL */ `
       security {
         _id
         name
-        lastname
+        lastName
         email
         active
         token
@@ -1804,7 +1804,7 @@ export const subListMasterLocation = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1816,7 +1816,7 @@ export const subListMasterLocation = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1828,7 +1828,7 @@ export const subListMasterLocation = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1875,7 +1875,7 @@ export const subLocationEntries = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           privilegeID {
             _id
@@ -1955,7 +1955,7 @@ export const subLocationEntries = /* GraphQL */ `
             admins {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1967,7 +1967,7 @@ export const subLocationEntries = /* GraphQL */ `
             host {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1979,7 +1979,7 @@ export const subLocationEntries = /* GraphQL */ `
             security {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -1995,7 +1995,7 @@ export const subLocationEntries = /* GraphQL */ `
           admin {
             _id
             name
-            lastname
+            lastName
             email
             privilegeID {
               _id
@@ -2028,7 +2028,7 @@ export const subLocationEntries = /* GraphQL */ `
             admin {
               _id
               name
-              lastname
+              lastName
               email
               active
               token
@@ -2098,7 +2098,7 @@ export const subLocationEntries = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           token

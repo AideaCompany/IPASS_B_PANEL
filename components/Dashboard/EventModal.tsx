@@ -41,7 +41,7 @@ const EventModal = (): JSX.Element => {
             </div>
             <div className="element">
               <h3>Anfitrión:</h3>
-              <p>{`${(eventData?.host as User)?.name} ${(eventData?.host as User)?.lastname}`}</p>
+              <p>{`${(eventData?.host as User)?.name} ${(eventData?.host as User)?.lastName}`}</p>
             </div>
             <div className="element">
               <h3>Email anfitrión:</h3>

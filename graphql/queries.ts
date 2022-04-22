@@ -47,7 +47,7 @@ export const getUser = /* GraphQL */ `
     getUser(_id: $_id) {
       _id
       name
-      lastname
+      lastName
       email
       privilegeID {
         _id
@@ -138,7 +138,7 @@ export const listUser = /* GraphQL */ `
     listUser {
       _id
       name
-      lastname
+      lastName
       email
       privilegeID {
         _id

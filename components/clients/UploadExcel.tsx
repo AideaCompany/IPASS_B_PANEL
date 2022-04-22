@@ -47,9 +47,9 @@ const UploadExcel = ({ translations, reload }: { translations: ITranslations; re
             key: k,
             name1: rows[k][0].toString() ? rows[k][0].toString() : '',
             name2: rows[k][1] ? rows[k][1].toString() : '',
-            lastname1: rows[k][2] ? rows[k][2].toString() : '',
-            lastname2: rows[k][3] ? rows[k][3].toString() : '',
-            lastname3: rows[k][4] ? rows[k][4].toString() : '',
+            lastName1: rows[k][2] ? rows[k][2].toString() : '',
+            lastName2: rows[k][3] ? rows[k][3].toString() : '',
+            lastName3: rows[k][4] ? rows[k][4].toString() : '',
             document: rows[k][5] ? rows[k][5].toString() : '',
             phone1: rows[k][6] ? rows[k][6].toString() : '',
             phone2: rows[k][7] ? rows[k][7].toString() : '',
@@ -125,7 +125,7 @@ const UploadExcel = ({ translations, reload }: { translations: ITranslations; re
                 const actual = data.find(e => e.email === item.email) as IClient
                 return (
                   <List.Item key={i}>
-                    <p>{`${actual.name1} ${actual.lastname1} `}</p>
+                    <p>{`${actual.name1} ${actual.lastName1} `}</p>
                   </List.Item>
                 )
               }}
@@ -152,7 +152,7 @@ const UploadExcel = ({ translations, reload }: { translations: ITranslations; re
                       }`}</p>
                     ]}
                   >
-                    <p>{`${actual.name1} ${actual.lastname1} `}</p>
+                    <p>{`${actual.name1} ${actual.lastName1} `}</p>
                   </List.Item>
                 )
               }}
@@ -262,20 +262,20 @@ const UploadExcel = ({ translations, reload }: { translations: ITranslations; re
                   width: 100
                 },
                 {
-                  name: 'lastname1',
+                  name: 'lastName1',
                   search: true,
 
                   customRender: (data: any) => (data ? data : '-'),
                   width: 100
                 },
                 {
-                  name: 'lastname2',
+                  name: 'lastName2',
                   search: true,
                   customRender: (data: any) => (data ? data : '-'),
                   width: 100
                 },
                 {
-                  name: 'lastname3',
+                  name: 'lastName3',
                   search: true,
                   customRender: (data: any) => (data ? data : '-'),
                   width: 150

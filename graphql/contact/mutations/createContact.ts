@@ -10,7 +10,7 @@ export const createContact = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id

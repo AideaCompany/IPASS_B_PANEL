@@ -3,7 +3,7 @@ export const getUsersSecurity = /* GraphQL */ `
     getUsersSecurity {
       _id
       name
-      lastname
+      lastName
       email
       privilegeID {
         _id
@@ -90,7 +90,7 @@ export const getUsersSecurity = /* GraphQL */ `
         admins {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -113,7 +113,7 @@ export const getUsersSecurity = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -136,7 +136,7 @@ export const getUsersSecurity = /* GraphQL */ `
         security {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -176,7 +176,7 @@ export const getUsersSecurity = /* GraphQL */ `
         whoDeleted {
           _id
           name
-          lastname
+          lastName
           email
           active
           country

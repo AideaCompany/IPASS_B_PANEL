@@ -32,16 +32,16 @@ export const formElements = (
     type: 'string'
   },
   {
-    name: 'lastname',
+    name: 'lastName',
     type: 'string',
     required: true
   },
   {
-    name: 'lastname1',
+    name: 'lastName1',
     type: 'string'
   },
   {
-    name: 'lastname2',
+    name: 'lastName2',
     type: 'string'
   },
   {

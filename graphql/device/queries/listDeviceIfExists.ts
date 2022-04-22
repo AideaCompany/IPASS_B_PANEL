@@ -47,7 +47,7 @@ export const listDeviceIfExists = /* GraphQL */ `
         admins {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -68,7 +68,7 @@ export const listDeviceIfExists = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -89,7 +89,7 @@ export const listDeviceIfExists = /* GraphQL */ `
         security {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -127,7 +127,7 @@ export const listDeviceIfExists = /* GraphQL */ `
         whoDeleted {
           _id
           name
-          lastname
+          lastName
           email
           active
 

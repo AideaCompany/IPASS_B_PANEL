@@ -7,7 +7,7 @@ export const listEvent = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
       }
       end

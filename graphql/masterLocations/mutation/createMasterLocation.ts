@@ -41,7 +41,7 @@ export const createMasterLocation = /* GraphQL */ `
         admins {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -53,7 +53,7 @@ export const createMasterLocation = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -65,7 +65,7 @@ export const createMasterLocation = /* GraphQL */ `
         security {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -92,7 +92,7 @@ export const createMasterLocation = /* GraphQL */ `
         whoDeleted {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -110,7 +110,7 @@ export const createMasterLocation = /* GraphQL */ `
       whoDeleted {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id

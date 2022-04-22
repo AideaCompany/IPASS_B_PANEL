@@ -43,7 +43,7 @@ export const listAvailableDevices = /* GraphQL */ `
         admins {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -54,7 +54,7 @@ export const listAvailableDevices = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -65,7 +65,7 @@ export const listAvailableDevices = /* GraphQL */ `
         security {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -81,7 +81,7 @@ export const listAvailableDevices = /* GraphQL */ `
         whoDeleted {
           _id
           name
-          lastname
+          lastName
           email
           active
 

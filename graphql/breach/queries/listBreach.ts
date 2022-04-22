@@ -43,7 +43,7 @@ export const listBreach = /* GraphQL */ `
         admins {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -65,7 +65,7 @@ export const listBreach = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -87,7 +87,7 @@ export const listBreach = /* GraphQL */ `
         security {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -126,7 +126,7 @@ export const listBreach = /* GraphQL */ `
         whoDeleted {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -150,7 +150,7 @@ export const listBreach = /* GraphQL */ `
       worker {
         _id
         name
-        lastname
+        lastName
         email
         verifyLogin
         active
@@ -209,7 +209,7 @@ export const listBreach = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -265,7 +265,7 @@ export const listBreach = /* GraphQL */ `
       user {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id

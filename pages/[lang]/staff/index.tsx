@@ -2,43 +2,38 @@
 //Components
 import CreateItem from '@/components/crudFunctions/create'
 import MainLayout from '@/components/layout/Layout'
-import TableData from '@/components/TableDatas'
-import ModalKeyUser from '@/components/users/ModalKeyUser'
 import columns from '@/components/staff/columns'
 import { formElements } from '@/components/staff/formElements'
 import FormItems from '@/components/staff/formItem'
 import UploadExcel from '@/components/staff/UploadExcel'
-
+import TableData from '@/components/TableDatas'
+import { setToken } from '@/graphql/config'
+import { createStaff } from '@/graphql/Staff/mutation/createStaff'
 //types
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 //Context
 import { getLocalizationProps } from '@/providers/LenguageContext'
+import { getAllApps } from '@/services/apps'
 import { getAllLocationActive } from '@/services/locations'
+import { listStaffFn } from '@/services/staff'
 import { listTimeZonesFn } from '@/services/timeZone'
-import { countUserWorkerFn, verifyKeyUserFn } from '@/services/users'
-
+import { verifyKeyUserFn } from '@/services/users'
+import { IApps } from '@/types/interfaces/Apps/Apps.interface'
+import { FilterType, IPaginated } from '@/types/interfaces/graphqlTypes'
+import { IGroupWorker } from '@/types/interfaces/GroupWorker/GroupWorker.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
 import { gql } from '@apollo/client'
-import { Button, message, Tooltip } from 'antd'
-import { Role } from 'icons/personalIcons'
+import { message } from 'antd'
+import * as cookie from 'cookie'
 //next
 import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import * as cookie from 'cookie'
-import { setToken } from '@/graphql/config'
-import { getAllApps } from '@/services/apps'
-import { FileUnknownOutlined } from '@ant-design/icons'
-import { IStaff } from '@/types/interfaces/staff/staff.interface'
-import { IGroupWorker } from '@/types/interfaces/GroupWorker/GroupWorker.interface'
-import { ILocation } from '@/types/interfaces/Location/Location.interface'
-import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
-import { IApps } from '@/types/interfaces/Apps/Apps.interface'
-import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
-import { FilterType, IPaginated } from '@/types/interfaces/graphqlTypes'
-import { listStaffFn } from '@/services/staff'
-import { createStaff } from '@/graphql/Staff/mutation/createStaff'
 
 type actualItem = IStaff
 const staff = (props: {
@@ -65,7 +60,7 @@ const staff = (props: {
   const [actualLimit, setActualLimit] = useState(limit)
   const [actualPage, setActualPage] = useState(page)
   const [filters, setFilters] = useState({})
-  const [countUsers, setCountUsers] = useState(0)
+  // const [countUsers, setCountUsers] = useState(0)
 
   //providers
   const { permission } = useAuth()
@@ -94,18 +89,18 @@ const staff = (props: {
 
   const getData = async () => {
     setLoading(true)
-    const res = await verifyKeyUserFn()
-    if (res) {
-      setCountUsers(await countUserWorkerFn())
-      const result = await listStaffFn(actualPage, actualLimit, filters)
-      setPagination(result)
-      setData(
-        convertTotable(result.docs).map(e => ({
-          ...e,
-          photo: e.photo ? { ...e.photo, key: `${process.env.NEXT_PUBLIC_S3 as string}/${e.photo.key}` } : e.photo
-        }))
-      )
-    }
+    // const res = await verifyKeyUserFn()
+    // if (res) {
+    // setCountUsers(await countUserWorkerFn())
+    const result = await listStaffFn(actualPage, actualLimit, filters)
+    setPagination(result)
+    setData(
+      convertTotable(result.docs).map(e => ({
+        ...e,
+        photo: e.photo ? { ...e.photo, key: `${process.env.NEXT_PUBLIC_S3 as string}/${e.photo.key}` } : e.photo
+      }))
+    )
+    // }
     setLoading(false)
   }
 
@@ -119,7 +114,7 @@ const staff = (props: {
 
   const createButton = (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      {/* <Tooltip title="Grupos de trabajadores">
+      {/* <Tooltip title="Grupos de staffers">
         <Button
           style={{ margin: '5px' }}
           onClick={() => router.push({ pathname: '/[lang]/worker/groups', query: { lang: router.query.lang } })}
@@ -147,12 +142,7 @@ const staff = (props: {
   return (
     <>
       {/* <ModalKeyUser setOpen={setOpen} visible={open} getData={getData} /> */}
-      <MainLayout
-        getData={getData}
-        create={createButton}
-        lang={lang}
-        title={`${localization?.translations.titleSection} - ${countUsers - 1}/1500 usuarios y trabajadores`}
-      >
+      <MainLayout getData={getData} create={createButton} lang={lang} title={`${localization?.translations.titleSection}`}>
         <>
           <TableData<IStaff>
             columns={columns({
@@ -171,7 +161,7 @@ const staff = (props: {
               pageSize: actualLimit,
               size: 'default',
               total: pagination?.totalDocs,
-              showTotal: (total, range) => `Mostrando ${range[0]}-${range[1]} de ${total} trabajadores`,
+              showTotal: (total, range) => `Mostrando ${range[0]}-${range[1]} de ${total} staffers`,
               current: actualPage,
               onChange: newPage => {
                 setActualPage(newPage)

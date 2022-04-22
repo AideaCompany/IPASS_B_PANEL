@@ -1,7 +1,7 @@
 // History
 export interface ICreateHistoryUser {
   name?: string
-  lastname?: string
+  lastName?: string
   email?: string
   privilegeID: string
   active?: boolean
@@ -19,7 +19,7 @@ export interface ICreateHistoryUser {
 
 export interface IUpdateHistoryUser {
   name?: string
-  lastname?: string
+  lastName?: string
   email?: string
   privilegeID: string
   active?: boolean

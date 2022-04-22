@@ -1,9 +1,7 @@
 import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { createMassiveClientFn } from '@/services/clients'
 import { createMassiveStaffFn } from '@/services/staff'
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
-import { IClient } from '@/types/types'
 import { FileExcelOutlined } from '@ant-design/icons'
 import { Button, List, message, Modal, Tooltip, Upload } from 'antd'
 import { UploadChangeParam } from 'antd/lib/upload'
@@ -40,7 +38,7 @@ const UploadExcel = ({ translations, reload }: { translations: ITranslations; re
     //Se verifica que el excel no esta vacio y que haya cargado el excel
     if (rows.length >= 0) {
       //Se recorre rows
-      if ((rows[0][0] as string).toLowerCase() !== 'nombre 1') {
+      if ((rows[0][0] as string).toLowerCase() !== 'nombre') {
         message.error('No coincide el formato')
       }
       const result = []
@@ -48,21 +46,22 @@ const UploadExcel = ({ translations, reload }: { translations: ITranslations; re
         if (rows[k][0]) {
           result.push({
             key: k,
-            name: rows[k][0].toString() ? rows[k][0].toString() : '',
-            lastName: rows[k][1].toString() ? rows[k][1].toString() : '',
-            email: rows[k][2].toString() ? rows[k][2].toString() : '',
-            name1: rows[k][3].toString() ? rows[k][3].toString() : '',
-            name2: rows[k][4].toString() ? rows[k][4].toString() : '',
-            lastName1: rows[k][5].toString() ? rows[k][5].toString() : '',
-            lastName2: rows[k][6].toString() ? rows[k][6].toString() : '',
-            address: rows[k][7].toString() ? rows[k][7].toString() : '',
-            phone: rows[k][8].toString() ? rows[k][8].toString() : '',
-            phone1: rows[k][9].toString() ? rows[k][9].toString() : '',
-            specialty: rows[k][10].toString() ? rows[k][10].toString() : '',
-            AET: rows[k][11].toString() ? rows[k][11].toString() : '',
+            name: rows[k][0]?.toString() ? rows[k][0]?.toString() : '',
+            lastName: rows[k][1]?.toString() ? rows[k][1]?.toString() : '',
+            email: rows[k][2]?.toString() ? rows[k][2]?.toString() : '',
+            name1: rows[k][3]?.toString() ? rows[k][3]?.toString() : '',
+            name2: rows[k][4]?.toString() ? rows[k][4]?.toString() : '',
+            lastName1: rows[k][5]?.toString() ? rows[k][5]?.toString() : '',
+            lastName2: rows[k][6]?.toString() ? rows[k][6]?.toString() : '',
+            address: rows[k][7]?.toString() ? rows[k][7]?.toString() : '',
+            phone: rows[k][8]?.toString() ? rows[k][8]?.toString() : '',
+            phone1: rows[k][9]?.toString() ? rows[k][9]?.toString() : '',
+            specialty: rows[k][10]?.toString() ? rows[k][10]?.toString() : '',
+            AET: rows[k][11]?.toString() ? rows[k][11]?.toString() : '',
             canAccessToApp: rows[k][12] === 'SI' ? true : false,
             canAccessToWeb: rows[k][13] === 'SI' ? true : false,
-            plus: rows[k][14] === 'SI' ? true : false
+            plus: rows[k][14] === 'SI' ? true : false,
+            stores: rows[k][15]?.toString() ? rows[k][15]?.toString() : ''
           })
         }
       }
@@ -321,6 +320,12 @@ const UploadExcel = ({ translations, reload }: { translations: ITranslations; re
                   name: 'plus',
                   search: true,
                   customRender: (data: any) => <RenderCheck value={data} />,
+                  width: 150
+                },
+                {
+                  name: 'stores',
+                  search: true,
+
                   width: 150
                 }
               ],

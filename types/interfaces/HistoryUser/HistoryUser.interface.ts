@@ -5,7 +5,7 @@ import { IUser } from '../user/User.interface'
 // History
 export interface IHistoryUser extends basicTable {
   name?: string
-  lastname?: string
+  lastName?: string
   email?: string
   // password?: string
   privilegeID: string

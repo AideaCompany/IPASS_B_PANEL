@@ -1,7 +1,7 @@
 const staff = {
-  titleSection: 'Workers',
+  titleSection: 'Staffer',
   name: 'Name',
-  lastname: 'Lastname',
+  lastName: 'Lastname',
   email: 'Email',
   typeDocument: 'Type document',
   document: 'Document',

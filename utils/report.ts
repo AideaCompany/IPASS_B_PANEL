@@ -11,9 +11,9 @@ export const getType = (type?: typeQr) => {
     case typeQr.event:
       return 'Evento'
     case typeQr.worker:
-      return 'Trabajador'
+      return 'staffer'
     case typeQr.worker_temporal:
-      return 'Trabajador'
+      return 'staffer'
     case typeQr.user_temporal:
       return 'Usuario'
     case typeQr.eventExpress:

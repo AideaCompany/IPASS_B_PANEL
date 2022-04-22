@@ -14,7 +14,6 @@ export const listAllServices = /* GraphQL */ `
           _id
           name
           abbreviation
-          brand
           productType
           price
           measureType
@@ -24,6 +23,35 @@ export const listAllServices = /* GraphQL */ `
         productQuantity
       }
       eta
+      staffers {
+        _id
+        name
+        name1
+        name2
+        lastName
+        lastName1
+        lastName2
+        address
+        stores
+        phone
+        phone1
+        photo {
+          filename
+          key
+        }
+        email
+        specialty
+        AET
+        canAccessToApp
+        canAccessToWeb
+        client
+        active
+        tokenExpo
+        plus
+        verifyLogin
+        createdAt
+        updatedAt
+      }
       price
       cost
       serviceFee
@@ -37,6 +65,55 @@ export const listAllServices = /* GraphQL */ `
         key
       }
       stores
+      subService {
+        _id
+        plus
+        name
+        abbreviation
+        products {
+          productQuantity
+        }
+        eta
+        staffers {
+          _id
+          name
+          name1
+          name2
+          lastName
+          lastName1
+          lastName2
+          address
+          stores
+          phone
+          phone1
+          email
+          specialty
+          AET
+          canAccessToApp
+          canAccessToWeb
+          client
+          active
+          tokenExpo
+          plus
+          verifyLogin
+          createdAt
+          updatedAt
+        }
+        price
+        cost
+        subServiceFee
+        taxes
+        discounts
+        subServiceTime
+        returnTime
+        photo {
+          filename
+          key
+        }
+        stores
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }

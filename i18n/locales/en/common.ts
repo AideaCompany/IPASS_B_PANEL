@@ -48,7 +48,7 @@ const common = {
   goBack: 'Go back',
   titleDashboard: 'Dashboard',
   location: 'Location',
-  worker: 'Worker',
+  staff: 'Staffer',
   creating: 'Creating',
   updating: 'Updating',
   reload: 'Reload',

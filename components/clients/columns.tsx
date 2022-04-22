@@ -81,7 +81,7 @@ const columns = (props: {
         width: 200
       },
       {
-        name: 'lastname1',
+        name: 'lastName1',
         fixed: 'left',
         search: true,
         width: 200
@@ -109,12 +109,12 @@ const columns = (props: {
         width: 200
       },
       {
-        name: 'lastname2',
+        name: 'lastName2',
         search: true,
         width: 200
       },
       {
-        name: 'lastname3',
+        name: 'lastName3',
         search: true,
         width: 200
       },

@@ -37,7 +37,7 @@ const masterLocation = (props: { localization: Localization; lang: string }) => 
   const { permission } = useAuth()
   //Effect
   useEffect(() => {
-    setActualPermission(permission.permissions?.find(e => e.sectionName === 'GruposTrabajador'))
+    setActualPermission(permission.permissions?.find(e => e.sectionName === 'Gruposstaffer'))
   }, [permission])
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const masterLocation = (props: { localization: Localization; lang: string }) => 
 
   return (
     <>
-      <MainLayout create={create} getData={getData} lang={lang} title={'Grupos de trabajadores'}>
+      <MainLayout create={create} getData={getData} lang={lang} title={'Grupos de staffers'}>
         <TableData
           columns={columns({
             translations: localization.translations,

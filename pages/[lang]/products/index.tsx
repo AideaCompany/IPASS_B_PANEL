@@ -13,8 +13,9 @@ import useAuth from '@/providers/AuthContext'
 //Context
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllProductsFn } from '@/services/products'
-import { getAllServices, listAllServicesFn } from '@/services/services'
-import { IProduct, IService, PermissionsPrivilege } from '@/types/types'
+import { listAllServicesFn } from '@/services/services'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IProduct, IService } from '@/types/types'
 import { gql } from '@apollo/client'
 //next
 import { GetStaticPaths, GetStaticProps } from 'next'
@@ -27,7 +28,7 @@ const Products = (props: { localization: Localization; lang: string }) => {
   const { localization, lang } = props
 
   //states
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setdata] = useState<actualItem[]>([])
   const [services, setServices] = useState<IService[]>([])
   const [loading, setloading] = useState<boolean>(true)
@@ -62,7 +63,7 @@ const Products = (props: { localization: Localization; lang: string }) => {
         create={
           <CreateItem
             iconButton={true}
-            actualPermission={actualPermission as PermissionsPrivilege}
+            actualPermission={actualPermission as IPermissionsPrivilege}
             translations={localization.translations}
             mutation={gql(createProduct)}
             formElements={formElements(services)}
@@ -80,7 +81,7 @@ const Products = (props: { localization: Localization; lang: string }) => {
           <TableData
             columns={columns({
               translations: localization.translations,
-              actualPermission: actualPermission as PermissionsPrivilege,
+              actualPermission: actualPermission as IPermissionsPrivilege,
               permision: permission,
               lang: lang,
               services,

@@ -3,7 +3,7 @@ export const getUserHost = /* GraphQL */ `
     getUserHost {
       _id
       name
-      lastname
+      lastName
       email
       active
 

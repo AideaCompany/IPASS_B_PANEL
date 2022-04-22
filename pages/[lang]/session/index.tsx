@@ -261,7 +261,7 @@ const SignIn = (props: { localization: Localization }): JSX.Element => {
 
           <Powered theme={theme} />
           <Modal onOk={handleCloseWorker} onCancel={handleCloseWorker} visible={visibleWorker} className={`modalCrud${theme}`}>
-            <Descriptions column={1} title="Información del trabajador">
+            <Descriptions column={1} title="Información del staffer">
               <Descriptions.Item label="Nombre">{worker?.name}</Descriptions.Item>
               <Descriptions.Item label="Apellido">{worker?.lastName}</Descriptions.Item>
               <Descriptions.Item label="Tipo Documento">{worker?.name1}</Descriptions.Item>

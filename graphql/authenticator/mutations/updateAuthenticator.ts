@@ -15,7 +15,7 @@ export const updateAuthenticator = /* GraphQL */ `
       user {
         _id
         name
-        lastname
+        lastName
         email
         active
         token

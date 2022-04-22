@@ -27,7 +27,7 @@ const columns = (props: {
         search: true
       },
       {
-        name: 'lastname',
+        name: 'lastName',
         search: true
       },
       {

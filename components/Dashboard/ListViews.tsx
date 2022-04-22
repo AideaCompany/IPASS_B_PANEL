@@ -21,7 +21,7 @@ const ListViews = ({ translate }: { translate: Translations }) => {
     date: e.createdAt,
     host: getHost(e),
     name: getName(e),
-    lastname: getLastName(e),
+    lastName: getLastName(e),
     in: e.hourIn,
     out: e.hourOut,
     location: e.location,
@@ -86,7 +86,7 @@ const ListViews = ({ translate }: { translate: Translations }) => {
               search: true
             },
             {
-              name: 'lastname',
+              name: 'lastName',
               customRender: (render: string) => render,
               search: true
             },
@@ -121,7 +121,7 @@ const ListViews = ({ translate }: { translate: Translations }) => {
                 //             toSeeContact({
                 //               verified: false,
                 //               firstName: (render.worker as IWorker).name,
-                //               lastName: (render.worker as IWorker).lastname,
+                //               lastName: (render.worker as IWorker).lastName,
                 //               email: (render.worker as IWorker).email
                 //             } as IContact)
                 //           }
@@ -140,7 +140,7 @@ const ListViews = ({ translate }: { translate: Translations }) => {
                 //             toSeeContact({
                 //               verified: false,
                 //               firstName: (render.user as User).name,
-                //               lastName: (render.user as User).lastname,
+                //               lastName: (render.user as User).lastName,
                 //               email: (render.user as User).email
                 //             } as IContact)
                 //           }

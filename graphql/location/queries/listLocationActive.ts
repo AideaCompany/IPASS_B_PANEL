@@ -26,7 +26,7 @@ export const listLocationActive = /* GraphQL */ `
         whoDeleted {
           _id
           name
-          lastname
+
           email
           active
 
@@ -85,7 +85,7 @@ export const listLocationActive = /* GraphQL */ `
         admins {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -106,7 +106,7 @@ export const listLocationActive = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -127,7 +127,7 @@ export const listLocationActive = /* GraphQL */ `
         security {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -165,7 +165,7 @@ export const listLocationActive = /* GraphQL */ `
         whoDeleted {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -224,7 +224,7 @@ export const listLocationActive = /* GraphQL */ `
         admins {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -245,7 +245,7 @@ export const listLocationActive = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -266,7 +266,7 @@ export const listLocationActive = /* GraphQL */ `
         security {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -304,7 +304,7 @@ export const listLocationActive = /* GraphQL */ `
         whoDeleted {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -328,7 +328,7 @@ export const listLocationActive = /* GraphQL */ `
       admins {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -355,7 +355,7 @@ export const listLocationActive = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -382,7 +382,7 @@ export const listLocationActive = /* GraphQL */ `
       security {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -437,7 +437,7 @@ export const listLocationActive = /* GraphQL */ `
       whoDeleted {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id

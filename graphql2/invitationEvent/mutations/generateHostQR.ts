@@ -32,7 +32,7 @@ export const generateHostQR = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         active
         token

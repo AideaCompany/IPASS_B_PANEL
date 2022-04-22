@@ -149,7 +149,7 @@ const SignIn = (props: { localization: Localization }): JSX.Element => {
                     <Input placeholder={localization.translations.inputName}></Input>
                   </Form.Item>
                   <Form.Item
-                    name="lastname"
+                    name="lastName"
                     rules={[
                       {
                         required: true,

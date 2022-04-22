@@ -1,6 +1,11 @@
 import useSecurity from '@/providers/SecurityContext'
-import { IContact, IEvent, IEventExpress, ILocationEntries, IWorker, User } from '@/types/types'
-import { typeQr } from '@/types/valuesAddQr'
+import { IEventExpress } from '@/types/interfaces/EventExpress/eventExpress.interface'
+import { ILocationEntries } from '@/types/interfaces/ILocationEntries/LocationEntries.interface'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
+import { typeQr } from '@/types/interfaces/valuesAddQr'
+import { IContact, IEvent } from '@/types/types'
+
 import { getLastName, getName, getType } from '@/utils/report'
 import { getTime } from '@/utils/utils'
 import { CalendarOutlined, FieldTimeOutlined, UserOutlined } from '@ant-design/icons'
@@ -45,21 +50,21 @@ const LastEntry = () => {
   }
 
   const convertToContact = (item: ILocationEntries): IContact => {
-    if (item.worker) {
+    if (item.staff) {
       return {
-        DPI: item.worker.document,
-        firstName: item.worker.name as string,
-        lastName: item.worker.lastname as string
+        DPI: (item.staff as IStaff).name,
+        firstName: (item.staff as IStaff).name as string,
+        lastName: (item.staff as IStaff).lastName as string
       } as IContact
     }
     if (item.user) {
       return {
-        DPI: item.user.document,
-        firstName: item.user.name as string,
-        lastName: item.user.lastname as string
+        DPI: (item.user as IUser).document,
+        firstName: (item.user as IUser).name as string,
+        lastName: (item.user as IUser).lastName as string
       } as IContact
     }
-    return item.contact
+    return item.contact as IContact
   }
 
   return (
