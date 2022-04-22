@@ -1,7 +1,7 @@
 import { updateBrands } from '@/graphql/brands/mutations/updateBrands'
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IBrands, PermissionsPrivilege, Privilege } from '@/types/types'
+
 import { ColumnType } from 'antd/lib/table'
 import gql from 'graphql-tag'
 import React, { useContext } from 'react'
@@ -14,11 +14,13 @@ import { formElements } from './formElements'
 import Formitems from './formItem'
 import { UserOutlined } from '@ant-design/icons'
 import { deleteBrands } from '@/graphql/brands/mutations/deleteBrands'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IBrands } from '@/types/interfaces/Brands/Brands.interface'
 
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  permision: Privilege
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
+  permision: IPrivilege
   lang: string
   beforeShowUpdate?: (param: any) => any
   after: () => void

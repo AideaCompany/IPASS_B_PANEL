@@ -3,9 +3,10 @@ import { updateMasterLocation } from '@/graphql/masterLocations/mutation/updateM
 import { getMasterLocation } from '@/graphql/masterLocations/queries/getMasterLocation'
 import { listMasterLocationActive } from '@/graphql/masterLocations/queries/listMasterLocationActive'
 import { listBrands } from '@/graphql/brands/queries/listBrands'
-import { IBrands } from '@/types/types'
+
 import { convertTotable } from '@/utils/utils'
 import gql from 'graphql-tag'
+import { IBrands } from '@/types/interfaces/Brands/Brands.interface'
 
 export const getAllBrands = async (): Promise<IBrands[]> => {
   client.cache.reset()
