@@ -10,7 +10,11 @@ export const listStaff = /* GraphQL */ `
         lastName1
         lastName2
         address
-        stores
+        stores {
+          _id
+          name
+          address
+        }
         phone
         phone1
         photo {

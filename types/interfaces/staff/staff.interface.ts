@@ -1,4 +1,5 @@
 import { basicTable, fileType } from '@/types/typeTemplate'
+import { IStores } from '../Stores/stores.interface'
 
 export interface IStaff extends basicTable {
   _id: string
@@ -9,7 +10,7 @@ export interface IStaff extends basicTable {
   lastName1?: string
   lastName2?: string
   address?: string
-  stores?: string[]
+  stores?: string[] | IStores[]
   phone?: string
   phone1?: string
   photo?: fileType

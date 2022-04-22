@@ -17,14 +17,15 @@ import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllApps } from '@/services/apps'
 import { getAllLocationActive } from '@/services/locations'
 import { listStaffFn } from '@/services/staff'
+import { getAllStores } from '@/services/stores'
 import { listTimeZonesFn } from '@/services/timeZone'
-import { verifyKeyUserFn } from '@/services/users'
 import { IApps } from '@/types/interfaces/Apps/Apps.interface'
 import { FilterType, IPaginated } from '@/types/interfaces/graphqlTypes'
 import { IGroupWorker } from '@/types/interfaces/GroupWorker/GroupWorker.interface'
 import { ILocation } from '@/types/interfaces/Location/Location.interface'
 import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
+import { IStores } from '@/types/interfaces/Stores/stores.interface'
 import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
 import { gql } from '@apollo/client'
@@ -45,13 +46,14 @@ const staff = (props: {
   locations: ILocation[]
   timeZone: ITimeZone[]
   apps: IApps[]
+  stores: IStores[]
 }) => {
   //#region hooks
   const router = useRouter()
   //#endregion hooks
 
   //props
-  const { localization, lang, page, limit } = props
+  const { localization, lang, page, limit, stores } = props
   //states
   const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setData] = useState<actualItem[]>([])
@@ -127,10 +129,10 @@ const staff = (props: {
         actualPermission={actualPermission as IPermissionsPrivilege}
         translations={localization.translations}
         mutation={gql(createStaff)}
-        formElements={formElements()}
+        formElements={formElements(stores)}
         afterCreate={getData}
         manageMentError={manageMentError}
-        FormItem={<FormItems permission={permission} translations={localization.translations} />}
+        FormItem={<FormItems stores={stores} permission={permission} translations={localization.translations} />}
         iconButton={true}
       />
     </div>
@@ -146,6 +148,7 @@ const staff = (props: {
         <>
           <TableData<IStaff>
             columns={columns({
+              stores,
               after: getData,
               translations: localization.translations,
               actualPermission: actualPermission as IPermissionsPrivilege,
@@ -202,8 +205,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
         const locations = await getAllLocationActive()
         const timeZone = await listTimeZonesFn()
         const apps = await getAllApps()
-
-        return { props: { localization, page, limit, groups: [], locations, timeZone, apps } }
+        const stores = await getAllStores()
+        return { props: { localization, page, limit, groups: [], locations, timeZone, apps, stores } }
       } else {
         return {
           notFound: true

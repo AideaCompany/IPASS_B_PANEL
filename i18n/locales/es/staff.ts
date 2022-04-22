@@ -33,7 +33,7 @@ const staff = {
   lastName1: 'Apellido 1',
   lastName2: 'Apellido 2',
   address: 'Dirección',
-  stores: 'Tiendas',
+  stores: 'Establecimientos',
   specialty: 'Especialidad',
   phone1: 'Teléfono 1',
   AET: 'AET'

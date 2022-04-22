@@ -5,7 +5,6 @@ import { ThemeContext } from '@/providers/ThemeContext'
 import { LayoutProps } from '@/types/types'
 import {
   AuditOutlined,
-  BarChartOutlined,
   BarcodeOutlined,
   CalendarOutlined,
   CodeOutlined,
@@ -14,12 +13,10 @@ import {
   HeartOutlined,
   LaptopOutlined,
   OrderedListOutlined,
-  PieChartOutlined,
   PlusOutlined,
   ShoppingOutlined,
   TagsOutlined,
-  UserOutlined,
-  WarningOutlined
+  UserOutlined
 } from '@ant-design/icons'
 import { Button, Layout, Menu, Tooltip } from 'antd'
 import { Building, CategoryIcon, HouseIcon, Raspberry, Worker } from 'icons/personalIcons'
@@ -57,92 +54,91 @@ const MainLayout = (props: LayoutProps) => {
       title: localization.translations.cms,
       icon: <DesktopOutlined />
     },
-    {
-      path: '/clients',
-      title: localization.translations.clients,
-      icon: <UserOutlined />
-    },
-    {
-      path: '/services',
-      title: localization.translations.services,
-      icon: <HeartOutlined />
-    },
-    {
-      path: '/subServices',
-      title: localization.translations.subservices,
-      icon: <HeartOutlined />
-    },
-    {
-      path: '/reports',
-      title: localization.translations.reports,
-      icon: <BarChartOutlined />
-    },
-    {
-      path: '/risk',
-      title: localization.translations.risk,
-      icon: <WarningOutlined />
-    },
-    {
-      path: '/board',
-      title: localization.translations.board,
-      icon: <PieChartOutlined />
-    },
-    {
-      path: '/masterLocation',
-      title: localization.translations.masterLocation,
-      icon: <Building />
-    },
-    {
-      path: '/location',
-      title: localization.translations.location,
-      icon: <Raspberry />
-    },
-
-    {
-      path: '/event',
-      title: localization.translations.event,
-      icon: <CalendarOutlined />
-    },
-    {
-      path: '/eventExpress',
-      title: localization.translations.eventExpress,
-      icon: <CalendarOutlined />
-    },
-    {
-      path: '/contact',
-      title: localization.translations.contact,
-      icon: <AuditOutlined />
-    },
-    {
-      path: '/visitorCategory',
-      title: localization.translations.visitorCategory,
-      icon: <CategoryIcon />
-    },
-    {
-      path: '/visitorBrand',
-      title: localization.translations.visitorBrand,
-      icon: <BarcodeOutlined />
-    },
-    {
-      path: '/visitorPlace',
-      title: localization.translations.visitorPlace,
-      icon: <HouseIcon />
-    },
-    {
-      path: '/device',
-      title: localization.translations.device,
-      icon: <LaptopOutlined />
-    },
-    {
-      path: '/apps',
-      title: localization.translations.apps,
-      icon: <CodeOutlined />
-    },
-    {
-      path: '/authenticator',
-      title: localization.translations.authenticator,
-      icon: <OrderedListOutlined />
-    },
+    // {
+    //   path: '/clients',
+    //   title: localization.translations.clients,
+    //   icon: <UserOutlined />
+    // },
+    // {
+    //   path: '/services',
+    //   title: localization.translations.services,
+    //   icon: <HeartOutlined />
+    // },
+    // {
+    //   path: '/subServices',
+    //   title: localization.translations.subservices,
+    //   icon: <HeartOutlined />
+    // },
+    // {
+    //   path: '/reports',
+    //   title: localization.translations.reports,
+    //   icon: <BarChartOutlined />
+    // },
+    // {
+    //   path: '/risk',
+    //   title: localization.translations.risk,
+    //   icon: <WarningOutlined />
+    // },
+    // {
+    //   path: '/board',
+    //   title: localization.translations.board,
+    //   icon: <PieChartOutlined />
+    // },
+    // {
+    //   path: '/masterLocation',
+    //   title: localization.translations.masterLocation,
+    //   icon: <Building />
+    // },
+    // {
+    //   path: '/location',
+    //   title: localization.translations.location,
+    //   icon: <Raspberry />
+    // },
+    // {
+    //   path: '/event',
+    //   title: localization.translations.event,
+    //   icon: <CalendarOutlined />
+    // },
+    // {
+    //   path: '/eventExpress',
+    //   title: localization.translations.eventExpress,
+    //   icon: <CalendarOutlined />
+    // },
+    // {
+    //   path: '/contact',
+    //   title: localization.translations.contact,
+    //   icon: <AuditOutlined />
+    // },
+    // {
+    //   path: '/visitorCategory',
+    //   title: localization.translations.visitorCategory,
+    //   icon: <CategoryIcon />
+    // },
+    // {
+    //   path: '/visitorBrand',
+    //   title: localization.translations.visitorBrand,
+    //   icon: <BarcodeOutlined />
+    // },
+    // {
+    //   path: '/visitorPlace',
+    //   title: localization.translations.visitorPlace,
+    //   icon: <HouseIcon />
+    // },
+    // {
+    //   path: '/device',
+    //   title: localization.translations.device,
+    //   icon: <LaptopOutlined />
+    // },
+    // {
+    //   path: '/apps',
+    //   title: localization.translations.apps,
+    //   icon: <CodeOutlined />
+    // },
+    // {
+    //   path: '/authenticator',
+    //   title: localization.translations.authenticator,
+    //   icon: <OrderedListOutlined />
+    // },
     {
       path: '/timeZone',
       title: localization.translations.timeZone,
@@ -153,31 +149,31 @@ const MainLayout = (props: LayoutProps) => {
       title: localization.translations.stores,
       icon: <Building />
     },
-    {
-      path: '/brands',
-      title: localization.translations.brands,
-      icon: <Building />
-    },
-    {
-      path: '/styleHair',
-      title: localization.translations.styleHair,
-      icon: <Building />
-    },
+    // {
+    //   path: '/brands',
+    //   title: localization.translations.brands,
+    //   icon: <ShoppingOutlined />
+    // },
+    // {
+    //   path: '/styleHair',
+    //   title: localization.translations.styleHair,
+    //   icon: <Building />
+    // },
     {
       path: '/staff',
       title: localization.translations.staff,
       icon: <Worker />
     },
-    {
-      path: '/products',
-      title: localization.translations.products,
-      icon: <ShoppingOutlined />
-    },
-    {
-      path: '/serviceTypes',
-      title: localization.translations.serviceTypes,
-      icon: <TagsOutlined />
-    },
+    // {
+    //   path: '/products',
+    //   title: localization.translations.products,
+    //   icon: <ShoppingOutlined />
+    // },
+    // {
+    //   path: '/serviceTypes',
+    //   title: localization.translations.serviceTypes,
+    //   icon: <TagsOutlined />
+    // },
     {
       path: '/users',
       title: localization.translations.user,

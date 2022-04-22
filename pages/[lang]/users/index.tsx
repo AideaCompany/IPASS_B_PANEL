@@ -152,7 +152,7 @@ const user = (props: {
   }
 
   const beforeShowUpdate = (render: IUser) => {
-    render.group = (render?.group as IGroupWorker[])?.map(e => e._id)
+    // render.group = (render?.group as IGroupWorker[])?.map(e => e._id)
     // render.timeZone = (render?.timeZone as iTimeZone[])?.map(e => e._id)
     // render.nativeLocation = (render?.nativeLocation as ILocation)?._id
     return render

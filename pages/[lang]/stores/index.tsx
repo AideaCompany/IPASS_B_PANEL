@@ -14,7 +14,9 @@ import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllStores } from '@/services/stores'
 import { listTimeZonesFn } from '@/services/timeZone'
-import { ILocation, IStores, iTimeZone, PermissionsPrivilege } from '@/types/types'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IStores } from '@/types/interfaces/Stores/stores.interface'
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
 import { gql } from '@apollo/client'
 //next
 import { GetStaticPaths, GetStaticProps } from 'next'
@@ -26,10 +28,9 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
   const { localization, lang } = props
 
   //states
-  const [timeZone, setTimeZone] = useState<iTimeZone[]>([])
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
+  const [timeZone, setTimeZone] = useState<ITimeZone[]>([])
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setdata] = useState<actualItem[]>([])
-  const [locations, setLocations] = useState<ILocation[]>([])
   const [loading, setloading] = useState<boolean>(true)
   //providers
   const { permission } = useAuth()
@@ -59,7 +60,7 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
         create={
           <CreateItem
             iconButton={true}
-            actualPermission={actualPermission as PermissionsPrivilege}
+            actualPermission={actualPermission as IPermissionsPrivilege}
             translations={localization.translations}
             mutation={gql(createStores)}
             formElements={formElements(timeZone)}
@@ -76,7 +77,7 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
         <TableData
           columns={columns({
             translations: localization.translations,
-            actualPermission: actualPermission as PermissionsPrivilege,
+            actualPermission: actualPermission as IPermissionsPrivilege,
             permision: permission,
             timeZone,
             lang: lang,
