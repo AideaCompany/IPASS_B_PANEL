@@ -34,6 +34,7 @@ export const listClient = /* GraphQL */ `
         document
         medicalNotes
         socialMedia
+        country
       }
       totalDocs
       limit

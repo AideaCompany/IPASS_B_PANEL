@@ -69,7 +69,8 @@ const UploadExcel = ({ translations, reload }: { translations: ITranslations; re
             productsNotes: rows[k][21] ? rows[k][21].toString() : '',
             medicalNotes: rows[k][22] ? rows[k][22].toString() : '',
             socialMedia: rows[k][23] ? rows[k][23].toString() : '',
-            plus: rows[k][24] === 'SI' ? true : false
+            plus: rows[k][24] === 'SI' ? true : false,
+            country: rows[k][25] ? rows[k][25].toString() : ''
           })
         }
       }
@@ -388,6 +389,12 @@ const UploadExcel = ({ translations, reload }: { translations: ITranslations; re
                   name: 'plus',
                   search: true,
                   customRender: (data: any) => <RenderCheck value={data} />,
+                  width: 150
+                },
+                {
+                  name: 'country',
+                  search: true,
+                  customRender: (data: any) => (data ? data : '-'),
                   width: 150
                 }
               ],

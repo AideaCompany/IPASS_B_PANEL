@@ -27,6 +27,7 @@ export const getClient = /* GraphQL */ `
       pt
       rom
       lastVisit
+      country
       referrals
       servicesNotes
       productsNotes

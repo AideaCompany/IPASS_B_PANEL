@@ -194,6 +194,11 @@ const columns = (props: {
         name: 'socialMedia',
         search: true,
         width: 150
+      },
+      {
+        name: 'country',
+        search: true,
+        width: 150
       }
     ],
     translate: translations,

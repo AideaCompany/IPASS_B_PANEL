@@ -92,6 +92,7 @@ const clients = (props: { localization: Localization; lang: string; page: number
 
   const createButton = (
     <div className="ButtonsUp">
+      <UploadExcel reload={getData} translations={localization.translations} />
       <CreateItem
         actualPermission={actualPermission as IPermissionsPrivilege}
         translations={localization.translations}
@@ -102,7 +103,7 @@ const clients = (props: { localization: Localization; lang: string; page: number
         iconButton={true}
         FormItem={<FormItems isUpdate={false} translations={localization.translations} />}
       />
-      <UploadExcel reload={getData} translations={localization.translations} />
+
       {/* {true && (
         <Tooltip title={localization.translations.buttonPrivilege}>
           <Button
