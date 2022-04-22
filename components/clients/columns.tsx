@@ -1,9 +1,9 @@
 //types
 import { deleteClient } from '@/graphql/clients/mutations/deleteClient'
 import { updateClient } from '@/graphql/clients/mutations/updateClient'
-import { Translations } from '@/i18n/types'
+
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IClient, PermissionsPrivilege, Privilege } from '@/types/types'
+import { IClient } from '@/types/types'
 import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Image } from 'antd'
 import { ColumnType } from 'antd/lib/table'
@@ -16,12 +16,14 @@ import UpdateItem from '../crudFunctions/update'
 import { formElements } from './formElements'
 import RenderCheck from '../RenderCheck'
 import FormItems from './formItems'
+import { ITranslations } from '@/i18n/types'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
   beforeShowUpdate?: (param: any) => any
-  privileges: Privilege[]
+  privileges: IPrivilege[]
   after: () => void
   // filters: any[]
 }): ColumnType<IClient>[] => {

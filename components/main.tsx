@@ -17,7 +17,7 @@ const Main = (props: { children: JSX.Element; title?: string }): JSX.Element => 
   return (
     <>
       <Head>
-        <title>{`IPASS R  + | ${title}`}</title>
+        <title>{`IPASS B + | ${title}`}</title>
         <link rel="icon" href="/favicon.ico" />
         <meta name="robots" content="noindex, nofollow" />
       </Head>

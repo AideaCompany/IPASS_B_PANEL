@@ -18,19 +18,16 @@ import { getAllClients } from '@/services/clients'
 import { getAllLocationActive } from '@/services/locations'
 import { listTimeZonesFn } from '@/services/timeZone'
 import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
-
 //apollo
 import { IClient, Paginated } from '@/types/types'
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
 import { gql } from '@apollo/client'
-import { Button, Tooltip } from 'antd'
 import * as cookie from 'cookie'
-import { Role } from 'icons/personalIcons'
-
 //next
 import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+
 const clients = (props: { localization: Localization; lang: string; page: number; limit: number }): JSX.Element => {
   //props
   const { localization, lang, page, limit } = props
@@ -103,10 +100,10 @@ const clients = (props: { localization: Localization; lang: string; page: number
         afterCreate={getData}
         beforeCreate={beforeCreate}
         iconButton={true}
-        FormItem={<FormItems isUpdate={true} translations={localization.translations} />}
+        FormItem={<FormItems isUpdate={false} translations={localization.translations} />}
       />
       <UploadExcel reload={getData} translations={localization.translations} />
-      {true && (
+      {/* {true && (
         <Tooltip title={localization.translations.buttonPrivilege}>
           <Button
             style={{ margin: '5px' }}
@@ -115,7 +112,7 @@ const clients = (props: { localization: Localization; lang: string; page: number
             icon={<Role />}
           />
         </Tooltip>
-      )}
+      )} */}
     </div>
   )
 

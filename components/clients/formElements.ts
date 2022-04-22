@@ -1,5 +1,5 @@
 import { FormFactory } from '@/types/typeTemplate'
-
+import countries from 'country-data'
 export const formElements = (): FormFactory.IFormFactoryType<any>[] => [
   {
     name: 'photo',
@@ -26,7 +26,7 @@ export const formElements = (): FormFactory.IFormFactoryType<any>[] => [
   },
   {
     name: 'phone1',
-    type: 'string',
+    type: 'number',
     required: true
   },
   {
@@ -40,6 +40,14 @@ export const formElements = (): FormFactory.IFormFactoryType<any>[] => [
   {
     name: 'lastName3',
     type: 'string'
+  },
+  {
+    name: 'country',
+    type: 'select',
+    data: countries.callingCountries.all.map(country => ({
+      _id: country.countryCallingCodes[0],
+      name: country.name
+    }))
   },
   {
     name: 'email',
@@ -76,18 +84,18 @@ export const formElements = (): FormFactory.IFormFactoryType<any>[] => [
   },
   {
     name: 'servicesNotes',
-    type: 'string'
+    type: 'textArea'
   },
   {
     name: 'productsNotes',
-    type: 'string'
+    type: 'textArea'
   },
   {
     name: 'medicalNotes',
-    type: 'string'
+    type: 'textArea'
   },
   {
     name: 'socialMedia',
-    type: 'string'
+    type: 'textArea'
   }
 ]

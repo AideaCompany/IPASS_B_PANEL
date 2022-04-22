@@ -54,11 +54,11 @@ const MainLayout = (props: LayoutProps) => {
       title: localization.translations.cms,
       icon: <DesktopOutlined />
     },
-    // {
-    //   path: '/clients',
-    //   title: localization.translations.clients,
-    //   icon: <UserOutlined />
-    // },
+    {
+      path: '/clients',
+      title: localization.translations.clients,
+      icon: <UserOutlined />
+    },
     // {
     //   path: '/services',
     //   title: localization.translations.services,
@@ -208,7 +208,7 @@ const MainLayout = (props: LayoutProps) => {
             flexDirection: 'column'
           }}
         >
-          <div className="logo">{collapsed ? <img src="/logoipasscompact.png" alt="" /> : <img src="/logoipass.svg" alt="" />}</div>
+          <div className="logo">{collapsed ? <img src="/VantLogo.png" alt="" /> : <img src="/VantLogo.png" alt="" />}</div>
           <Menu
             className="menu_left_layout"
             defaultOpenKeys={['0']}

@@ -43,7 +43,8 @@ const clients = {
   titleModalUpdate: 'Actualizar cliente',
   errorName1: 'Por favor ingresa un nombre',
   errorLastname1: 'Por favor ingresa un apellido',
-  errorPhone1: 'Por favor ingresa un numero de celular'
+  errorPhone1: 'Por favor ingresa un numero de celular',
+  country: 'País'
 }
 
 export default clients
