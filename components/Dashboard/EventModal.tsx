@@ -1,6 +1,8 @@
 import useSecurity from '@/providers/SecurityContext'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { ILocation, User } from '@/types/types'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
+
 import { getTime } from '@/utils/utils'
 import { Modal } from 'antd'
 import React, { useContext } from 'react'
@@ -41,11 +43,11 @@ const EventModal = (): JSX.Element => {
             </div>
             <div className="element">
               <h3>Anfitrión:</h3>
-              <p>{`${(eventData?.host as User)?.name} ${(eventData?.host as User)?.lastName}`}</p>
+              <p>{`${(eventData?.host as IUser)?.name} ${(eventData?.host as IUser)?.lastName}`}</p>
             </div>
             <div className="element">
               <h3>Email anfitrión:</h3>
-              <p>{`${(eventData?.host as User)?.email}`}</p>
+              <p>{`${(eventData?.host as IUser)?.email}`}</p>
             </div>
             {/* <div className="element">
               <h3>Cantidad de invitados:</h3>

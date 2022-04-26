@@ -318,12 +318,17 @@ const ShieldSvg = () => (
   </svg>
 )
 
-export const Academic = (props: unknown) => <Icon component={academicSVG} {...props} />
-export const Raspberry = (props: unknown) => <Icon component={RasbperrySvg} {...props} />
-export const Worker = (props: unknown) => <Icon component={WorkerSvg} {...props} />
-export const Role = (props: unknown) => <Icon component={RoleSvg} {...props} />
-export const CategoryIcon = (props: unknown) => <Icon component={CategorySvg} {...props} />
-export const BrandIcon = (props: unknown) => <Icon component={BrandSvg} {...props} />
-export const HouseIcon = (props: unknown) => <Icon component={HouseSvg} {...props} />
-export const Building = (props: unknown) => <Icon component={BuildingSvg} {...props} />
-export const Shield = (props: unknown) => <Icon component={ShieldSvg} {...props} />
+export interface IIconProps {
+  style?: React.CSSProperties
+  onClick?: () => void
+}
+
+export const Academic = (props: IIconProps) => <Icon component={academicSVG} {...props} />
+export const Raspberry = (props: IIconProps) => <Icon component={RasbperrySvg} {...props} />
+export const Worker = (props: IIconProps) => <Icon component={WorkerSvg} {...props} />
+export const Role = (props: IIconProps) => <Icon component={RoleSvg} {...props} />
+export const CategoryIcon = (props: IIconProps) => <Icon component={CategorySvg} {...props} />
+export const BrandIcon = (props: IIconProps) => <Icon component={BrandSvg} {...props} />
+export const HouseIcon = (props: IIconProps) => <Icon component={HouseSvg} {...props} />
+export const Building = (props: IIconProps) => <Icon component={BuildingSvg} {...props} />
+export const Shield = (props: IIconProps) => <Icon component={ShieldSvg} {...props} />

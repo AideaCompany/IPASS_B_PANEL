@@ -10,6 +10,10 @@ import { listLocation } from '@/graphql/location/queries/listLocation'
 import { listLocationActive } from '@/graphql/location/queries/listLocationActive'
 import { subListLocation } from '@/graphql/location/subscrition/subListLocation'
 import { subSecurityByLocation } from '@/graphql/location/subscrition/subSecurityByLocation'
+import { IEvent } from '@/types/interfaces/Event/event.interface'
+import { IEventExpress } from '@/types/interfaces/EventExpress/eventExpress.interface'
+import { ILocationEntries } from '@/types/interfaces/ILocationEntries/LocationEntries.interface'
+import { IInvitationEvent } from '@/types/interfaces/InvitationEvent/InvitationEvent.interface'
 import { ILocation } from '@/types/interfaces/Location/Location.interface'
 import { ICreateLocation, IUpdateLocation } from '@/types/interfaces/Location/MutationLocation.interface'
 
@@ -60,9 +64,16 @@ export const updateLocationFn = async (input: IUpdateLocation): Promise<boolean>
   return (await client.mutate({ mutation: gql(updateLocation), variables: { input } })).data.updateLocation as boolean
 }
 
-export const getAllToSecurityFn = async (locationID: string): Promise<unknown> => {
+interface IAllToSecurity {
+  entries: ILocationEntries[]
+  events: IEvent[]
+  eventsExpress: IEventExpress[]
+  invitations: IInvitationEvent[]
+}
+
+export const getAllToSecurityFn = async (locationID: string): Promise<IAllToSecurity> => {
   client.cache.reset()
-  return (await client.query({ query: gql(getAllToSecurity), variables: { locationID } })).data.getAllToSecurity as unknown
+  return (await client.query({ query: gql(getAllToSecurity), variables: { locationID } })).data.getAllToSecurity as IAllToSecurity
 }
 
 export const generateExcelSecurityFn = async (locationID: string): Promise<string> => {

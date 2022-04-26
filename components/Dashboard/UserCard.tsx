@@ -1,7 +1,14 @@
 import useSecurity from '@/providers/SecurityContext'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IContact, IEvent, IEventExpress, IGroupWorker, ILocation, iTimeZone, IWorker, User } from '@/types/types'
-import { typeQr } from '@/types/valuesAddQr'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
+import { IEvent } from '@/types/interfaces/Event/event.interface'
+import { IEventExpress } from '@/types/interfaces/EventExpress/eventExpress.interface'
+import { IGroupWorker } from '@/types/interfaces/GroupWorker/GroupWorker.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
+import { typeQr } from '@/types/interfaces/valuesAddQr'
+
 import { getSex, getTime } from '@/utils/utils'
 import { EyeFilled } from '@ant-design/icons'
 import { Modal, Tooltip } from 'antd'
@@ -137,7 +144,7 @@ const UserCard = () => {
                           <div>
                             <h2>Genero:</h2>
                             <div>
-                              <p>{getSex((lastEntries.contact as IContact)?.verifiedData?.sex)}</p>
+                              <p>{getSex((lastEntries.contact as IContact)?.verifiedData?.sex as string)}</p>
                             </div>
                           </div>
                           <div>
@@ -226,40 +233,33 @@ const UserCard = () => {
                   <div>
                     <h2>Anfitrión:</h2>
                     <div>
-                      <span>{`${(lastEntries.event as IEvent)?.host?.name} ${(lastEntries.event as IEvent)?.host?.lastName}`}</span>
+                      <span>{`${((lastEntries.event as IEvent)?.host as IUser)?.name} ${
+                        ((lastEntries.event as IEvent)?.host as IUser)?.lastName
+                      }`}</span>
                     </div>
                   </div>
                   <div>
                     <h2>Email anfitrión:</h2>
                     <div>
-                      <span>{`${(lastEntries.event as IEvent)?.host?.email}`}</span>
+                      <span>{`${((lastEntries.event as IEvent)?.host as IUser)?.email}`}</span>
                     </div>
                   </div>
                   <div>
                     <h2>Locación:</h2>
                     <div>
-                      <span>{`${(lastEntries.event as IEvent)?.location?.name}--${(lastEntries.event as IEvent)?.location?.address}`}</span>
+                      <span>{`${((lastEntries.event as IEvent)?.location as ILocation)?.name}--${
+                        ((lastEntries.event as IEvent)?.location as ILocation)?.address
+                      }`}</span>
                     </div>
                   </div>
                 </div>
               </>
             )}
-            {[typeQr.worker, typeQr.worker_temporal].includes(lastEntries.typeQr) && (
+            {[typeQr.worker, typeQr.worker_temporal].includes(lastEntries.typeQr as typeQr) && (
               <>
                 <h2>Datos de staffer</h2>
                 <div className="info">
-                  {lastEntries.worker?.photo?.key && (
-                    <div className="images">
-                      <a
-                        target="blank"
-                        style={{ display: 'flex', justifyContent: 'center' }}
-                        href={`${process.env.NEXT_PUBLIC_S3}/${lastEntries.worker?.photo?.key}`}
-                        className="images"
-                      >
-                        <img src={`${process.env.NEXT_PUBLIC_S3}/${lastEntries.worker?.photo?.key}`} />
-                      </a>
-                    </div>
-                  )}
+                  {/*                  
                   <div>
                     <h2>Nombre:</h2>
                     <div>
@@ -301,66 +301,66 @@ const UserCard = () => {
                     <div>
                       <span>{(lastEntries?.worker?.timeZone).map(e => e.abbreviation).join(' ,')}</span>
                     </div>
-                  </div>
+                  </div>*/}
                 </div>
               </>
             )}
-            {[typeQr.user_temporal].includes(lastEntries.typeQr) && (
+            {[typeQr.user_temporal].includes(lastEntries.typeQr as typeQr) && (
               <>
                 <h2>Datos de usuario</h2>
                 <div className="info">
-                  {(lastEntries.user as User)?.photo?.key && (
+                  {(lastEntries.user as IUser)?.photo?.key && (
                     <div className="images">
                       <a
                         target="blank"
                         style={{ display: 'flex', justifyContent: 'center' }}
-                        href={`${process.env.NEXT_PUBLIC_S3}/${(lastEntries.user as User)?.photo?.key}`}
+                        href={`${process.env.NEXT_PUBLIC_S3}/${(lastEntries.user as IUser)?.photo?.key}`}
                         className="images"
                       >
-                        <img src={`${process.env.NEXT_PUBLIC_S3}/${(lastEntries.user as User)?.photo?.key}`} />
+                        <img src={`${process.env.NEXT_PUBLIC_S3}/${(lastEntries.user as IUser)?.photo?.key}`} />
                       </a>
                     </div>
                   )}
                   <div>
                     <h2>Nombre:</h2>
                     <div>
-                      <span>{(lastEntries.user as User)?.name}</span>
+                      <span>{(lastEntries.user as IUser)?.name}</span>
                     </div>
                   </div>
                   <div>
                     <h2>Apellido:</h2>
                     <div>
-                      <span>{(lastEntries?.user as User)?.lastName}</span>
+                      <span>{(lastEntries?.user as IUser)?.lastName}</span>
                     </div>
                   </div>
                   <div>
                     <h2>Email:</h2>
                     <div>
-                      <span>{(lastEntries?.user as User)?.email}</span>
+                      <span>{(lastEntries?.user as IUser)?.email}</span>
                     </div>
                   </div>
                   <div>
                     <h2>Documento:</h2>
                     <div>
-                      <span>{(lastEntries?.user as User)?.document}</span>
+                      <span>{(lastEntries?.user as IUser)?.document}</span>
                     </div>
                   </div>
                   <div>
                     <h2>Locación nativa:</h2>
                     <div>
-                      <span>{((lastEntries?.user as User)?.nativeLocation as ILocation[])?.map(e => e.abbreviation).join(' ,')}</span>
+                      <span>{((lastEntries?.user as IUser)?.nativeLocation as ILocation[])?.map(e => e.abbreviation).join(' ,')}</span>
                     </div>
                   </div>
                   <div>
                     <h2>Grupo:</h2>
                     <div>
-                      <span>{((lastEntries?.user as User)?.group as IGroupWorker[])?.map(e => e.abbreviation).join(' ,')}</span>
+                      <span>{((lastEntries?.user as IUser)?.group as IGroupWorker[])?.map(e => e.abbreviation).join(' ,')}</span>
                     </div>
                   </div>
                   <div>
                     <h2>Horario:</h2>
                     <div>
-                      <span>{((lastEntries?.user as User)?.timeZone as iTimeZone[])?.map(e => e.abbreviation).join(' ,')}</span>
+                      <span>{((lastEntries?.user as IUser)?.timeZone as ITimeZone[])?.map(e => e.abbreviation).join(' ,')}</span>
                     </div>
                   </div>
                 </div>
@@ -436,7 +436,7 @@ const UserCard = () => {
                           <div>
                             <h2>Genero:</h2>
                             <div>
-                              <p>{getSex((lastEntries.contact as IContact)?.verifiedData?.sex)}</p>
+                              <p>{getSex((lastEntries.contact as IContact)?.verifiedData?.sex as string)}</p>
                             </div>
                           </div>
                           <div>
@@ -525,15 +525,15 @@ const UserCard = () => {
                   <div>
                     <h2>Anfitrión:</h2>
                     <div>
-                      <span>{`${(lastEntries.eventExpress as IEventExpress)?.host?.name} ${
-                        (lastEntries.eventExpress as IEventExpress)?.host?.lastName
+                      <span>{`${((lastEntries.eventExpress as IEventExpress)?.host as IUser)?.name} ${
+                        ((lastEntries.eventExpress as IEventExpress)?.host as IUser)?.lastName
                       }`}</span>
                     </div>
                   </div>
                   <div>
                     <h2>Email anfitrión:</h2>
                     <div>
-                      <span>{`${(lastEntries.eventExpress as IEventExpress)?.host?.email}`}</span>
+                      <span>{`${((lastEntries.eventExpress as IEventExpress)?.host as IUser)?.email}`}</span>
                     </div>
                   </div>
                   <div>
@@ -554,19 +554,19 @@ const UserCard = () => {
                   <div>
                     <h2>Nombre:</h2>
                     <div>
-                      <span>{(lastEntries.host as User)?.name}</span>
+                      <span>{(lastEntries.host as IUser)?.name}</span>
                     </div>
                   </div>
                   <div>
                     <h2>Apellido:</h2>
                     <div>
-                      <span>{(lastEntries?.host as User)?.lastName}</span>
+                      <span>{(lastEntries?.host as IUser)?.lastName}</span>
                     </div>
                   </div>
                   <div>
                     <h2>Email:</h2>
                     <div>
-                      <span>{(lastEntries?.host as User)?.email}</span>
+                      <span>{(lastEntries?.host as IUser)?.email}</span>
                     </div>
                   </div>
                 </div>

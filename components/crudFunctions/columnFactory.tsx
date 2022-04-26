@@ -29,7 +29,7 @@ const ColumnFactory = <T,>(props: {
           key: e.name,
           title: translate[e.name],
           dataIndex: e.name,
-          ...GetColumnSearchProps(e.name, translate, translate[e.name], e.customRender, e.filteredValue)
+          ...GetColumnSearchProps(e.name, translate, translate[e.name], e.customRender)
         }
       }
       if (e.sort) {

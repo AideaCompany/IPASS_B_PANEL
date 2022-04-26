@@ -1,10 +1,11 @@
 import useSecurity from '@/providers/SecurityContext'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
+import { IEvent } from '@/types/interfaces/Event/event.interface'
 import { IEventExpress } from '@/types/interfaces/EventExpress/eventExpress.interface'
 import { ILocationEntries } from '@/types/interfaces/ILocationEntries/LocationEntries.interface'
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { IUser } from '@/types/interfaces/user/User.interface'
 import { typeQr } from '@/types/interfaces/valuesAddQr'
-import { IContact, IEvent } from '@/types/types'
 
 import { getLastName, getName, getType } from '@/utils/report'
 import { getTime } from '@/utils/utils'
@@ -94,7 +95,7 @@ const LastEntry = () => {
                 <div className="listItem">
                   <div className="userInfo">
                     <Tooltip title={getType(item.typeQr)}>
-                      <span style={{ marginRight: '5px' }}>{getIcons(item.typeQr)}</span>
+                      <span style={{ marginRight: '5px' }}>{getIcons(item.typeQr as typeQr)}</span>
                     </Tooltip>
                     <Tooltip title="Ver usuario">
                       <span className="username" style={{ cursor: 'pointer' }} onClick={() => toSeeContact(convertToContact(item))}>
@@ -102,7 +103,7 @@ const LastEntry = () => {
                       </span>
                     </Tooltip>
 
-                    <span>{item.contact?.verified && <Shield style={{ color: 'green', marginLeft: '5px' }} />}</span>
+                    <span>{(item.contact as IContact)?.verified && <Shield style={{ color: 'green', marginLeft: '5px' }} />}</span>
                   </div>
 
                   <div className="iconElements">
@@ -112,9 +113,9 @@ const LastEntry = () => {
                     </span>
                     {item.event && (
                       <Tooltip title={'Ver evento'}>
-                        <span style={{ cursor: 'pointer' }} onClick={() => seeEvent(item.event)}>
+                        <span style={{ cursor: 'pointer' }} onClick={() => seeEvent(item.event as IEvent)}>
                           <CalendarOutlined style={{ marginRight: '5px' }} />
-                          <span>{item.event?.name}</span>
+                          <span>{(item.event as IEvent)?.name}</span>
                         </span>
                       </Tooltip>
                     )}

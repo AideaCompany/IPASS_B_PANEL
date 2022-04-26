@@ -21,11 +21,10 @@ const columns = (props: {
   translations: ITranslations
   actualPermission: IPermissionsPrivilege
   permision: IPrivilege
-  lang: string
   beforeShowUpdate?: (param: any) => any
   after: () => void
 }): ColumnType<IBrands>[] => {
-  const { translations, actualPermission, lang, after } = props
+  const { translations, actualPermission, after } = props
   const { theme } = useContext(ThemeContext)
   const operations = (record: any) => (
     <>

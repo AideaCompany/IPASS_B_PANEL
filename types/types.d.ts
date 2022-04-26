@@ -80,38 +80,6 @@ export interface IClient extends basicTable {
   createdAt?: Date
   updatedAt?: Date
 }
-export interface User extends basicTable {
-  password?: string
-  name?: string
-  canUseAuthenticator?: boolean
-  lastName?: string
-  email?: string
-  nativeLocation?: ILocation[]
-  privilegeID?: IPrivilege
-  active?: boolean
-  photo?: fileType
-  codeWorker?: string
-  country?: string
-  token?: string
-  createdAt?: Date
-  updatedAt?: Date
-  lang?: LanguageType
-  verifyLogin: boolean
-  admin: User | string
-  canCreateHost: boolean
-  allEventWithAuth: boolean
-  canAccessToApp: boolean
-  canAccessToWeb: boolean
-  document: string
-  typeDocument: string
-  code: boolean
-  phone: string
-  QR: string
-  group: IGroupWorker[] | string[]
-  timeZone: iTimeZone[] | string[]
-  banFinish: string
-  apps: IApps[]
-}
 
 export interface IUserSecurity extends DocumentNode, basicTable {
   user: User
@@ -186,22 +154,6 @@ export interface IWorkerQrTemporal extends Document, basicTable {
 
 export type typeCheck = 'in' | 'out'
 
-export interface ILocation extends Document, basicTable {
-  state: string
-  masterLocation: IMasterLocation | string
-  childLocations: String[] | ILocation[]
-  parentLocations: String[] | ILocation[]
-  address: string
-  name: string
-  admins: IUser[] | string[]
-  operation?: operation
-  typeCheck: typeCheck
-  device: IDevice
-  host: IUser[] | string[]
-  security: IUser[] | string[]
-  abbreviation: string
-}
-
 export interface IProduct extends Document, basicTable {
   name: string
   abbreviation: string
@@ -213,21 +165,6 @@ export interface IProduct extends Document, basicTable {
   amount: number
   services: IService[] | string[]
   designedFor: string
-}
-
-export interface IEvent extends Document, basicTable {
-  name: string
-  start: string | any
-  host: User
-  end: string | any
-  location: ILocation
-  onlyAuthUser: boolean
-  beforeStart: number
-  state: string
-  express?: boolean
-  deletedDate: string
-  whoDeleted: IUser | string
-  contacts?: IContact[] | undefined | string | InvitationEvent[]
 }
 
 export interface InvitationEvent extends basicTable {
@@ -251,23 +188,6 @@ export interface Paginated<T> {
   offset: number
   prevPage: number
   nextPage: number
-}
-
-export interface IContact extends Document, basicTable {
-  DPI?: string
-  firstName?: string
-  lastName?: string
-  indicativo?: string
-  email?: string
-  phone?: string
-  host?: User | string
-  nickname?: string
-  typeVerified?: 'PASS' | 'DPI' | 'PDF'
-  verified?: boolean
-  verifiedData?: verifiedData
-  verifiedDataPDF?: verifiedDataPDF
-  banFinish?: string
-  verificationRegistro: boolean
 }
 
 export type verifiedDataPDF = {
