@@ -109,11 +109,6 @@ const columns = (props: {
         width: 150
       },
       {
-        name: 'codeWorker',
-        search: true,
-        width: 200
-      },
-      {
         name: 'name1',
         search: true,
         width: 150

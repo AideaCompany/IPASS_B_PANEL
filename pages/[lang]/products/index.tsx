@@ -1,12 +1,8 @@
 //react
 //Components
-import CreateItem from '@/components/crudFunctions/create'
 import MainLayout from '@/components/layout/Layout'
 import columns from '@/components/products/columns'
-import { formElements } from '@/components/products/formElements'
-import FormItems from '@/components/products/formItem'
 import TableData from '@/components/TableDatas'
-import { createProduct } from '@/graphql/product/mutation/createProduct'
 //types
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
@@ -18,9 +14,11 @@ import { listAllServicesFn } from '@/services/services'
 import { IBrands } from '@/types/interfaces/Brands/Brands.interface'
 import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { IProduct, IService } from '@/types/types'
-import { gql } from '@apollo/client'
+import { PlusOutlined } from '@ant-design/icons'
+import { Button, Tooltip } from 'antd'
 //next
 import { GetStaticPaths, GetStaticProps } from 'next'
+import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 interface actualItem extends IProduct {}
@@ -61,26 +59,19 @@ const Products = (props: { localization: Localization; lang: string }) => {
     setloading(false)
   }
 
+  const goToCreate = () => (
+    <Tooltip title="Crear producto">
+      <Link href={{ pathname: '/[lang]/products/create', query: { lang } }}>
+        <a>
+          <Button style={{ margin: '5px' }} shape="circle" icon={<PlusOutlined />} />
+        </a>
+      </Link>
+    </Tooltip>
+  )
+
   return (
     <>
-      <MainLayout
-        create={
-          <CreateItem
-            iconButton={true}
-            actualPermission={actualPermission as IPermissionsPrivilege}
-            translations={localization.translations}
-            mutation={gql(createProduct)}
-            formElements={formElements(services, brands)}
-            FormItem={<FormItems isUpdate={true} translations={localization.translations} brands={brands} services={services} />}
-            afterCreate={getData}
-
-            /* manageMentError={manageMentError} */
-          />
-        }
-        getData={getData}
-        lang={lang}
-        title={localization?.translations.titleSection}
-      >
+      <MainLayout create={goToCreate()} getData={getData} lang={lang} title={localization?.translations.titleSection}>
         <>
           <TableData
             columns={columns({

@@ -99,7 +99,7 @@ const columns = (props: {
         search: true,
         width: 150,
         customRender: (record: unknown) => {
-          return (record as IStaff[]).map(e => e.name).join(', ')
+          return (record as IStaff[])?.map(e => e?.name).join(', ')
         }
       },
       {
