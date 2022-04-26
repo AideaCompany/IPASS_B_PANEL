@@ -5,7 +5,7 @@ export const formElements = (dataServiceType: IServiceType[] | undefined, dataPr
   const formElementsDynamicProducts: FormFactory.FormFactoryType[] = [
     {
       name: 'product',
-      type: 'selectMultiple',
+      type: 'select',
       data: dataProducts
     },
     {

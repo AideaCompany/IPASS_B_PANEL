@@ -7,22 +7,6 @@ export const listSubService = /* GraphQL */ `
         name
         abbreviation
         products {
-          product {
-            _id
-            name
-            abbreviation
-            brand
-            photo {
-              filename
-              key
-            }
-            productType
-            price
-            measureType
-            amount
-            services
-            designedFor
-          }
           productQuantity
         }
         eta
@@ -38,7 +22,11 @@ export const listSubService = /* GraphQL */ `
           filename
           key
         }
-        stores
+        stores {
+          _id
+          name
+          address
+        }
         createdAt
         updatedAt
       }

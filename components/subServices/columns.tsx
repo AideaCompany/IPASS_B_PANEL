@@ -84,11 +84,11 @@ const columns = (props: {
         search: true,
         width: 150
       },
-      {
+      /*{
         name: 'products',
         search: true,
         width: 150
-      },
+      },*/
       {
         name: 'staffers',
         search: true,
