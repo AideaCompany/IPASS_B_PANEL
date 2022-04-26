@@ -19,6 +19,7 @@ const SeeReport = (props: {
   const seeModal = (item: ILocationEntries) => {
     Modal.confirm({
       title: `${item.type as string}: `,
+      //@ts-ignore
       content: <ReportContent element={item} />,
       className: `modalCrud${theme}`,
       cancelButtonProps: { style: { display: 'none' } },

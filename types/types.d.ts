@@ -222,10 +222,6 @@ export type verifiedData = {
 export type typeDevice = 'classic' | 'touch'
 export type statusDevice = 'available' | 'occupied'
 
-export interface IRiskReset extends Document, basicTable {
-  time: number
-}
-
 export type Days = 'Lunes' | 'Martes' | 'Miércoles' | 'Jueves' | 'Viernes' | 'Sabado' | 'Domingo'
 
 export type ReadedMRZ = {

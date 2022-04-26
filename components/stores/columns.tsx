@@ -1,9 +1,12 @@
 //types
 import { deleteStores } from '@/graphql/stores/mutations/deleteStores'
 import { updateStores } from '@/graphql/stores/mutations/updateStores'
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IStores, iTimeZone, PermissionsPrivilege, Privilege } from '@/types/types'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IStores } from '@/types/interfaces/Stores/stores.interface'
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
+
 import { ColumnType } from 'antd/lib/table'
 import gql from 'graphql-tag'
 import React, { useContext } from 'react'
@@ -15,15 +18,15 @@ import { formElements } from './formElements'
 import Formitems from './formItem'
 
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  permision: Privilege
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
+  permision: IPrivilege
   lang: string
   beforeShowUpdate?: (param: any) => any
   after: () => void
-  timeZone: iTimeZone[]
+  timeZone: ITimeZone[]
 }): ColumnType<IStores>[] => {
-  const { translations, actualPermission, lang, after, timeZone } = props
+  const { translations, actualPermission, after, timeZone } = props
 
   const { theme } = useContext(ThemeContext)
   const operations = (record: any) => (

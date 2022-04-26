@@ -1,6 +1,7 @@
+import { IStyleHair } from '@/types/interfaces/StyleHair/styleHair.interface'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElements = (): FormFactory.FormFactoryType[] => [
+export const formElements = (): FormFactory.IFormFactoryType<IStyleHair>[] => [
   {
     name: 'name',
     type: 'string',

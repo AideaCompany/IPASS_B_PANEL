@@ -16,7 +16,6 @@ import React, { useContext } from 'react'
 import ColumnFactory from '../crudFunctions/columnFactory'
 import DeleteItem from '../crudFunctions/delete'
 import UpdateItem from '../crudFunctions/update'
-import RenderCheck from '../RenderCheck'
 import { formElements } from './formElements'
 import FormItems from './formItems'
 

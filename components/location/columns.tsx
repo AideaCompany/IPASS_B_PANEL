@@ -1,8 +1,9 @@
 //types
 import { deleteLocationChangeStatus } from '@/graphql/location/mutation/deleteLocationChangeStatus'
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { ILocation, PermissionsPrivilege, Privilege } from '@/types/types'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { EditFilled } from '@ant-design/icons'
 import { Tooltip } from 'antd'
 import { ColumnType } from 'antd/lib/table'
@@ -13,9 +14,9 @@ import React, { useContext } from 'react'
 import ColumnFactory from '../crudFunctions/columnFactory'
 import DeleteWithUser from '../crudFunctions/deleteWithUser'
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  permision: Privilege
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
+  permision: IPrivilege
   lang: string
   after: () => void
 }): ColumnType<ILocation>[] => {
@@ -67,6 +68,7 @@ const columns = (props: {
       {
         name: 'typeCheck',
         search: true,
+        //@ts-ignore
         customRender: render => (render === 'in' ? 'entrada' : 'salida')
       },
       {

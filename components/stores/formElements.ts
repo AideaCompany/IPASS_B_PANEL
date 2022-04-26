@@ -1,7 +1,8 @@
-import { iTimeZone } from '@/types/types'
+import { IStores } from '@/types/interfaces/Stores/stores.interface'
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElements = (timeZone: iTimeZone[]): FormFactory.FormFactoryType[] => [
+export const formElements = (timeZone: ITimeZone[]): FormFactory.IFormFactoryType<IStores>[] => [
   {
     name: 'name',
     type: 'string',

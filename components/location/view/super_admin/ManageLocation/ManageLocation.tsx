@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react'
 import ManageLocationChild from './ManageLocationChild'
 import ManageLocationParent from './ManageLocationParent'
 import lodash from 'lodash'
-import { ILocation } from '@/types/types'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+
 const ManageLocation = () => {
   const { locations, actualLocation } = useLocationView()
   const [parentLocation, setParentLocation] = useState(locations)

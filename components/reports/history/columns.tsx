@@ -1,6 +1,7 @@
 //types
 import { ITranslations } from '@/i18n/types'
 import { IHistoryUser } from '@/types/interfaces/HistoryUser/HistoryUser.interface'
+import { ILocationEntries } from '@/types/interfaces/ILocationEntries/LocationEntries.interface'
 import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { IUser } from '@/types/interfaces/user/User.interface'
 // import { ThemeContext } from '@/providers/ThemeContext'
@@ -23,7 +24,7 @@ const columns = (props: {
   beforeShowUpdate?: (param: IHistoryUser) => IHistoryUser
 }): ColumnType<IHistoryUser>[] => {
   const { translations, actualPermission } = props
-  const operations = (record: IHistoryUser) => {
+  const operations = (record: ILocationEntries) => {
     return (
       <>
         <SeeReport actualPermisions={actualPermission} translations={translations} record={record} />
@@ -59,6 +60,7 @@ const columns = (props: {
       }
     ],
     translate: translations,
+    //@ts-ignore
     operations: operations,
     nonShowOperation: !actualPermission?.update && !actualPermission?.delete && true
   })

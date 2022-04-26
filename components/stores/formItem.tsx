@@ -1,11 +1,12 @@
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { iTimeZone } from '@/types/types'
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
+
 import { useContext } from 'react'
 import FormFactory from '../crudFunctions/FormFactory'
 import { formElements } from './formElements'
 
-const FormItems = (props: { translations: Translations; isUpdate?: boolean; timeZone: iTimeZone[] }): JSX.Element => {
+const FormItems = (props: { translations: ITranslations; isUpdate?: boolean; timeZone: ITimeZone[] }): JSX.Element => {
   const { translations, isUpdate, timeZone } = props
   const updating = isUpdate ? true : false
   const { theme } = useContext(ThemeContext)

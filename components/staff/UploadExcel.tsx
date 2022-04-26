@@ -1,6 +1,7 @@
 import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { createMassiveStaffFn } from '@/services/staff'
+import { ICreateStaff } from '@/types/interfaces/staff/mutationStaff.interface'
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { FileExcelOutlined } from '@ant-design/icons'
 import { Button, List, message, Modal, Tooltip, Upload } from 'antd'
@@ -17,7 +18,7 @@ const UploadExcel = ({ translations, reload }: { translations: ITranslations; re
 
   const [totalStaffers, setTotalStaffers] = useState(0)
   const [results, setResults] = useState<{ email: string; success: boolean; reason: any }[]>([])
-  const [data, setData] = useState<IStaff[]>([])
+  const [data, setData] = useState<ICreateStaff[]>([])
   const [loading, setLoading] = useState(true)
   const { theme } = useContext(ThemeContext)
   // const [percent, setPercent] = useAsyncState(0)
@@ -71,7 +72,7 @@ const UploadExcel = ({ translations, reload }: { translations: ITranslations; re
     setLoading(false)
   }
 
-  const sendLargeData = async (values: IStaff[], actualResults: []): Promise<any> => {
+  const sendLargeData = async (values: ICreateStaff[], actualResults: []): Promise<any> => {
     if (values.length > 20) {
       const result = (await createMassiveStaffFn(values.slice(0, 20))) as any
       return [...actualResults, ...(await sendLargeData(values.slice(20, values.length), result))]

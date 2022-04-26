@@ -1,7 +1,8 @@
 import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { IVisitorCategory } from '@/types/interfaces/VisitorCategory/VisitorCategory.interface'
-import { fileType } from '@/types/types'
+import { fileType } from '@/types/typeTemplate'
+
 import React, { useContext } from 'react'
 import FormFactory from '../crudFunctions/FormFactory'
 import { formElements } from './formElements'

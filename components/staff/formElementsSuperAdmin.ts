@@ -1,7 +1,8 @@
-import { ILocation } from '@/types/types'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElementsSuperAdmin = (locations?: ILocation[]): FormFactory.FormFactoryType[] => [
+export const formElementsSuperAdmin = (locations?: ILocation[]): FormFactory.IFormFactoryType<IStaff>[] => [
   {
     name: 'serialNumber',
     type: 'string',

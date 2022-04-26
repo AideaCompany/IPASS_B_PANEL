@@ -1,8 +1,9 @@
 //types
 import { updateRiskReset } from '@/graphql/riskReset/mutation/updateRiskReset'
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
-import { IRiskReset } from '@/types/types'
+import { IRiskReset } from '@/types/interfaces/RiskReset/RiskReset.interface'
+
 import { ColumnType } from 'antd/lib/table'
 import gql from 'graphql-tag'
 import React from 'react'
@@ -12,7 +13,7 @@ import UpdateItem from '../crudFunctions/update'
 import { formElements } from './formElements'
 import FormItems from './formItem'
 const columns = (props: {
-  translations: Translations
+  translations: ITranslations
   actualPermission: IPermissionsPrivilege
   permision: IPrivilege
   lang: string

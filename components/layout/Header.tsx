@@ -1,6 +1,6 @@
 import { ReloadOutlined } from '@ant-design/icons'
 import { Button, PageHeader, Tooltip } from 'antd'
-import { Translations } from 'i18n/types'
+import { ITranslations } from 'i18n/types'
 import React from 'react'
 
 const Header = ({
@@ -11,7 +11,7 @@ const Header = ({
   title,
   hideButtons
 }: {
-  translation: Translations
+  translation: ITranslations
   reload?: () => void
   create?: React.ReactNode
   title: string
