@@ -2,7 +2,6 @@
 import { unBanUser } from '@/graphql/breach/mutations/unBanUser'
 import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-
 import { Tag } from 'antd'
 import { LockOutlined } from '@ant-design/icons'
 import { ColumnType } from 'antd/lib/table'
@@ -130,11 +129,7 @@ const columns = (props: {
         name: 'nativeLoc',
         customRender: (record: IBreach) => {
           if (record.user) {
-            return record.user.nativeLocation ? (
-              <>{(record.user.nativeLocation as ILocation[]).map((e: ILocation) => e.abbreviation).join(' ,')}</>
-            ) : (
-              <>-</>
-            )
+            return record.user.nativeLocation ? <>{(record.user.nativeLocation as ILocation[]).map(e => e.abbreviation).join(' ,')}</> : <>-</>
           } else {
             return <>-</>
           }
