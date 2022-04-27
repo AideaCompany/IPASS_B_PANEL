@@ -5,7 +5,8 @@ import MainLayout from '@/components/layout/Layout'
 import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { createEventFn } from '@/services/events'
-import { IEvent } from '@/types/types'
+import { IEvent } from '@/types/interfaces/Event/event.interface'
+import { ICreateEvent } from '@/types/interfaces/Event/MutationEvent.interface'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Form, FormInstance, message } from 'antd'
 import { Localization } from 'i18n/types'
@@ -13,7 +14,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import React, { useCallback, useRef, useState } from 'react'
 
-const create = (props: { localization: Localization; lang: string }) => {
+const createEvent = (props: { localization: Localization; lang: string }) => {
   //#region props
   const { localization, lang } = props
   //#end region props
@@ -35,16 +36,20 @@ const create = (props: { localization: Localization; lang: string }) => {
 
   //#region functions
   const HandleChangeCurrent = useCallback(
-    async (type: 'next' | 'back') => {
-      const data = formRef.current?.getFieldsValue() as IEvent
-      setData(current => ({ ...current, ...data }))
-      type === 'next' ? setCurrent(current + 1) : setCurrent(current - 1)
+    (type: 'next' | 'back') => {
+      const currentData = formRef.current?.getFieldsValue() as IEvent
+      setData(currentValue => ({ ...currentValue, ...currentData }))
+      if (type === 'next') {
+        setCurrent(current + 1)
+      } else {
+        setCurrent(current - 1)
+      }
     },
     [current]
   )
 
-  const manageMentError = (error: any) => {
-    if (error['graphQLErrors'][0].message.includes('E11000 duplicate')) {
+  const manageMentError = (currentError: { graphQLErrors: { message: string }[] }) => {
+    if (currentError['graphQLErrors'][0].message.includes('E11000 duplicate')) {
       message.error({ content: localization.translations.serialDuplicated, key: 'creating' })
     } else {
       message.error({ content: localization.translations.errorCreated, key: 'creating' })
@@ -52,8 +57,10 @@ const create = (props: { localization: Localization; lang: string }) => {
   }
 
   const create = async () => {
-    const newData = (await formRef.current?.validateFields()) as IEvent
-    const finalData: any = { ...data, ...newData }
+    //@ts-ignore
+    const newData = (await formRef.current?.validateFields()) as ICreateEvent
+    const finalData = { ...data, ...newData }
+    //@ts-ignore
     setData(finalData)
     setSpinning(true)
     try {
@@ -66,23 +73,23 @@ const create = (props: { localization: Localization; lang: string }) => {
       await createEventFn(finalData)
       message.success(localization.translations.successfullyCreated)
       router.push('/[lang]/event', `/${lang}/event`)
-    } catch (error: any) {
-      manageMentError(error)
+    } catch (currentError) {
+      manageMentError(currentError as { graphQLErrors: { message: string }[] })
     } finally {
       setSpinning(false)
     }
   }
 
-  const validateForm = async () => {
+  const validateForm = () => {
     formRef.current
       ?.validateFields()
       .then(() => {
         setError('')
         setDisabled(false)
       })
-      .catch(async (error: any) => {
-        if (error.errorFields.length > 0) {
-          if (error.errorFields[0].name.find((name: string) => name === 'admins')) {
+      .catch((actualError: { errorFields: { name: string[] }[] }) => {
+        if (actualError.errorFields.length > 0) {
+          if (actualError.errorFields[0].name.find((name: string) => name === 'admins')) {
             setError(localization.translations.selectMinimumAdmin)
             setDisabled(true)
           } else {
@@ -108,7 +115,7 @@ const create = (props: { localization: Localization; lang: string }) => {
             </div>
             <div className="elementsContainer">
               {current === 0 && <InfoEventForm translate={localization.translations} validate={validateForm} />}
-              {current === 1 && <GuestsEventForm translate={localization.translations} setDisabled={setDisabled} />}
+              {current === 1 && <GuestsEventForm />}
             </div>
             {error && <div className="error">{error}</div>}
             <div className="buttons">
@@ -144,8 +151,8 @@ const create = (props: { localization: Localization; lang: string }) => {
   )
 }
 
-export default React.memo(create)
-export const getStaticProps: GetStaticProps = async ctx => {
+export default React.memo(createEvent)
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'event')
   return {
     props: {
@@ -153,7 +160,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
     }
   }
 }
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false

@@ -14,7 +14,7 @@ export const sendDataVerificationPass = /* GraphQL */ `
           filename
           key
         }
-        lastname
+        lastName
         email
         codeWorker
         privilegeID {
@@ -29,7 +29,7 @@ export const sendDataVerificationPass = /* GraphQL */ `
         admin {
           _id
           name
-          lastname
+          lastName
           email
           codeWorker
           active

@@ -1,12 +1,19 @@
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { getAllLocationActive } from '@/services/locations'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
+
+import { IEvent } from '@/types/interfaces/Event/event.interface'
+import { IEventExpress } from '@/types/interfaces/EventExpress/eventExpress.interface'
+import { ILocationEntries } from '@/types/interfaces/ILocationEntries/LocationEntries.interface'
+import { IInvitationEvent } from '@/types/interfaces/InvitationEvent/InvitationEvent.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
 import React, { useContext, useEffect, useState } from 'react'
-import { IContact, IEvent, IEventExpress, IInvitationEvent, ILocation, ILocationEntries } from '../types/types'
-type SecurityContext = {
+
+type SecurityContextType = {
   locations: ILocation[]
   selectedLocation: ILocation | null
   setSelectedLocation: React.Dispatch<React.SetStateAction<ILocation | null>>
-  translate: Translations
+  translate: ITranslations
   lang: string
   view: 'default' | 'list'
   setView: React.Dispatch<React.SetStateAction<'default' | 'list'>>
@@ -32,9 +39,9 @@ type SecurityContext = {
   setLastEntries: React.Dispatch<React.SetStateAction<ILocationEntries | null>>
 }
 
-const SecurityContext = React.createContext<SecurityContext>({} as SecurityContext)
+const SecurityContext = React.createContext<SecurityContextType>({} as SecurityContextType)
 
-export const SecurityProvider = (props: { children: JSX.Element; lang: string; translate: Translations }) => {
+export const SecurityProvider = (props: { children: JSX.Element; lang: string; translate: ITranslations }) => {
   //props
   const { children, translate, lang } = props
   //states
@@ -99,6 +106,7 @@ export const SecurityProvider = (props: { children: JSX.Element; lang: string; t
   )
 }
 
-export default function useSecurity() {
+const useSecurity = () => {
   return useContext(SecurityContext)
 }
+export default useSecurity

@@ -1,7 +1,8 @@
 import { deleteContact } from '@/graphql/contact/mutations/deleteContact'
 import { updateContact } from '@/graphql/contact/mutations/updateContact'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IContact, ListProps } from '@/types/types'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
+import { ListProps } from '@/types/types'
 import { List } from 'antd'
 import gql from 'graphql-tag'
 import React, { useContext } from 'react'
@@ -9,7 +10,7 @@ import DeleteItem from '../crudFunctions/delete'
 import UpdateItem from '../crudFunctions/update'
 import { formElements } from './formElementsUpdate'
 
-const ListData = (props: ListProps): JSX.Element => {
+const ListData = (props: ListProps<IContact>): JSX.Element => {
   const { data, loading, actualPermission, translations, formItem, after } = props
   const { theme } = useContext(ThemeContext)
   return (
@@ -19,7 +20,7 @@ const ListData = (props: ListProps): JSX.Element => {
       loading={loading ? true : false}
       renderItem={(item: IContact, i) => (
         <List.Item key={i}>
-          <List.Item.Meta style={{ maxWidth: '40%' }} title={`${item.firstName} ${item.lastName}`} description={item.email} />
+          <List.Item.Meta style={{ maxWidth: '40%' }} title={`${item.firstName as string} ${item.lastName as string}`} description={item.email} />
           <div className="contactInfo">
             {/* <p>{item.nickname}</p> */}
             <p>{item.phone}</p>

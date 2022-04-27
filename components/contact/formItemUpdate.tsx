@@ -1,14 +1,16 @@
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { resendVerification } from '@/services/contact'
-import { IContact, Privilege } from '@/types/types'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
+import { IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+
 import { Button, message } from 'antd'
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 import FormFactory from '../crudFunctions/FormFactory'
 import { formElementsSuperanfitrion } from './formelementsSuperAnfitrion'
 import { formElements } from './formElementsUpdate'
 
-const FormItems = (props: { translations: Translations; isUpdate?: boolean; id: string; permission: Privilege; record: IContact }): JSX.Element => {
+const FormItems = (props: { translations: ITranslations; isUpdate?: boolean; id: string; permission: IPrivilege; record: IContact }): JSX.Element => {
   const { translations, isUpdate, id, permission, record } = props
   const updating = isUpdate ? true : false
   const { theme } = useContext(ThemeContext)

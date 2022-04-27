@@ -1,7 +1,7 @@
 const user = {
   titleSection: 'User List',
   name: 'Name',
-  lastname: 'Lastname',
+  lastName: 'Lastname',
   email: 'Email',
   privilege: 'Privilege',
   active: 'State',

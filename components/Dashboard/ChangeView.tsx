@@ -18,7 +18,7 @@ const ChangeView = () => {
 
   const generateExcel = async () => {
     const res = await generateExcelSecurityFn(selectedLocation?._id as string)
-    let a = document.createElement('a')
+    const a = document.createElement('a')
     a.style.display = 'none'
     a.href = `${process.env.NEXT_PUBLIC_BACK_FILES}/report/${res}`
     document.body.appendChild(a)
@@ -27,7 +27,7 @@ const ChangeView = () => {
   }
   const generatePDF = async () => {
     const res = await generatePDFSecurityFn(selectedLocation?._id as string)
-    let a = document.createElement('a')
+    const a = document.createElement('a')
     a.style.display = 'none'
     a.href = `${process.env.NEXT_PUBLIC_BACK_FILES}/report/${res}`
     document.body.appendChild(a)
@@ -40,10 +40,10 @@ const ChangeView = () => {
         {view === 'list' && (
           <>
             <Tooltip title="Generar excel">
-              <FileExcelFilled className={`iconView selected`} onClick={generateExcel} />
+              <FileExcelFilled className={'iconView selected'} onClick={generateExcel} />
             </Tooltip>
             <Tooltip title="Generar PDF">
-              <FilePdfOutlined className={`iconView selected`} onClick={generatePDF} />
+              <FilePdfOutlined className={'iconView selected'} onClick={generatePDF} />
             </Tooltip>
           </>
         )}

@@ -1,14 +1,15 @@
 import TableDatas from '@/components/TableDatas'
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IDevice } from '@/types/types'
+import { IDevice } from '@/types/interfaces/Device/Device.interface'
+
 import { CommonPropsModal } from '@/utils/utils'
 import { BarcodeOutlined } from '@ant-design/icons'
 import { Button, Modal, Tooltip } from 'antd'
 import React, { useContext, useState } from 'react'
 import columns from './Columns'
 
-const RegisterDevices = ({ devices, translations }: { devices: IDevice[]; translations: Translations }) => {
+const RegisterDevices = ({ devices, translations }: { devices: IDevice[]; translations: ITranslations }) => {
   //#region provider
   const { theme } = useContext(ThemeContext)
   //#endregion provider

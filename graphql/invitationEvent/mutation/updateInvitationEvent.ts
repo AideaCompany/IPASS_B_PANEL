@@ -9,7 +9,7 @@ export const updateInvitationEvent = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -38,7 +38,7 @@ export const updateInvitationEvent = /* GraphQL */ `
         whoDeleted {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -58,7 +58,7 @@ export const updateInvitationEvent = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -107,7 +107,7 @@ export const updateInvitationEvent = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -159,7 +159,7 @@ export const updateInvitationEvent = /* GraphQL */ `
         admins {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -171,7 +171,7 @@ export const updateInvitationEvent = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -183,7 +183,7 @@ export const updateInvitationEvent = /* GraphQL */ `
         security {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -210,7 +210,7 @@ export const updateInvitationEvent = /* GraphQL */ `
         whoDeleted {
           _id
           name
-          lastname
+          lastName
           email
           active
 

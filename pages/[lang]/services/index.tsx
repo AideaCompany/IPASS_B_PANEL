@@ -15,8 +15,14 @@ import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllProductsFn } from '@/services/products'
 import { getAllServices } from '@/services/services'
 import { getAllServiceTypesFn } from '@/services/serviceTypes'
+import { listStaffFn } from '@/services/staff'
+import { getAllStores } from '@/services/stores'
+import { getAllSubServices } from '@/services/subServices'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
+import { IStores } from '@/types/interfaces/Stores/stores.interface'
 //apollo
-import { IProduct, IService, IServiceType, Paginated, PermissionsPrivilege } from '@/types/types'
+import { IProduct, IService, IServiceType, ISubService, Paginated } from '@/types/types'
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
 import { gql } from '@apollo/client'
 import * as cookie from 'cookie'
@@ -31,9 +37,12 @@ const services = (props: {
   limit: number
   dataServiceType: IServiceType[]
   dataProducts: IProduct[]
+  staff: IStaff[]
+  stores: IStores[]
+  subServices: ISubService[]
 }): JSX.Element => {
   //props
-  const { localization, lang, page, limit, dataServiceType, dataProducts } = props
+  const { localization, lang, page, limit, dataServiceType, dataProducts, staff, stores, subServices } = props
   //context
   const { privilege } = useData()
   const { permission } = useAuth()
@@ -41,8 +50,8 @@ const services = (props: {
   //state
   const [data, setData] = useState<IService[]>()
   const [loading, setLoading] = useState<boolean>(true)
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
-  const [_, setPermissionPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
+  const [_, setPermissionPermission] = useState<IPermissionsPrivilege>()
   const [filters, setFilters] = useState<any>([])
   const [actualLimit, setActualLimit] = useState(limit)
   const [actualPage, setActualPage] = useState(page)
@@ -96,15 +105,23 @@ const services = (props: {
   const createButton = (
     <div className="ButtonsUp">
       <CreateItem
-        actualPermission={actualPermission as PermissionsPrivilege}
+        actualPermission={actualPermission as IPermissionsPrivilege}
         translations={localization.translations}
         mutation={gql(createService)}
-        formElements={formElements(dataServiceType, dataProducts)}
+        formElements={formElements(dataServiceType, dataProducts, staff, stores, subServices)}
         afterCreate={getData}
         beforeCreate={beforeCreate}
         iconButton={true}
         FormItem={
-          <FormItems dataProducts={dataProducts} dataServiceType={dataServiceType} isUpdate={true} translations={localization.translations} />
+          <FormItems
+            stores={stores}
+            subServices={subServices}
+            staff={staff}
+            dataProducts={dataProducts}
+            dataServiceType={dataServiceType}
+            isUpdate={true}
+            translations={localization.translations}
+          />
         }
       />
     </div>
@@ -120,8 +137,11 @@ const services = (props: {
         <div>
           <TableData
             columns={columns({
+              staff,
+              stores,
+              subServices,
               translations: localization.translations,
-              actualPermission: actualPermission as PermissionsPrivilege,
+              actualPermission: actualPermission as IPermissionsPrivilege,
               after: getData,
               privileges: privilege,
               dataServiceType: dataServiceType,
@@ -173,7 +193,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       // const filters = queriesNames.length > 0 && queriesNames.map(e => ({ [e]: ctx.query[e] as string }))
       const dataServiceType = await getAllServiceTypesFn()
       const dataProducts = await getAllProductsFn()
-      return { props: { localization, page, limit, dataServiceType, dataProducts } }
+      const staff = (await listStaffFn(1, 100, {})).docs
+      const stores = await getAllStores()
+      const subServices = await (await getAllSubServices(1, 100, {})).docs
+      return { props: { localization, page, limit, dataServiceType, dataProducts, staff, stores, subServices } }
     } else {
       return {
         notFound: true

@@ -1,6 +1,8 @@
+import { IBrands } from '@/types/interfaces/Brands/Brands.interface'
+import { IService } from '@/types/types'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElements = (): FormFactory.FormFactoryType[] => [
+export const formElements = (services: IService[], brands: IBrands[]): FormFactory.IFormFactoryType<IService>[] => [
   {
     name: 'name',
     type: 'string',
@@ -13,8 +15,9 @@ export const formElements = (): FormFactory.FormFactoryType[] => [
   },
   {
     name: 'brand',
-    type: 'string',
-    required: true
+    type: 'select',
+    required: true,
+    data: brands
   },
   {
     name: 'photo',
@@ -41,7 +44,7 @@ export const formElements = (): FormFactory.FormFactoryType[] => [
   {
     name: 'services',
     type: 'selectMultiple',
-    data: []
+    data: services
   },
   {
     name: 'designedFor',

@@ -1,6 +1,6 @@
 import useAuth from '@/providers/AuthContext'
 import { getDeviceById } from '@/services/device'
-import { IDevice } from '@/types/types'
+import { IDevice } from '@/types/interfaces/Device/Device.interface'
 import { Descriptions, message } from 'antd'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -35,7 +35,6 @@ const index = () => {
     }
   }
 
-  console.log(device)
   //#endregion functions
 
   return (

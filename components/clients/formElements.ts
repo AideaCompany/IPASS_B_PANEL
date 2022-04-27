@@ -1,6 +1,6 @@
 import { FormFactory } from '@/types/typeTemplate'
-
-export const formElements = (): FormFactory.FormFactoryType[] => [
+import countries from 'country-data'
+export const formElements = (): FormFactory.IFormFactoryType<any>[] => [
   {
     name: 'photo',
     type: 'avatar',
@@ -20,13 +20,13 @@ export const formElements = (): FormFactory.FormFactoryType[] => [
     required: true
   },
   {
-    name: 'lastname1',
+    name: 'lastName1',
     type: 'string',
     required: true
   },
   {
     name: 'phone1',
-    type: 'string',
+    type: 'number',
     required: true
   },
   {
@@ -34,12 +34,20 @@ export const formElements = (): FormFactory.FormFactoryType[] => [
     type: 'string'
   },
   {
-    name: 'lastname2',
+    name: 'lastName2',
     type: 'string'
   },
   {
-    name: 'lastname3',
+    name: 'lastName3',
     type: 'string'
+  },
+  {
+    name: 'country',
+    type: 'select',
+    data: countries.callingCountries.all.map(country => ({
+      _id: country.countryCallingCodes[0],
+      name: country.name
+    }))
   },
   {
     name: 'email',
@@ -76,18 +84,18 @@ export const formElements = (): FormFactory.FormFactoryType[] => [
   },
   {
     name: 'servicesNotes',
-    type: 'string'
+    type: 'textArea'
   },
   {
     name: 'productsNotes',
-    type: 'string'
+    type: 'textArea'
   },
   {
     name: 'medicalNotes',
-    type: 'string'
+    type: 'textArea'
   },
   {
     name: 'socialMedia',
-    type: 'string'
+    type: 'textArea'
   }
 ]

@@ -14,7 +14,7 @@ export const listBreachLast2DaysApp = /* GraphQL */ `
         worker {
           _id
           name
-          lastname
+          lastName
           email
           verifyLogin
           active
@@ -53,7 +53,7 @@ export const listBreachLast2DaysApp = /* GraphQL */ `
         user {
           _id
           name
-          lastname
+          lastName
           email
           codeWorker
           active

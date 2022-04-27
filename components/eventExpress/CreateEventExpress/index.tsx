@@ -1,18 +1,21 @@
+/* eslint-disable @typescript-eslint/no-extra-semi */
 import { formElementsSuperanfitrion } from '@/components/contact/formelementsSuperAnfitrion'
 import FormFactory from '@/components/crudFunctions/FormFactory'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { createContactFn } from '@/services/contact'
 import { createEventExpressFn } from '@/services/eventExpress'
-import { IContact, IEventExpress } from '@/types/types'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
+import { IEventExpress } from '@/types/interfaces/EventExpress/eventExpress.interface'
+
 import { CommonPropsModal } from '@/utils/utils'
 import { ArrowLeftOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Form, Input, Modal, Tooltip, FormInstance, message } from 'antd'
 import React, { FC, useContext, useEffect, useRef, useState } from 'react'
 import { formElementsCreate } from '../formElementsCreate'
-import { iProps } from './props.interface'
+import { IProps } from './props.interface'
 import Tablecontac from './Tablecontac'
 
-const CreateEventExpressModal: FC<iProps> = ({ translations, contacts, translationsContact, getContacts, locations }) => {
+const CreateEventExpressModal: FC<IProps> = ({ translations, contacts, translationsContact, getContacts, locations }) => {
   //#region provider
   const { theme } = useContext(ThemeContext)
   //#endregion provider
@@ -26,7 +29,7 @@ const CreateEventExpressModal: FC<iProps> = ({ translations, contacts, translati
   const [visible, setVisible] = useState(false)
   const [searchedData, setSearchedData] = useState(contacts)
   const [contactsInvitation, setContactsInvitation] = useState<IContact[]>([])
-  const [selectedContact, setSelectedContact] = useState<React.Key[]>([])
+  const [selectedContact, setSelectedContact] = useState<string[]>([])
   const [createContact, setCreateContact] = useState(false)
   const [loading, setLoading] = useState(false)
   const [loadingEvent, setLoadingEvent] = useState(false)
@@ -41,7 +44,6 @@ const CreateEventExpressModal: FC<iProps> = ({ translations, contacts, translati
 
   useEffect(() => {
     if (selectedContact.length > 0) {
-      //@ts-ignore
       setContactsInvitation(contacts.filter(e => e._id !== selectedContact[0]).map(e => ({ ...e, name: `${e.name} - ${e.DPI}` })))
       formRefEvent.current?.setFieldsValue({ invitados: [] })
     }
@@ -56,15 +58,21 @@ const CreateEventExpressModal: FC<iProps> = ({ translations, contacts, translati
     setCreateContact(false)
   }
 
-  const onSearch = (value: any) => {
+  const onSearch = (value: { target: { value: string } }) => {
     const text = value.target.value
-    text !== '' ? setSearchedData(contacts && contacts.filter(e => e?.DPI?.includes(text?.toLowerCase()))) : setSearchedData(contacts)
+    if (text !== '') {
+      setSearchedData(contacts && contacts.filter(e => e?.DPI?.includes(text?.toLowerCase())))
+    } else {
+      setSearchedData(contacts)
+    }
   }
 
   const createEvent = async () => {
     setLoadingEvent(true)
     try {
       const data = formRefEvent.current?.getFieldsValue()
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       const event = await createEventExpressFn({ ...(data as IEventExpress), contact: selectedContact[0] })
       if (event) {
         setVisible(false)
@@ -77,7 +85,7 @@ const CreateEventExpressModal: FC<iProps> = ({ translations, contacts, translati
       }
     } catch (error) {
       message.error('Error al crear el evento express')
-      console.log(error)
+      console.info(error)
     } finally {
       setLoadingEvent(false)
     }
@@ -88,6 +96,7 @@ const CreateEventExpressModal: FC<iProps> = ({ translations, contacts, translati
     try {
       const data = formRef.current?.getFieldsValue()
       if (!data?.indicativo) {
+        // eslint-disable-next-line no-extra-semi
         ;(data as IContact).indicativo = '+502'
       }
       const newContact = await createContactFn(data as IContact)
@@ -95,7 +104,7 @@ const CreateEventExpressModal: FC<iProps> = ({ translations, contacts, translati
       setSelectedContact([newContact._id])
       setCreateContact(false)
     } catch (error) {
-      console.log(error)
+      console.info(error)
     } finally {
       setLoading(false)
     }
@@ -119,6 +128,8 @@ const CreateEventExpressModal: FC<iProps> = ({ translations, contacts, translati
                     placeholder="Buscar DPI de contacto existente"
                   ></Input.Search>
                   <Tablecontac
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    //@ts-ignore
                     setSelectedContact={setSelectedContact}
                     selectedContact={selectedContact}
                     data={searchedData}
@@ -130,7 +141,7 @@ const CreateEventExpressModal: FC<iProps> = ({ translations, contacts, translati
               <>
                 <div className="formContainer">
                   <Form initialValues={{ verificationRegistro: true }} ref={formRef}>
-                    <FormFactory translate={translationsContact} theme={theme} formElements={formElementsSuperanfitrion()} isUpdate={false} />
+                    <FormFactory translate={translationsContact} theme={theme} formElements={formElementsSuperanfitrion()} isUpdate={true} />
                   </Form>
                 </div>
               </>
@@ -172,7 +183,7 @@ const CreateEventExpressModal: FC<iProps> = ({ translations, contacts, translati
                   translate={translations}
                   theme={theme}
                   formElements={formElementsCreate(locations, contactsInvitation)}
-                  isUpdate={false}
+                  isUpdate={true}
                 />
               </Form>
             </div>

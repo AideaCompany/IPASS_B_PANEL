@@ -2,7 +2,9 @@
 import IPassAuthenticator from '@/components/IPassAuthenticator/IPassAuthenticator'
 import Powered from '@/components/Powered'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { getWorkerFn } from '@/services/workers'
+import { getStaffFn } from '@/services/staff'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
 import { gql, useMutation } from '@apollo/client'
 //AntDesign
 import { Button, Checkbox, Descriptions, Form, Input, message, Modal } from 'antd'
@@ -25,9 +27,8 @@ import { Localization } from '../../../i18n/types'
 import useAuth from '../../../providers/AuthContext'
 //context
 import { getLocalizationProps, LanguageProvider } from '../../../providers/LenguageContext'
-//types
-import { IWorker, User } from '../../../types/types'
-export default function SignIn(props: { localization: Localization }): JSX.Element {
+
+const SignIn = (props: { localization: Localization }): JSX.Element => {
   //Props
   const { localization } = props
   const router = useRouter()
@@ -38,9 +39,9 @@ export default function SignIn(props: { localization: Localization }): JSX.Eleme
   //provider
   const { user, login, setSpinning } = useAuth()
   const { theme } = useContext(ThemeContext)
-  const [worker, setWorker] = useState<IWorker | null>()
+  const [worker, setWorker] = useState<IStaff | null>()
   //hhoks
-  const [getStoredLocale] = useLocalStorage('init_config')
+  const [getStoredLocale] = useLocalStorage<string>('init_config', '')
   //effect
   useEffect(() => {
     setSpinning(false)
@@ -62,7 +63,7 @@ export default function SignIn(props: { localization: Localization }): JSX.Eleme
             })
           }
         })
-        .catch(err => console.error(err))
+        .catch(err => console.info(err))
     } else {
       if (!getStoredLocale) {
         if (router.route !== '/[lang]/session/signup_config') {
@@ -76,7 +77,7 @@ export default function SignIn(props: { localization: Localization }): JSX.Eleme
   }, [])
 
   //functions
-  const loginForm = async ({ email, password }: User) => {
+  const loginForm = ({ email, password }: IUser) => {
     setSpinning(true)
     loginTrigger({ variables: { input: { email, password, lang: localization.locale } } })
       .then(res => {
@@ -87,31 +88,33 @@ export default function SignIn(props: { localization: Localization }): JSX.Eleme
           setSpinning(false)
           setIsConfirm(true)
         } else {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           login(res.data.login.token)
           // router.push({ pathname: '/[lang]/dashboard', query: { lang: localization.locale } })
         }
       })
       .catch(err => {
-        console.error(err)
+        message.error('El usuario o la contraseña son incorrectos')
       })
       .finally(() => setSpinning(false))
   }
 
-  const confirmLoginForm = async (data: { token: string }) => {
+  const confirmLoginForm = (data: { token: string }) => {
     setSpinning(true)
     loginConfirmTrigger({ variables: { input: { token: data.token } } })
       .then(res => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         login(res.data.confirmLogin.token)
         router.push({ pathname: '/[lang]/dashboard', query: { lang: localization.locale } })
         setSpinning(false)
       })
       .catch(err => {
         setSpinning(false)
-        console.error(err)
+        console.info(err)
       })
   }
 
-  const forgotPasswordForm = async (data: { email: string }) => {
+  const forgotPasswordForm = (data: { email: string }) => {
     setSpinning(true)
     forgotPasswordTrigger({ variables: { input: { email: data.email, lang: localization.locale } } })
       .then(res => {
@@ -121,7 +124,7 @@ export default function SignIn(props: { localization: Localization }): JSX.Eleme
         setSpinning(false)
       })
       .catch(err => {
-        console.error(err)
+        console.info(err)
         setSpinning(false)
       })
   }
@@ -130,8 +133,8 @@ export default function SignIn(props: { localization: Localization }): JSX.Eleme
   const [loginConfirmTrigger] = useMutation(gql(mutation.confirmLogin))
   const [forgotPasswordTrigger] = useMutation(gql(mutation.forgotPassword))
   const forWorker = async (token: string) => {
-    const data = jwt.verify(token, $security.secretKey) as { data: any }
-    setWorker(await getWorkerFn(data.data._id))
+    const data = jwt.verify(token, $security.secretKey) as { data: { _id: string } }
+    setWorker(await getStaffFn(data.data._id))
     setVisibleWorker(true)
   }
 
@@ -258,11 +261,11 @@ export default function SignIn(props: { localization: Localization }): JSX.Eleme
 
           <Powered theme={theme} />
           <Modal onOk={handleCloseWorker} onCancel={handleCloseWorker} visible={visibleWorker} className={`modalCrud${theme}`}>
-            <Descriptions column={1} title="Información del trabajador">
+            <Descriptions column={1} title="Información del staffer">
               <Descriptions.Item label="Nombre">{worker?.name}</Descriptions.Item>
-              <Descriptions.Item label="Apellido">{worker?.lastname}</Descriptions.Item>
-              <Descriptions.Item label="Tipo Documento">{worker?.typeDocument}</Descriptions.Item>
-              <Descriptions.Item label="DPI">{worker?.document}</Descriptions.Item>
+              <Descriptions.Item label="Apellido">{worker?.lastName}</Descriptions.Item>
+              <Descriptions.Item label="Tipo Documento">{worker?.name1}</Descriptions.Item>
+              <Descriptions.Item label="DPI">{worker?.name}</Descriptions.Item>
             </Descriptions>
           </Modal>
         </div>
@@ -271,7 +274,7 @@ export default function SignIn(props: { localization: Localization }): JSX.Eleme
   )
 }
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'auth')
   return {
     props: {
@@ -280,9 +283,11 @@ export const getStaticProps: GetStaticProps = async ctx => {
   }
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false
   }
 }
+
+export default SignIn

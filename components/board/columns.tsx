@@ -1,8 +1,7 @@
 //types
 import { unBanUser } from '@/graphql/breach/mutations/unBanUser'
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IBreach, PermissionsPrivilege, Privilege } from '@/types/types'
 import { Tag } from 'antd'
 import { LockOutlined } from '@ant-design/icons'
 import { ColumnType } from 'antd/lib/table'
@@ -12,11 +11,14 @@ import React, { useContext } from 'react'
 //component
 import ColumnFactory from '../crudFunctions/columnFactory'
 import UnBan from './UnBan'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IBreach } from '@/types/interfaces/Breach/Breach.inteface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
 
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  permision: Privilege
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
+  permision: IPrivilege
   lang: string
   beforeShowUpdate?: (param: any) => any
   after: () => void
@@ -81,19 +83,13 @@ const columns = (props: {
           if (record.user) {
             return (
               <>
-                {record.user.name} {record.user.lastname}
+                {record.user.name} {record.user.lastName}
               </>
             )
           } else if (record.contact) {
             return (
               <>
                 {record.contact.firstName} {record.contact.lastName}
-              </>
-            )
-          } else if (record.worker) {
-            return (
-              <>
-                {record.worker.name} {record.worker.lastname}
               </>
             )
           } else {
@@ -124,16 +120,6 @@ const columns = (props: {
             } else {
               return <Tag color="green">{translations.active}</Tag>
             }
-          } else if (record.worker) {
-            if (record.worker.banFinish) {
-              return moment.tz('America/Guatemala').isAfter(record.worker.banFinish) ? (
-                <Tag color="green">{translations.active}</Tag>
-              ) : (
-                <Tag color="red">{translations.banned}</Tag>
-              )
-            } else {
-              return <Tag color="green">{translations.active}</Tag>
-            }
           } else {
             return <>-</>
           }
@@ -143,9 +129,7 @@ const columns = (props: {
         name: 'nativeLoc',
         customRender: (record: IBreach) => {
           if (record.user) {
-            return record.user.nativeLocation ? <>{record.user.nativeLocation.map(e => e.abbreviation).join(' ,')}</> : <>-</>
-          } else if (record.worker) {
-            return record.worker.nativeLocation ? <>{record.worker.nativeLocation.map(e => e.abbreviation).join(' ,')}</> : <>-</>
+            return record.user.nativeLocation ? <>{(record.user.nativeLocation as ILocation[]).map(e => e.abbreviation).join(' ,')}</> : <>-</>
           } else {
             return <>-</>
           }

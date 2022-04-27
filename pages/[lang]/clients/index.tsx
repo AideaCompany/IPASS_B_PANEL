@@ -1,6 +1,7 @@
 import columns from '@/components/clients/columns'
 import { formElements } from '@/components/clients/formElements'
 import FormItems from '@/components/clients/formItems'
+import UploadExcel from '@/components/clients/UploadExcel'
 import CreateItem from '@/components/crudFunctions/create'
 //components
 import MainLayout from '@/components/layout/Layout'
@@ -16,9 +17,9 @@ import { getAllApps } from '@/services/apps'
 import { getAllClients } from '@/services/clients'
 import { getAllLocationActive } from '@/services/locations'
 import { listTimeZonesFn } from '@/services/timeZone'
-import { listGroupWorkerIfExistFn } from '@/services/workers'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 //apollo
-import { IClient, Paginated, PermissionsPrivilege } from '@/types/types'
+import { IClient, Paginated } from '@/types/types'
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
 import { gql } from '@apollo/client'
 import * as cookie from 'cookie'
@@ -26,6 +27,7 @@ import * as cookie from 'cookie'
 import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+
 const clients = (props: { localization: Localization; lang: string; page: number; limit: number }): JSX.Element => {
   //props
   const { localization, lang, page, limit } = props
@@ -36,8 +38,8 @@ const clients = (props: { localization: Localization; lang: string; page: number
   //state
   const [data, setData] = useState<IClient[]>()
   const [loading, setLoading] = useState<boolean>(true)
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
-  const [_, setPermissionPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
+  const [_, setPermissionPermission] = useState<IPermissionsPrivilege>()
   const [filters, setFilters] = useState<any>([])
   const [actualLimit, setActualLimit] = useState(limit)
   const [actualPage, setActualPage] = useState(page)
@@ -48,8 +50,8 @@ const clients = (props: { localization: Localization; lang: string; page: number
     ;(async () => {
       if (permission) {
         setLoading(true)
-        setPermissionPermission(permission.permissions?.find(e => e.sectionName === 'Permission'))
-        setActualPermission(permission.permissions?.find(e => e.sectionName?.toLocaleLowerCase() === 'clients'))
+        setPermissionPermission(permission.permissions?.find((e: any) => e.sectionName === 'Permission'))
+        setActualPermission(permission.permissions?.find((e: any) => e.sectionName?.toLocaleLowerCase() === 'clients'))
       }
     })()
   }, [permission])
@@ -90,8 +92,9 @@ const clients = (props: { localization: Localization; lang: string; page: number
 
   const createButton = (
     <div className="ButtonsUp">
+      <UploadExcel reload={getData} translations={localization.translations} />
       <CreateItem
-        actualPermission={actualPermission as PermissionsPrivilege}
+        actualPermission={actualPermission as IPermissionsPrivilege}
         translations={localization.translations}
         mutation={gql(createClient)}
         formElements={formElements()}
@@ -100,6 +103,17 @@ const clients = (props: { localization: Localization; lang: string; page: number
         iconButton={true}
         FormItem={<FormItems isUpdate={true} translations={localization.translations} />}
       />
+
+      {/* {true && (
+        <Tooltip title={localization.translations.buttonPrivilege}>
+          <Button
+            style={{ margin: '5px' }}
+            onClick={() => router.push({ pathname: '/[lang]/permission', query: { lang: router.query.lang } })}
+            shape="circle"
+            icon={<Role />}
+          />
+        </Tooltip>
+      )} */}
     </div>
   )
 
@@ -114,7 +128,7 @@ const clients = (props: { localization: Localization; lang: string; page: number
           <TableData
             columns={columns({
               translations: localization.translations,
-              actualPermission: actualPermission as PermissionsPrivilege,
+              actualPermission: actualPermission as IPermissionsPrivilege,
               after: getData,
               privileges: privilege
             })}
@@ -164,9 +178,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       // const filters = queriesNames.length > 0 && queriesNames.map(e => ({ [e]: ctx.query[e] as string }))
       const locations = await getAllLocationActive()
       const timeZone = await listTimeZonesFn()
-      const groups = await listGroupWorkerIfExistFn()
       const apps = await getAllApps()
-      return { props: { localization, page, limit, locations, timeZone, groups, apps } }
+      return { props: { localization, page, limit, locations, timeZone, apps } }
     } else {
       return {
         notFound: true

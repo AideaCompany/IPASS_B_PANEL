@@ -1,6 +1,6 @@
 import useLocationView from '@/providers/ViewLocationContext'
 import { updateLocationFn } from '@/services/locations'
-import { ILocation } from '@/types/types'
+import { IUpdateLocation } from '@/types/interfaces/Location/MutationLocation.interface'
 import { Button, Form, FormInstance, message } from 'antd'
 import { useRouter } from 'next/router'
 import React, { useRef, useState } from 'react'
@@ -11,13 +11,13 @@ import MenuAdmin from './MenuAdmin'
 const index = () => {
   const { actualLocation, setActualLocation, translate, lang } = useLocationView()
   const [current, setCurrent] = useState('info')
-  const formRef = useRef<FormInstance<ILocation>>(null)
+  const formRef = useRef<FormInstance<IUpdateLocation>>(null)
   const router = useRouter()
 
   const onChange = async () => {
-    const values = await formRef.current?.validateFields()
+    const values = (await formRef.current?.validateFields()) as IUpdateLocation
     try {
-      await updateLocationFn({ _id: actualLocation._id, ...values })
+      await updateLocationFn({ ...values, _id: actualLocation._id })
       message.success(translate.successfullyUpdated)
       setActualLocation(actualLocation)
       router.push('/[lang]/location', `/${lang}/location`)

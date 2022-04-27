@@ -1,17 +1,13 @@
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import useSecurity from '@/providers/SecurityContext'
 import { getAllToSecurityFn, subscribeSecurity } from '@/services/locations'
-import { ILocation, ILocationEntries } from '@/types/types'
+import { ILocationEntries } from '@/types/interfaces/ILocationEntries/LocationEntries.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
 import React, { useEffect } from 'react'
-import Buttons from './Buttons'
-import EventModal from './EventModal'
-import InvitationsModal from './InvitationsModal'
-import ManageView from './ManageView'
-import ModalContact from './ModalContact'
 
 let uns: any
 
-const SecurityScreen = ({ translate }: { translate: Translations }) => {
+const SecurityScreen = ({ translate }: { translate: ITranslations }) => {
   const { selectedLocation, setActualEvents, setInvitations, setEntries, setLastEntries } = useSecurity()
   useEffect(() => {
     ;(async () => {
@@ -30,7 +26,7 @@ const SecurityScreen = ({ translate }: { translate: Translations }) => {
   }, [selectedLocation])
 
   const getData = async () => {
-    const data = await getAllToSecurityFn((selectedLocation as ILocation)._id as string)
+    const data = await getAllToSecurityFn((selectedLocation as ILocation)._id)
     const entries = data.entries as ILocationEntries[]
     setActualEvents([...data.events, ...data.eventsExpress.map((e: any) => ({ ...e, express: true }))].reverse())
     setInvitations(data.invitations)
@@ -39,11 +35,11 @@ const SecurityScreen = ({ translate }: { translate: Translations }) => {
   }
   return (
     <div>
-      <Buttons />
+      {/* <Buttons />
       <ManageView translate={translate} />
       <EventModal />
       <InvitationsModal />
-      <ModalContact />
+      <ModalContact /> */}
     </div>
   )
 }

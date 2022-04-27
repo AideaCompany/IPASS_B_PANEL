@@ -1,7 +1,7 @@
 // Configuration
 import config from './config.json'
 
-interface iSecurity {
+interface ISecurity {
   secretKey: string
   expiresIn: string
 }
@@ -9,4 +9,4 @@ interface iSecurity {
 // Configurations
 const { security } = config
 
-export const $security: iSecurity = security
+export const $security: ISecurity = security

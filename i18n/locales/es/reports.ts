@@ -10,7 +10,7 @@ const report = {
   location: 'Locación',
   state: 'Estado',
   name: 'Nombre (Invitado)',
-  lastname: 'Apellido (Invitado)',
+  lastName: 'Apellido (Invitado)',
   dpi: 'DPI',
   type: 'Tipo',
   deletedDate: 'Fecha de eliminación',

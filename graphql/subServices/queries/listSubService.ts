@@ -10,7 +10,30 @@ export const listSubService = /* GraphQL */ `
           productQuantity
         }
         eta
-        staffers
+        staffers {
+          _id
+          name
+          name1
+          name2
+          lastName
+          lastName1
+          lastName2
+          address
+          phone
+          phone1
+          email
+          specialty
+          AET
+          canAccessToApp
+          canAccessToWeb
+          client
+          active
+          tokenExpo
+          plus
+          verifyLogin
+          createdAt
+          updatedAt
+        }
         price
         cost
         subServiceFee

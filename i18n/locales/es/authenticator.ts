@@ -25,6 +25,6 @@ const authenticator = {
   from: 'Desde',
   to: 'Hasta',
   name: 'Nombre',
-  lastname: 'Apellido'
+  lastName: 'Apellido'
 }
 export default authenticator

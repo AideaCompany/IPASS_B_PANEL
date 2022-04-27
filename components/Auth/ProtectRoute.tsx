@@ -2,6 +2,12 @@ import React, { useEffect } from 'react'
 import { NextRouter } from 'next/router'
 import useAuth from '../../providers/AuthContext'
 
+/**
+ *
+ * @param props
+ * @param props.children
+ * @param props.router
+ */
 function ProtectRoute(props: { children: JSX.Element; router: NextRouter }): JSX.Element {
   const { loading, isAuthenticated, permission } = useAuth()
   const { children, router } = props

@@ -12,20 +12,22 @@ import useAuth from '@/providers/AuthContext'
 //Context
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllVisitorCategory } from '@/services/visitorCategory'
-import { IVisitorCategory, PermissionsPrivilege } from '@/types/types'
+
 import { gql } from '@apollo/client'
 //next
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React, { useEffect, useState } from 'react'
 import { createVisitorCategory } from '@/graphql/visitorCategory/mutation/createVisitorCategory'
+import { IVisitorCategory } from '@/types/interfaces/VisitorCategory/VisitorCategory.interface'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 
-interface actualItem extends IVisitorCategory {}
+type actualItem = IVisitorCategory
 const visitorCategory = (props: { localization: Localization; lang: string }) => {
   //props
   const { localization, lang } = props
 
   //states
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setdata] = useState<actualItem[]>([])
   const [loading, setloading] = useState<boolean>(true)
   //providers
@@ -36,11 +38,9 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
   }, [permission])
 
   useEffect(() => {
-    ;(async () => {
-      if (actualPermission) {
-        getData()
-      }
-    })()
+    if (actualPermission) {
+      getData()
+    }
   }, [actualPermission])
 
   const getData = async () => {
@@ -55,7 +55,7 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
         create={
           <CreateItem
             iconButton={true}
-            actualPermission={actualPermission as PermissionsPrivilege}
+            actualPermission={actualPermission as IPermissionsPrivilege}
             translations={localization.translations}
             mutation={gql(createVisitorCategory)}
             formElements={formElements()}
@@ -68,10 +68,10 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
         lang={lang}
         title={localization?.translations.titleSection}
       >
-        <TableData
+        <TableData<IVisitorCategory>
           columns={columns({
             translations: localization.translations,
-            actualPermission: actualPermission as PermissionsPrivilege,
+            actualPermission: actualPermission as IPermissionsPrivilege,
             permision: permission,
             lang: lang
           })}
@@ -85,7 +85,7 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
 
 export default React.memo(visitorCategory)
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'visitorCategory')
   return {
     props: {
@@ -93,7 +93,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
     }
   }
 }
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false

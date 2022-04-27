@@ -11,26 +11,33 @@ export const listService = /* GraphQL */ `
           name
         }
         products {
-          product {
-            _id
-            name
-            abbreviation
-            brand
-            photo {
-              filename
-              key
-            }
-            productType
-            price
-            measureType
-            amount
-            services
-            designedFor
-          }
           productQuantity
         }
         eta
-        staffers
+        staffers {
+          _id
+          name
+          name1
+          name2
+          lastName
+          lastName1
+          lastName2
+          address
+          phone
+          phone1
+          email
+          specialty
+          AET
+          canAccessToApp
+          canAccessToWeb
+          client
+          active
+          tokenExpo
+          plus
+          verifyLogin
+          createdAt
+          updatedAt
+        }
         price
         cost
         serviceFee
@@ -50,7 +57,6 @@ export const listService = /* GraphQL */ `
           name
           abbreviation
           eta
-          staffers
           price
           cost
           subServiceFee

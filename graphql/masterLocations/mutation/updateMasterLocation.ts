@@ -41,7 +41,7 @@ export const updateMasterLocation = /* GraphQL */ `
         admins {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -52,7 +52,7 @@ export const updateMasterLocation = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -63,7 +63,7 @@ export const updateMasterLocation = /* GraphQL */ `
         security {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -89,7 +89,7 @@ export const updateMasterLocation = /* GraphQL */ `
         whoDeleted {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -106,7 +106,7 @@ export const updateMasterLocation = /* GraphQL */ `
       whoDeleted {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id

@@ -14,7 +14,7 @@ const PieChartComp = () => {
     const monthInternal = await listAttemptsMonthInternalFn()
     const monthExternal = await listAttemptsMonthExternalFn()
 
-    var initExternal
+    let initExternal
     if (monthExternal.length > 0) {
       var incumplimiento = 0
       const cumplimiento = monthExternal.filter(item => item.authenticated === true).length
@@ -27,7 +27,7 @@ const PieChartComp = () => {
       initExternal = [] as any
     }
 
-    var initInternal
+    let initInternal
     if (monthInternal.length > 0) {
       var incumplimiento = 0
       const cumplimiento = monthInternal.filter(item => item.authenticated === true).length

@@ -1,7 +1,8 @@
-import { IDevice } from '@/types/types'
+import { IDevice } from '@/types/interfaces/Device/Device.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElementsSuperAdmin = (devices: IDevice[]): FormFactory.FormFactoryType[] => [
+export const formElementsSuperAdmin = (devices: IDevice[]): FormFactory.IFormFactoryType<ILocation>[] => [
   {
     name: 'name',
     type: 'string',

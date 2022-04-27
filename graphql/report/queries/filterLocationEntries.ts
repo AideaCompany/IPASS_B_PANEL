@@ -12,7 +12,7 @@ export const filterLocationEntries = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -106,7 +106,7 @@ export const filterLocationEntries = /* GraphQL */ `
         admins {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -129,7 +129,7 @@ export const filterLocationEntries = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -152,7 +152,7 @@ export const filterLocationEntries = /* GraphQL */ `
         security {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -192,7 +192,7 @@ export const filterLocationEntries = /* GraphQL */ `
         whoDeleted {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -220,7 +220,7 @@ export const filterLocationEntries = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -273,7 +273,7 @@ export const filterLocationEntries = /* GraphQL */ `
         whoDeleted {
           _id
           name
-          lastname
+          lastName
           email
           active
           country
@@ -299,7 +299,7 @@ export const filterLocationEntries = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -356,7 +356,7 @@ export const filterLocationEntries = /* GraphQL */ `
       worker {
         _id
         name
-        lastname
+        lastName
         email
         verifyLogin
         active
@@ -408,7 +408,7 @@ export const filterLocationEntries = /* GraphQL */ `
       user {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -506,7 +506,7 @@ export const filterLocationEntries = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           country

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-extra-semi */
 import FormFactory from '@/components/crudFunctions/FormFactory'
 import Main from '@/components/main'
 import { Localization } from '@/i18n/types'
@@ -13,6 +14,7 @@ import {
   serVerificationPDF,
   serVerificationPhoto
 } from '@/services/contact'
+import { IInputSendDataVerification, IInputSendDataVerificationPDF } from '@/types/interfaces/Contact/MutationContact.interface'
 import { ReadedMRZ, ReadedPDF } from '@/types/types'
 import { Button, Form, FormInstance, message } from 'antd'
 // import useWindowDimensions from 'hooks/useWindowDimensions'
@@ -29,7 +31,8 @@ const Verification = (props: { localization: Localization }) => {
   const [showHint, setshowHint] = useState<boolean>(false)
   const [readedData, setreadedData] = useState<ReadedMRZ | ReadedPDF>()
   const [actualState, setactualState] = useState({ name: 'photo', title: 'Sube una foto tuya', photo: '/photo.png', step: 'Paso 1' })
-  const [validImages, setvalidImages] = useState({ photo: null, documentA: null, documentB: null })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [validImages, setvalidImages] = useState<any>({ photo: null, documentA: null, documentB: null })
   const [selectedMethod, setselectedMethod] = useState<'DPI' | 'License' | 'PASS' | null>(null)
   const [visibleHint, setvisibleHint] = useState('')
   const [registro, setRegistro] = useState(false)
@@ -39,6 +42,7 @@ const Verification = (props: { localization: Localization }) => {
   //functions
 
   useEffect(() => {
+    // eslint-disable-next-line no-extra-semi
     ;(async () => {
       if (router.query.id) {
         if (router.query.id !== 'test') {
@@ -65,72 +69,70 @@ const Verification = (props: { localization: Localization }) => {
 
   const sendAllData = async () => {
     const data1 = await formOne.current?.validateFields()
-    data1.photo = data1.photo
-    data1.documentA = data1.documentA
+    // data1.photo = data1.photo
+    // data1.documentA = data1.documentA
     if (selectedMethod === 'PASS') {
       data1.documentB = data1.documentPass
       delete data1.documentPass
     } else {
-      data1.documentB = data1.documentB
+      // data1.documentB = data1.documentB
     }
 
-    let toSend = { ...data1, ...readedData }
-    console.log(data1)
+    const toSend: IInputSendDataVerification | IInputSendDataVerificationPDF = { ...data1, ...readedData }
+
     if (router.query.id !== 'test') {
       if (selectedMethod === 'DPI') {
-        await sendVerification(toSend, router.query.id as string)
+        await sendVerification(toSend as IInputSendDataVerification, router.query.id as string)
       } else if (selectedMethod === 'License') {
-        await sendVerificationPDF(toSend, router.query.id as string)
+        await sendVerificationPDF(toSend as IInputSendDataVerificationPDF, router.query.id as string)
       } else {
-        await sendDataVerificationPassFn(toSend, router.query.id as string)
+        await sendDataVerificationPassFn(toSend as IInputSendDataVerification, router.query.id as string)
       }
     }
   }
 
-  const verifyPhoto = async (photo: any): Promise<boolean> => {
+  const verifyPhoto = async (photo: unknown): Promise<boolean> => {
     return await serVerificationPhoto({ photo })
   }
 
-  const verifyMRZ = async (photo: any): Promise<ReadedMRZ> => {
-    return new Promise((resolve, reject) => {
+  // eslint-disable-next-line require-await
+  const verifyMRZ = async (photo: unknown): Promise<ReadedMRZ> => {
+    return new Promise(resolve => {
       serVerificationMRZ({ photo })
         .then(result => {
           resolve(result)
         })
-        .catch(err => {
-          console.error(err)
+        .catch(() => {
           resolve({ documentNumber: '' })
         })
     })
   }
 
-  const verifyPASS = async (photo: any): Promise<ReadedMRZ> => {
-    return new Promise((resolve, reject) => {
+  // eslint-disable-next-line require-await
+  const verifyPASS = async (photo: unknown): Promise<ReadedMRZ> => {
+    return new Promise(resolve => {
       serVerificationPass({ photo })
         .then(result => {
           resolve(result)
         })
-        .catch(err => {
-          console.error(err)
+        .catch(() => {
           resolve({ documentNumber: '' })
         })
     })
   }
-
-  const verifyPDF = async (photo: any): Promise<ReadedPDF> => {
-    return new Promise((resolve, reject) => {
+  // eslint-disable-next-line require-await
+  const verifyPDF = async (photo: unknown): Promise<ReadedPDF> => {
+    return new Promise(resolve => {
       serVerificationPDF({ photo })
         .then(result => {
           resolve(result)
         })
-        .catch(err => {
-          console.error(err)
+        .catch(() => {
           resolve({ licNum: '' })
         })
     })
   }
-
-  const verify = async (data: any) => {
+  const verify = async (data: IInputSendDataVerification) => {
     message.loading({ key: 'info', content: 'Verificando', duration: 0 })
     if (actualState.name === 'photo') {
       if (registro) {
@@ -216,9 +218,9 @@ const Verification = (props: { localization: Localization }) => {
           message.info({ key: 'info', content: 'Hemos encontrado el lado B de tu documento ' })
           setactualState({ name: 'all', title: 'Tus archivos', photo: '', step: '' })
         } else {
-          const readedData = await verifyMRZ(data.documentB)
-          if (readedData.documentNumber !== '') {
-            setreadedData(readedData)
+          const verifiedData = await verifyMRZ(data.documentB)
+          if (verifiedData.documentNumber !== '') {
+            setreadedData(verifiedData)
             setshowHint(false)
             message.info({ key: 'info', content: 'Hemos encontrado el lado B de tu documento ' })
             setactualState({ name: 'all', title: 'Tus archivos', photo: '', step: '' })
@@ -233,9 +235,9 @@ const Verification = (props: { localization: Localization }) => {
           message.info({ key: 'info', content: 'Hemos encontrado el lado B de tu licencia ' })
           setactualState({ name: 'all', title: 'Tus archivos', photo: '', step: '' })
         } else {
-          const readedData = await verifyPDF(data.documentB)
-          if (readedData.licNum !== '') {
-            setreadedData(readedData)
+          const verifiedDataPDF = await verifyPDF(data.documentB)
+          if (verifiedDataPDF.licNum !== '') {
+            setreadedData(verifiedDataPDF)
             setshowHint(false)
             message.info({ key: 'info', content: 'Hemos encontrado el lado B de tu licencia ' })
             setactualState({ name: 'all', title: 'Tus archivos', photo: '', step: '' })
@@ -250,9 +252,9 @@ const Verification = (props: { localization: Localization }) => {
           message.info({ key: 'info', content: 'Hemos encontrado tu pasaporte' })
           setactualState({ name: 'all', title: 'Tus archivos', photo: '', step: '' })
         } else {
-          const readedData = await verifyPASS(data.documentPass)
-          if (readedData.documentNumber !== '') {
-            setreadedData(readedData)
+          const verifiedPass = await verifyPASS(data.documentPass)
+          if (verifiedPass.documentNumber !== '') {
+            setreadedData(verifiedPass)
             setshowHint(false)
             message.info({ key: 'info', content: 'Hemos encontrado tu pasaporte' })
             setactualState({ name: 'all', title: 'Tus archivos', photo: '', step: '' })
@@ -270,8 +272,9 @@ const Verification = (props: { localization: Localization }) => {
       } else {
         setshowMsg('Gracias por verificarte, estaremos en contacto.')
       }
-    } else if (actualState.name === 'finish') {
     }
+    // else if (actualState.name === 'finish') {
+    // }
   }
 
   const getHint = () => {
@@ -291,7 +294,7 @@ const Verification = (props: { localization: Localization }) => {
           <ChangeTheme />
           <LocaleSwitcher />
         </div> */}
-        <div className={`containerForm ${(actualState.name === 'all' || actualState.name === 'finish') && 'all'}`}>
+        <div className={`containerForm ${actualState.name === 'all' || actualState.name === 'finish' ? 'all' : ''}`}>
           {showMsg === '' ? (
             <>
               {selectedMethod === null ? (
@@ -326,7 +329,7 @@ const Verification = (props: { localization: Localization }) => {
                       <FormFactory
                         translate={localization.translations}
                         theme={theme}
-                        isUpdate={false}
+                        isUpdate={true}
                         formElements={[
                           {
                             name: 'photo',
@@ -346,7 +349,7 @@ const Verification = (props: { localization: Localization }) => {
                         <FormFactory
                           translate={localization.translations}
                           theme={theme}
-                          isUpdate={false}
+                          isUpdate={true}
                           formElements={[
                             {
                               name: 'documentA',
@@ -366,7 +369,7 @@ const Verification = (props: { localization: Localization }) => {
                       <FormFactory
                         translate={localization.translations}
                         theme={theme}
-                        isUpdate={false}
+                        isUpdate={true}
                         formElements={[
                           {
                             name: selectedMethod === 'PASS' ? 'documentPass' : 'documentB',
@@ -406,7 +409,7 @@ const Verification = (props: { localization: Localization }) => {
 
 export default Verification
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'verification')
   return {
     props: {
@@ -415,7 +418,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
   }
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false

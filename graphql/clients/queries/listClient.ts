@@ -11,9 +11,9 @@ export const listClient = /* GraphQL */ `
         name1
         name2
         createdAt
-        lastname1
-        lastname2
-        lastname3
+        lastName1
+        lastName2
+        lastName3
         phone1
         phone2
         email
@@ -34,6 +34,7 @@ export const listClient = /* GraphQL */ `
         document
         medicalNotes
         socialMedia
+        country
       }
       totalDocs
       limit

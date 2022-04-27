@@ -1,11 +1,11 @@
-import { IContact } from '@/types/types'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
 import { Tooltip } from 'antd'
 import { Shield } from 'icons/personalIcons'
 import React, { useState } from 'react'
-import { Translations } from '../../i18n/types'
+import { ITranslations } from '../../i18n/types'
 import ContactVerifiedModal from './ContactVerifiedModal'
 
-const showVerificationModa = (props: { translations: Translations; record: IContact }): JSX.Element => {
+const showVerificationModa = (props: { translations: ITranslations; record: IContact }): JSX.Element => {
   const { record } = props
   const [visible, setvisible] = useState<boolean>(false)
 

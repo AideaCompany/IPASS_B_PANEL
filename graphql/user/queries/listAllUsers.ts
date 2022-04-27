@@ -3,7 +3,7 @@ export const listAllUsers = /* GraphQL */ `
     listAllUsers {
       _id
       name
-      lastname
+      lastName
       email
       privilegeID {
         _id

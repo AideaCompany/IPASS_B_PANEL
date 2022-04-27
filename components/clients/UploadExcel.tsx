@@ -1,7 +1,7 @@
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { createMassiveWorkerFn } from '@/services/workers'
-import { IApps, IGroupWorker, ILocation, iTimeZone, IWorker } from '@/types/types'
+import { createMassiveClientFn } from '@/services/clients'
+import { IClient } from '@/types/types'
 import { FileExcelOutlined } from '@ant-design/icons'
 import { Button, List, message, Modal, Tooltip, Upload } from 'antd'
 import { UploadChangeParam } from 'antd/lib/upload'
@@ -11,12 +11,13 @@ import readXlsxFile from 'read-excel-file'
 import ColumnFactory from '../crudFunctions/columnFactory'
 import RenderCheck from '../RenderCheck'
 import TableData from '../TableDatas'
-const UploadExcel = ({ translations, reload }: { translations: Translations; reload: () => void }) => {
+const UploadExcel = ({ translations, reload }: { translations: ITranslations; reload: () => void }) => {
   const [visible, setVisible] = useState(false)
+  const [visible2, setVisible2] = useState(false)
 
   const [totalClients, setTotalClients] = useState(0)
   const [results, setResults] = useState<{ email: string; success: boolean; reason: any }[]>([])
-  const [data, setData] = useState<any[]>([])
+  const [data, setData] = useState<IClient[]>([])
   const [loading, setLoading] = useState(true)
   const { theme } = useContext(ThemeContext)
   // const [percent, setPercent] = useAsyncState(0)
@@ -29,14 +30,6 @@ const UploadExcel = ({ translations, reload }: { translations: Translations; rel
       readXlsx(value.file.originFileObj as File)
     }
   }
-
-  // const validateMultiple = (value: string) => {
-  //   if (value.includes(',')) {
-  //     const values = value.split(',')
-  //     return values.map(e => e.trim())
-  //   }
-  //   return [value]
-  // }
 
   const readXlsx = async (file: File) => {
     //Leemos el archivo de excel
@@ -54,9 +47,9 @@ const UploadExcel = ({ translations, reload }: { translations: Translations; rel
             key: k,
             name1: rows[k][0].toString() ? rows[k][0].toString() : '',
             name2: rows[k][1] ? rows[k][1].toString() : '',
-            lastname1: rows[k][2] ? rows[k][2].toString() : '',
-            lastname2: rows[k][3] ? rows[k][3].toString() : '',
-            lastname3: rows[k][4] ? rows[k][4].toString() : '',
+            lastName1: rows[k][2] ? rows[k][2].toString() : '',
+            lastName2: rows[k][3] ? rows[k][3].toString() : '',
+            lastName3: rows[k][4] ? rows[k][4].toString() : '',
             document: rows[k][5] ? rows[k][5].toString() : '',
             phone1: rows[k][6] ? rows[k][6].toString() : '',
             phone2: rows[k][7] ? rows[k][7].toString() : '',
@@ -66,40 +59,39 @@ const UploadExcel = ({ translations, reload }: { translations: Translations; rel
             occupation: rows[k][11] ? rows[k][11].toString() : '',
             age: rows[k][12] ? rows[k][12].toString() : '',
             sex: rows[k][13] ? rows[k][13].toString() : '',
-            ranking: rows[k][14] ? rows[k][14] : '',
-            channel: rows[k][15] ? rows[k][15].toString() : '',
-            trm: rows[k][16] ? rows[k][16].toString() : '',
-            pt: rows[k][17] ? rows[k][17].toString() : '',
-            rom: rows[k][18] ? rows[k][18].toString() : '',
-            lastVisit: rows[k][19] ? rows[k][19].toString() : '',
-            referrals: rows[k][20] ? rows[k][20].toString() : '',
-            servicesNotes: rows[k][21] ? rows[k][21].toString() : '',
-            productsNotes: rows[k][22] ? rows[k][22].toString() : '',
-            medicalNotes: rows[k][23] ? rows[k][23].toString() : '',
-            socialMedia: rows[k][24] ? rows[k][24].toString() : ''
+            channel: rows[k][14] ? rows[k][14].toString() : '',
+            trm: rows[k][15] ? rows[k][15].toString() : '',
+            pt: rows[k][16] ? rows[k][16].toString() : '',
+            rom: rows[k][17] ? rows[k][17].toString() : '',
+            lastVisit: rows[k][18] ? rows[k][18].toString() : '',
+            referrals: rows[k][19] ? rows[k][19].toString() : '',
+            servicesNotes: rows[k][20] ? rows[k][20].toString() : '',
+            productsNotes: rows[k][21] ? rows[k][21].toString() : '',
+            medicalNotes: rows[k][22] ? rows[k][22].toString() : '',
+            socialMedia: rows[k][23] ? rows[k][23].toString() : '',
+            plus: rows[k][24] === 'SI' ? true : false,
+            country: rows[k][25] ? rows[k][25].toString() : ''
           })
         }
       }
       setTotalClients(result.length)
-      setData(result)
+      setData(result as any)
     }
     setLoading(false)
   }
 
   const sendLargeData = async (values: any[], actualResults: []): Promise<any> => {
-    console.log(values)
-    // if (values.length > 20) {
-    //   const result = (await createMassiveClientFn(values.slice(0, 20))) as any
-    //   return [...actualResults, ...(await sendLargeData(values.slice(20, values.length), result))]
-    // } else {
-    //   return [...actualResults, ...(await createMassiveClientFn(values))]
-    // }
+    if (values.length > 20) {
+      const result = (await createMassiveClientFn(values.slice(0, 20))) as any
+      return [...actualResults, ...(await sendLargeData(values.slice(20, values.length), result))]
+    } else {
+      return [...actualResults, ...(await createMassiveClientFn(values))]
+    }
   }
 
   const sendClients = async () => {
     try {
-      await sendLargeData(data, [])
-      // setResults(await sendLargeData(data, []))
+      setResults(await sendLargeData(data, []))
     } catch (error) {
       console.error(error)
       // message.error(error)
@@ -109,7 +101,6 @@ const UploadExcel = ({ translations, reload }: { translations: Translations; rel
   useEffect(() => {
     if (!visible) {
       setData([])
-      // setPercent(0)
       setTotalClients(0)
       setLoading(true)
     }
@@ -132,10 +123,10 @@ const UploadExcel = ({ translations, reload }: { translations: Translations; rel
               header={<h3>{`Registros exitosos ${results.filter(e => e.success).length}`}</h3>}
               dataSource={results.filter(e => e.success)}
               renderItem={(item, i) => {
-                const actual = data.find(e => e.email === item.email) as IWorker
+                const actual = data.find(e => e.email === item.email) as IClient
                 return (
                   <List.Item key={i}>
-                    <p>{`${actual.name} ${actual.lastname} `}</p>
+                    <p>{`${actual.name1} ${actual.lastName1} `}</p>
                   </List.Item>
                 )
               }}
@@ -148,7 +139,7 @@ const UploadExcel = ({ translations, reload }: { translations: Translations; rel
               header={<h3>{`Registros Fallidos ${results.filter(e => !e.success).length}`}</h3>}
               dataSource={results.filter(e => !e.success)}
               renderItem={(item, i) => {
-                const actual = data.find(e => e.email === item.email) as IWorker
+                const actual = data.find(e => e.email === item.email) as IClient
                 return (
                   <List.Item
                     key={i}
@@ -162,7 +153,7 @@ const UploadExcel = ({ translations, reload }: { translations: Translations; rel
                       }`}</p>
                     ]}
                   >
-                    <p>{`${actual.name} ${actual.lastname} `}</p>
+                    <p>{`${actual.name1} ${actual.lastName1} `}</p>
                   </List.Item>
                 )
               }}
@@ -178,13 +169,54 @@ const UploadExcel = ({ translations, reload }: { translations: Translations; rel
     }
   }, [results])
 
+  const downloadTemplate = () => {
+    let a = document.createElement('a')
+    a.style.display = 'none'
+    a.href = `/plantillaClientes.xlsx`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+  }
+
   return (
     <div className="containerDropFile ">
-      <Upload listType="text" showUploadList={false} maxCount={1} accept={'.xlsx,.xls,.csv'} name="logo" onChange={readInput}>
-        <Tooltip title="Subir excel">
-          <Button style={{ margin: '5px' }} shape={'circle'} icon={<FileExcelOutlined />} />
-        </Tooltip>
-      </Upload>
+      <Tooltip title="Excel">
+        <Button style={{ margin: '5px' }} shape={'circle'} icon={<FileExcelOutlined />} onClick={() => setVisible2(true)} />
+      </Tooltip>
+      <Modal
+        destroyOnClose
+        maskClosable={false}
+        centered
+        onCancel={() => setVisible2(false)}
+        footer={null}
+        onOk={() => console.log('ok')}
+        className={`modalCrud${theme} worker_modal`}
+        visible={visible2}
+      >
+        <div className="modalCrud_header">
+          <h2>¿Qué deseas realizar?</h2>
+          <p style={{ fontStyle: 'italic' }}>Nota: Para subir información desde Excel es necesario usar la plantilla.</p>
+          <div className="flex" style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+            <Upload
+              className="uploadAntd"
+              style={{ width: '100%' }}
+              listType="text"
+              showUploadList={false}
+              maxCount={1}
+              accept={'.xlsx,.xls,.csv'}
+              name="logo"
+              onChange={readInput}
+            >
+              <Button shape={'round'} style={{ width: '100%', marginBottom: '1em' }} type={'primary'}>
+                Subir Excel
+              </Button>
+            </Upload>
+            <Button shape={'round'} style={{ width: '100%', marginBottom: '1em' }} onClick={downloadTemplate}>
+              Descargar Plantilla
+            </Button>
+          </div>
+        </div>
+      </Modal>
       <Modal
         destroyOnClose
         maskClosable={false}
@@ -231,20 +263,20 @@ const UploadExcel = ({ translations, reload }: { translations: Translations; rel
                   width: 100
                 },
                 {
-                  name: 'lastname1',
+                  name: 'lastName1',
                   search: true,
 
                   customRender: (data: any) => (data ? data : '-'),
                   width: 100
                 },
                 {
-                  name: 'lastname2',
+                  name: 'lastName2',
                   search: true,
                   customRender: (data: any) => (data ? data : '-'),
                   width: 100
                 },
                 {
-                  name: 'lastname3',
+                  name: 'lastName3',
                   search: true,
                   customRender: (data: any) => (data ? data : '-'),
                   width: 150
@@ -349,6 +381,18 @@ const UploadExcel = ({ translations, reload }: { translations: Translations; rel
                 },
                 {
                   name: 'medicalNotes',
+                  search: true,
+                  customRender: (data: any) => (data ? data : '-'),
+                  width: 150
+                },
+                {
+                  name: 'plus',
+                  search: true,
+                  customRender: (data: any) => <RenderCheck value={data} />,
+                  width: 150
+                },
+                {
+                  name: 'country',
                   search: true,
                   customRender: (data: any) => (data ? data : '-'),
                   width: 150

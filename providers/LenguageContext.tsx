@@ -7,12 +7,12 @@ import locales from '../i18n/locales'
 import defaultStrings from '../i18n/locales/es'
 import { isLocale, Locale, Localization } from '../i18n/types'
 
-interface ContextProps {
+interface IContextProps {
   readonly localization: Localization
   readonly setLocale: (localization: Localization) => void
 }
 
-export const LanguageContext = React.createContext<ContextProps>({
+export const LanguageContext = React.createContext<IContextProps>({
   localization: {
     locale: 'es', // default lang
     translations: defaultStrings.common, // default translations TODO: what to do here?
@@ -30,12 +30,14 @@ export const LanguageProvider = (props: { localization: Localization; children: 
     translations: localization?.translations,
     namespace: localization?.namespace
   })
-  const [getStoredLocale, setStoredLocale] = useLocalStorage('locale')
+  const [getStoredLocale, setStoredLocale] = useLocalStorage('locale', 'es')
 
   const { query } = useRouter()
 
   React.useEffect(() => {
     if (localizationState.locale !== getStoredLocale) {
+      /* eslint-disable */
+      //@ts-ignore
       setStoredLocale(localizationState.locale)
     }
   }, [localizationState])
@@ -55,8 +57,10 @@ export const LanguageProvider = (props: { localization: Localization; children: 
 
 export const getLocalizationProps = (ctx: GetStaticPropsContext<ParsedUrlQuery>, namespace: string) => {
   const lang: Locale = (ctx.params?.lang as Locale) || 'es'
-  const locale: any = locales[lang]
-  const strings: any = locale[namespace]
+  //@ts-ignore
+  const locale = locales[lang]
+  //@ts-ignore
+  const strings = locale[namespace]
   const translations = {
     ...locales[lang]?.common,
     ...strings

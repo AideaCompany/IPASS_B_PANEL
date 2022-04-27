@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { verifyContactID } from '@/services/contact'
-import { IContact } from '@/types/types'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
 import { Button, Modal, Tooltip } from 'antd'
 import React, { useContext, useState } from 'react'
 import { ThemeContext } from '../../providers/ThemeContext'
@@ -9,7 +10,7 @@ const ContactVerifiedModal = ({
   visible,
   showVerify = true
 }: {
-  record: IContact | null
+  record: IContact
   setvisible: React.Dispatch<React.SetStateAction<boolean>>
   visible: boolean
   showVerify?: boolean
@@ -18,21 +19,14 @@ const ContactVerifiedModal = ({
   const verifyUser = async () => {
     setLoading(true)
     try {
-      await verifyContactID(record?._id as string)
+      await verifyContactID(record?._id)
       setvisible(false)
       setLoading(false)
     } catch (error) {
       setLoading(false)
-      console.error(error)
+      console.info(error)
     }
   }
-
-  console.log(
-    record?.typeVerified,
-    `${process.env.NEXT_PUBLIC_S3}/${
-      record?.typeVerified === 'DPI' || record?.typeVerified === 'PASS' ? record?.verifiedData?.photo?.key : record?.verifiedDataPDF?.photo?.key
-    }`
-  )
 
   const { theme } = useContext(ThemeContext)
   const shouldShow = () => {
@@ -79,7 +73,7 @@ const ContactVerifiedModal = ({
                 <a
                   target="blank"
                   style={{ display: 'flex', justifyContent: 'center' }}
-                  href={`${process.env.NEXT_PUBLIC_S3}/${
+                  href={`${process.env.NEXT_PUBLIC_S3 as string}/${
                     record?.typeVerified === 'DPI' || record?.typeVerified === 'PASS'
                       ? record?.verifiedData?.photo?.key
                       : record?.verifiedDataPDF?.photo?.key

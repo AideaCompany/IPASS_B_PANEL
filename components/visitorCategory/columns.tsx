@@ -1,9 +1,11 @@
 //types
 import { deleteVisitorCategory } from '@/graphql/visitorCategory/mutation/deleteVisitorCategory'
 import { updateVisitorCategory } from '@/graphql/visitorCategory/mutation/updateVisitorCategory'
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IVisitorCategory, PermissionsPrivilege, Privilege } from '@/types/types'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IVisitorCategory } from '@/types/interfaces/VisitorCategory/VisitorCategory.interface'
+
 import { ColumnType } from 'antd/lib/table'
 import gql from 'graphql-tag'
 import React, { useContext } from 'react'
@@ -14,11 +16,11 @@ import UpdateItem from '../crudFunctions/update'
 import { formElements } from './formElements'
 import Formitems from './formItem'
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  permision: Privilege
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
+  permision: IPrivilege
   lang: string
-  beforeShowUpdate?: (param: any) => any
+  beforeShowUpdate?: (param: IVisitorCategory) => IVisitorCategory
 }): ColumnType<IVisitorCategory>[] => {
   const { translations, actualPermission } = props
   const { theme } = useContext(ThemeContext)

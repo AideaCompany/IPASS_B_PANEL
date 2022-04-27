@@ -1,19 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { DocumentNode } from 'graphql'
-import { Translations } from '../../i18n/types'
+import { ITranslations } from '../../i18n/types'
 import client from '../../graphql/config'
 import { message, Modal, Tooltip } from 'antd'
-import { PermissionsPrivilege } from '../../types/types'
+
 import { DeleteOutlined } from '@ant-design/icons'
 import useAuth from '@/providers/AuthContext'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 
 const DeleteWithUser = (props: {
-  actualPermisions: PermissionsPrivilege
-  translations: Translations
+  actualPermisions: IPermissionsPrivilege
+  translations: ITranslations
   mutation: DocumentNode
   theme: string
   record: any
-  content?: any
+  content?: (value: any) => any
   afterDelete?: () => void
 }): JSX.Element => {
   const { actualPermisions, translations, mutation, record, theme, afterDelete, content } = props
@@ -21,24 +23,26 @@ const DeleteWithUser = (props: {
   const deleteItem = (data: any) => {
     client
       .mutate({ mutation: mutation, variables: { input: { _id: data._id, whoDeleted: data.whoDeleted } } })
-      .then(res => {
+      .then(() => {
         message.success({ content: translations.successfullyDeleted, key: 'delete' })
-        afterDelete && afterDelete()
+        if (afterDelete) {
+          afterDelete()
+        }
       })
       .catch(err => {
-        console.error(err)
+        console.info(err)
         message.error(translations.errorDeleted)
       })
   }
 
   const deleteModal = async (item: any) => {
     item.whoDeleted = user._id
-    var result
+    let result
     if (content) {
       result = await content(item)
     }
     Modal.confirm({
-      title: `${translations.titleModalDelete} ${item.name}?`,
+      title: `${translations.titleModalDelete} ${item.name as string}?`,
       okText: translations.buttonDelete,
       content: result,
       onOk: () => deleteItem(item),

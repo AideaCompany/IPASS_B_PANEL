@@ -1,7 +1,8 @@
-import { IVisitorCategory } from '@/types/types'
-import { FormFactory } from '@/types/typeTemplate'
+import { IVisitorCategory } from '@/types/interfaces/VisitorCategory/VisitorCategory.interface'
 
-export const formElements = (categories: IVisitorCategory[], photo?: any): FormFactory.FormFactoryType[] => [
+import { fileType, FormFactory } from '@/types/typeTemplate'
+
+export const formElements = (categories: IVisitorCategory[], photo?: fileType): FormFactory.IFormFactoryType<IVisitorCategory>[] => [
   {
     name: 'name',
     type: 'string',

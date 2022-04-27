@@ -1,9 +1,10 @@
 //types
 import { deleteDevice } from '@/graphql/device/mutation/deleteDevice'
 import { updateDevice } from '@/graphql/device/mutation/updateDevice'
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IDevice, PermissionsPrivilege, Privilege } from '@/types/types'
+import { IDevice } from '@/types/interfaces/Device/Device.interface'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { CheckOutlined, EyeOutlined, StopOutlined } from '@ant-design/icons'
 import { Tooltip } from 'antd'
 import { ColumnType } from 'antd/lib/table'
@@ -17,16 +18,16 @@ import UpdateItem from '../crudFunctions/update'
 import { formElements } from './formElements'
 import FormItems from './formItem'
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  permision: Privilege
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
+  permision: IPrivilege
   lang: string
-  beforeShowUpdate?: (param: any) => any
+  beforeShowUpdate?: (param: IDevice) => IDevice
   after: () => void
 }): ColumnType<IDevice>[] => {
   const { translations, actualPermission, lang, after } = props
   const { theme } = useContext(ThemeContext)
-  const operations = (record: any) => (
+  const operations = (record: IDevice) => (
     <>
       <UpdateItem
         actualPermission={actualPermission}

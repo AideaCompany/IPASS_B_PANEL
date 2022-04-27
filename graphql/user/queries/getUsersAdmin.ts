@@ -3,7 +3,7 @@ export const getUsersAdmin = /* GraphQL */ `
     getUsersAdmin {
       _id
       name
-      lastname
+      lastName
       email
       privilegeID {
         _id

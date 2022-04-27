@@ -1,10 +1,12 @@
 import { getAllLocationActive } from '@/services/locations'
 import { getUsersAdminFn } from '@/services/users'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
 import { FormInstance } from 'antd'
 import React, { useContext, useEffect, useState } from 'react'
-import { ILocation, User } from '../types/types'
-type LocationContext = {
-  admins: User[]
+
+type LocationContextType = {
+  admins: IUser[]
   locations: ILocation[]
   data: ILocation | undefined
   formRef: React.Ref<FormInstance>
@@ -12,7 +14,7 @@ type LocationContext = {
   validate: () => void
 }
 
-const LocationContext = React.createContext<LocationContext>({} as LocationContext)
+const LocationContext = React.createContext<LocationContextType>({} as LocationContextType)
 
 export const LocationProvider = (props: {
   children: JSX.Element
@@ -25,7 +27,7 @@ export const LocationProvider = (props: {
   const { children, data, formRef, setDisabled, validate } = props
 
   //states
-  const [admins, setAdmins] = useState<User[]>([])
+  const [admins, setAdmins] = useState<IUser[]>([])
   const [locations, setLocations] = useState<ILocation[]>([])
 
   //effect
@@ -35,14 +37,15 @@ export const LocationProvider = (props: {
 
   //functions
   const getData = async () => {
-    const admins = await getUsersAdminFn()
+    const admin = await getUsersAdminFn()
     const location = await getAllLocationActive()
-    setAdmins(admins)
+    setAdmins(admin)
     setLocations(location)
   }
   return <LocationContext.Provider value={{ validate, admins, locations, data, formRef, setDisabled }}>{children}</LocationContext.Provider>
 }
 
-export default function useLocation() {
+const useLocation = () => {
   return useContext(LocationContext)
 }
+export default useLocation

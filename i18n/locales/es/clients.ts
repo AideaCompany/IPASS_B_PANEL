@@ -2,11 +2,11 @@ const clients = {
   titleSection: 'Lista de clientes',
   plus: 'Plus',
   name1: 'Nombre',
-  lastname1: 'Apellido',
+  lastName1: 'Apellido',
   createdAt: 'Registrado desde',
   name2: 'Nombre 2',
-  lastname2: 'Apellido 2',
-  lastname3: 'Apellido 3',
+  lastName2: 'Apellido 2',
+  lastName3: 'Apellido 3',
   email: 'Correo',
   photo: 'Foto',
   phone1: 'Celular',
@@ -43,7 +43,8 @@ const clients = {
   titleModalUpdate: 'Actualizar cliente',
   errorName1: 'Por favor ingresa un nombre',
   errorLastname1: 'Por favor ingresa un apellido',
-  errorPhone1: 'Por favor ingresa un numero de celular'
+  errorPhone1: 'Por favor ingresa un numero de celular',
+  country: 'País'
 }
 
 export default clients

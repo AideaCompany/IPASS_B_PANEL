@@ -1,9 +1,9 @@
 //types
 import { deleteClient } from '@/graphql/clients/mutations/deleteClient'
 import { updateClient } from '@/graphql/clients/mutations/updateClient'
-import { Translations } from '@/i18n/types'
+
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IClient, PermissionsPrivilege, Privilege } from '@/types/types'
+import { IClient } from '@/types/types'
 import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Image } from 'antd'
 import { ColumnType } from 'antd/lib/table'
@@ -14,13 +14,16 @@ import ColumnFactory from '../crudFunctions/columnFactory'
 import DeleteItem from '../crudFunctions/delete'
 import UpdateItem from '../crudFunctions/update'
 import { formElements } from './formElements'
+import RenderCheck from '../RenderCheck'
 import FormItems from './formItems'
+import { ITranslations } from '@/i18n/types'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
   beforeShowUpdate?: (param: any) => any
-  privileges: Privilege[]
+  privileges: IPrivilege[]
   after: () => void
   // filters: any[]
 }): ColumnType<IClient>[] => {
@@ -69,6 +72,7 @@ const columns = (props: {
       {
         name: 'plus',
         fixed: 'left',
+        customRender: (record: IClient) => <RenderCheck value={record.plus} />,
         search: true,
         width: 100
       },
@@ -79,7 +83,7 @@ const columns = (props: {
         width: 200
       },
       {
-        name: 'lastname1',
+        name: 'lastName1',
         fixed: 'left',
         search: true,
         width: 200
@@ -107,12 +111,12 @@ const columns = (props: {
         width: 200
       },
       {
-        name: 'lastname2',
+        name: 'lastName2',
         search: true,
         width: 200
       },
       {
-        name: 'lastname3',
+        name: 'lastName3',
         search: true,
         width: 200
       },
@@ -188,6 +192,11 @@ const columns = (props: {
       },
       {
         name: 'socialMedia',
+        search: true,
+        width: 150
+      },
+      {
+        name: 'country',
         search: true,
         width: 150
       }

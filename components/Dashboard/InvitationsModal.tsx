@@ -1,6 +1,7 @@
 import useSecurity from '@/providers/SecurityContext'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IContact } from '@/types/types'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
+
 import { getTime } from '@/utils/utils'
 import { Modal, Tooltip } from 'antd'
 import { Shield } from 'icons/personalIcons'
@@ -21,7 +22,7 @@ const ModalGuest = (): JSX.Element => {
         onOk={() => setShowInvitation(false)}
         className={`modalCrud${theme}`}
         visible={showInvitation}
-        title={``}
+        title={''}
         maskClosable={true}
         centered
         width={700}

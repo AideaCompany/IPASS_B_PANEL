@@ -1,10 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, DatePicker, Form, Input, InputNumber, Select, Switch, TimePicker } from 'antd'
 import FormItem from 'antd/lib/form/FormItem'
 import { capitalize } from 'fogg-utils'
 import moment from 'moment-timezone'
 import React from 'react'
-import { Translations } from '../../i18n/types'
+import { ITranslations } from '../../i18n/types'
 import { ColumnFactoryType, FormFactory } from '@/types/typeTemplate'
 import TableComponent from './TableComponents'
 import UploadButton from './uploadButton'
@@ -12,9 +16,9 @@ import UploadPhoto from './uploadPhoto'
 import countries from 'country-data'
 const { TextArea } = Input
 
-const formFactory = (props: {
-  formElements: FormFactory.FormFactoryType[]
-  translate: Translations
+const formFactory = (propsElements: {
+  formElements: FormFactory.IFormFactoryType<any>[]
+  translate: ITranslations
   isUpdate: boolean
   theme: string
 }): JSX.Element => {
@@ -30,7 +34,7 @@ const formFactory = (props: {
     </Form.Item>
   )
 
-  const { formElements, translate, isUpdate, theme } = props
+  const { formElements, translate, isUpdate, theme } = propsElements
   const seeDummies = !process.env.NEXT_PUBLIC_PROD && !isUpdate
   return (
     <>
@@ -43,9 +47,11 @@ const formFactory = (props: {
           rules: [rules],
           name: element.name
         }
-        var props = {}
-        var content: JSX.Element = <></>
-        element.visible === undefined && (element.visible = true)
+        let props = {}
+        let content: JSX.Element = <></>
+        if (element.visible === undefined) {
+          element.visible = true
+        }
         if (element.visible) {
           switch (element.type) {
             case 'string':
@@ -124,6 +130,7 @@ const formFactory = (props: {
 
             case 'select':
               props = {
+                //@ts-ignore
                 ...(seeDummies ? (element.data ? { initialValue: element.data[0]?._id ? element.data[0]?._id : element.data[0] } : null) : null),
                 ...inicialProps
               }
@@ -134,23 +141,29 @@ const formFactory = (props: {
                   allowClear
                   showSearch
                   placeholder={translate[element.name]}
+                  //@ts-ignore
                   filterOption={(input, option: any) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
-                  {element.data?.map(c => {
-                    if (Object.keys(c).findIndex(e => e === '_id') !== -1) {
-                      return (
-                        <Select.Option key={c._id} value={c._id}>
-                          {c.name}
-                        </Select.Option>
-                      )
-                    } else {
-                      return (
-                        <Select.Option key={c} value={c}>
-                          {c}
-                        </Select.Option>
-                      )
-                    }
-                  })}
+                  {
+                    //@ts-ignore
+                    element.data?.map((c: { name: string; _id: string } | string) => {
+                      //@ts-ignore
+                      if (Object.keys(c).findIndex(e => e === '_id') !== -1) {
+                        return (
+                          //@ts-ignore
+                          <Select.Option key={c._id} value={c._id}>
+                            {(c as { name: string }).name}
+                          </Select.Option>
+                        )
+                      } else {
+                        return (
+                          <Select.Option key={c as string} value={c as string}>
+                            {c}
+                          </Select.Option>
+                        )
+                      }
+                    })
+                  }
                 </Select>
               )
               break
@@ -158,7 +171,8 @@ const formFactory = (props: {
               props = {
                 ...(seeDummies
                   ? element.data
-                    ? { initialValue: element.data[0] ? (element.data[0]?._id ? [element.data[0]?._id] : [element.data[0]]) : [] }
+                    ? //@ts-ignore
+                      { initialValue: element.data[0] ? (element.data[0]?._id ? [element.data[0]?._id] : [element.data[0]]) : [] }
                     : []
                   : []),
                 ...inicialProps
@@ -173,24 +187,27 @@ const formFactory = (props: {
 
                   // filterOption={(input, option: any) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
-                  {element.data?.map(c => {
-                    // console.log(c)
-                    if (Object.keys(c).findIndex(e => e === '_id') !== -1) {
-                      // console.log(c._id)
+                  {
+                    //@ts-ignore
+                    element.data?.map((c: { name: string; _id: string } | string) => {
+                      // console.log(c)
+                      if (Object.keys(c).findIndex(e => e === '_id') !== -1) {
+                        // console.log(c._id)
 
-                      return (
-                        <Select.Option key={c._id} value={c._id}>
-                          {c.name}
-                        </Select.Option>
-                      )
-                    } else {
-                      return (
-                        <Select.Option key={c} value={c}>
-                          {c}
-                        </Select.Option>
-                      )
-                    }
-                  })}
+                        return (
+                          <Select.Option key={(c as { name: string; _id: string })._id} value={(c as { name: string; _id: string })._id}>
+                            {(c as { name: string; _id: string }).name}
+                          </Select.Option>
+                        )
+                      } else {
+                        return (
+                          <Select.Option key={c as string} value={c as string}>
+                            {c}
+                          </Select.Option>
+                        )
+                      }
+                    })
+                  }
                 </Select>
               )
               break
@@ -208,12 +225,13 @@ const formFactory = (props: {
                   <FormItem name={element.name} noStyle>
                     {
                       <TableComponent
+                        //  @ts-ignore
                         inicialData={element.inicialData}
                         translations={translate}
                         name={element.name}
                         theme={theme}
                         actualRef={element.actualFormRef}
-                        columns={element.columnsItem as ColumnFactoryType[]}
+                        columns={element.columnsItem as ColumnFactoryType<any>[]}
                         FormItems={element.FormItems as any}
                       />
                     }
@@ -224,19 +242,21 @@ const formFactory = (props: {
               return (
                 <div className={element.fullWidth ? 'fullWidth' : ''} key={i}>
                   <Form.List name={element.name}>
-                    {(fields, { add, remove }, { errors }) => (
+                    {(fields, { add, remove }) => (
                       <>
                         {fields.map((field, index) => {
                           const items = element.formListElements
                             ? element.formListElements.map(listElement => ({
                                 ...listElement,
+
                                 name: [field.name, listElement.name],
+
                                 adicionalProps: { ...field }
                               }))
                             : []
                           return (
                             <div key={index} className={'formContainer'}>
-                              {formFactory({ translate: translate, isUpdate: isUpdate, formElements: items as any, theme: theme })}
+                              {formFactory({ translate: translate, isUpdate: isUpdate, formElements: items, theme: theme })}
                               {fields.length > 1 ? (
                                 <MinusCircleOutlined className="dynamic-delete-button" onClick={() => remove(field.name)} />
                               ) : null}
@@ -259,6 +279,7 @@ const formFactory = (props: {
                   <h3>{translate[typeof element.name === 'object' ? element.name[1] : element.name]}:</h3>
                   <UploadPhoto
                     required={element.required as boolean}
+                    //@ts-ignore
                     inicialData={element.inicialData}
                     name={element.name}
                     translate={translate[element.name] as any}
@@ -269,6 +290,7 @@ const formFactory = (props: {
               return (
                 <div className={element.fullWidth ? 'fullWidth' : ''} key={i}>
                   <h3>{translate[typeof element.name === 'object' ? element.name[1] : element.name]}:</h3>
+                  {/*@ts-ignore*/}
                   <UploadButton inicialData={element.inicialData} inicialProps={inicialProps} translate={translate} />
                 </div>
               )
@@ -302,6 +324,7 @@ const formFactory = (props: {
                   use12Hours
                   allowClear={true}
                   showNow={false}
+                  //@ts-ignore
                   placeholder={translate[element.name]}
                   format="DD/MM/YYYY h:mm a"
                   dropdownClassName={`picker${theme}`}

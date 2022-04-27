@@ -1,6 +1,7 @@
 import TableDatas from '@/components/TableDatas'
-import { Translations } from '@/i18n/types'
-import { IContact } from '@/types/types'
+import { ITranslations } from '@/i18n/types'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
+
 import { TableRowSelection } from 'antd/lib/table/interface'
 import React from 'react'
 import columns from './ColumnsContact'
@@ -12,13 +13,13 @@ const Tablecontac = ({
   setSelectedContact
 }: {
   data: IContact[]
-  translations: Translations
+  translations: ITranslations
   selectedContact: React.Key[]
   setSelectedContact: React.Dispatch<React.SetStateAction<React.Key[]>>
 }) => {
   //#region functions
   const rowSelection: TableRowSelection<IContact> = {
-    onChange: async (selectedRows: React.Key[]) => {
+    onChange: (selectedRows: React.Key[]) => {
       setSelectedContact(selectedRows)
     },
     selectedRowKeys: selectedContact,
@@ -28,6 +29,8 @@ const Tablecontac = ({
   }
 
   //#endregion functions
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
   return <TableDatas aditionalProps={{ rowSelection }} pagination={false} scroll={{ y: '40vh' }} columns={columns({ translations })} data={data} />
 }
 

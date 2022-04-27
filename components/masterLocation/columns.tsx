@@ -1,12 +1,15 @@
 //types
 import { deleteMasterLocationChangeStatus } from '@/graphql/masterLocations/mutation/deleteMasterLocationChangeStatus'
 import { updateMasterLocation } from '@/graphql/masterLocations/mutation/updateMasterLocation'
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { ILocation, IMasterLocation, PermissionsPrivilege, Privilege } from '@/types/types'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IMasterLocation } from '@/types/interfaces/MasterLocation/MasterLocation.interface'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { ApartmentOutlined, CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons'
 import { ColumnType } from 'antd/lib/table'
 import gql from 'graphql-tag'
+import Link from 'next/link'
 import React, { useContext } from 'react'
 //component
 import ColumnFactory from '../crudFunctions/columnFactory'
@@ -14,20 +17,19 @@ import DeleteWithUser from '../crudFunctions/deleteWithUser'
 import UpdateItem from '../crudFunctions/update'
 import { formElements } from './formElements'
 import Formitems from './formItem'
-import Link from 'next/link'
 
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  permision: Privilege
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
+  permision: IPrivilege
   lang: string
   locations: ILocation[]
-  beforeShowUpdate?: (param: any) => any
+  beforeShowUpdate?: (param: IMasterLocation) => void
   after: () => void
 }): ColumnType<IMasterLocation>[] => {
   const { translations, actualPermission, locations, lang, after } = props
   const { theme } = useContext(ThemeContext)
-  const operations = (record: any) => (
+  const operations = (record: IMasterLocation) => (
     <>
       <UpdateItem
         // beforeShowUpdate={beforeShowUpdate}

@@ -4,7 +4,7 @@ import layout from './layout'
 import user from './user'
 import permission from './permission'
 import gallery from './gallery'
-import worker from './worker'
+import staff from './staff'
 import location from './location'
 import event from './event'
 import contact from './contact'
@@ -27,6 +27,9 @@ import serviceTypes from './serviceTypes'
 import clients from './clients'
 import services from './services'
 import subServices from './subServices'
+import stores from './stores'
+import brands from './brands'
+import styleHair from './styleHair'
 export default {
   common,
   auth,
@@ -34,7 +37,7 @@ export default {
   user,
   permission,
   gallery,
-  worker,
+  staff,
   location,
   event,
   contact,
@@ -56,5 +59,8 @@ export default {
   serviceTypes,
   clients,
   services,
-  subServices
+  subServices,
+  stores,
+  brands,
+  styleHair
 }
