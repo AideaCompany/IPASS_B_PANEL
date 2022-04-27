@@ -1,9 +1,9 @@
-import { IGroupWorker } from 'interfaces/GroupWorker/GroupWorker.interface'
-import { ILocation } from 'interfaces/Location/Location.interface'
-import { IPrivilege } from 'interfaces/Privilege/Privilege.interface'
-import { ITimeZone } from 'interfaces/TimeZone/TimeZone.interface'
 import { IApps } from '../Apps/Apps.interface'
+import { IGroupWorker } from '../GroupWorker/GroupWorker.interface'
 import { graphqlFile, LanguageType, uploadedFile } from '../index'
+import { ILocation } from '../Location/Location.interface'
+import { IPrivilege } from '../Privilege/Privilege.interface'
+import { ITimeZone } from '../TimeZone/TimeZone.interface'
 import { IUser } from './User.interface'
 
 export interface ICreateUser {

@@ -57,8 +57,10 @@ const createEvent = (props: { localization: Localization; lang: string }) => {
   }
 
   const create = async () => {
+    //@ts-ignore
     const newData = (await formRef.current?.validateFields()) as ICreateEvent
     const finalData = { ...data, ...newData }
+    //@ts-ignore
     setData(finalData)
     setSpinning(true)
     try {
@@ -113,7 +115,7 @@ const createEvent = (props: { localization: Localization; lang: string }) => {
             </div>
             <div className="elementsContainer">
               {current === 0 && <InfoEventForm translate={localization.translations} validate={validateForm} />}
-              {current === 1 && <GuestsEventForm translate={localization.translations} setDisabled={setDisabled} />}
+              {current === 1 && <GuestsEventForm />}
             </div>
             {error && <div className="error">{error}</div>}
             <div className="buttons">

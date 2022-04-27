@@ -121,6 +121,7 @@ const subServices = (props: {
       <MainLayout getData={getData} create={createButton} lang={lang} title={`${localization?.translations.titleSection} `}>
         <div>
           <TableData
+            //@ts-ignore
             columns={columns({
               staff,
               stores,

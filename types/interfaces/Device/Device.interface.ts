@@ -1,7 +1,7 @@
-import { ILocation } from 'interfaces/Location/Location.interface'
-import { Document } from 'mongoose'
+import { basicTable } from '@/types/typeTemplate'
+import { ILocation } from '../Location/Location.interface'
 
-export interface IDevice extends Document {
+export interface IDevice extends basicTable {
   _id: string
   name: string
   type: typeDevice

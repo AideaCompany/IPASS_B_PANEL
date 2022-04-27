@@ -12,8 +12,10 @@ import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllRisks } from '@/services/risk'
 import { getResetTime } from '@/services/riskReset'
 import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IRisk } from '@/types/interfaces/Risk/Risk.interface'
+import { IRiskReset } from '@/types/interfaces/RiskReset/RiskReset.interface'
 /* import { getAllAuthenticator } from '@/services/risk' */
-import { IRisk, IRiskReset } from '@/types/types'
+
 import { FileOutlined } from '@ant-design/icons'
 import { Button, Tooltip } from 'antd'
 //next

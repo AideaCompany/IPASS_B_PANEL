@@ -1,9 +1,9 @@
-import { IApps } from 'interfaces/Apps/Apps.interface'
-import { IStaff } from 'interfaces/staff/staff.interface'
-import { IUser } from 'interfaces/user/User.interface'
+import { basicTable } from '@/types/typeTemplate'
+import { IApps } from '../Apps/Apps.interface'
+import { IStaff } from '../staff/staff.interface'
+import { IUser } from '../user/User.interface'
 
-export interface IAuthenticator extends Document {
-  _id: string
+export interface IAuthenticator extends basicTable {
   app: string | IApps
   code: string
   status: string
@@ -13,5 +13,4 @@ export interface IAuthenticator extends Document {
   entries: {
     hourIn: string
   }
-  createdAt: string
 }

@@ -72,6 +72,7 @@ const masterLocation = (props: { localization: Localization; lang: string }) => 
     <>
       <MainLayout create={create} getData={getData} lang={lang} title={'Grupos de staffers'}>
         <TableData
+          //@ts-ignore
           columns={columns({
             translations: localization.translations,
             actualPermission: actualPermission as IPermissionsPrivilege,

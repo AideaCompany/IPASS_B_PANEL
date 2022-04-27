@@ -1,7 +1,7 @@
-import { Document } from 'mongoose'
+import { basicTable } from '@/types/typeTemplate'
 import { graphqlFile, uploadedFile } from '../index'
 
-export interface IStyleHair extends Document {
+export interface IStyleHair extends basicTable {
   _id: string
   name: string
   photo: graphqlFile | uploadedFile

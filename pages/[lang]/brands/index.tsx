@@ -75,8 +75,6 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
             translations: localization.translations,
             actualPermission: actualPermission as IPermissionsPrivilege,
             permision: permission,
-
-            lang: lang,
             after: getData
           })}
           data={data}

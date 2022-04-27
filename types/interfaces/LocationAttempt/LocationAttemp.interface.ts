@@ -1,7 +1,7 @@
-import { IContact } from 'interfaces/Contact/Contact.interface'
-import { ILocation } from 'interfaces/Location/Location.interface'
-import { IStaff } from 'interfaces/staff/staff.interface'
-import { IUser } from 'interfaces/user/User.interface'
+import { IContact } from '../Contact/Contact.interface'
+import { ILocation } from '../Location/Location.interface'
+import { IStaff } from '../staff/staff.interface'
+import { IUser } from '../user/User.interface'
 
 export interface ILocationAttempt {
   _id: string

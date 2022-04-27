@@ -13,7 +13,8 @@ import useAuth from '@/providers/AuthContext'
 //Context
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllServiceTypesFn } from '@/services/serviceTypes'
-import { IServiceType, PermissionsPrivilege } from '@/types/types'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IServiceType } from '@/types/types'
 import { gql } from '@apollo/client'
 //next
 import { GetStaticPaths, GetStaticProps } from 'next'
@@ -26,7 +27,7 @@ const ServiceTypes = (props: { localization: Localization; lang: string }) => {
   const { localization, lang } = props
 
   //states
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setdata] = useState<actualItem[]>([])
   const [loading, setloading] = useState<boolean>(true)
   //providers
@@ -56,7 +57,7 @@ const ServiceTypes = (props: { localization: Localization; lang: string }) => {
         create={
           <CreateItem
             iconButton={true}
-            actualPermission={actualPermission as PermissionsPrivilege}
+            actualPermission={actualPermission as IPermissionsPrivilege}
             translations={localization.translations}
             mutation={gql(createServiceType)}
             formElements={formElements()}
@@ -71,9 +72,10 @@ const ServiceTypes = (props: { localization: Localization; lang: string }) => {
         title={localization?.translations.titleSection}
       >
         <TableData
+          //@ts-ignore
           columns={columns({
             translations: localization.translations,
-            actualPermission: actualPermission as PermissionsPrivilege,
+            actualPermission: actualPermission as IPermissionsPrivilege,
             permision: permission,
             lang: lang,
             after: getData

@@ -28,7 +28,7 @@ const EventInfo = ({ event }: { event: IEventExpress }) => {
 
   const accept = async () => {
     try {
-      await acceptEventExpressFn(event?._id)
+      await acceptEventExpressFn(event?._id as string)
     } catch (error) {
       console.info(error)
     } finally {
@@ -38,7 +38,7 @@ const EventInfo = ({ event }: { event: IEventExpress }) => {
 
   const deny = async () => {
     try {
-      await denyEventExpressFn(event?._id)
+      await denyEventExpressFn(event?._id as string)
     } catch (error) {
       console.info(error)
     } finally {
@@ -87,73 +87,78 @@ const EventInfo = ({ event }: { event: IEventExpress }) => {
               {capitalize((contact as IContact)?.lastName)}
             </Descriptions.Item>
             <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Email">
-              {contact?.email}
+              {(contact as IContact)?.email}
             </Descriptions.Item>
             <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Teléfono">
-              {contact?.phone}
+              {(contact as IContact)?.phone}
             </Descriptions.Item>
           </Descriptions>
-          {contact?.verified && contact?.verifiedData && contact?.verifiedData.documentNumber && (
-            <>
-              <Descriptions column={1} title="Información de verificaión">
-                <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Nombre">
-                  {contact?.verifiedData?.firstName}
-                </Descriptions.Item>
-                <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Apellidos">
-                  {contact?.verifiedData?.lastName}
-                </Descriptions.Item>
-                <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Número DPI">
-                  {contact?.verifiedData?.documentNumber}
-                </Descriptions.Item>
-                <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Género">
-                  {contact?.verifiedData?.sex}
-                </Descriptions.Item>
-                <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Nacionalidad">
-                  {contact?.verifiedData?.nationality}
-                </Descriptions.Item>
-                <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Fecha de nacimiento">
-                  {contact?.verifiedData?.birthDate}
-                </Descriptions.Item>
-              </Descriptions>
-              <p style={{ fontWeight: 'bold' }}>Foto</p>
-              <Image width={'100%'} src={`${publicS3}/${((contact as IContact)?.verifiedData as verifiedData)?.photo?.key}`} />
-              {contact.typeVerified !== 'PASS' && (
-                <>
-                  <p style={{ fontWeight: 'bold' }}>Documento Lado A</p>
-                  <Image width={'100%'} src={`${publicS3}/${((contact as IContact)?.verifiedData as verifiedData)?.documentA?.key}`} />
-                </>
-              )}
-              <p style={{ fontWeight: 'bold' }}>{contact.typeVerified !== 'PASS' ? 'documento Lado B' : 'Documento'}</p>
-              <Image width={'100%'} src={`${publicS3}/${((contact as IContact)?.verifiedData as verifiedData)?.documentB?.key}`} />
-            </>
-          )}
-          {contact?.verified && contact.verifiedDataPDF && (
+          {(contact as IContact)?.verified &&
+            (contact as IContact)?.verifiedData &&
+            ((contact as IContact)?.verifiedData as verifiedData).documentNumber && (
+              <>
+                <Descriptions column={1} title="Información de verificaión">
+                  <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Nombre">
+                    {(contact as IContact)?.verifiedData?.firstName}
+                  </Descriptions.Item>
+                  <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Apellidos">
+                    {(contact as IContact)?.verifiedData?.lastName}
+                  </Descriptions.Item>
+                  <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Número DPI">
+                    {(contact as IContact)?.verifiedData?.documentNumber}
+                  </Descriptions.Item>
+                  <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Género">
+                    {(contact as IContact)?.verifiedData?.sex}
+                  </Descriptions.Item>
+                  <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Nacionalidad">
+                    {(contact as IContact)?.verifiedData?.nationality}
+                  </Descriptions.Item>
+                  <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Fecha de nacimiento">
+                    {(contact as IContact)?.verifiedData?.birthDate}
+                  </Descriptions.Item>
+                </Descriptions>
+                <p style={{ fontWeight: 'bold' }}>Foto</p>
+                <Image width={'100%'} src={`${publicS3}/${((contact as IContact)?.verifiedData as verifiedData)?.photo?.key}`} />
+                {(contact as IContact).typeVerified !== 'PASS' && (
+                  <>
+                    <p style={{ fontWeight: 'bold' }}>Documento Lado A</p>
+                    <Image width={'100%'} src={`${publicS3}/${((contact as IContact)?.verifiedData as verifiedData)?.documentA?.key}`} />
+                  </>
+                )}
+                <p style={{ fontWeight: 'bold' }}>{(contact as IContact).typeVerified !== 'PASS' ? 'documento Lado B' : 'Documento'}</p>
+                <Image width={'100%'} src={`${publicS3}/${((contact as IContact)?.verifiedData as verifiedData)?.documentB?.key}`} />
+              </>
+            )}
+          {(contact as IContact)?.verified && (contact as IContact).verifiedDataPDF && (
             <>
               <Descriptions column={1} title="Información de verificaión">
                 <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Nombre y Apellido">
-                  {contact?.verifiedDataPDF?.name}
+                  {(contact as IContact)?.verifiedDataPDF?.name}
                 </Descriptions.Item>
 
                 <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Número de licencia">
-                  {contact?.verifiedDataPDF?.licNum}
+                  {(contact as IContact)?.verifiedDataPDF?.licNum}
                 </Descriptions.Item>
                 <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Fecha de nacimiento">
-                  {contact?.verifiedDataPDF?.expedition}
+                  {(contact as IContact)?.verifiedDataPDF?.expedition}
                 </Descriptions.Item>
                 <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Fecha de expiración">
-                  {contact?.verifiedDataPDF?.expiration}
+                  {(contact as IContact)?.verifiedDataPDF?.expiration}
                 </Descriptions.Item>
               </Descriptions>
               <p style={{ fontWeight: 'bold' }}>Foto</p>
-              <Image width={'100%'} src={`${publicS3}/${(contact?.verifiedDataPDF as verifiedDataPDF)?.photo?.key as string}`} />
-              {contact.typeVerified !== 'PASS' && (
+              <Image width={'100%'} src={`${publicS3}/${((contact as IContact)?.verifiedDataPDF as verifiedDataPDF)?.photo?.key as string}`} />
+              {(contact as IContact).typeVerified !== 'PASS' && (
                 <>
                   <p style={{ fontWeight: 'bold' }}>Documento Lado A</p>
-                  <Image width={'100%'} src={`${publicS3}/${(contact?.verifiedDataPDF as verifiedDataPDF)?.documentA?.key as string}`} />
+                  <Image
+                    width={'100%'}
+                    src={`${publicS3}/${((contact as IContact)?.verifiedDataPDF as verifiedDataPDF)?.documentA?.key as string}`}
+                  />
                 </>
               )}
-              <p style={{ fontWeight: 'bold' }}>{contact.typeVerified !== 'PASS' ? 'documento Lado B' : 'Documento'}</p>
-              <Image width={'100%'} src={`${publicS3}/${(contact?.verifiedDataPDF as verifiedDataPDF)?.documentB?.key as string}`} />
+              <p style={{ fontWeight: 'bold' }}>{(contact as IContact).typeVerified !== 'PASS' ? 'documento Lado B' : 'Documento'}</p>
+              <Image width={'100%'} src={`${publicS3}/${((contact as IContact)?.verifiedDataPDF as verifiedDataPDF)?.documentB?.key as string}`} />
             </>
           )}
 
@@ -179,7 +184,7 @@ const EventInfo = ({ event }: { event: IEventExpress }) => {
             )
           }
         </div>
-        {permission.name !== 'super_anfitrion' && event.state === 'waiting' && event.contact?.verified && (
+        {permission.name !== 'super_anfitrion' && event.state === 'waiting' && (event.contact as IContact)?.verified && (
           <div className="container__buttons">
             <Button danger onClick={deny}>
               Rechazar Evento

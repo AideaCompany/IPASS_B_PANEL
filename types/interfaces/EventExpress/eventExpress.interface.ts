@@ -1,10 +1,9 @@
+import { basicTable } from '@/types/typeTemplate'
+import { IContact } from '../Contact/Contact.interface'
+import { ILocation } from '../Location/Location.interface'
 import { IUser } from '../user/User.interface'
-import { Document } from 'mongoose'
-import { ILocation } from 'interfaces/Location/Location.interface'
-import { IContact } from 'interfaces/Contact/Contact.interface'
 
-export interface IEventExpress extends Document {
-  _id: string
+export interface IEventExpress extends basicTable {
   name: string
   host: IUser | string
   start: Date

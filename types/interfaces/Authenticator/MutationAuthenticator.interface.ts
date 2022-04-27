@@ -1,6 +1,6 @@
-import { IApps } from 'interfaces/Apps/Apps.interface'
-import { IStaff } from 'interfaces/staff/staff.interface'
-import { IUser } from 'interfaces/user/User.interface'
+import { IApps } from '../Apps/Apps.interface'
+import { IStaff } from '../staff/staff.interface'
+import { IUser } from '../user/User.interface'
 
 export interface ICreateAuthenticator {
   app: string | IApps

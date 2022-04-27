@@ -1,14 +1,14 @@
-import { ITimeZone } from 'interfaces/TimeZone/TimeZone.interface'
-import { Types } from 'mongoose'
+import { ITimeZone } from '../TimeZone/TimeZone.interface'
+
 export interface ICreateStores {
   name: string
   address: string
-  schedule: Types.ObjectId | ITimeZone
+  schedule: string | ITimeZone
 }
 
 export interface IUpdateStores {
   _id: string
   name: string
   address: string
-  schedule: Types.ObjectId | ITimeZone
+  schedule: string | ITimeZone
 }

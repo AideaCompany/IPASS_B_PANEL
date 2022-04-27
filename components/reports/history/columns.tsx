@@ -32,7 +32,7 @@ const columns = (props: {
     )
   }
 
-  return ColumnFactory({
+  return ColumnFactory<IHistoryUser>({
     columns: [
       {
         name: 'type'

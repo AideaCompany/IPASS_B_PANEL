@@ -1,9 +1,9 @@
 import React from 'react'
 import { Form, Input, Checkbox } from 'antd'
 import { Localization } from '../../../i18n/types'
-import { Sections } from '../../../types/types'
+import { ISections } from '@/types/interfaces/Sections/sections.interface'
 
-const FormData = (props: { localization: Localization; section: Sections[] }) => {
+const FormData = (props: { localization: Localization; section: ISections[] }) => {
   const { localization, section } = props
   const datas = section.map((sec, i) => (
     <div key={i} className="checkboxForms">

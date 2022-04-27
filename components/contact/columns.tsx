@@ -23,7 +23,7 @@ const columns = (props: {
   permission: IPrivilege
   beforeShowUpdate?: (param: IContact) => IContact
   after: () => void
-  manageMentError?: (err: unknown) => void
+  manageMentError?: (err: string) => void
 }): ColumnType<IContact>[] => {
   const { translations, actualPermisions, deleteMutation, updateMutation, manageMentError, beforeShowUpdate, after, permission } = props
   const { theme } = useContext(ThemeContext)

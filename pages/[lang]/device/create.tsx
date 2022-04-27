@@ -41,6 +41,7 @@ const createDevice = (props: { localization: Localization; lang: string }) => {
   }
 
   const create = async () => {
+    //@ts-ignore
     const newData = (await formRef.current?.validateFields()) as ICreateDevice
     setSpinning(true)
     try {
