@@ -73,6 +73,7 @@ const columns = (props: {
       },
       {
         name: 'brand',
+        //@ts-ignore
         customRender: (record: IProduct) => {
           return record.brand ? (record.brand as IBrands).name : ''
         }
@@ -115,6 +116,7 @@ const columns = (props: {
       }
     ],
     translate: translations,
+    //@ts-ignore
     operations: operations,
     nonShowOperation: !actualPermission?.update && !actualPermission?.delete && permision.name !== 'admin' && true
   })
