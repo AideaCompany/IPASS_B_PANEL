@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react'
 import 'antd/dist/antd.css'
 // import '@ant - design/flowchart/dist/index.css'
 // import '@ant-design/flowchart/dist/index.css'
+//Styles
+import '../styles/index.scss'
 import '@nosferatu500/react-sortable-tree/style.css'
 import { ThemeContext } from '../providers/ThemeContext'
 //graphQl
 import { ApolloProvider } from '@apollo/client'
 import Client from '../graphql/config'
-//Styles
-import '../styles/index.scss'
 
 //Providers
 import { AuthProvider } from '../providers/AuthContext'
