@@ -8,6 +8,12 @@ export const listStores = /* GraphQL */ `
         _id
         name
       }
+      services {
+        _id
+        plus
+        name
+        abbreviation
+      }
     }
   }
 `
