@@ -6,6 +6,8 @@ const staff = {
   email: 'Correo',
   phone: 'Telefono',
   photo: 'Foto',
+  personal: 'Información Personal',
+  laboral: 'Información laboral',
   serialDuplicated: 'Documento o correo ya existente',
   titleModalCreate: 'Crear staffer',
   titleModalUpdate: 'Actualizar staffer',

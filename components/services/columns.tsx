@@ -16,8 +16,8 @@ import React, { useContext } from 'react'
 import ColumnFactory from '../crudFunctions/columnFactory'
 import DeleteItem from '../crudFunctions/delete'
 import UpdateItem from '../crudFunctions/update'
-import { formElements } from './formElements'
-import FormItems from './formItems'
+import { formElementsGeneralInformation } from './create/stepOne/formElementsGeneralInformation'
+import FormItems from './create/stepOne/formGeneralInformation'
 
 const columns = (props: {
   translations: ITranslations
@@ -49,12 +49,12 @@ const columns = (props: {
             stores={stores}
             dataProducts={dataProducts}
             dataServiceType={dataServiceType}
-            translations={translations}
+            translate={translations}
             isUpdate
             subServices={subServices}
           />
         }
-        formElements={formElements(dataServiceType, dataProducts, staff, stores, subServices)}
+        formElements={formElementsGeneralInformation(dataServiceType, dataProducts, staff, stores, subServices)}
       />
       <DeleteItem
         actualPermission={actualPermission}

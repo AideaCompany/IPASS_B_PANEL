@@ -5,7 +5,7 @@ import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { IBrands } from '@/types/interfaces/Brands/Brands.interface'
 import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
-import { IProduct, IService } from '@/types/types'
+import { IProduct, IProducts, IService } from '@/types/types'
 import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Image } from 'antd'
 import { ColumnType } from 'antd/lib/table'
@@ -15,8 +15,8 @@ import React, { useContext } from 'react'
 import ColumnFactory from '../crudFunctions/columnFactory'
 import DeleteItem from '../crudFunctions/delete'
 import UpdateItem from '../crudFunctions/update'
-import { formElements } from './formElements'
-import FormItems from './formItem'
+import { formElements1 } from './create/stepOne/formElements1'
+import FormItems from './create/stepOne/formItem1'
 const columns = (props: {
   translations: ITranslations
   actualPermission: IPermissionsPrivilege
@@ -49,7 +49,7 @@ const columns = (props: {
           mutation={gql(updateProduct)}
           record={record}
           FormItems={<FormItems translations={translations} isUpdate services={services} brands={brands} />}
-          formElements={formElements(services, brands)}
+          formElements={formElements1(services, brands)}
         />
         <DeleteItem
           afterDelete={after}

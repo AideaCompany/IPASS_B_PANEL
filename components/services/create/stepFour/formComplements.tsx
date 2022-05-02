@@ -5,19 +5,19 @@ import { IStores } from '@/types/interfaces/Stores/stores.interface'
 import { IProduct, IServiceType, ISubService } from '@/types/types'
 
 import { useContext } from 'react'
-import FormFactory from '../crudFunctions/FormFactory'
-import { formElements } from './formElements'
+import FormFactory from '../../../crudFunctions/FormFactory'
+import { formElementsComplements } from './formElementsComplements'
 
-const FormItems = (props: {
-  translations: ITranslations
+const FormComplements = (props: {
+  translate: ITranslations
   isUpdate?: boolean
-  dataServiceType: IServiceType[] | undefined
-  dataProducts: IProduct[] | undefined
+  dataServiceType?: IServiceType[]
+  dataProducts?: IProduct[]
   staff: IStaff[]
   stores: IStores[]
   subServices: ISubService[]
 }): JSX.Element => {
-  const { translations, isUpdate, dataServiceType, dataProducts, staff, stores, subServices } = props
+  const { translate, isUpdate, dataServiceType, dataProducts, staff, stores, subServices } = props
   const updating = isUpdate ? true : false
   const { theme } = useContext(ThemeContext)
 
@@ -25,13 +25,13 @@ const FormItems = (props: {
     <div className="formContainer">
       {
         <FormFactory
-          translate={translations}
+          translate={translate}
           isUpdate={updating}
           theme={theme}
-          formElements={formElements(dataServiceType, dataProducts, staff, stores, subServices)}
+          formElements={formElementsComplements(dataServiceType, dataProducts, staff, stores, subServices)}
         />
       }
     </div>
   )
 }
-export default FormItems
+export default FormComplements

@@ -13,11 +13,13 @@ import React, { useContext } from 'react'
 import ColumnFactory from '../crudFunctions/columnFactory'
 import DeleteItem from '../crudFunctions/delete'
 import UpdateItem from '../crudFunctions/update'
-import { formElements } from './formElements'
+
 import RenderCheck from '../RenderCheck'
-import FormItems from './formItems'
+
 import { ITranslations } from '@/i18n/types'
 import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { formElementsInformationClient } from './create/stepOne/formElementsinformationClient'
+import FormItemsInformationClient from './create/stepOne/formItemsInformationClient'
 
 const columns = (props: {
   translations: ITranslations
@@ -38,8 +40,8 @@ const columns = (props: {
         mutation={gql(updateClient)}
         record={record}
         afterUpdate={after}
-        FormItems={<FormItems translations={translations} isUpdate />}
-        formElements={formElements()}
+        FormItems={<FormItemsInformationClient translations={translations} isUpdate />}
+        formElements={formElementsInformationClient()}
       />
       <DeleteItem
         actualPermission={actualPermission}

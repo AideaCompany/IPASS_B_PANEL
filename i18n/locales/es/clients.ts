@@ -34,6 +34,8 @@ const clients = {
   deletedUser: 'Cliente eliminado',
   inputActive: '¿Cliente Activo?',
   titleModalCreate: 'Crear Cliente',
+  informationClient: 'Información general del cliente',
+  comercialClient: 'información comercial del cliente',
   successCreateUser: 'Cliente Creado',
   successUpdateUser: 'Cliente Actualizado',
   successDelete: 'Cliente Eliminado',

@@ -20,8 +20,9 @@ import DeleteItem from '../crudFunctions/delete'
 import UpdateItem from '../crudFunctions/update'
 import RenderCheck from '../RenderCheck'
 import ResetToken from '../users/ResetToken'
-import { formElements } from './formElements'
-import FormItems from './formItem'
+import { formElementsPersonal } from './create/StepOne/formElementsPersonal'
+import FormItemsPersonal from './create/StepOne/formItemPersonal'
+
 import QRWorker from './QRWorker'
 
 const columns = (props: {
@@ -47,8 +48,8 @@ const columns = (props: {
           mutation={gql(updateStaff)}
           record={record}
           afterUpdate={after}
-          FormItems={<FormItems stores={stores} permission={permision} isUpdate inicialData={record.photo} translations={translations} />}
-          formElements={formElements(stores, record.photo)}
+          FormItems={<FormItemsPersonal stores={stores} permission={permision} isUpdate inicialData={record.photo} translate={translations} />}
+          formElements={formElementsPersonal(stores, record.photo)}
         />
         <DeleteItem
           afterDelete={after}

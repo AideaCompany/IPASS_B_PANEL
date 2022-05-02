@@ -3,18 +3,18 @@ import { ThemeContext } from '@/providers/ThemeContext'
 import { IBrands } from '@/types/interfaces/Brands/Brands.interface'
 import { IService } from '@/types/types'
 import { useContext } from 'react'
-import FormFactory from '../crudFunctions/FormFactory'
-import { formElements } from './formElements'
+import FormFactory from '../../../crudFunctions/FormFactory'
+import { formElements3 } from './formElements3'
 
-const FormItems = (props: { translations: ITranslations; isUpdate?: boolean; brands: IBrands[]; services: IService[] }): JSX.Element => {
+const FormItems3 = (props: { translations: ITranslations; isUpdate?: boolean; brands: IBrands[]; services: IService[] }): JSX.Element => {
   const { translations, isUpdate, brands, services } = props
   const updating = isUpdate ? true : false
   const { theme } = useContext(ThemeContext)
 
   return (
     <div className="formContainer">
-      {<FormFactory translate={translations} isUpdate={updating} theme={theme} formElements={formElements(services, brands)} />}
+      {<FormFactory translate={translations} isUpdate={updating} theme={theme} formElements={formElements3(services, brands)} />}
     </div>
   )
 }
-export default FormItems
+export default FormItems3

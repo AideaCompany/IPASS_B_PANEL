@@ -1,12 +1,8 @@
-import CreateItem from '@/components/crudFunctions/create'
 //components
 import MainLayout from '@/components/layout/Layout'
 import columns from '@/components/subServices/columns'
-import { formElements } from '@/components/subServices/formElements'
-import FormItems from '@/components/subServices/formItems'
 import TableData from '@/components/TableDatas'
 import { setToken } from '@/graphql/config'
-import { createSubService } from '@/graphql/subServices/mutations/createSubService'
 //Lenguage
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
@@ -20,12 +16,14 @@ import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.in
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { IStores } from '@/types/interfaces/Stores/stores.interface'
 //apollo
-import { IProduct, IService, Paginated } from '@/types/types'
+import { IProduct, IService, ISubService, Paginated } from '@/types/types'
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
-import { gql } from '@apollo/client'
+import { PlusOutlined } from '@ant-design/icons'
+import { Button, Tooltip } from 'antd'
 import * as cookie from 'cookie'
 //next
 import { GetServerSidePropsContext } from 'next'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 const subServices = (props: {
@@ -36,9 +34,10 @@ const subServices = (props: {
   dataProducts: IProduct[]
   staff: IStaff[]
   stores: IStores[]
+  subServices: ISubService[]
 }): JSX.Element => {
   //props
-  const { localization, lang, page, limit, dataProducts, staff, stores } = props
+  const { localization, lang, page, limit, dataProducts, staff, stores, subServices } = props
   //context
   const { privilege } = useData()
   const { permission } = useAuth()
@@ -75,6 +74,15 @@ const subServices = (props: {
   }, [filters])
 
   //functions
+  const goToCreate = () => (
+    <Tooltip title="Crear producto">
+      <Link href={{ pathname: '/[lang]/subServices/create', query: { lang } }}>
+        <a>
+          <Button style={{ margin: '5px' }} shape="circle" icon={<PlusOutlined />} />
+        </a>
+      </Link>
+    </Tooltip>
+  )
   const getData = async () => {
     setLoading(true)
     const result = await getAllSubServices(actualPage, actualLimit, filters)
@@ -97,28 +105,13 @@ const subServices = (props: {
     return newService
   }
 
-  const createButton = (
-    <div className="ButtonsUp">
-      <CreateItem
-        actualPermission={actualPermission as IPermissionsPrivilege}
-        translations={localization.translations}
-        mutation={gql(createSubService)}
-        formElements={formElements(dataProducts, staff, stores)}
-        afterCreate={getData}
-        beforeCreate={beforeCreate}
-        iconButton={true}
-        FormItem={<FormItems staff={staff} stores={stores} dataProducts={dataProducts} isUpdate={true} translations={localization.translations} />}
-      />
-    </div>
-  )
-
   const onchange = (_: any, filters: any, sorter: any) => {
     setFilters(formatFiltersTable(filters))
   }
 
   return (
     <>
-      <MainLayout getData={getData} create={createButton} lang={lang} title={`${localization?.translations.titleSection} `}>
+      <MainLayout getData={getData} create={goToCreate()} lang={lang} title={`${localization?.translations.titleSection} `}>
         <div>
           <TableData
             columns={columns({
@@ -177,7 +170,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       const dataProducts = await getAllProductsFn()
       const staff = (await listStaffFn(1, 100, {})).docs
       const stores = await getAllStores()
-      return { props: { localization, page, limit, dataProducts, staff, stores } }
+      const subServices = await (await getAllSubServices(1, 100, {})).docs
+      return { props: { localization, page, limit, dataProducts, staff, stores, subServices } }
     } else {
       return {
         notFound: true

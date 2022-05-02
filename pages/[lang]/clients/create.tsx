@@ -1,7 +1,7 @@
+import FormItemsInformationClient from '@/components/clients/create/stepOne/formItemsInformationClient'
+import FormItemsComercialClients from '@/components/clients/create/stepTwo/formItemsComercialClients'
 import MainLayout from '@/components/layout/Layout'
-import FormItems1 from '@/components/products/create/stepOne/formItem1'
-import Steps from '@/components/services/create/Steps'
-import FormItems2 from '@/components/products/create/stepTwo/formItem2'
+import Steps from '@/components/clients/create/Steps'
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
@@ -95,7 +95,7 @@ const create = (props: { localization: Localization; lang: string; services: ISe
       })
   }
   useEffect(() => {
-    setActualPermission(permission.permissions?.find(e => e.sectionName === 'Products'))
+    setActualPermission(permission.permissions?.find(e => e.sectionName === 'Clients'))
   }, [permission])
   return (
     <MainLayout hideButtons lang={lang} title={localization.translations.titleModalCreate}>
@@ -108,8 +108,8 @@ const create = (props: { localization: Localization; lang: string; services: ISe
             <div className="elementsContainer">
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}></div>
               <div className="elementsContainer">
-                {current === 0 && <FormItems1 services={services} brands={brands} translate={localization.translations} />}
-                {current === 1 && <FormItems2 services={services} brands={brands} translate={localization.translations} />}
+                {current === 0 && <FormItemsInformationClient translations={localization.translations} />}
+                {current === 1 && <FormItemsComercialClients translations={localization.translations} />}
               </div>
               {error && <div className="error">{error}</div>}
               <div className="buttons">
@@ -121,14 +121,14 @@ const create = (props: { localization: Localization; lang: string; services: ISe
                       </Button>
                     </Form.Item>
                   )}
-                  {current < 3 && (
+                  {current < 1 && (
                     <Form.Item noStyle>
                       <Button disabled={disabled} onClick={() => HandleChangeCurrent('next')} type="primary" shape="round" htmlType="submit">
                         {localization.translations.next}
                       </Button>
                     </Form.Item>
                   )}
-                  {current === 3 && (
+                  {current === 1 && (
                     <Form.Item noStyle>
                       <Button disabled={false} onClick={createProduct} icon={<PlusOutlined />} shape="round" type="primary">
                         {localization.translations.titleModalCreate}
@@ -148,7 +148,7 @@ const create = (props: { localization: Localization; lang: string; services: ISe
 export default React.memo(create)
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  const localization = getLocalizationProps(ctx, 'products')
+  const localization = getLocalizationProps(ctx, 'clients')
   const services = await listAllServicesFn()
   const brands = await getAllBrands()
   return { props: { localization, services, brands } }

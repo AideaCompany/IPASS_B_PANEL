@@ -1,6 +1,6 @@
 import { FormFactory } from '@/types/typeTemplate'
 import countries from 'country-data'
-export const formElements = (): FormFactory.IFormFactoryType<any>[] => [
+export const formElementsInformationClient = (): FormFactory.IFormFactoryType<any>[] => [
   {
     name: 'photo',
     type: 'avatar',
@@ -35,10 +35,6 @@ export const formElements = (): FormFactory.IFormFactoryType<any>[] => [
   },
   {
     name: 'lastName2',
-    type: 'string'
-  },
-  {
-    name: 'lastName3',
     type: 'string'
   },
   {
@@ -77,25 +73,5 @@ export const formElements = (): FormFactory.IFormFactoryType<any>[] => [
     name: 'sex',
     type: 'select',
     data: ['Hombre', 'Mujer']
-  },
-  {
-    name: 'referrals',
-    type: 'string'
-  },
-  {
-    name: 'servicesNotes',
-    type: 'textArea'
-  },
-  {
-    name: 'productsNotes',
-    type: 'textArea'
-  },
-  {
-    name: 'medicalNotes',
-    type: 'textArea'
-  },
-  {
-    name: 'socialMedia',
-    type: 'textArea'
   }
 ]

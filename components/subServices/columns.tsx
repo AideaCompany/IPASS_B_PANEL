@@ -16,8 +16,8 @@ import React, { useContext } from 'react'
 import ColumnFactory from '../crudFunctions/columnFactory'
 import DeleteItem from '../crudFunctions/delete'
 import UpdateItem from '../crudFunctions/update'
-import { formElements } from './formElements'
-import FormItems from './formItems'
+import { formElementsGeneralInformation } from './create/stepOne/formElementsGeneralInformation'
+import FormItemsGeneralInformation from './create/stepOne/formGeneralInformation'
 
 const columns = (props: {
   translations: ITranslations
@@ -41,8 +41,8 @@ const columns = (props: {
         mutation={gql(updateSubService)}
         record={record}
         afterUpdate={after}
-        FormItems={<FormItems staff={staff} stores={stores} dataProducts={dataProducts} translations={translations} isUpdate />}
-        formElements={formElements(dataProducts, staff, stores)}
+        FormItems={<FormItemsGeneralInformation staff={staff} stores={stores} dataProducts={dataProducts} translations={translations} isUpdate />}
+        formElements={formElementsGeneralInformation(dataProducts, staff, stores)}
       />
       <DeleteItem
         actualPermission={actualPermission}

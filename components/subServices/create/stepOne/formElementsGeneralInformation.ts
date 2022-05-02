@@ -3,7 +3,7 @@ import { IStores } from '@/types/interfaces/Stores/stores.interface'
 import { IProduct, IServiceType, ISubService } from '@/types/types'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElements = (
+export const formElementsGeneralInformation = (
   dataServiceType: IServiceType[] | undefined,
   dataProducts: IProduct[] | undefined,
   staff: IStaff[],
@@ -41,11 +41,6 @@ export const formElements = (
       type: 'string'
     },
     {
-      name: 'type',
-      type: 'select',
-      data: dataServiceType
-    },
-    {
       name: 'products',
       type: 'dynamic',
       formListElements: formElementsDynamicProducts
@@ -68,7 +63,7 @@ export const formElements = (
       type: 'number'
     },
     {
-      name: 'serviceFee',
+      name: 'subServiceFee',
       type: 'number'
     },
     {
@@ -80,7 +75,7 @@ export const formElements = (
       type: 'number'
     },
     {
-      name: 'serviceTime',
+      name: 'subServiceTime',
       type: 'number'
     },
     {
@@ -88,19 +83,9 @@ export const formElements = (
       type: 'number'
     },
     {
-      name: 'sex',
-      type: 'select',
-      data: ['Hombre', 'Mujer']
-    },
-    {
       name: 'stores',
       type: 'selectMultiple',
       data: stores
-    },
-    {
-      name: 'subService',
-      type: 'selectMultiple',
-      data: subServices
     }
   ]
 }

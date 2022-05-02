@@ -3,8 +3,9 @@
 import CreateItem from '@/components/crudFunctions/create'
 import MainLayout from '@/components/layout/Layout'
 import columns from '@/components/staff/columns'
-import { formElements } from '@/components/staff/formElements'
-import FormItems from '@/components/staff/formItem'
+import { formElementsPersonal } from '@/components/staff/create/StepOne/formElementsPersonal'
+import FormItemsPersonal from '@/components/staff/create/StepOne/formItemPersonal'
+
 import UploadExcel from '@/components/staff/UploadExcel'
 import TableData from '@/components/TableDatas'
 import { setToken } from '@/graphql/config'
@@ -28,11 +29,13 @@ import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { IStores } from '@/types/interfaces/Stores/stores.interface'
 import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
+import { PlusOutlined } from '@ant-design/icons'
 import { gql } from '@apollo/client'
-import { message } from 'antd'
+import { Button, message, Tooltip } from 'antd'
 import * as cookie from 'cookie'
 //next
 import { GetServerSidePropsContext } from 'next'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 
@@ -113,6 +116,15 @@ const staff = (props: {
     // if (item.photo) item.photo.key = `${process.env.NEXT_PUBLIC_S3}/${item.photo.key}`
     return item
   }
+  const goToCreate = () => (
+    <Tooltip title="Crear producto">
+      <Link href={{ pathname: '/[lang]/staff/create', query: { lang } }}>
+        <a>
+          <Button style={{ margin: '5px' }} shape="circle" icon={<PlusOutlined />} />
+        </a>
+      </Link>
+    </Tooltip>
+  )
 
   const createButton = (
     <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -129,10 +141,10 @@ const staff = (props: {
         actualPermission={actualPermission as IPermissionsPrivilege}
         translations={localization.translations}
         mutation={gql(createStaff)}
-        formElements={formElements(stores)}
+        formElements={formElementsPersonal(stores)}
         afterCreate={getData}
         manageMentError={manageMentError}
-        FormItem={<FormItems stores={stores} isUpdate={true} permission={permission} translations={localization.translations} />}
+        FormItem={<FormItemsPersonal stores={stores} isUpdate={true} permission={permission} translate={localization.translations} />}
         iconButton={true}
       />
     </div>
@@ -144,7 +156,7 @@ const staff = (props: {
   return (
     <>
       {/* <ModalKeyUser setOpen={setOpen} visible={open} getData={getData} /> */}
-      <MainLayout getData={getData} create={createButton} lang={lang} title={`${localization?.translations.titleSection}`}>
+      <MainLayout getData={getData} create={goToCreate()} lang={lang} title={`${localization?.translations.titleSection}`}>
         <>
           <TableData<IStaff>
             columns={columns({

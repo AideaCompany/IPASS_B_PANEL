@@ -1,41 +1,56 @@
 import MainLayout from '@/components/layout/Layout'
-import FormItems1 from '@/components/products/create/stepOne/formItem1'
+import FormComplements from '@/components/services/create/stepFour/formComplements'
+import FormGeneralInformation from '@/components/services/create/stepOne/formGeneralInformation'
 import Steps from '@/components/services/create/Steps'
-import FormItems2 from '@/components/products/create/stepTwo/formItem2'
+import FormComercialInformation from '@/components/services/create/StepThree/formComercialInformation'
+import FormResources from '@/components/services/create/stepTwo/formResources'
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { getAllBrands } from '@/services/brands'
 import { listAllServicesFn } from '@/services/services'
-import { IBrands } from '@/types/interfaces/Brands/Brands.interface'
+import { listStaffFn } from '@/services/staff'
+import { getAllStores } from '@/services/stores'
+import { getAllSubServices } from '@/services/subServices'
 import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
-import { IProducts, IService } from '@/types/types'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
+import { IStores } from '@/types/interfaces/Stores/stores.interface'
+import { IProducts, ISubService } from '@/types/types'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Form, FormInstance } from 'antd'
 import { GetServerSidePropsContext } from 'next'
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 
-const create = (props: { localization: Localization; lang: string; services: IService[]; brands: IBrands[] }) => {
+const create = (props: { localization: Localization; lang: string; staff: IStaff[]; stores: IStores[]; subServices: ISubService[] }) => {
   //#region props
-  const { localization, lang, brands, services } = props
-  //#region
+  const { localization, lang, staff, stores, subServices } = props
+  //#endregion props
+
+  //#region providers
   const { setSpinning } = useAuth()
-  //states
-  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
-  //providers
   const { permission } = useAuth()
-  const [current, setCurrent] = useState(0)
   const { theme } = useContext(ThemeContext)
+  //#endregion providers
 
   //#region ref
   const formRef = useRef<FormInstance<IProducts>>(null)
-  //#region  states
+  //#endregion ref
 
+  //#region  states
   const [error, setError] = useState('')
   const [data, setData] = useState<IProducts>()
   const [disabled, setDisabled] = useState(false)
+  const [current, setCurrent] = useState(0)
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   //#end region states
+
+  //#region useEffect
+  useEffect(() => {
+    setActualPermission(permission.permissions?.find(e => e.sectionName === 'Products'))
+  }, [permission])
+  //#endregion useEffect
+
   //#region functions
   const HandleChangeCurrent = useCallback(
     (type: 'next' | 'back') => {
@@ -94,9 +109,6 @@ const create = (props: { localization: Localization; lang: string; services: ISe
         }
       })
   }
-  useEffect(() => {
-    setActualPermission(permission.permissions?.find(e => e.sectionName === 'Products'))
-  }, [permission])
   return (
     <MainLayout hideButtons lang={lang} title={localization.translations.titleModalCreate}>
       <Form onValuesChange={validateForm} component={false} ref={formRef}>
@@ -108,8 +120,14 @@ const create = (props: { localization: Localization; lang: string; services: ISe
             <div className="elementsContainer">
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}></div>
               <div className="elementsContainer">
-                {current === 0 && <FormItems1 services={services} brands={brands} translate={localization.translations} />}
-                {current === 1 && <FormItems2 services={services} brands={brands} translate={localization.translations} />}
+                {current === 0 && (
+                  <FormGeneralInformation subServices={subServices} stores={stores} staff={staff} translate={localization.translations} />
+                )}
+                {current === 1 && <FormResources subServices={subServices} stores={stores} staff={staff} translate={localization.translations} />}
+                {current === 2 && (
+                  <FormComercialInformation subServices={subServices} stores={stores} staff={staff} translate={localization.translations} />
+                )}
+                {current === 3 && <FormComplements subServices={subServices} stores={stores} staff={staff} translate={localization.translations} />}
               </div>
               {error && <div className="error">{error}</div>}
               <div className="buttons">
@@ -148,8 +166,11 @@ const create = (props: { localization: Localization; lang: string; services: ISe
 export default React.memo(create)
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  const localization = getLocalizationProps(ctx, 'products')
+  const localization = getLocalizationProps(ctx, 'subServices')
   const services = await listAllServicesFn()
   const brands = await getAllBrands()
-  return { props: { localization, services, brands } }
+  const staff = (await listStaffFn(1, 100, {})).docs
+  const stores = await getAllStores()
+  const subServices = await (await getAllSubServices(1, 100, {})).docs
+  return { props: { localization, services, brands, staff, stores, subServices } }
 }

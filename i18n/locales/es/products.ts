@@ -16,6 +16,9 @@ const location = {
   titleModalCreate: 'Crear producto',
   titleModalUpdate: 'Actualizando producto',
   titleModalDelete: 'Eliminar producto',
+  generalInformation: 'Información general',
+  photoUpload: 'Subir foto',
+  storageInformation: 'Información de almacen',
   //Messages
   successfullyCreated: 'Producto creado con exito',
   errorCreated: 'error creando el producto',

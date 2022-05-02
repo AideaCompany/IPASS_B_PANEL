@@ -1,6 +1,7 @@
 import columns from '@/components/clients/columns'
-import { formElements } from '@/components/clients/formElements'
-import FormItems from '@/components/clients/formItems'
+import { formElementsInformationClient } from '@/components/clients/create/stepOne/formElementsinformationClient'
+import FormItemsInformationClient from '@/components/clients/create/stepOne/formItemsInformationClient'
+
 import UploadExcel from '@/components/clients/UploadExcel'
 import CreateItem from '@/components/crudFunctions/create'
 //components
@@ -21,10 +22,13 @@ import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.in
 //apollo
 import { IClient, Paginated } from '@/types/types'
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
+import { PlusOutlined } from '@ant-design/icons'
 import { gql } from '@apollo/client'
+import { Button, Tooltip } from 'antd'
 import * as cookie from 'cookie'
 //next
 import { GetServerSidePropsContext } from 'next'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 
@@ -97,11 +101,11 @@ const clients = (props: { localization: Localization; lang: string; page: number
         actualPermission={actualPermission as IPermissionsPrivilege}
         translations={localization.translations}
         mutation={gql(createClient)}
-        formElements={formElements()}
+        formElements={formElementsInformationClient()}
         afterCreate={getData}
         beforeCreate={beforeCreate}
         iconButton={true}
-        FormItem={<FormItems isUpdate={true} translations={localization.translations} />}
+        FormItem={<FormItemsInformationClient isUpdate={true} translations={localization.translations} />}
       />
 
       {/* {true && (
@@ -116,14 +120,22 @@ const clients = (props: { localization: Localization; lang: string; page: number
       )} */}
     </div>
   )
-
+  const goToCreate = () => (
+    <Tooltip title="Crear cliente">
+      <Link href={{ pathname: '/[lang]/clients/create', query: { lang } }}>
+        <a>
+          <Button style={{ margin: '5px' }} shape="circle" icon={<PlusOutlined />} />
+        </a>
+      </Link>
+    </Tooltip>
+  )
   const onchange = (_: any, filters: any, sorter: any) => {
     setFilters(formatFiltersTable(filters))
   }
 
   return (
     <>
-      <MainLayout getData={getData} create={createButton} lang={lang} title={`${localization?.translations.titleSection} `}>
+      <MainLayout getData={getData} create={goToCreate()} lang={lang} title={`${localization?.translations.titleSection} `}>
         <div>
           <TableData
             columns={columns({

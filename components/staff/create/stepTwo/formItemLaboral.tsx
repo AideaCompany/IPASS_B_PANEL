@@ -3,26 +3,26 @@ import { ThemeContext } from '@/providers/ThemeContext'
 import { IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { IStores } from '@/types/interfaces/Stores/stores.interface'
 import React, { useContext } from 'react'
-import FormFactory from '../crudFunctions/FormFactory'
-import { formElements } from './formElements'
-const FormItems = (props: {
-  permission: IPrivilege
-  translations: ITranslations
+import FormFactory from '../../../crudFunctions/FormFactory'
+import { formElementslaboral } from './formElementsLaboral'
+const FormItemsLaboral = (props: {
+  permission?: IPrivilege
+  translate: ITranslations
   isUpdate?: boolean
   stores: IStores[]
   inicialData?: boolean | unknown
 }): JSX.Element => {
-  const { translations, isUpdate, inicialData, stores } = props
+  const { translate, isUpdate, inicialData, stores } = props
   const updating = isUpdate ? true : false
   const { theme } = useContext(ThemeContext)
   const formItemFromPrivilege = () => {
-    return formElements(stores, inicialData)
+    return formElementslaboral(stores, inicialData)
   }
 
   return (
     <div className="formContainer">
-      <FormFactory translate={translations} isUpdate={updating} theme={theme} formElements={formItemFromPrivilege()} />
+      <FormFactory translate={translate} isUpdate={updating} theme={theme} formElements={formItemFromPrivilege()} />
     </div>
   )
 }
-export default FormItems
+export default FormItemsLaboral

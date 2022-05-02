@@ -9,7 +9,7 @@ const subServices = {
   addNew: 'Agrega Productos',
   product: 'Producto',
   productQuantity: 'Cantidad de producto',
-  titleModalCreate: 'Crear Servicio',
+  titleModalCreate: 'Crear SubServicio',
   staffers: 'Staffers',
   eta: 'ETA',
   price: 'Precio',

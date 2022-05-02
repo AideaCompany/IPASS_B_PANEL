@@ -1,12 +1,8 @@
-import CreateItem from '@/components/crudFunctions/create'
 //components
 import MainLayout from '@/components/layout/Layout'
 import columns from '@/components/services/columns'
-import { formElements } from '@/components/services/formElements'
-import FormItems from '@/components/services/formItems'
 import TableData from '@/components/TableDatas'
 import { setToken } from '@/graphql/config'
-import { createService } from '@/graphql/services/mutations/createService'
 //Lenguage
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
@@ -24,10 +20,12 @@ import { IStores } from '@/types/interfaces/Stores/stores.interface'
 //apollo
 import { IProduct, IService, IServiceType, ISubService, Paginated } from '@/types/types'
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
-import { gql } from '@apollo/client'
+import { PlusOutlined } from '@ant-design/icons'
+import { Button, Tooltip } from 'antd'
 import * as cookie from 'cookie'
 //next
 import { GetServerSidePropsContext } from 'next'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 const services = (props: {
@@ -79,6 +77,16 @@ const services = (props: {
   }, [filters])
 
   //functions
+  const goToCreate = () => (
+    <Tooltip title="Crear producto">
+      <Link href={{ pathname: '/[lang]/services/create', query: { lang } }}>
+        <a>
+          <Button style={{ margin: '5px' }} shape="circle" icon={<PlusOutlined />} />
+        </a>
+      </Link>
+    </Tooltip>
+  )
+
   const getData = async () => {
     setLoading(true)
     const result = await getAllServices(actualPage, actualLimit, filters)
@@ -102,38 +110,13 @@ const services = (props: {
     return newService
   }
 
-  const createButton = (
-    <div className="ButtonsUp">
-      <CreateItem
-        actualPermission={actualPermission as IPermissionsPrivilege}
-        translations={localization.translations}
-        mutation={gql(createService)}
-        formElements={formElements(dataServiceType, dataProducts, staff, stores, subServices)}
-        afterCreate={getData}
-        beforeCreate={beforeCreate}
-        iconButton={true}
-        FormItem={
-          <FormItems
-            stores={stores}
-            subServices={subServices}
-            staff={staff}
-            dataProducts={dataProducts}
-            dataServiceType={dataServiceType}
-            isUpdate={true}
-            translations={localization.translations}
-          />
-        }
-      />
-    </div>
-  )
-
   const onchange = (_: any, filters: any, sorter: any) => {
     setFilters(formatFiltersTable(filters))
   }
 
   return (
     <>
-      <MainLayout getData={getData} create={createButton} lang={lang} title={`${localization?.translations.titleSection} `}>
+      <MainLayout create={goToCreate()} getData={getData} lang={lang} title={`${localization?.translations.titleSection} `}>
         <div>
           <TableData
             columns={columns({
