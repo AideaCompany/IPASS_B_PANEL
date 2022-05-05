@@ -9,13 +9,13 @@ export const formElements = (): FormFactory.IFormFactoryType<ITimeZone>[] => [
     adicionalProps: { min: 1 }
   },
   {
-    name: 'start',
-    type: 'hour',
+    name: 'abbreviation',
+    type: 'string',
     required: true
   },
   {
-    name: 'abbreviation',
-    type: 'string',
+    name: 'start',
+    type: 'hour',
     required: true
   },
   {
@@ -26,7 +26,7 @@ export const formElements = (): FormFactory.IFormFactoryType<ITimeZone>[] => [
   {
     name: 'days',
     type: 'selectMultiple',
-    data: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'],
+    data: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
     required: true
   }
 ]

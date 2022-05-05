@@ -10,19 +10,6 @@ export const listProduct = /* GraphQL */ `
         logo {
           filename
           key
-<<<<<<< HEAD
-        }
-      }
-      photo {
-        filename
-        key
-      }
-      productType
-      price
-      measureType
-      amount
-      services
-=======
         }
       }
       photo {
@@ -82,7 +69,11 @@ export const listProduct = /* GraphQL */ `
           filename
           key
         }
-        stores
+        stores {
+          _id
+          name
+          address
+        }
         subService {
           _id
           plus
@@ -96,14 +87,12 @@ export const listProduct = /* GraphQL */ `
           discounts
           subServiceTime
           returnTime
-          stores
           createdAt
           updatedAt
         }
         createdAt
         updatedAt
       }
->>>>>>> dev
       designedFor
     }
   }

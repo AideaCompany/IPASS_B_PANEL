@@ -25,8 +25,17 @@ export const formElements = (): FormFactory.IFormFactoryType<any>[] => [
     required: true
   },
   {
+    name: 'country',
+    type: 'select',
+    data: countries.callingCountries.all.map(country => ({
+      _id: country.countryCallingCodes[0],
+      name: country.name
+    })),
+    required: true
+  },
+  {
     name: 'phone1',
-    type: 'number',
+    type: 'string',
     required: true
   },
   {
@@ -42,20 +51,12 @@ export const formElements = (): FormFactory.IFormFactoryType<any>[] => [
     type: 'string'
   },
   {
-    name: 'country',
-    type: 'select',
-    data: countries.callingCountries.all.map(country => ({
-      _id: country.countryCallingCodes[0],
-      name: country.name
-    }))
-  },
-  {
     name: 'email',
     type: 'email'
   },
   {
     name: 'phone2',
-    type: 'number'
+    type: 'string'
   },
   {
     name: 'privateAddress',

@@ -11,32 +11,17 @@ export const listService = /* GraphQL */ `
           name
         }
         products {
+          product {
+            _id
+            name
+          }
           productQuantity
         }
         eta
         staffers {
           _id
           name
-          name1
-          name2
           lastName
-          lastName1
-          lastName2
-          address
-          phone
-          phone1
-          email
-          specialty
-          AET
-          canAccessToApp
-          canAccessToWeb
-          client
-          active
-          tokenExpo
-          plus
-          verifyLogin
-          createdAt
-          updatedAt
         }
         price
         cost
@@ -50,13 +35,39 @@ export const listService = /* GraphQL */ `
           filename
           key
         }
-        stores
+        stores {
+          _id
+          name
+          address
+          schedule {
+            _id
+            name
+            start
+            end
+            days
+            abbreviation
+            createdAt
+            updatedAt
+          }
+        }
         subService {
           _id
           plus
           name
           abbreviation
+          products {
+            product {
+              _id
+              name
+            }
+            productQuantity
+          }
           eta
+          staffers {
+            _id
+            name
+            lastName
+          }
           price
           cost
           subServiceFee
@@ -64,7 +75,15 @@ export const listService = /* GraphQL */ `
           discounts
           subServiceTime
           returnTime
-          stores
+          photo {
+            filename
+            key
+          }
+          stores {
+            _id
+            name
+            address
+          }
           createdAt
           updatedAt
         }

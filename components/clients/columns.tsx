@@ -1,7 +1,7 @@
 //types
 import { deleteClient } from '@/graphql/clients/mutations/deleteClient'
 import { updateClient } from '@/graphql/clients/mutations/updateClient'
-
+import moment from 'moment-timezone'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { IClient } from '@/types/types'
 import { UserOutlined } from '@ant-design/icons'
@@ -72,7 +72,7 @@ const columns = (props: {
       {
         name: 'plus',
         fixed: 'left',
-        customRender: (record: IClient) => <RenderCheck value={record.plus} />,
+        customRender: (record: IClient) => <RenderCheck value={record?.plus} />,
         search: true,
         width: 100
       },
@@ -89,6 +89,12 @@ const columns = (props: {
         width: 200
       },
       {
+        name: 'country',
+        fixed: 'left',
+        search: true,
+        width: 150
+      },
+      {
         name: 'phone1',
         fixed: 'left',
         search: true,
@@ -97,6 +103,7 @@ const columns = (props: {
       {
         name: 'createdAt',
         fixed: 'left',
+        customRender: (record: IClient) => moment.tz(record?.createdAt, 'America/Guatemala').format('DD/MM/YYYY'),
         search: true,
         width: 200
       },
@@ -148,6 +155,7 @@ const columns = (props: {
       {
         name: 'age',
         search: true,
+        customRender: (record: IClient) => (record?.age ? moment.tz(record?.age, 'America/Guatemala').format('DD/MM/YYYY') : ''),
         width: 150
       },
       {
@@ -192,11 +200,6 @@ const columns = (props: {
       },
       {
         name: 'socialMedia',
-        search: true,
-        width: 150
-      },
-      {
-        name: 'country',
         search: true,
         width: 150
       }
