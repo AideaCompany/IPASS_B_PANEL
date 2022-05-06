@@ -32,11 +32,6 @@ export const listAllServices = /* GraphQL */ `
         lastName1
         lastName2
         address
-        stores {
-          _id
-          name
-          address
-        }
         phone
         phone1
         photo {
@@ -68,7 +63,7 @@ export const listAllServices = /* GraphQL */ `
         filename
         key
       }
-      stores
+
       subService {
         _id
         plus
@@ -113,7 +108,7 @@ export const listAllServices = /* GraphQL */ `
           filename
           key
         }
-        stores
+
         createdAt
         updatedAt
       }

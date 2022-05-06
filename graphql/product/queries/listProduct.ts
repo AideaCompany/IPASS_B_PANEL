@@ -69,7 +69,6 @@ export const listProduct = /* GraphQL */ `
           filename
           key
         }
-        stores
         subService {
           _id
           plus
@@ -83,7 +82,6 @@ export const listProduct = /* GraphQL */ `
           discounts
           subServiceTime
           returnTime
-          stores
           createdAt
           updatedAt
         }

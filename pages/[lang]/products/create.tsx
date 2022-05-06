@@ -1,6 +1,6 @@
 import MainLayout from '@/components/layout/Layout'
 import FormItems1 from '@/components/products/create/stepOne/formItem1'
-import Steps from '@/components/services/create/Steps'
+import Steps from '@/components/products/create/Steps'
 import FormItems2 from '@/components/products/create/stepTwo/formItem2'
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
@@ -15,6 +15,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Button, Form, FormInstance } from 'antd'
 import { GetServerSidePropsContext } from 'next'
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import FormItems3 from '@/components/products/create/stepThree/formItem3'
 
 const create = (props: { localization: Localization; lang: string; services: IService[]; brands: IBrands[] }) => {
   //#region props
@@ -111,6 +112,7 @@ const create = (props: { localization: Localization; lang: string; services: ISe
               <div className="elementsContainer">
                 {current === 0 && <FormItems1 services={services} brands={brands} translate={localization.translations} />}
                 {current === 1 && <FormItems2 services={services} brands={brands} translate={localization.translations} />}
+                {current === 2 && <FormItems3 services={services} brands={brands} translate={localization.translations} />}
               </div>
               {error && <div className="error">{error}</div>}
               <div className="buttons">

@@ -50,7 +50,7 @@ export const listService = /* GraphQL */ `
           filename
           key
         }
-        stores
+
         subService {
           _id
           plus
@@ -64,7 +64,7 @@ export const listService = /* GraphQL */ `
           discounts
           subServiceTime
           returnTime
-          stores
+
           createdAt
           updatedAt
         }
