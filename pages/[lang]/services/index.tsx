@@ -90,7 +90,6 @@ const services = (props: {
   const getData = async () => {
     setLoading(true)
     const result = await getAllServices(actualPage, actualLimit, filters)
-    console.log(result)
     setPagination(result)
     setData(
       convertTotable(result.docs)
@@ -178,7 +177,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       const dataProducts = await getAllProductsFn()
       const staff = (await listStaffFn(1, 100, {})).docs
       const stores = await getAllStores()
-      const subServices = await (await getAllSubServices(1, 100, {})).docs
+      const result = await getAllSubServices(page, limit, {})
+      const subServices = convertTotable(result.docs)
       return { props: { localization, page, limit, dataServiceType, dataProducts, staff, stores, subServices } }
     } else {
       return {
