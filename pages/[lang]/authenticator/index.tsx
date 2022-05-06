@@ -67,17 +67,18 @@ const visitorCategory = (props: { localization: Localization; lang: string; apps
       //@ts-ignore
       convertTotable(
         //@ts-ignore
-        result.docs.map(e => {
-          const valUser = e?.user ? e?.user : e.Worker
-          return {
-            ...e,
-            name: valUser?.name,
-            lastName: valUser?.lastName,
-            email: valUser?.email,
-            typeDocument: valUser?.typeDocument,
-            document: valUser?.document
-          }
-        })
+        // result.docs.map(e => {
+        //   const valUser = e?.user ? e?.user : e.Worker
+        //   return {
+        //     ...e,
+        //     name: valUser?.name,
+        //     lastName: valUser?.lastName,
+        //     email: valUser?.email,
+        //     typeDocument: valUser?.typeDocument,
+        //     document: valUser?.document
+        //   }
+        // })
+        []
       )
     )
     /*eslint-enable*/

@@ -118,6 +118,7 @@ const Permissions = (props: { localization: Localization; lang: string }) => {
   const createPrivilegeForm = (data: ICreatePrivilege) => {
     setLoading(true)
     client
+      //@ts-ignore
       .mutate({ mutation: gql(createPrivilege), variables: { input: getDataForm(data) } })
       .then(() => {
         refetchData()
@@ -145,6 +146,7 @@ const Permissions = (props: { localization: Localization; lang: string }) => {
   }
   //update
   const updatePrivilegeForm = (data: IUpdatePrivilege, id: string) => {
+    //@ts-ignore
     const toUpdate = { _id: id, ...getDataForm(data) }
     console.log(toUpdate)
     setLoading(true)

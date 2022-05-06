@@ -53,7 +53,7 @@ const EventGuests = (props: { localization: Localization; lang: string }) => {
     <MainLayout hideButtons={true} lang={lang} title={localization?.translations.titleModalGuests}>
       <Form name="test" onValuesChange={validateForm} /* component={false}  */ ref={formRef} onFinish={onFinish}>
         {error && <div className="error">{error}</div>}
-        <GuestsEventForm translate={localization.translations} setDisabled={setDisabled} />
+        <GuestsEventForm />
         <Form.Item>
           <Button disabled={disabled} type="primary" shape="round" htmlType="submit">
             {localization.translations.titleModalGuests}

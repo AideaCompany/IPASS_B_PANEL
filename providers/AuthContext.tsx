@@ -92,7 +92,7 @@ export const AuthProvider = (props: { children: JSX.Element }) => {
       setUser(currentUser)
       const perm = await Client.query<{ getPrivilege: IPrivilege }>({
         query: gql(getPrivilege),
-        variables: { _id: currentUser.privilegeID._id }
+        variables: { _id: (currentUser.privilegeID as IPrivilege)._id }
       })
       let totalPrivilege: IPrivilege
       if (firstLogin) {

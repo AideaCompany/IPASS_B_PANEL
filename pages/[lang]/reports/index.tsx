@@ -380,6 +380,7 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
           </div>
 
           <TableData
+            //@ts-ignore
             columns={columnsHis({
               translations: localization.translations,
               actualPermission: actualPermission as IPermissionsPrivilege,

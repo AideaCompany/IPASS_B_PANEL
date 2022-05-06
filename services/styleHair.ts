@@ -3,18 +3,19 @@ import { updateMasterLocation } from '@/graphql/masterLocations/mutation/updateM
 import { getMasterLocation } from '@/graphql/masterLocations/queries/getMasterLocation'
 import { listMasterLocationActive } from '@/graphql/masterLocations/queries/listMasterLocationActive'
 import { listStyleHair } from '@/graphql/styleHair/queries/listStyleHair'
-import { IstyleHair } from '@/types/types'
+import { IStyleHair } from '@/types/interfaces/StyleHair/styleHair.interface'
+
 import { convertTotable } from '@/utils/utils'
 import gql from 'graphql-tag'
 
-export const getAllstyleHair = async (): Promise<IstyleHair[]> => {
+export const getAllstyleHair = async (): Promise<IStyleHair[]> => {
   client.cache.reset()
-  return convertTotable<IstyleHair>(await (await client.query({ query: gql(listStyleHair) })).data.listStyleHair)
+  return convertTotable<IStyleHair>(await (await client.query({ query: gql(listStyleHair) })).data.listStyleHair)
 }
 
-export const getAllMasterLocationActive = async (): Promise<IstyleHair[]> => {
+export const getAllMasterLocationActive = async (): Promise<IStyleHair[]> => {
   client.cache.reset()
-  return convertTotable<IstyleHair>(await (await client.query({ query: gql(listMasterLocationActive) })).data.listMasterLocationActive)
+  return convertTotable<IStyleHair>(await (await client.query({ query: gql(listMasterLocationActive) })).data.listMasterLocationActive)
 }
 
 export const getMasterLocationFn = async (_id: string) => {

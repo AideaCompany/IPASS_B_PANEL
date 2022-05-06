@@ -1,12 +1,12 @@
-import { PermissionsPrivilege } from './Privilege.interface'
+import { IPermissionsPrivilege } from './Privilege.interface'
 
 export interface ICreatePrivilege {
   name: string
-  permissions: PermissionsPrivilege[]
+  permissions: IPermissionsPrivilege[]
 }
 
 export interface IUpdatePrivilege {
   _id: string
   name: string
-  permissions: PermissionsPrivilege[]
+  permissions: IPermissionsPrivilege[]
 }

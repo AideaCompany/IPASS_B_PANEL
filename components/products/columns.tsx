@@ -73,7 +73,7 @@ const columns = (props: {
       },
       {
         name: 'brand',
-        customRender: (record: IProduct) => {
+        customRender: (record: IProduct, index) => {
           return record.brand ? (record.brand as IBrands).name : ''
         }
       },

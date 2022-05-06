@@ -30,13 +30,14 @@ export const LanguageProvider = (props: { localization: Localization; children: 
     translations: localization?.translations,
     namespace: localization?.namespace
   })
-  const [getStoredLocale, setStoredLocale] = useLocalStorage('locale')
+  const [getStoredLocale, setStoredLocale] = useLocalStorage('locale', 'es')
 
   const { query } = useRouter()
 
   React.useEffect(() => {
     if (localizationState.locale !== getStoredLocale) {
       /* eslint-disable */
+      //@ts-ignore
       setStoredLocale(localizationState.locale)
     }
   }, [localizationState])

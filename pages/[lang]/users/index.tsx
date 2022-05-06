@@ -6,36 +6,36 @@ import columns from '@/components/users/columns'
 import { formElements } from '@/components/users/formElements'
 import FormItems from '@/components/users/formItems'
 import ModalKeyUser from '@/components/users/ModalKeyUser'
+import { setToken } from '@/graphql/config'
 import { createUser } from '@/graphql/user/mutation/createUser'
 //Lenguage
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import useData from '@/providers/DataContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
+import { getAllApps } from '@/services/apps'
 import { getAllLocationActive } from '@/services/locations'
 import { listTimeZonesFn } from '@/services/timeZone'
-import { countUserWorkerFn, getAllUsers, verifyKeyUserFn } from '@/services/users'
-
+import { getAllUsers, verifyKeyUserFn } from '@/services/users'
+import { IApps } from '@/types/interfaces/Apps/Apps.interface'
+import { FilterType, IPaginated } from '@/types/interfaces/graphqlTypes'
+import { IGroupWorker } from '@/types/interfaces/GroupWorker/GroupWorker.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
 //apollo
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
 import { gql } from '@apollo/client'
-import { setToken } from '@/graphql/config'
 //antd
 import { Button, Tooltip } from 'antd'
+import * as cookie from 'cookie'
 import { Role } from 'icons/personalIcons'
 //next
 import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import * as cookie from 'cookie'
-import { getAllApps } from '@/services/apps'
-import { ILocation } from '@/types/interfaces/Location/Location.interface'
-import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
-import { IGroupWorker } from '@/types/interfaces/GroupWorker/GroupWorker.interface'
-import { IApps } from '@/types/interfaces/Apps/Apps.interface'
-import { IUser } from '@/types/interfaces/user/User.interface'
-import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
-import { FilterType, IPaginated } from '@/types/interfaces/graphqlTypes'
+
 const user = (props: {
   localization: Localization
   lang: string
@@ -62,7 +62,6 @@ const user = (props: {
   const [actualPage, setActualPage] = useState<number>(page)
   const [pagination, setPagination] = useState<IPaginated<IUser>>()
   const [open, setOpen] = useState(false)
-  const [countUsers, setCountUsers] = useState(0)
 
   //Effect
   useEffect(() => {
@@ -90,7 +89,6 @@ const user = (props: {
     if (!res) {
       setOpen(true)
     } else {
-      setCountUsers(await countUserWorkerFn())
       const result = await getAllUsers(actualPage, actualLimit, filters)
       setPagination(result)
       setData(

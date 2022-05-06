@@ -1,6 +1,7 @@
 import client from '@/graphql/config'
 import { listRiskReset } from '@/graphql/riskReset/queries/listRiskReset'
-import { IRiskReset } from '@/types/types'
+import { IRiskReset } from '@/types/interfaces/RiskReset/RiskReset.interface'
+
 import { convertTotable } from '@/utils/utils'
 import gql from 'graphql-tag'
 

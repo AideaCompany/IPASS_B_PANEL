@@ -1,6 +1,5 @@
-import { ILocation } from 'interfaces/Location/Location.interface'
-import { typeQr } from 'interfaces/valuesAddQr'
-
+import { ILocation } from '../Location/Location.interface'
+import { typeQr } from '../valuesAddQr'
 import { typeUser } from './LocationEntries.interface'
 
 export interface IFilterLocationEntries {

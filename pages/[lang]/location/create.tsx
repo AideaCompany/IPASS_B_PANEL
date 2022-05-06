@@ -114,7 +114,7 @@ const createLocation = (props: { localization: Localization; lang: string }) => 
               </div>
               <div className="elementsContainer">
                 {current === 0 && <InfoLocationForm translate={localization.translations} />}
-                {current === 1 && <AdminsLocationForm translate={localization.translations} />}
+                {current === 1 && <AdminsLocationForm />}
               </div>
               {error && <div className="error">{error}</div>}
               <div className="buttons">

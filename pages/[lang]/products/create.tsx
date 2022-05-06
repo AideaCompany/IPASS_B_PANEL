@@ -37,6 +37,9 @@ const create = (props: { localization: Localization; lang: string; services: ISe
   const [disabled, setDisabled] = useState(false)
   //#end region states
   //#region functions
+  useEffect(() => {
+    setActualPermission(permission.permissions?.find(e => e.sectionName === 'Products'))
+  }, [permission])
   const HandleChangeCurrent = useCallback(
     (type: 'next' | 'back') => {
       const currentData = formRef.current?.getFieldsValue() as IProducts
@@ -94,9 +97,7 @@ const create = (props: { localization: Localization; lang: string; services: ISe
         }
       })
   }
-  useEffect(() => {
-    setActualPermission(permission.permissions?.find(e => e.sectionName === 'Products'))
-  }, [permission])
+
   return (
     <MainLayout hideButtons lang={lang} title={localization.translations.titleModalCreate}>
       <Form onValuesChange={validateForm} component={false} ref={formRef}>
