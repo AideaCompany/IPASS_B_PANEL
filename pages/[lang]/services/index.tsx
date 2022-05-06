@@ -77,7 +77,6 @@ const services = (props: {
   const getData = async () => {
     setLoading(true)
     const result = await getAllServices(actualPage, actualLimit, filters)
-    console.log(result)
     setPagination(result)
     setData(
       convertTotable(result.docs)
@@ -92,7 +91,6 @@ const services = (props: {
   }
 
   const beforeCreate = (item: IService) => {
-    console.log(item)
     const newService = item
     return newService
   }

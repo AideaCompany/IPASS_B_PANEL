@@ -26,7 +26,7 @@ export const formElements = (): FormFactory.IFormFactoryType<ITimeZone>[] => [
   {
     name: 'days',
     type: 'selectMultiple',
-    data: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'],
+    data: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
     required: true
   }
 ]
