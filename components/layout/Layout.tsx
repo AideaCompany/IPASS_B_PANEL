@@ -75,11 +75,11 @@ const MainLayout = (props: LayoutProps) => {
     //   title: localization.translations.masterLocation,
     //   icon: <Building />
     // },
-    {
-      path: '/location',
-      title: localization.translations.location,
-      icon: <HeartOutlined />
-    },
+    // {
+    //   path: '/location',
+    //   title: localization.translations.location,
+    //   icon: <HeartOutlined />
+    // },
     // {
     //   path: '/event',
     //   title: localization.translations.event,

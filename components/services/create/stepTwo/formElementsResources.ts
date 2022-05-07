@@ -27,11 +27,11 @@ export const formElementsResources = (
       type: 'dynamic',
       formListElements: formElementsDynamicProducts
     },
-    {
-      name: 'staffers',
-      type: 'selectMultiple',
-      data: staff
-    },
+    // {
+    //   name: 'staffers',
+    //   type: 'selectMultiple',
+    //   data: staff
+    // },
     {
       name: 'eta',
       type: 'string'
