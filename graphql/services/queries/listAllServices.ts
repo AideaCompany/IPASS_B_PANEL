@@ -23,6 +23,34 @@ export const listAllServices = /* GraphQL */ `
         productQuantity
       }
       eta
+      staffers {
+        _id
+        name
+        name1
+        name2
+        lastName
+        lastName1
+        lastName2
+        address
+        phone
+        phone1
+        photo {
+          filename
+          key
+        }
+        email
+        specialty
+        AET
+        canAccessToApp
+        canAccessToWeb
+        client
+        active
+        tokenExpo
+        plus
+        verifyLogin
+        createdAt
+        updatedAt
+      }
       price
       cost
       serviceFee
@@ -35,7 +63,7 @@ export const listAllServices = /* GraphQL */ `
         filename
         key
       }
-      stores
+
       subService {
         _id
         plus
@@ -80,7 +108,7 @@ export const listAllServices = /* GraphQL */ `
           filename
           key
         }
-        stores
+
         createdAt
         updatedAt
       }

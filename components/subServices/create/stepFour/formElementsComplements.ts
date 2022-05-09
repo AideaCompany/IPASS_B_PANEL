@@ -3,7 +3,7 @@ import { IStores } from '@/types/interfaces/Stores/stores.interface'
 import { IProduct, IServiceType, ISubService } from '@/types/types'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElementsResources = (
+export const formElementsComplements = (
   dataServiceType: IServiceType[] | undefined,
   dataProducts: IProduct[] | undefined,
   staff: IStaff[],
@@ -23,18 +23,14 @@ export const formElementsResources = (
   ]
   return [
     {
-      name: 'products',
-      type: 'dynamic',
-      formListElements: formElementsDynamicProducts
+      name: 'sex',
+      type: 'select',
+      data: ['Hombre', 'Mujer']
     },
-    // {
-    //   name: 'staffers',
-    //   type: 'selectMultiple',
-    //   data: staff
-    // },
     {
-      name: 'eta',
-      type: 'string'
+      name: 'stores',
+      type: 'selectMultiple',
+      data: stores
     }
   ]
 }

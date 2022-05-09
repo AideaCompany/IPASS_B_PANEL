@@ -18,9 +18,11 @@ const subServices = {
   taxes: 'Impuestos',
   discounts: 'Descuentos',
   subServiceTime: 'Tiempo del servicio',
+  serviceTime: 'Tiempo del servicio',
   returnTime: 'Tiempo de retorno',
   stores: 'Establecimientos',
   subService: 'SubServicio',
+  serviceFee: 'Comisión',
   //messages
   errorName: 'Por favor ingrese un nombre'
 }

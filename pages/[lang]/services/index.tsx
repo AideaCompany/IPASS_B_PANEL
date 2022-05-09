@@ -12,6 +12,7 @@ import { getAllProductsFn } from '@/services/products'
 import { getAllServices } from '@/services/services'
 import { getAllServiceTypesFn } from '@/services/serviceTypes'
 import { listStaffFn } from '@/services/staff'
+import { getAllStores } from '@/services/stores'
 import { getAllSubServices } from '@/services/subServices'
 import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 //apollo
@@ -191,8 +192,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       const dataServiceType = await getAllServiceTypesFn()
       const dataProducts = await getAllProductsFn()
       const staff = (await listStaffFn(1, 100, {})).docs
-      const subServices = await (await getAllSubServices(1, 100, {})).docs
-      return { props: { localization, page, limit, dataServiceType, dataProducts, staff, subServices } }
+      const stores = await getAllStores()
+      const result = await getAllSubServices(page, limit, {})
+      const subServices = convertTotable(result.docs)
+      return { props: { localization, page, limit, dataServiceType, dataProducts, staff, stores, subServices } }
     } else {
       return {
         notFound: true

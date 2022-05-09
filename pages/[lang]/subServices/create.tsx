@@ -1,5 +1,5 @@
 import MainLayout from '@/components/layout/Layout'
-import FormComplements from '@/components/services/create/stepFour/formComplements'
+import FormComplements from '@/components/subServices/create/stepFour/formComplements'
 import FormGeneralInformation from '@/components/services/create/stepOne/formGeneralInformation'
 import Steps from '@/components/services/create/Steps'
 import FormComercialInformation from '@/components/services/create/StepThree/formComercialInformation'
@@ -10,21 +10,29 @@ import { getLocalizationProps } from '@/providers/LenguageContext'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { getAllBrands } from '@/services/brands'
 import { listAllServicesFn } from '@/services/services'
+import { getAllServiceTypesFn } from '@/services/serviceTypes'
 import { listStaffFn } from '@/services/staff'
 import { getAllStores } from '@/services/stores'
 import { getAllSubServices } from '@/services/subServices'
 import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { IStores } from '@/types/interfaces/Stores/stores.interface'
-import { IProducts, ISubService } from '@/types/types'
+import { IProducts, IServiceType, ISubService } from '@/types/types'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Form, FormInstance } from 'antd'
 import { GetServerSidePropsContext } from 'next'
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 
-const create = (props: { localization: Localization; lang: string; staff: IStaff[]; stores: IStores[]; subServices: ISubService[] }) => {
+const create = (props: {
+  localization: Localization
+  lang: string
+  staff: IStaff[]
+  stores: IStores[]
+  subServices: ISubService[]
+  serviceTypes: IServiceType[]
+}) => {
   //#region props
-  const { localization, lang, staff, stores, subServices } = props
+  const { localization, lang, staff, stores, subServices, serviceTypes } = props
   //#endregion props
 
   //#region providers
@@ -121,7 +129,13 @@ const create = (props: { localization: Localization; lang: string; staff: IStaff
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}></div>
               <div className="elementsContainer">
                 {current === 0 && (
-                  <FormGeneralInformation subServices={subServices} stores={stores} staff={staff} translate={localization.translations} />
+                  <FormGeneralInformation
+                    subServices={subServices}
+                    stores={stores}
+                    staff={staff}
+                    translate={localization.translations}
+                    dataServiceType={serviceTypes}
+                  />
                 )}
                 {current === 1 && <FormResources subServices={subServices} stores={stores} staff={staff} translate={localization.translations} />}
                 {current === 2 && (
@@ -171,6 +185,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const brands = await getAllBrands()
   const staff = (await listStaffFn(1, 100, {})).docs
   const stores = await getAllStores()
+  const serviceTypes = await getAllServiceTypesFn()
   const subServices = await (await getAllSubServices(1, 100, {})).docs
-  return { props: { localization, services, brands, staff, stores, subServices } }
+  return { props: { localization, services, brands, staff, stores, subServices, serviceTypes } }
 }

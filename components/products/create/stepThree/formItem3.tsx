@@ -6,14 +6,14 @@ import { useContext } from 'react'
 import FormFactory from '../../../crudFunctions/FormFactory'
 import { formElements3 } from './formElements3'
 
-const FormItems3 = (props: { translations: ITranslations; isUpdate?: boolean; brands: IBrands[]; services: IService[] }): JSX.Element => {
-  const { translations, isUpdate, brands, services } = props
+const FormItems3 = (props: { translate: ITranslations; isUpdate?: boolean; brands: IBrands[]; services: IService[] }): JSX.Element => {
+  const { translate, isUpdate, brands, services } = props
   const updating = isUpdate ? true : false
   const { theme } = useContext(ThemeContext)
 
   return (
     <div className="formContainer">
-      {<FormFactory translate={translations} isUpdate={updating} theme={theme} formElements={formElements3(services, brands)} />}
+      {<FormFactory translate={translate} isUpdate={updating} theme={theme} formElements={formElements3(services, brands)} />}
     </div>
   )
 }

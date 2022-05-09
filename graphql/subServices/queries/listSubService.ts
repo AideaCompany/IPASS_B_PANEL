@@ -45,7 +45,6 @@ export const listSubService = /* GraphQL */ `
           filename
           key
         }
-        stores
         createdAt
         updatedAt
       }
