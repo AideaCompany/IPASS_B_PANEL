@@ -12,11 +12,8 @@ import { getAllProductsFn } from '@/services/products'
 import { getAllServices } from '@/services/services'
 import { getAllServiceTypesFn } from '@/services/serviceTypes'
 import { listStaffFn } from '@/services/staff'
-import { getAllStores } from '@/services/stores'
 import { getAllSubServices } from '@/services/subServices'
 import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
-import { IStaff } from '@/types/interfaces/staff/staff.interface'
-import { IStores } from '@/types/interfaces/Stores/stores.interface'
 //apollo
 import { IProduct, IService, IServiceType, ISubService, Paginated } from '@/types/types'
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
@@ -35,12 +32,10 @@ const services = (props: {
   limit: number
   dataServiceType: IServiceType[]
   dataProducts: IProduct[]
-  staff: IStaff[]
-  stores: IStores[]
   subServices: ISubService[]
 }): JSX.Element => {
   //props
-  const { localization, lang, page, limit, dataServiceType, dataProducts, staff, stores, subServices } = props
+  const { localization, lang, page, limit, dataServiceType, dataProducts, subServices } = props
   //context
   const { privilege } = useData()
   const { permission } = useAuth()
@@ -90,7 +85,6 @@ const services = (props: {
   const getData = async () => {
     setLoading(true)
     const result = await getAllServices(actualPage, actualLimit, filters)
-    console.log(result)
     setPagination(result)
     setData(
       convertTotable(result.docs)
@@ -105,10 +99,32 @@ const services = (props: {
   }
 
   const beforeCreate = (item: IService) => {
-    console.log(item)
     const newService = item
     return newService
   }
+
+  const createButton = (
+    <div className="ButtonsUp">
+      {/* <CreateItem
+        actualPermission={actualPermission as IPermissionsPrivilege}
+        translations={localization.translations}
+        mutation={gql(createService)}
+        formElements={formElements(dataServiceType, dataProducts, subServices)}
+        afterCreate={getData}
+        beforeCreate={beforeCreate}
+        iconButton={true}
+        FormItem={
+          <FormItems
+            subServices={subServices}
+            dataProducts={dataProducts}
+            dataServiceType={dataServiceType}
+            isUpdate={false}
+            translations={localization.translations}
+          />
+        }
+      /> */}
+    </div>
+  )
 
   const onchange = (_: any, filters: any, sorter: any) => {
     setFilters(formatFiltersTable(filters))
@@ -120,8 +136,6 @@ const services = (props: {
         <div>
           <TableData
             columns={columns({
-              staff,
-              stores,
               subServices,
               translations: localization.translations,
               actualPermission: actualPermission as IPermissionsPrivilege,
@@ -177,9 +191,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       const dataServiceType = await getAllServiceTypesFn()
       const dataProducts = await getAllProductsFn()
       const staff = (await listStaffFn(1, 100, {})).docs
-      const stores = await getAllStores()
       const subServices = await (await getAllSubServices(1, 100, {})).docs
-      return { props: { localization, page, limit, dataServiceType, dataProducts, staff, stores, subServices } }
+      return { props: { localization, page, limit, dataServiceType, dataProducts, staff, subServices } }
     } else {
       return {
         notFound: true

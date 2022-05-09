@@ -2,6 +2,7 @@ import { TablePaginationConfig, TableProps } from 'antd'
 import { ColumnType } from 'antd/lib/table'
 import { FilterValue, SorterResult } from 'antd/lib/table/interface'
 import { TableProps as RcTableProps } from 'rc-table/lib/Table'
+import { graphqlFile, uploadedFile } from './interfaces'
 import { IStaff } from './interfaces/staff/staff.interface'
 import { basicTable } from './typeTemplate'
 
@@ -310,4 +311,5 @@ export type formatData = {
 
 export interface IServiceType extends Document, basicTable {
   name: string
+  logo: graphqlFile | uploadedFile
 }

@@ -4,9 +4,7 @@ import { updateService } from '@/graphql/services/mutations/updateService'
 import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
-import { IStaff } from '@/types/interfaces/staff/staff.interface'
-import { IStores } from '@/types/interfaces/Stores/stores.interface'
-import { IService, IProduct, IServiceType, ISubService } from '@/types/types'
+import { IProduct, IService, IServiceType, ISubService } from '@/types/types'
 import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Image } from 'antd'
 import { ColumnType } from 'antd/lib/table'
@@ -25,14 +23,12 @@ const columns = (props: {
   beforeShowUpdate?: (param: any) => any
   privileges: IPrivilege[]
   after: () => void
-  staff: IStaff[]
-  stores: IStores[]
   // filters: any[]
   dataServiceType: IServiceType[] | undefined
   dataProducts: IProduct[] | undefined
   subServices: ISubService[]
 }): ColumnType<IService>[] => {
-  const { translations, actualPermission, staff, subServices, stores, after, beforeShowUpdate, dataServiceType, dataProducts } = props
+  const { translations, actualPermission, subServices, after, beforeShowUpdate, dataServiceType, dataProducts } = props
   const { theme } = useContext(ThemeContext)
   const operations = (record: any) => (
     <>
@@ -44,6 +40,7 @@ const columns = (props: {
         record={record}
         afterUpdate={after}
         FormItems={
+<<<<<<< HEAD
           <FormItems
             staff={staff}
             stores={stores}
@@ -55,6 +52,11 @@ const columns = (props: {
           />
         }
         formElements={formElementsGeneralInformation(dataServiceType, dataProducts, staff, stores, subServices)}
+=======
+          <FormItems dataProducts={dataProducts} dataServiceType={dataServiceType} translations={translations} isUpdate subServices={subServices} />
+        }
+        formElements={formElements(dataServiceType, dataProducts, subServices)}
+>>>>>>> origin/FEATURE/JA-HU-66
       />
       <DeleteItem
         actualPermission={actualPermission}
@@ -108,14 +110,6 @@ const columns = (props: {
       //   customRender: (record: IService) => <RenderCheck value={record.plus} />,
       //   width: 150
       // },
-      {
-        name: 'staffers',
-        search: true,
-        width: 150,
-        customRender: (record: unknown) => {
-          return (record as IStaff[]).map(e => e.name).join(', ')
-        }
-      },
       {
         name: 'eta',
         search: true,

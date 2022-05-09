@@ -12,23 +12,24 @@ import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 //Context
 import { getLocalizationProps } from '@/providers/LenguageContext'
+import { listAllServicesFn } from '@/services/services'
 import { getAllStores } from '@/services/stores'
 import { listTimeZonesFn } from '@/services/timeZone'
 import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { IStores } from '@/types/interfaces/Stores/stores.interface'
 import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
+import { IService } from '@/types/types'
 import { gql } from '@apollo/client'
 //next
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetServerSidePropsContext } from 'next'
 import React, { useEffect, useState } from 'react'
 
 interface actualItem extends IStores {}
-const visitorCategory = (props: { localization: Localization; lang: string }) => {
+const visitorCategory = (props: { localization: Localization; lang: string; timeZone: ITimeZone[]; services: IService[] }) => {
   //props
-  const { localization, lang } = props
+  const { localization, lang, timeZone, services } = props
 
   //states
-  const [timeZone, setTimeZone] = useState<ITimeZone[]>([])
   const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setdata] = useState<actualItem[]>([])
   const [loading, setloading] = useState<boolean>(true)
@@ -50,7 +51,6 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
   const getData = async () => {
     setloading(true)
     setdata(await getAllStores())
-    setTimeZone(await listTimeZonesFn())
     setloading(false)
   }
 
@@ -63,11 +63,9 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
             actualPermission={actualPermission as IPermissionsPrivilege}
             translations={localization.translations}
             mutation={gql(createStores)}
-            formElements={formElements(timeZone)}
-            FormItem={<FormItems timeZone={timeZone} isUpdate={true} translations={localization.translations} />}
+            formElements={formElements(timeZone, services)}
+            FormItem={<FormItems services={services} timeZone={timeZone} isUpdate={true} translations={localization.translations} />}
             afterCreate={getData}
-
-            /* manageMentError={manageMentError} */
           />
         }
         getData={getData}
@@ -76,6 +74,7 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
       >
         <TableData
           columns={columns({
+            services,
             translations: localization.translations,
             actualPermission: actualPermission as IPermissionsPrivilege,
             permision: permission,
@@ -93,17 +92,9 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
 
 export default React.memo(visitorCategory)
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const localization = getLocalizationProps(ctx, 'stores')
-  return {
-    props: {
-      localization
-    }
-  }
-}
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: ['es', 'en'].map(lang => ({ params: { lang } })),
-    fallback: false
-  }
+  const timeZone = await listTimeZonesFn()
+  const services = await listAllServicesFn()
+  return { props: { localization, timeZone, services } }
 }

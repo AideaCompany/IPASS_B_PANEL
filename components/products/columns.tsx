@@ -73,7 +73,12 @@ const columns = (props: {
       },
       {
         name: 'brand',
+<<<<<<< HEAD
         customRender: (record: IProduct, index) => {
+=======
+        //@ts-ignore
+        customRender: (record: IProduct) => {
+>>>>>>> origin/FEATURE/JA-HU-66
           return record.brand ? (record.brand as IBrands).name : ''
         }
       },
@@ -115,6 +120,7 @@ const columns = (props: {
       }
     ],
     translate: translations,
+    //@ts-ignore
     operations: operations,
     nonShowOperation: !actualPermission?.update && !actualPermission?.delete && permision.name !== 'admin' && true
   })

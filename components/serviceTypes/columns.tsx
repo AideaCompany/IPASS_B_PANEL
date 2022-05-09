@@ -3,9 +3,10 @@ import { deleteServiceType } from '@/graphql/serviceType/mutation/deleteServiceT
 import { updateServiceType } from '@/graphql/serviceType/mutation/updateServiceType'
 import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { ILocation } from '@/types/interfaces/Location/Location.interface'
 import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
-
+import { IServiceType } from '@/types/types'
+import { UserOutlined } from '@ant-design/icons'
+import { Avatar, Image } from 'antd'
 import { ColumnType } from 'antd/lib/table'
 import { gql } from 'apollo-boost'
 import React, { useContext } from 'react'
@@ -15,13 +16,14 @@ import DeleteItem from '../crudFunctions/delete'
 import UpdateItem from '../crudFunctions/update'
 import { formElements } from './formElements'
 import FormItems from './formItem'
+
 const columns = (props: {
   translations: ITranslations
   actualPermission: IPermissionsPrivilege
   permision: IPrivilege
   lang: string
   after: () => void
-}): ColumnType<ILocation>[] => {
+}): ColumnType<IServiceType>[] => {
   const { translations, actualPermission, permision, after } = props
   const { theme } = useContext(ThemeContext)
 
@@ -34,7 +36,10 @@ const columns = (props: {
   //   }
   // }
 
-  const operations = (record: ILocation) => {
+  const operations = (record: IServiceType) => {
+    const newLogo = JSON.parse(JSON.stringify(record.logo))
+    newLogo.key = `${process.env.NEXT_PUBLIC_S3}/${record.logo.key}`
+
     return (
       <>
         <UpdateItem
@@ -43,8 +48,8 @@ const columns = (props: {
           translations={translations}
           mutation={gql(updateServiceType)}
           record={record}
-          FormItems={<FormItems translations={translations} isUpdate />}
-          formElements={formElements()}
+          FormItems={<FormItems inicialData={newLogo} translations={translations} isUpdate />}
+          formElements={formElements(newLogo)}
         />
         <DeleteItem
           afterDelete={after}
@@ -62,9 +67,27 @@ const columns = (props: {
     columns: [
       {
         name: 'name'
+      },
+      {
+        name: 'logo',
+        customRender: (record: IServiceType, index) => {
+          return (
+            <div>
+              {record?.logo?.key ? (
+                <Avatar
+                  style={{ border: '1px solid #ff8623', overflow: 'hidden' }}
+                  src={<Image preview={true} src={`${process.env.NEXT_PUBLIC_S3}/${record.logo.key}`} />}
+                />
+              ) : (
+                <Avatar style={{ border: '1px solid #ff8623' }} icon={<UserOutlined />} />
+              )}
+            </div>
+          )
+        }
       }
     ],
     translate: translations,
+    //@ts-ignore
     operations: operations,
     nonShowOperation: !actualPermission?.update && !actualPermission?.delete && permision.name !== 'admin' && true
   })

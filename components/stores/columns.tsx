@@ -6,6 +6,7 @@ import { ThemeContext } from '@/providers/ThemeContext'
 import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { IStores } from '@/types/interfaces/Stores/stores.interface'
 import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
+import { IService } from '@/types/types'
 
 import { ColumnType } from 'antd/lib/table'
 import gql from 'graphql-tag'
@@ -25,8 +26,9 @@ const columns = (props: {
   beforeShowUpdate?: (param: any) => any
   after: () => void
   timeZone: ITimeZone[]
+  services: IService[]
 }): ColumnType<IStores>[] => {
-  const { translations, actualPermission, after, timeZone } = props
+  const { translations, actualPermission, after, timeZone, services } = props
 
   const { theme } = useContext(ThemeContext)
   const operations = (record: any) => (
@@ -37,8 +39,8 @@ const columns = (props: {
         translations={translations}
         mutation={gql(updateStores)}
         record={record}
-        FormItems={<Formitems translations={translations} timeZone={timeZone} isUpdate />}
-        formElements={formElements(timeZone)}
+        FormItems={<Formitems services={services} translations={translations} timeZone={timeZone} isUpdate />}
+        formElements={formElements(timeZone, services)}
         afterUpdate={after}
       />
       <DeleteWithUser
@@ -64,7 +66,7 @@ const columns = (props: {
 
       {
         name: 'schedule',
-        customRender: (record: any) => record?.schedule?.name
+        customRender: (record: any) => (record?.schedule as ITimeZone[])?.map(e => e.name).join(', ')
       }
     ],
     translate: translations,

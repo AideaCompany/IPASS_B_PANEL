@@ -8,6 +8,7 @@ import { ThemeContext } from '@/providers/ThemeContext'
 import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { IStores } from '@/types/interfaces/Stores/stores.interface'
+import { IService } from '@/types/types'
 import { UserOutlined } from '@ant-design/icons'
 import { Image } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
@@ -32,8 +33,9 @@ const columns = (props: {
   after: () => void
   stores: IStores[]
   permision: IPrivilege
+  services: IService[]
 }): ColumnType<IStaff>[] => {
-  const { translations, actualPermission, after, beforeShowUpdate, stores, permision } = props
+  const { translations, actualPermission, after, beforeShowUpdate, stores, permision, services } = props
   const { theme } = useContext(ThemeContext)
   const { permission } = useAuth()
 
@@ -124,15 +126,6 @@ const columns = (props: {
       {
         name: 'address',
         search: true,
-        width: 150
-      },
-      {
-        name: 'stores',
-        search: true,
-        //@ts-ignore
-        customRender: (record: unknown[]) => {
-          return (record as IStores[])?.map(e => e.name).join(', ') as string
-        },
         width: 150
       },
       {

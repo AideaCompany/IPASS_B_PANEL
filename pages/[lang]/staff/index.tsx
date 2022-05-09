@@ -5,7 +5,6 @@ import MainLayout from '@/components/layout/Layout'
 import columns from '@/components/staff/columns'
 import { formElementsPersonal } from '@/components/staff/create/StepOne/formElementsPersonal'
 import FormItemsPersonal from '@/components/staff/create/StepOne/formItemPersonal'
-
 import UploadExcel from '@/components/staff/UploadExcel'
 import TableData from '@/components/TableDatas'
 import { setToken } from '@/graphql/config'
@@ -17,6 +16,7 @@ import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllApps } from '@/services/apps'
 import { getAllLocationActive } from '@/services/locations'
+import { listAllServicesFn } from '@/services/services'
 import { listStaffFn } from '@/services/staff'
 import { getAllStores } from '@/services/stores'
 import { listTimeZonesFn } from '@/services/timeZone'
@@ -28,6 +28,7 @@ import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.in
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { IStores } from '@/types/interfaces/Stores/stores.interface'
 import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
+import { IService } from '@/types/types'
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
 import { PlusOutlined } from '@ant-design/icons'
 import { gql } from '@apollo/client'
@@ -50,13 +51,14 @@ const staff = (props: {
   timeZone: ITimeZone[]
   apps: IApps[]
   stores: IStores[]
+  services: IService[]
 }) => {
   //#region hooks
   const router = useRouter()
   //#endregion hooks
 
   //props
-  const { localization, lang, page, limit, stores } = props
+  const { localization, lang, page, limit, stores, services } = props
   //states
   const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setData] = useState<actualItem[]>([])
@@ -160,6 +162,7 @@ const staff = (props: {
         <>
           <TableData<IStaff>
             columns={columns({
+              services,
               stores,
               after: getData,
               translations: localization.translations,
@@ -218,7 +221,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
         const timeZone = await listTimeZonesFn()
         const apps = await getAllApps()
         const stores = await getAllStores()
-        return { props: { localization, page, limit, groups: [], locations, timeZone, apps, stores } }
+        const services = await listAllServicesFn()
+        return { props: { localization, page, limit, groups: [], locations, timeZone, apps, stores, services } }
       } else {
         return {
           notFound: true

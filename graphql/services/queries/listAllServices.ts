@@ -23,39 +23,6 @@ export const listAllServices = /* GraphQL */ `
         productQuantity
       }
       eta
-      staffers {
-        _id
-        name
-        name1
-        name2
-        lastName
-        lastName1
-        lastName2
-        address
-        stores {
-          _id
-          name
-          address
-        }
-        phone
-        phone1
-        photo {
-          filename
-          key
-        }
-        email
-        specialty
-        AET
-        canAccessToApp
-        canAccessToWeb
-        client
-        active
-        tokenExpo
-        plus
-        verifyLogin
-        createdAt
-        updatedAt
-      }
       price
       cost
       serviceFee
