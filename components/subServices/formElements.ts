@@ -1,11 +1,9 @@
-import { IProduct, IServiceType, ISubService } from '@/types/types'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
+import { IStores } from '@/types/interfaces/Stores/stores.interface'
+import { IProduct } from '@/types/types'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElementsGeneralInformation = (
-  dataServiceType: IServiceType[] | undefined,
-  dataProducts: IProduct[] | undefined,
-  subServices: ISubService[]
-): FormFactory.IFormFactoryType<undefined>[] => {
+export const formElements = (dataProducts: IProduct[] | undefined, staff: IStaff[], stores: IStores[]): FormFactory.IFormFactoryType<undefined>[] => {
   const formElementsDynamicProducts: FormFactory.IFormFactoryType<undefined>[] = [
     {
       name: 'product',
@@ -42,6 +40,11 @@ export const formElementsGeneralInformation = (
       formListElements: formElementsDynamicProducts
     },
     {
+      name: 'staffers',
+      type: 'selectMultiple',
+      data: staff
+    },
+    {
       name: 'eta',
       type: 'string'
     },
@@ -73,20 +76,10 @@ export const formElementsGeneralInformation = (
       name: 'returnTime',
       type: 'number'
     },
-    // {
-    //   name: 'stores',
-    //   type: 'selectMultiple',
-    //   data: stores
-    // },
     {
-      name: 'sex',
-      type: 'select',
-      data: ['Hombre', 'Mujer']
-    },
-    {
-      name: 'subService',
+      name: 'stores',
       type: 'selectMultiple',
-      data: subServices
+      data: stores
     }
   ]
 }

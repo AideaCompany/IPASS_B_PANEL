@@ -9,13 +9,13 @@ export const formElements = (): FormFactory.IFormFactoryType<ITimeZone>[] => [
     adicionalProps: { min: 1 }
   },
   {
-    name: 'start',
-    type: 'hour',
+    name: 'abbreviation',
+    type: 'string',
     required: true
   },
   {
-    name: 'abbreviation',
-    type: 'string',
+    name: 'start',
+    type: 'hour',
     required: true
   },
   {
