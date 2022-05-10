@@ -1,4 +1,4 @@
-import { IServiceType } from '@/types/types'
+import { IServiceType } from '@/types/interfaces/ServiceType/serviceType.interface'
 import { FormFactory } from '@/types/typeTemplate'
 
 export const formElements = (inicialData?: unknown): FormFactory.IFormFactoryType<IServiceType>[] => [

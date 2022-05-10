@@ -3,8 +3,9 @@ import { deleteServiceType } from '@/graphql/serviceType/mutation/deleteServiceT
 import { updateServiceType } from '@/graphql/serviceType/mutation/updateServiceType'
 import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
+import { uploadedFile } from '@/types/interfaces'
 import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
-import { IServiceType } from '@/types/types'
+import { IServiceType } from '@/types/interfaces/ServiceType/serviceType.interface'
 import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Image } from 'antd'
 import { ColumnType } from 'antd/lib/table'
@@ -37,9 +38,15 @@ const columns = (props: {
   // }
 
   const operations = (record: IServiceType) => {
-    const newLogo = JSON.parse(JSON.stringify(record.logo))
-    newLogo.key = `${process.env.NEXT_PUBLIC_S3}/${record.logo.key}`
-
+    console.log(record)
+    const newLogo = {
+      logo: {
+        filename: '',
+        key: ''
+      }
+    }
+    newLogo.logo.key = `${process.env.NEXT_PUBLIC_S3}/${record.logo?.key}`
+    newLogo.logo.filename = (record.logo as uploadedFile)?.filename
     return (
       <>
         <UpdateItem
@@ -48,8 +55,8 @@ const columns = (props: {
           translations={translations}
           mutation={gql(updateServiceType)}
           record={record}
-          FormItems={<FormItems inicialData={newLogo} translations={translations} isUpdate />}
-          formElements={formElements(newLogo)}
+          FormItems={<FormItems inicialData={newLogo.logo} translations={translations} isUpdate />}
+          formElements={formElements(newLogo.logo)}
         />
         <DeleteItem
           afterDelete={after}

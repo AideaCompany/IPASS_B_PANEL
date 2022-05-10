@@ -10,77 +10,6 @@ export type IProducts = {
   product: IProduct | string
   productQuantity: number
 }
-export interface IService extends basicTable {
-  plus?: boolean
-  abbreviation?: string
-  name?: string
-  type?: IServiceType | string
-  products?: IProducts[]
-  photo?: fileType
-  staffers?: string[]
-  eta?: string
-  price?: number
-  cost?: number
-  serviceFee?: number
-  taxes?: number
-  discounts?: number
-  serviceTime?: number[]
-  returnTime?: number
-  sex?: string
-  stores?: string[]
-  subService?: ISubService[]
-}
-
-export interface ISubService extends basicTable {
-  plus?: boolean
-  abbreviation?: string
-  name?: string
-  products?: IProducts[]
-  photo?: fileType
-  staffers?: string[] | IStaff[]
-  eta?: string
-  price?: number
-  cost?: number
-  subServiceFee?: number
-  taxes?: number
-  discounts?: number
-  subServiceTime?: number[]
-  returnTime?: number
-  stores?: string[]
-}
-
-export interface IClient extends basicTable {
-  password?: string
-  plus: boolean
-  name1?: string
-  name2?: string
-  photo?: fileType
-  lastName1?: string
-  lastName2?: string
-  lastName3: string
-  phone1?: string
-  phone2?: string
-  email?: string
-  privateAddress?: string
-  businessAddress?: string
-  occupation?: string
-  age?: Date
-  sex?: string
-  ranking?: number
-  channel?: string
-  trm?: string
-  pt?: string
-  rom?: string
-  lastVisit?: string
-  referrals?: string
-  servicesNotes?: string
-  productsNotes?: string
-  document?: string
-  medicalNotes?: string
-  socialMedia?: [string]
-  createdAt?: Date
-  updatedAt?: Date
-}
 
 export interface IUserSecurity extends DocumentNode, basicTable {
   user: User
@@ -155,19 +84,6 @@ export interface IWorkerQrTemporal extends Document, basicTable {
 
 export type typeCheck = 'in' | 'out'
 
-export interface IProduct extends Document, basicTable {
-  name: string
-  abbreviation: string
-  brand: string | IBrand
-  photo: fileType
-  productType: string
-  price: number
-  measureType: string
-  amount: number
-  services: IService[] | string[]
-  designedFor: string
-}
-
 export interface InvitationEvent extends basicTable {
   event?: IEvent | string
   contact?: IContact | string
@@ -175,20 +91,6 @@ export interface InvitationEvent extends basicTable {
   hourIn?: string
   isIn?: boolean
   alreadySendInvitation?: boolean
-}
-
-export interface Paginated<T> {
-  docs: T[]
-  totalDocs: number
-  limit: number
-  page: number
-  totalPages: number
-  pagingCounter: number
-  hasPrevPage: boolean
-  hasNextPage: boolean
-  offset: number
-  prevPage: number
-  nextPage: number
 }
 
 export type verifiedDataPDF = {
@@ -307,9 +209,4 @@ export type formatData = {
   brand?: string
   destiny?: string
   contact?: IContact
-}
-
-export interface IServiceType extends Document, basicTable {
-  name: string
-  logo: graphqlFile | uploadedFile
 }

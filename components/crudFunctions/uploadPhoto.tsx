@@ -25,6 +25,7 @@ const getBase64 = (file: Blob) => {
 }
 const uploadPhoto = (props: { name: string; translate: ITranslations; inicialData?: fileType; required: boolean; size?: string }) => {
   const { name, translate, inicialData, required, size } = props
+  console.log(inicialData)
   //@ts-ignore
   const [fileList, setfileList] = useState<UploadFile[]>(
     //@ts-ignore
@@ -100,6 +101,7 @@ const uploadPhoto = (props: { name: string; translate: ITranslations; inicialDat
       <Form.Item
         name={name}
         normalize={normalize}
+        style={{ height: '200px' }}
         rules={[{ required, message: translate[`error${capitalize(Array.isArray(name) ? name[name.length - 1] : name)}`] }]}
       >
         <Upload

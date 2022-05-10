@@ -1,13 +1,8 @@
 import columns from '@/components/clients/columns'
-import { formElementsInformationClient } from '@/components/clients/create/stepOne/formElementsinformationClient'
-import FormItemsInformationClient from '@/components/clients/create/stepOne/formItemsInformationClient'
-
 import UploadExcel from '@/components/clients/UploadExcel'
-import CreateItem from '@/components/crudFunctions/create'
 //components
 import MainLayout from '@/components/layout/Layout'
 import TableData from '@/components/TableDatas'
-import { createClient } from '@/graphql/clients/mutations/createClient'
 import { setToken } from '@/graphql/config'
 //Lenguage
 import { Localization } from '@/i18n/types'
@@ -18,12 +13,13 @@ import { getAllApps } from '@/services/apps'
 import { getAllClients } from '@/services/clients'
 import { getAllLocationActive } from '@/services/locations'
 import { listTimeZonesFn } from '@/services/timeZone'
+import { IClient } from '@/types/interfaces/Clients/client.interface'
+import { IPaginated } from '@/types/interfaces/graphqlTypes'
 import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 //apollo
-import { IClient, Paginated } from '@/types/types'
+
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
 import { PlusOutlined } from '@ant-design/icons'
-import { gql } from '@apollo/client'
 import { Button, Tooltip } from 'antd'
 import * as cookie from 'cookie'
 //next
@@ -41,14 +37,13 @@ const clients = (props: { localization: Localization; lang: string; page: number
   const router = useRouter()
   //state
   const [data, setData] = useState<IClient[]>()
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false)
   const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [_, setPermissionPermission] = useState<IPermissionsPrivilege>()
   const [filters, setFilters] = useState<any>([])
   const [actualLimit, setActualLimit] = useState(limit)
   const [actualPage, setActualPage] = useState(page)
-  const [pagination, setPagination] = useState<Paginated<IClient>>()
-
+  const [pagination, setPagination] = useState<IPaginated<IClient>>()
   //Effect
   useEffect(() => {
     ;(async () => {
@@ -75,59 +70,24 @@ const clients = (props: { localization: Localization; lang: string; page: number
     setLoading(true)
 
     const result = await getAllClients(actualPage, actualLimit, filters)
+
     setPagination(result)
-    setData(
-      convertTotable(result.docs)
-        .map(e => ({
-          ...e,
-          photo: e.photo ? { ...e.photo, key: `${process.env.NEXT_PUBLIC_S3}/${e.photo.key}` } : e.photo
-        }))
-        .reverse()
-    )
+    setData(convertTotable(result.docs).reverse())
 
     setLoading(false)
   }
 
-  const beforeCreate = (item: IClient) => {
-    console.log(item)
-    const newClient = item
-    return newClient
-  }
-
-  const createButton = (
+  const goToCreate = () => (
     <div className="ButtonsUp">
       <UploadExcel reload={getData} translations={localization.translations} />
-      <CreateItem
-        actualPermission={actualPermission as IPermissionsPrivilege}
-        translations={localization.translations}
-        mutation={gql(createClient)}
-        formElements={formElementsInformationClient()}
-        afterCreate={getData}
-        beforeCreate={beforeCreate}
-        iconButton={true}
-        FormItem={<FormItemsInformationClient isUpdate={true} translations={localization.translations} />}
-      />
-
-      {/* {true && (
-        <Tooltip title={localization.translations.buttonPrivilege}>
-          <Button
-            style={{ margin: '5px' }}
-            onClick={() => router.push({ pathname: '/[lang]/permission', query: { lang: router.query.lang } })}
-            shape="circle"
-            icon={<Role />}
-          />
-        </Tooltip>
-      )} */}
+      <Tooltip title="Crear cliente">
+        <Link href={{ pathname: '/[lang]/clients/create', query: { lang } }}>
+          <a>
+            <Button style={{ margin: '5px' }} shape="circle" icon={<PlusOutlined />} />
+          </a>
+        </Link>
+      </Tooltip>
     </div>
-  )
-  const goToCreate = () => (
-    <Tooltip title="Crear cliente">
-      <Link href={{ pathname: '/[lang]/clients/create', query: { lang } }}>
-        <a>
-          <Button style={{ margin: '5px' }} shape="circle" icon={<PlusOutlined />} />
-        </a>
-      </Link>
-    </Tooltip>
   )
   const onchange = (_: any, filters: any, sorter: any) => {
     setFilters(formatFiltersTable(filters))
@@ -139,6 +99,7 @@ const clients = (props: { localization: Localization; lang: string; page: number
         <div>
           <TableData
             columns={columns({
+              lang,
               translations: localization.translations,
               actualPermission: actualPermission as IPermissionsPrivilege,
               after: getData,

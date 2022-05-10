@@ -7,46 +7,48 @@ import FormResources from '@/components/services/create/stepTwo/formResources'
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
-import { ThemeContext } from '@/providers/ThemeContext'
 import { getAllBrands } from '@/services/brands'
-import { listAllServicesFn } from '@/services/services'
+import { getAllProductsFn } from '@/services/products'
+import { createServiceFn, listAllServicesFn } from '@/services/services'
 import { getAllServiceTypesFn } from '@/services/serviceTypes'
-import { listStaffFn } from '@/services/staff'
 import { getAllStores } from '@/services/stores'
 import { getAllSubServices } from '@/services/subServices'
 import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
-import { IStaff } from '@/types/interfaces/staff/staff.interface'
+import { IProduct } from '@/types/interfaces/Product/Product.interface'
+import { ICreateService } from '@/types/interfaces/services/MutationServices.interface'
+import { IService } from '@/types/interfaces/services/Services.interface'
+import { IServiceType } from '@/types/interfaces/ServiceType/serviceType.interface'
 import { IStores } from '@/types/interfaces/Stores/stores.interface'
-import { IProducts, IServiceType, ISubService } from '@/types/types'
+import { ISubService } from '@/types/interfaces/SubServices/SubServices.interface'
 import { PlusOutlined } from '@ant-design/icons'
-import { Button, Form, FormInstance } from 'antd'
+import { Button, Form, FormInstance, message } from 'antd'
 import { GetServerSidePropsContext } from 'next'
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/router'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 const create = (props: {
   localization: Localization
   lang: string
-  staff: IStaff[]
   stores: IStores[]
   subServices: ISubService[]
   serviceTypes: IServiceType[]
+  products: IProduct[]
 }) => {
   //#region props
-  const { localization, lang, staff, stores, subServices, serviceTypes } = props
+  const { localization, lang, stores, subServices, serviceTypes, products } = props
   //#endregion props
   //#region providers
-  const { setSpinning } = useAuth()
-  const { permission } = useAuth()
-  const { theme } = useContext(ThemeContext)
+  const { permission, setSpinning } = useAuth()
   //#endregion providers
 
   //#region ref
-  const formRef = useRef<FormInstance<IProducts>>(null)
+  const formRef = useRef<FormInstance<IService>>(null)
+  const router = useRouter()
   //#endregion ref
 
   //#region  states
   const [error, setError] = useState('')
-  const [data, setData] = useState<IProducts>()
+  const [data, setData] = useState<IService>()
   const [disabled, setDisabled] = useState(false)
   const [current, setCurrent] = useState(0)
   const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
@@ -61,7 +63,7 @@ const create = (props: {
   //#region functions
   const HandleChangeCurrent = useCallback(
     (type: 'next' | 'back') => {
-      const currentData = formRef.current?.getFieldsValue() as IProducts
+      const currentData = formRef.current?.getFieldsValue() as IService
       console.log(currentData)
       setData(currentVal => ({ ...currentVal, ...currentData }))
       if (type === 'next') {
@@ -73,26 +75,26 @@ const create = (props: {
     [current]
   )
   const createProduct = async () => {
-    const newData = (await formRef.current?.validateFields()) as IProducts
+    const newData = (await formRef.current?.validateFields()) as IService
     const finalData = { ...data, ...newData }
-    // setData(finalData)
-    // setSpinning(true)
+    setData(finalData)
+    setSpinning(true)
     console.log(finalData)
-    // try {
-    //   await getAllProductsFn(finalData as unknown as ICreateLocation)
-    //   message.success(localization.translations.successfullyCreated)
-    //   router.push('/[lang]/location', `/${lang}/location`)
-    // } catch (currentError) {
-    //   manageMentError(
-    //     currentError as {
-    //       graphQLErrors: {
-    //         message: string
-    //       }[]
-    //     }
-    //   )
-    // } finally {
-    //   setSpinning(false)
-    // }
+    try {
+      await createServiceFn(finalData as unknown as ICreateService)
+      message.success(localization.translations.successfullyCreated)
+      router.push('/[lang]/services', `/${lang}/services`)
+    } catch (currentError) {
+      // manageMentError(
+      //   currentError as {
+      //     graphQLErrors: {
+      //       message: string
+      //     }[]
+      //   }
+      // )
+    } finally {
+      setSpinning(false)
+    }
   }
   const validateForm = () => {
     formRef.current
@@ -128,19 +130,13 @@ const create = (props: {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}></div>
               <div className="elementsContainer">
                 {current === 0 && (
-                  <FormGeneralInformation
-                    subServices={subServices}
-                    stores={stores}
-                    staff={staff}
-                    translate={localization.translations}
-                    dataServiceType={serviceTypes}
-                  />
+                  <FormGeneralInformation inicialData={data?.photo} translate={localization.translations} dataServiceType={serviceTypes} />
                 )}
-                {current === 1 && <FormResources subServices={subServices} stores={stores} staff={staff} translate={localization.translations} />}
-                {current === 2 && (
-                  <FormComercialInformation subServices={subServices} stores={stores} staff={staff} translate={localization.translations} />
+                {current === 1 && <FormResources isUpdate={false} products={products} translate={localization.translations} />}
+                {current === 2 && <FormComercialInformation isUpdate={false} translate={localization.translations} />}
+                {current === 3 && (
+                  <FormComplements isUpdate={false} subServices={subServices} stores={stores} translate={localization.translations} />
                 )}
-                {current === 3 && <FormComplements subServices={subServices} stores={stores} staff={staff} translate={localization.translations} />}
               </div>
               {error && <div className="error">{error}</div>}
               <div className="buttons">
@@ -182,9 +178,9 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const localization = getLocalizationProps(ctx, 'services')
   const services = await listAllServicesFn()
   const brands = await getAllBrands()
-  const staff = (await listStaffFn(1, 100, {})).docs
   const stores = await getAllStores()
   const serviceTypes = await getAllServiceTypesFn()
   const subServices = await (await getAllSubServices(1, 100, {})).docs
-  return { props: { localization, services, brands, staff, stores, subServices, serviceTypes } }
+  const products = await getAllProductsFn()
+  return { props: { localization, services, brands, stores, subServices, serviceTypes, products } }
 }

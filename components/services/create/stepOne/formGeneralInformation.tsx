@@ -1,9 +1,6 @@
 import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IStaff } from '@/types/interfaces/staff/staff.interface'
-import { IStores } from '@/types/interfaces/Stores/stores.interface'
-import { IProduct, IServiceType, ISubService } from '@/types/types'
-
+import { IServiceType } from '@/types/interfaces/ServiceType/serviceType.interface'
 import { useContext } from 'react'
 import FormFactory from '../../../crudFunctions/FormFactory'
 import { formElementsGeneralInformation } from './formElementsGeneralInformation'
@@ -12,12 +9,9 @@ const FormGeneralInformation = (props: {
   translate: ITranslations
   isUpdate?: boolean
   dataServiceType?: IServiceType[]
-  dataProducts?: IProduct[]
-  staff: IStaff[]
-  stores: IStores[]
-  subServices: ISubService[]
+  inicialData?: any
 }): JSX.Element => {
-  const { translate, isUpdate, dataServiceType, dataProducts, staff, stores, subServices } = props
+  const { translate, isUpdate, dataServiceType, inicialData } = props
   const updating = isUpdate ? true : false
   const { theme } = useContext(ThemeContext)
 
@@ -28,7 +22,7 @@ const FormGeneralInformation = (props: {
           translate={translate}
           isUpdate={updating}
           theme={theme}
-          formElements={formElementsGeneralInformation(dataServiceType, dataProducts, staff, stores, subServices)}
+          formElements={formElementsGeneralInformation(dataServiceType, inicialData)}
         />
       }
     </div>

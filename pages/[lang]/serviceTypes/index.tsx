@@ -14,7 +14,7 @@ import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllServiceTypesFn } from '@/services/serviceTypes'
 import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
-import { IServiceType } from '@/types/types'
+import { IServiceType } from '@/types/interfaces/ServiceType/serviceType.interface'
 import { gql } from '@apollo/client'
 //next
 import { GetStaticPaths, GetStaticProps } from 'next'

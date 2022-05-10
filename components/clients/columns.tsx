@@ -1,48 +1,40 @@
 //types
 import { deleteClient } from '@/graphql/clients/mutations/deleteClient'
-import { updateClient } from '@/graphql/clients/mutations/updateClient'
-import moment from 'moment-timezone'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IClient } from '@/types/types'
-import { UserOutlined } from '@ant-design/icons'
-import { Avatar, Image } from 'antd'
+import { IClient } from '@/types/interfaces/Clients/client.interface'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { EditFilled, UserOutlined } from '@ant-design/icons'
+import { Avatar, Button, Image, Tooltip } from 'antd'
 import { ColumnType } from 'antd/lib/table'
 import gql from 'graphql-tag'
+import moment from 'moment-timezone'
+import Link from 'next/link'
 import React, { useContext } from 'react'
 //component
 import ColumnFactory from '../crudFunctions/columnFactory'
 import DeleteItem from '../crudFunctions/delete'
-import UpdateItem from '../crudFunctions/update'
-
 import RenderCheck from '../RenderCheck'
-
-import { ITranslations } from '@/i18n/types'
-import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
-import { formElementsInformationClient } from './create/stepOne/formElementsinformationClient'
-import FormItemsInformationClient from './create/stepOne/formItemsInformationClient'
 
 const columns = (props: {
   translations: ITranslations
   actualPermission: IPermissionsPrivilege
-  beforeShowUpdate?: (param: any) => any
   privileges: IPrivilege[]
   after: () => void
+  lang: string
   // filters: any[]
 }): ColumnType<IClient>[] => {
-  const { translations, actualPermission, after, beforeShowUpdate } = props
+  const { translations, actualPermission, after, lang } = props
   const { theme } = useContext(ThemeContext)
-  const operations = (record: any) => (
+  const operations = (record: IClient) => (
     <>
-      <UpdateItem
-        beforeShowUpdate={beforeShowUpdate}
-        actualPermission={actualPermission}
-        translations={translations}
-        mutation={gql(updateClient)}
-        record={record}
-        afterUpdate={after}
-        FormItems={<FormItemsInformationClient translations={translations} isUpdate />}
-        formElements={formElementsInformationClient()}
-      />
+      <Tooltip title="Crear cliente">
+        <Link href={{ pathname: '/[lang]/clients/[id]', query: { lang, id: record._id } }}>
+          <a>
+            <Button style={{ margin: '5px' }} shape="circle" icon={<EditFilled />} />
+          </a>
+        </Link>
+      </Tooltip>
       <DeleteItem
         actualPermission={actualPermission}
         afterDelete={after}
@@ -71,13 +63,7 @@ const columns = (props: {
           )
         }
       },
-      {
-        name: 'plus',
-        fixed: 'left',
-        customRender: (record: IClient) => <RenderCheck value={record?.plus} />,
-        search: true,
-        width: 100
-      },
+
       {
         name: 'name1',
         fixed: 'left',
@@ -86,51 +72,11 @@ const columns = (props: {
       },
       {
         name: 'lastName1',
-        fixed: 'left',
         search: true,
         width: 200
-      },
-      {
-        name: 'country',
-        fixed: 'left',
-        search: true,
-        width: 150
       },
       {
         name: 'phone1',
-        fixed: 'left',
-        search: true,
-        width: 150
-      },
-      {
-        name: 'createdAt',
-        fixed: 'left',
-        customRender: (record: IClient) => moment.tz(record?.createdAt, 'America/Guatemala').format('DD/MM/YYYY'),
-        search: true,
-        width: 200
-      },
-      {
-        name: 'document',
-        search: true,
-        width: 150
-      },
-      {
-        name: 'name2',
-        search: true,
-        width: 200
-      },
-      {
-        name: 'lastName2',
-        search: true,
-        width: 200
-      },
-      {
-        name: 'lastName3',
-        search: true,
-        width: 200
-      },
-      {
-        name: 'phone2',
         search: true,
         width: 150
       },
@@ -140,70 +86,21 @@ const columns = (props: {
         width: 250
       },
       {
-        name: 'privateAddress',
+        name: 'document',
         search: true,
         width: 150
       },
       {
-        name: 'businessAddress',
+        name: 'plus',
+        customRender: (record: IClient) => <RenderCheck value={record?.plus} />,
         search: true,
-        width: 150
+        width: 100
       },
       {
-        name: 'occupation',
+        name: 'createdAt',
+        customRender: (record: IClient) => moment.tz(record?.createdAt, 'America/Guatemala').format('DD/MM/YYYY'),
         search: true,
-        width: 150
-      },
-      {
-        name: 'age',
-        search: true,
-        customRender: (record: IClient) => (record?.age ? moment.tz(record?.age, 'America/Guatemala').format('DD/MM/YYYY') : ''),
-        width: 150
-      },
-      {
-        name: 'sex',
-        search: true,
-        width: 150
-      },
-      {
-        name: 'ranking',
-        search: true,
-        width: 150
-      },
-      {
-        name: 'channel',
-        search: true,
-        width: 150
-      },
-      {
-        name: 'lastVisit',
-        search: true,
-        width: 150
-      },
-      {
-        name: 'referrals',
-        search: true,
-        width: 150
-      },
-      {
-        name: 'servicesNotes',
-        search: true,
-        width: 150
-      },
-      {
-        name: 'productsNotes',
-        search: true,
-        width: 150
-      },
-      {
-        name: 'medicalNotes',
-        search: true,
-        width: 150
-      },
-      {
-        name: 'socialMedia',
-        search: true,
-        width: 150
+        width: 200
       }
     ],
     translate: translations,

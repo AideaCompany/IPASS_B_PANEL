@@ -5,20 +5,22 @@ import MainLayout from '@/components/layout/Layout'
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
-import { createClientFn } from '@/services/clients'
+import { getClientFn, updateClientFn } from '@/services/clients'
+import { IClient } from '@/types/interfaces/Clients/client.interface'
 import { ICreateClient } from '@/types/interfaces/Clients/MutationClient.interface'
 import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { IProducts } from '@/types/types'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Form, FormInstance, message } from 'antd'
+import moment from 'moment'
 import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 
-const create = (props: { localization: Localization; lang: string }) => {
+const create = (props: { localization: Localization; lang: string; client: IClient }) => {
   const router = useRouter()
   //#region props
-  const { localization, lang } = props
+  const { localization, lang, client } = props
   //#region
   const { setSpinning } = useAuth()
   //states
@@ -49,14 +51,14 @@ const create = (props: { localization: Localization; lang: string }) => {
     },
     [current]
   )
-  const createProduct = async () => {
+  const updateClient = async () => {
     const newData = (await formRef.current?.validateFields()) as IProducts
-    const finalData = { ...data, ...newData }
+    const finalData = { ...data, ...newData, _id: client._id }
     setData(finalData)
     setSpinning(true)
     console.log(finalData)
     try {
-      await createClientFn(finalData as unknown as ICreateClient)
+      await updateClientFn(finalData as unknown as ICreateClient)
       message.success(localization.translations.successfullyCreated)
       router.push('/[lang]/clients', `/${lang}/clients`)
     } catch (currentError) {
@@ -97,8 +99,8 @@ const create = (props: { localization: Localization; lang: string }) => {
     setActualPermission(permission.permissions?.find(e => e.sectionName === 'Clients'))
   }, [permission])
   return (
-    <MainLayout hideButtons lang={lang} title={localization.translations.titleModalCreate}>
-      <Form onValuesChange={validateForm} component={false} ref={formRef}>
+    <MainLayout hideButtons lang={lang} title={localization.translations.titleModalUpdate}>
+      <Form initialValues={{ ...client, age: moment(client.age) }} onValuesChange={validateForm} component={false} ref={formRef}>
         <div className="container_create_location flex">
           <div className="containerForms">
             <div className="stepsContainer">
@@ -107,8 +109,8 @@ const create = (props: { localization: Localization; lang: string }) => {
             <div className="elementsContainer">
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}></div>
               <div className="elementsContainer">
-                {current === 0 && <FormItemsInformationClient translations={localization.translations} />}
-                {current === 1 && <FormItemsComercialClients translations={localization.translations} />}
+                {current === 0 && <FormItemsInformationClient isUpdate={true} inicialData={client.photo} translations={localization.translations} />}
+                {current === 1 && <FormItemsComercialClients isUpdate={true} translations={localization.translations} />}
               </div>
               {error && <div className="error">{error}</div>}
               <div className="buttons">
@@ -129,8 +131,8 @@ const create = (props: { localization: Localization; lang: string }) => {
                   )}
                   {current === 1 && (
                     <Form.Item noStyle>
-                      <Button disabled={false} onClick={createProduct} icon={<PlusOutlined />} shape="round" type="primary">
-                        {localization.translations.titleModalCreate}
+                      <Button disabled={false} onClick={updateClient} icon={<PlusOutlined />} shape="round" type="primary">
+                        {localization.translations.titleModalUpdate}
                       </Button>
                     </Form.Item>
                   )}
@@ -148,5 +150,14 @@ export default React.memo(create)
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const localization = getLocalizationProps(ctx, 'clients')
-  return { props: { localization } }
+
+  try {
+    const client = await getClientFn(ctx.query.id as string)
+
+    return { props: { localization, client } }
+  } catch (error) {
+    return {
+      notFound: true
+    }
+  }
 }

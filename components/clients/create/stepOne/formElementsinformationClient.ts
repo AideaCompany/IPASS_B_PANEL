@@ -1,10 +1,11 @@
 import { FormFactory } from '@/types/typeTemplate'
 import countries from 'country-data'
-export const formElementsInformationClient = (): FormFactory.IFormFactoryType<any>[] => [
+export const formElementsInformationClient = (inicialData?: any): FormFactory.IFormFactoryType<any>[] => [
   {
     name: 'photo',
     type: 'avatar',
-    show: true
+    show: true,
+    inicialData
   },
   {
     name: 'plus',
@@ -45,14 +46,6 @@ export const formElementsInformationClient = (): FormFactory.IFormFactoryType<an
   {
     name: 'lastName2',
     type: 'string'
-  },
-  {
-    name: 'country',
-    type: 'select',
-    data: countries.callingCountries.all.map(country => ({
-      _id: country.countryCallingCodes[0],
-      name: country.name
-    }))
   },
   { name: 'lastName3', type: 'string' },
   {

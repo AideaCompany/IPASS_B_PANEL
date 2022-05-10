@@ -8,15 +8,11 @@ import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import useData from '@/providers/DataContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
-import { getAllProductsFn } from '@/services/products'
 import { getAllServices } from '@/services/services'
-import { getAllServiceTypesFn } from '@/services/serviceTypes'
-import { listStaffFn } from '@/services/staff'
-import { getAllStores } from '@/services/stores'
-import { getAllSubServices } from '@/services/subServices'
+import { IPaginated } from '@/types/interfaces/graphqlTypes'
 import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IService } from '@/types/interfaces/services/Services.interface'
 //apollo
-import { IProduct, IService, IServiceType, ISubService, Paginated } from '@/types/types'
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Tooltip } from 'antd'
@@ -26,17 +22,9 @@ import { GetServerSidePropsContext } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-const services = (props: {
-  localization: Localization
-  lang: string
-  page: number
-  limit: number
-  dataServiceType: IServiceType[]
-  dataProducts: IProduct[]
-  subServices: ISubService[]
-}): JSX.Element => {
+const services = (props: { localization: Localization; lang: string; page: number; limit: number }): JSX.Element => {
   //props
-  const { localization, lang, page, limit, dataServiceType, dataProducts, subServices } = props
+  const { localization, lang, page, limit } = props
   //context
   const { privilege } = useData()
   const { permission } = useAuth()
@@ -49,7 +37,7 @@ const services = (props: {
   const [filters, setFilters] = useState<any>([])
   const [actualLimit, setActualLimit] = useState(limit)
   const [actualPage, setActualPage] = useState(page)
-  const [pagination, setPagination] = useState<Paginated<IService>>()
+  const [pagination, setPagination] = useState<IPaginated<IService>>()
 
   //Effect
   useEffect(() => {
@@ -74,7 +62,7 @@ const services = (props: {
 
   //functions
   const goToCreate = () => (
-    <Tooltip title="Crear producto">
+    <Tooltip title="Crear servicio">
       <Link href={{ pathname: '/[lang]/services/create', query: { lang } }}>
         <a>
           <Button style={{ margin: '5px' }} shape="circle" icon={<PlusOutlined />} />
@@ -99,34 +87,6 @@ const services = (props: {
     setLoading(false)
   }
 
-  const beforeCreate = (item: IService) => {
-    const newService = item
-    return newService
-  }
-
-  const createButton = (
-    <div className="ButtonsUp">
-      {/* <CreateItem
-        actualPermission={actualPermission as IPermissionsPrivilege}
-        translations={localization.translations}
-        mutation={gql(createService)}
-        formElements={formElements(dataServiceType, dataProducts, subServices)}
-        afterCreate={getData}
-        beforeCreate={beforeCreate}
-        iconButton={true}
-        FormItem={
-          <FormItems
-            subServices={subServices}
-            dataProducts={dataProducts}
-            dataServiceType={dataServiceType}
-            isUpdate={false}
-            translations={localization.translations}
-          />
-        }
-      /> */}
-    </div>
-  )
-
   const onchange = (_: any, filters: any, sorter: any) => {
     setFilters(formatFiltersTable(filters))
   }
@@ -137,13 +97,11 @@ const services = (props: {
         <div>
           <TableData
             columns={columns({
-              subServices,
+              lang,
               translations: localization.translations,
               actualPermission: actualPermission as IPermissionsPrivilege,
               after: getData,
-              privileges: privilege,
-              dataServiceType: dataServiceType,
-              dataProducts: dataProducts
+              privileges: privilege
             })}
             data={data}
             loading={loading}
@@ -187,15 +145,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       const localization = getLocalizationProps(ctx, 'services')
       const page = ctx.query.page ? parseInt(ctx.query.page as string) : 1
       const limit = ctx.query.limit ? parseInt(ctx.query.limit as string) : 10
-      // const queriesNames = Object.keys(ctx.query).filter((e: string) => e !== 'page' && e !== 'limit' && e !== 'lang')
-      // const filters = queriesNames.length > 0 && queriesNames.map(e => ({ [e]: ctx.query[e] as string }))
-      const dataServiceType = await getAllServiceTypesFn()
-      const dataProducts = await getAllProductsFn()
-      const staff = (await listStaffFn(1, 100, {})).docs
-      const stores = await getAllStores()
-      const result = await getAllSubServices(page, limit, {})
-      const subServices = convertTotable(result.docs)
-      return { props: { localization, page, limit, dataServiceType, dataProducts, staff, stores, subServices } }
+      return { props: { localization, page, limit } }
     } else {
       return {
         notFound: true
