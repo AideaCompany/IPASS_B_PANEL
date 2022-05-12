@@ -1,11 +1,12 @@
-import { IService } from '@/types/types'
+import { IProduct } from '@/types/interfaces/Product/Product.interface'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formelements2 = (): FormFactory.IFormFactoryType<IService>[] => [
+export const formelements2 = (inicialData?: any): FormFactory.IFormFactoryType<IProduct>[] => [
   {
     name: 'photo',
     type: 'avatar',
-    show: true
+    show: true,
+    inicialData
   },
   {
     name: 'amount',

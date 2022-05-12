@@ -1,8 +1,8 @@
 import { IBrands } from '@/types/interfaces/Brands/Brands.interface'
-import { IService } from '@/types/types'
+import { IProduct } from '@/types/interfaces/Product/Product.interface'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElements1 = (services: IService[], brands: IBrands[]): FormFactory.IFormFactoryType<IService>[] => [
+export const formElements1 = (brands: IBrands[]): FormFactory.IFormFactoryType<IProduct>[] => [
   {
     name: 'name',
     type: 'string',

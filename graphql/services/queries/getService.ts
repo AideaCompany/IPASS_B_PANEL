@@ -1,6 +1,6 @@
-export const listAllServices = /* GraphQL */ `
-  query listAllServices {
-    listAllServices {
+export const getService = /* GraphQL */ `
+  query getService($_id: String) {
+    getService(_id: $_id) {
       _id
       plus
       name

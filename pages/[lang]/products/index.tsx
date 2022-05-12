@@ -8,16 +8,13 @@ import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 //Context
 import { getLocalizationProps } from '@/providers/LenguageContext'
-import { getAllBrands } from '@/services/brands'
 import { getAllProductsFn } from '@/services/products'
-import { listAllServicesFn } from '@/services/services'
-import { IBrands } from '@/types/interfaces/Brands/Brands.interface'
 import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
-import { IProduct, IService } from '@/types/types'
+import { IProduct } from '@/types/interfaces/Product/Product.interface'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Tooltip } from 'antd'
 //next
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetServerSidePropsContext } from 'next'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
@@ -29,10 +26,8 @@ const Products = (props: { localization: Localization; lang: string }) => {
 
   //states
   const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
-  const [data, setdata] = useState<actualItem[]>([])
-  const [services, setServices] = useState<IService[]>([])
-  const [loading, setloading] = useState<boolean>(true)
-  const [brands, setBrands] = useState<IBrands[]>([])
+  const [data, setData] = useState<actualItem[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
   //providers
   const { permission } = useAuth()
   //Effect
@@ -49,14 +44,10 @@ const Products = (props: { localization: Localization; lang: string }) => {
   }, [actualPermission])
 
   const getData = async () => {
-    setloading(true)
+    setLoading(true)
     const data = await getAllProductsFn()
-    setdata(data)
-    const services = await listAllServicesFn()
-    setBrands(await getAllBrands())
-    console.log('esto es serivcios', services)
-    setServices(services)
-    setloading(false)
+    setData(data)
+    setLoading(false)
   }
 
   const goToCreate = () => (
@@ -79,10 +70,10 @@ const Products = (props: { localization: Localization; lang: string }) => {
               actualPermission: actualPermission as IPermissionsPrivilege,
               permision: permission,
               lang: lang,
-              services,
-              after: getData,
-              brands
+
+              after: getData
             })}
+            scroll={{ x: 1500, y: '60vh' }}
             data={data}
             loading={loading}
           />
@@ -94,18 +85,15 @@ const Products = (props: { localization: Localization; lang: string }) => {
 
 export default React.memo(Products)
 
-export const getStaticProps: GetStaticProps = async ctx => {
-  const localization = getLocalizationProps(ctx, 'products')
-  return {
-    props: {
-      localization
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  try {
+    const localization = getLocalizationProps(ctx, 'products')
+    const page = ctx.query.page ? parseInt(ctx.query.page as string) : 1
+    const limit = ctx.query.limit ? parseInt(ctx.query.limit as string) : 10
+    return { props: { localization, page, limit } }
+  } catch (e) {
+    return {
+      notFound: true
     }
-  }
-}
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: ['es', 'en'].map(lang => ({ params: { lang } })),
-    fallback: false
   }
 }

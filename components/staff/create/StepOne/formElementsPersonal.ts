@@ -1,8 +1,7 @@
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
-import { IStores } from '@/types/interfaces/Stores/stores.interface'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElementsPersonal = (stores: IStores[], inicialData?: boolean | unknown): FormFactory.IFormFactoryType<IStaff>[] => [
+export const formElementsPersonal = (inicialData?: boolean | unknown): FormFactory.IFormFactoryType<IStaff>[] => [
   {
     name: 'name',
     type: 'string',

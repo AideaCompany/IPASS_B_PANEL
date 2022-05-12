@@ -8,14 +8,13 @@ import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getClientFn, updateClientFn } from '@/services/clients'
 import { IClient } from '@/types/interfaces/Clients/client.interface'
 import { ICreateClient } from '@/types/interfaces/Clients/MutationClient.interface'
-import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { IProducts } from '@/types/types'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Form, FormInstance, message } from 'antd'
 import moment from 'moment'
 import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 
 const create = (props: { localization: Localization; lang: string; client: IClient }) => {
   const router = useRouter()
@@ -23,10 +22,7 @@ const create = (props: { localization: Localization; lang: string; client: IClie
   const { localization, lang, client } = props
   //#region
   const { setSpinning } = useAuth()
-  //states
-  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   //providers
-  const { permission } = useAuth()
   const [current, setCurrent] = useState(0)
 
   //#region ref
@@ -41,7 +37,6 @@ const create = (props: { localization: Localization; lang: string; client: IClie
   const HandleChangeCurrent = useCallback(
     (type: 'next' | 'back') => {
       const currentData = formRef.current?.getFieldsValue() as IProducts
-      console.log(currentData)
       setData(currentVal => ({ ...currentVal, ...currentData }))
       if (type === 'next') {
         setCurrent(current + 1)
@@ -56,7 +51,6 @@ const create = (props: { localization: Localization; lang: string; client: IClie
     const finalData = { ...data, ...newData, _id: client._id }
     setData(finalData)
     setSpinning(true)
-    console.log(finalData)
     try {
       await updateClientFn(finalData as unknown as ICreateClient)
       message.success(localization.translations.successfullyCreated)
@@ -95,9 +89,7 @@ const create = (props: { localization: Localization; lang: string; client: IClie
         }
       })
   }
-  useEffect(() => {
-    setActualPermission(permission.permissions?.find(e => e.sectionName === 'Clients'))
-  }, [permission])
+
   return (
     <MainLayout hideButtons lang={lang} title={localization.translations.titleModalUpdate}>
       <Form initialValues={{ ...client, age: moment(client.age) }} onValuesChange={validateForm} component={false} ref={formRef}>

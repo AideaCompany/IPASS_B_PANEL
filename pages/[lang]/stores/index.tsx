@@ -16,22 +16,21 @@ import { listAllServicesFn } from '@/services/services'
 import { getAllStores } from '@/services/stores'
 import { listTimeZonesFn } from '@/services/timeZone'
 import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IService } from '@/types/interfaces/services/Services.interface'
 import { IStores } from '@/types/interfaces/Stores/stores.interface'
 import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
-import { IService } from '@/types/types'
 import { gql } from '@apollo/client'
 //next
 import { GetServerSidePropsContext } from 'next'
 import React, { useEffect, useState } from 'react'
 
-interface actualItem extends IStores {}
 const visitorCategory = (props: { localization: Localization; lang: string; timeZone: ITimeZone[]; services: IService[] }) => {
   //props
   const { localization, lang, timeZone, services } = props
 
   //states
   const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
-  const [data, setdata] = useState<actualItem[]>([])
+  const [data, setdata] = useState<IStores[]>([])
   const [loading, setloading] = useState<boolean>(true)
   //providers
   const { permission } = useAuth()
@@ -41,11 +40,9 @@ const visitorCategory = (props: { localization: Localization; lang: string; time
   }, [permission])
 
   useEffect(() => {
-    ;(async () => {
-      if (actualPermission) {
-        getData()
-      }
-    })()
+    if (actualPermission) {
+      getData()
+    }
   }, [actualPermission])
 
   const getData = async () => {
@@ -92,7 +89,7 @@ const visitorCategory = (props: { localization: Localization; lang: string; time
 
 export default React.memo(visitorCategory)
 
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const localization = getLocalizationProps(ctx, 'stores')
   const timeZone = await listTimeZonesFn()
   const services = await listAllServicesFn()

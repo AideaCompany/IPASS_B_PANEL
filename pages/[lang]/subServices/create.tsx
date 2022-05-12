@@ -1,44 +1,35 @@
 import MainLayout from '@/components/layout/Layout'
-import FormComplements from '@/components/subServices/create/stepFour/formComplements'
 import FormGeneralInformation from '@/components/services/create/stepOne/formGeneralInformation'
 import Steps from '@/components/services/create/Steps'
 import FormComercialInformation from '@/components/services/create/StepThree/formComercialInformation'
 import FormResources from '@/components/services/create/stepTwo/formResources'
+import FormComplements from '@/components/subServices/create/stepFour/formComplements'
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
-import { ThemeContext } from '@/providers/ThemeContext'
 import { getAllBrands } from '@/services/brands'
+import { getAllProductsFn } from '@/services/products'
 import { listAllServicesFn } from '@/services/services'
 import { getAllServiceTypesFn } from '@/services/serviceTypes'
-import { listStaffFn } from '@/services/staff'
-import { getAllStores } from '@/services/stores'
-import { getAllSubServices } from '@/services/subServices'
-import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
-import { IStaff } from '@/types/interfaces/staff/staff.interface'
-import { IStores } from '@/types/interfaces/Stores/stores.interface'
-import { IProducts, IServiceType, ISubService } from '@/types/types'
+import { createSubServiceFn } from '@/services/subServices'
+import { IProduct } from '@/types/interfaces/Product/Product.interface'
+import { IServiceType } from '@/types/interfaces/ServiceType/serviceType.interface'
+import { ICreateSubService } from '@/types/interfaces/SubServices/MutationSubServices.interface'
+import { IProducts } from '@/types/types'
 import { PlusOutlined } from '@ant-design/icons'
-import { Button, Form, FormInstance } from 'antd'
+import { Button, Form, FormInstance, message } from 'antd'
 import { GetServerSidePropsContext } from 'next'
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/router'
+import React, { useCallback, useRef, useState } from 'react'
 
-const create = (props: {
-  localization: Localization
-  lang: string
-  staff: IStaff[]
-  stores: IStores[]
-  subServices: ISubService[]
-  serviceTypes: IServiceType[]
-}) => {
+const create = (props: { localization: Localization; lang: string; products: IProduct[]; serviceTypes: IServiceType[] }) => {
   //#region props
-  const { localization, lang, staff, stores, subServices, serviceTypes } = props
+  const { localization, products, lang, serviceTypes } = props
   //#endregion props
-
+  const router = useRouter()
   //#region providers
   const { setSpinning } = useAuth()
-  const { permission } = useAuth()
-  const { theme } = useContext(ThemeContext)
+
   //#endregion providers
 
   //#region ref
@@ -50,20 +41,16 @@ const create = (props: {
   const [data, setData] = useState<IProducts>()
   const [disabled, setDisabled] = useState(false)
   const [current, setCurrent] = useState(0)
-  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   //#end region states
 
   //#region useEffect
-  useEffect(() => {
-    setActualPermission(permission.permissions?.find(e => e.sectionName === 'Products'))
-  }, [permission])
+
   //#endregion useEffect
 
   //#region functions
   const HandleChangeCurrent = useCallback(
     (type: 'next' | 'back') => {
       const currentData = formRef.current?.getFieldsValue() as IProducts
-      console.log(currentData)
       setData(currentVal => ({ ...currentVal, ...currentData }))
       if (type === 'next') {
         setCurrent(current + 1)
@@ -76,24 +63,23 @@ const create = (props: {
   const createProduct = async () => {
     const newData = (await formRef.current?.validateFields()) as IProducts
     const finalData = { ...data, ...newData }
-    // setData(finalData)
-    // setSpinning(true)
-    console.log(finalData)
-    // try {
-    //   await getAllProductsFn(finalData as unknown as ICreateLocation)
-    //   message.success(localization.translations.successfullyCreated)
-    //   router.push('/[lang]/location', `/${lang}/location`)
-    // } catch (currentError) {
-    //   manageMentError(
-    //     currentError as {
-    //       graphQLErrors: {
-    //         message: string
-    //       }[]
-    //     }
-    //   )
-    // } finally {
-    //   setSpinning(false)
-    // }
+    setData(finalData)
+    setSpinning(true)
+    try {
+      await createSubServiceFn(finalData as unknown as ICreateSubService)
+      message.success(localization.translations.successfullyCreated)
+      router.push('/[lang]/subServices', `/${lang}/subServices`)
+    } catch (currentError) {
+      // manageMentError(
+      //   currentError as {
+      //     graphQLErrors: {
+      //       message: string
+      //     }[]
+      //   }
+      // )
+    } finally {
+      setSpinning(false)
+    }
   }
   const validateForm = () => {
     formRef.current
@@ -130,18 +116,15 @@ const create = (props: {
               <div className="elementsContainer">
                 {current === 0 && (
                   <FormGeneralInformation
-                    subServices={subServices}
-                    stores={stores}
-                    staff={staff}
+                    //@ts-ignore
+                    inicialData={{ originFileObj: data?.photo, filename: data?.photo?.name }}
                     translate={localization.translations}
                     dataServiceType={serviceTypes}
                   />
                 )}
-                {current === 1 && <FormResources subServices={subServices} stores={stores} staff={staff} translate={localization.translations} />}
-                {current === 2 && (
-                  <FormComercialInformation subServices={subServices} stores={stores} staff={staff} translate={localization.translations} />
-                )}
-                {current === 3 && <FormComplements subServices={subServices} stores={stores} staff={staff} translate={localization.translations} />}
+                {current === 1 && <FormResources isUpdate={false} products={products} translate={localization.translations} />}
+                {current === 2 && <FormComercialInformation isUpdate={false} translate={localization.translations} />}
+                {current === 3 && <FormComplements isUpdate={false} translate={localization.translations} />}
               </div>
               {error && <div className="error">{error}</div>}
               <div className="buttons">
@@ -183,9 +166,10 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const localization = getLocalizationProps(ctx, 'subServices')
   const services = await listAllServicesFn()
   const brands = await getAllBrands()
-  const staff = (await listStaffFn(1, 100, {})).docs
-  const stores = await getAllStores()
+
   const serviceTypes = await getAllServiceTypesFn()
-  const subServices = await (await getAllSubServices(1, 100, {})).docs
-  return { props: { localization, services, brands, staff, stores, subServices, serviceTypes } }
+
+  const products = await getAllProductsFn()
+
+  return { props: { localization, services, brands, serviceTypes, products } }
 }

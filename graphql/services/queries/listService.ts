@@ -11,10 +11,6 @@ export const listService = /* GraphQL */ `
           name
         }
         products {
-          product {
-            _id
-            name
-          }
           productQuantity
         }
         eta
@@ -35,26 +31,15 @@ export const listService = /* GraphQL */ `
           plus
           name
           abbreviation
-          products {
-            product {
-              _id
-              name
-            }
-            productQuantity
-          }
           eta
-          staffers {
-            _id
-            name
-            lastName
-          }
           price
           cost
-          subServiceFee
+          serviceFee
           taxes
           discounts
-          subServiceTime
+          serviceTime
           returnTime
+          sex
           createdAt
           updatedAt
         }

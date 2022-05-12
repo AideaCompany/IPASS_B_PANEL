@@ -1,41 +1,33 @@
 //types
 
 import { deleteStaff } from '@/graphql/Staff/mutation/deleteStaff'
-import { updateStaff } from '@/graphql/Staff/mutation/updateStaff'
 import { ITranslations } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
-import { IStores } from '@/types/interfaces/Stores/stores.interface'
-import { IService } from '@/types/types'
-import { UserOutlined } from '@ant-design/icons'
-import { Image } from 'antd'
+import { EditOutlined, UserOutlined } from '@ant-design/icons'
+import { Button, Image, Tooltip } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import { ColumnType } from 'antd/lib/table'
 import { gql } from 'apollo-boost'
+import Link from 'next/link'
 import React, { useContext } from 'react'
 //component
 import ColumnFactory from '../crudFunctions/columnFactory'
 import DeleteItem from '../crudFunctions/delete'
-import UpdateItem from '../crudFunctions/update'
 import RenderCheck from '../RenderCheck'
 import ResetToken from '../users/ResetToken'
-import { formElementsPersonal } from './create/StepOne/formElementsPersonal'
-import FormItemsPersonal from './create/StepOne/formItemPersonal'
-
 import QRWorker from './QRWorker'
 
 const columns = (props: {
   translations: ITranslations
   actualPermission: IPermissionsPrivilege
-  beforeShowUpdate?: (param: IStaff) => IStaff
   after: () => void
-  stores: IStores[]
   permision: IPrivilege
-  services: IService[]
+  lang: string
 }): ColumnType<IStaff>[] => {
-  const { translations, actualPermission, after, beforeShowUpdate, stores, permision, services } = props
+  const { translations, actualPermission, after, permision, lang } = props
   const { theme } = useContext(ThemeContext)
   const { permission } = useAuth()
 
@@ -43,16 +35,13 @@ const columns = (props: {
     return (
       <>
         <QRWorker reload={after} staff={record} translations={translations} />
-        <UpdateItem
-          beforeShowUpdate={beforeShowUpdate}
-          actualPermission={actualPermission}
-          translations={translations}
-          mutation={gql(updateStaff)}
-          record={record}
-          afterUpdate={after}
-          FormItems={<FormItemsPersonal stores={stores} permission={permision} isUpdate inicialData={record.photo} translate={translations} />}
-          formElements={formElementsPersonal(stores, record.photo)}
-        />
+        <Tooltip title="Editar staffer">
+          <Link href={{ pathname: '/[lang]/staff/[id]', query: { lang, id: record._id } }}>
+            <a>
+              <Button style={{ margin: '5px' }} shape="circle" icon={<EditOutlined />} />
+            </a>
+          </Link>
+        </Tooltip>
         <DeleteItem
           afterDelete={after}
           actualPermission={actualPermission}

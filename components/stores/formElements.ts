@@ -1,6 +1,7 @@
+import { IService } from '@/types/interfaces/services/Services.interface'
 import { IStores } from '@/types/interfaces/Stores/stores.interface'
 import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
-import { IService } from '@/types/types'
+
 import { FormFactory } from '@/types/typeTemplate'
 
 export const formElements = (timeZone: ITimeZone[], services: IService[]): FormFactory.IFormFactoryType<IStores>[] => [

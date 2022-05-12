@@ -1,6 +1,7 @@
+import { IProduct } from '@/types/interfaces/Product/Product.interface'
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { IStores } from '@/types/interfaces/Stores/stores.interface'
-import { IProduct } from '@/types/types'
+
 import { FormFactory } from '@/types/typeTemplate'
 
 export const formElements = (dataProducts: IProduct[] | undefined, staff: IStaff[], stores: IStores[]): FormFactory.IFormFactoryType<undefined>[] => {

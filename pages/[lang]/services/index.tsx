@@ -75,14 +75,7 @@ const services = (props: { localization: Localization; lang: string; page: numbe
     setLoading(true)
     const result = await getAllServices(actualPage, actualLimit, filters)
     setPagination(result)
-    setData(
-      convertTotable(result.docs)
-        .map(e => ({
-          ...e,
-          photo: e.photo ? { ...e.photo, key: `${process.env.NEXT_PUBLIC_S3}/${e.photo.key}` } : e.photo
-        }))
-        .reverse()
-    )
+    setData(convertTotable(result.docs).reverse())
 
     setLoading(false)
   }

@@ -1,14 +1,10 @@
 //react
 //Components
-import CreateItem from '@/components/crudFunctions/create'
 import MainLayout from '@/components/layout/Layout'
 import columns from '@/components/staff/columns'
-import { formElementsPersonal } from '@/components/staff/create/StepOne/formElementsPersonal'
-import FormItemsPersonal from '@/components/staff/create/StepOne/formItemPersonal'
 import UploadExcel from '@/components/staff/UploadExcel'
 import TableData from '@/components/TableDatas'
 import { setToken } from '@/graphql/config'
-import { createStaff } from '@/graphql/Staff/mutation/createStaff'
 //types
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
@@ -16,9 +12,7 @@ import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllApps } from '@/services/apps'
 import { getAllLocationActive } from '@/services/locations'
-import { listAllServicesFn } from '@/services/services'
 import { listStaffFn } from '@/services/staff'
-import { getAllStores } from '@/services/stores'
 import { listTimeZonesFn } from '@/services/timeZone'
 import { IApps } from '@/types/interfaces/Apps/Apps.interface'
 import { FilterType, IPaginated } from '@/types/interfaces/graphqlTypes'
@@ -26,13 +20,10 @@ import { IGroupWorker } from '@/types/interfaces/GroupWorker/GroupWorker.interfa
 import { ILocation } from '@/types/interfaces/Location/Location.interface'
 import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
-import { IStores } from '@/types/interfaces/Stores/stores.interface'
 import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
-import { IService } from '@/types/types'
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
 import { PlusOutlined } from '@ant-design/icons'
-import { gql } from '@apollo/client'
-import { Button, message, Tooltip } from 'antd'
+import { Button, Tooltip } from 'antd'
 import * as cookie from 'cookie'
 //next
 import { GetServerSidePropsContext } from 'next'
@@ -50,15 +41,13 @@ const staff = (props: {
   locations: ILocation[]
   timeZone: ITimeZone[]
   apps: IApps[]
-  stores: IStores[]
-  services: IService[]
 }) => {
   //#region hooks
   const router = useRouter()
   //#endregion hooks
 
   //props
-  const { localization, lang, page, limit, stores, services } = props
+  const { localization, lang, page, limit } = props
   //states
   const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setData] = useState<actualItem[]>([])
@@ -75,14 +64,6 @@ const staff = (props: {
   useEffect(() => {
     setActualPermission(permission.permissions?.find(e => e.sectionName?.toLocaleLowerCase() === 'staff'))
   }, [permission])
-
-  const manageMentError = (error: string) => {
-    if (error.includes('E11000 duplicate')) {
-      message.error({ content: localization.translations.serialDuplicated, key: 'creating' })
-    } else {
-      message.error({ content: localization.translations.errorCreated, key: 'creating' })
-    }
-  }
 
   useEffect(() => {
     if (actualPermission) {
@@ -101,60 +82,28 @@ const staff = (props: {
     // setCountUsers(await countUserWorkerFn())
     const result = await listStaffFn(actualPage, actualLimit, filters)
     setPagination(result)
-    setData(
-      convertTotable(result.docs).map(e => ({
-        ...e,
-        photo: e.photo ? { ...e.photo, key: `${process.env.NEXT_PUBLIC_S3 as string}/${e.photo.key}` } : e.photo
-      }))
-    )
+    setData(convertTotable(result.docs))
     // }
     setLoading(false)
   }
 
-  const before = (item: IStaff) => {
-    // const newItem = JSON.parse(JSON.stringify(item))
-    // newItem.security = item.security.map((e: any) => e?._id)
-    // return newItem
-    // if (item.photo) item.photo.key = `${process.env.NEXT_PUBLIC_S3}/${item.photo.key}`
-    return item
-  }
   const goToCreate = () => (
-    <Tooltip title="Crear producto">
-      <Link href={{ pathname: '/[lang]/staff/create', query: { lang } }}>
-        <a>
-          <Button style={{ margin: '5px' }} shape="circle" icon={<PlusOutlined />} />
-        </a>
-      </Link>
-    </Tooltip>
-  )
-
-  const createButton = (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      {/* <Tooltip title="Grupos de staffers">
-        <Button
-          style={{ margin: '5px' }}
-          onClick={() => router.push({ pathname: '/[lang]/worker/groups', query: { lang: router.query.lang } })}
-          shape={'circle'}
-          icon={<Role />}
-        />
-      </Tooltip> */}
+      <Tooltip title="Crear staffer">
+        <Link href={{ pathname: '/[lang]/staff/create', query: { lang } }}>
+          <a>
+            <Button style={{ margin: '5px' }} shape="circle" icon={<PlusOutlined />} />
+          </a>
+        </Link>
+      </Tooltip>
       <UploadExcel reload={getData} translations={localization.translations} />
-      <CreateItem
-        actualPermission={actualPermission as IPermissionsPrivilege}
-        translations={localization.translations}
-        mutation={gql(createStaff)}
-        formElements={formElementsPersonal(stores)}
-        afterCreate={getData}
-        manageMentError={manageMentError}
-        FormItem={<FormItemsPersonal stores={stores} isUpdate={true} permission={permission} translate={localization.translations} />}
-        iconButton={true}
-      />
     </div>
   )
 
   const onchange = (_: unknown, newFilters: FilterType) => {
     setFilters(formatFiltersTable(newFilters))
   }
+
   return (
     <>
       {/* <ModalKeyUser setOpen={setOpen} visible={open} getData={getData} /> */}
@@ -162,12 +111,10 @@ const staff = (props: {
         <>
           <TableData<IStaff>
             columns={columns({
-              services,
-              stores,
               after: getData,
               translations: localization.translations,
               actualPermission: actualPermission as IPermissionsPrivilege,
-              beforeShowUpdate: before,
+              lang,
               permision: permission
             })}
             scroll={{ x: 1500, y: '40vh' }}
@@ -220,9 +167,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
         const locations = await getAllLocationActive()
         const timeZone = await listTimeZonesFn()
         const apps = await getAllApps()
-        const stores = await getAllStores()
-        const services = await listAllServicesFn()
-        return { props: { localization, page, limit, groups: [], locations, timeZone, apps, stores, services } }
+        return { props: { localization, page, limit, groups: [], locations, timeZone, apps } }
       } else {
         return {
           notFound: true

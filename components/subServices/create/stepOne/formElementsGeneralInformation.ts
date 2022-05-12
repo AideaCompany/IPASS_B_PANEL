@@ -1,8 +1,8 @@
-import { IProduct, IServiceType, ISubService } from '@/types/types'
+import { IProduct } from '@/types/interfaces/Product/Product.interface'
+import { ISubService } from '@/types/interfaces/SubServices/SubServices.interface'
 import { FormFactory } from '@/types/typeTemplate'
 
 export const formElementsGeneralInformation = (
-  dataServiceType: IServiceType[] | undefined,
   dataProducts: IProduct[] | undefined,
   subServices: ISubService[]
 ): FormFactory.IFormFactoryType<undefined>[] => {

@@ -13,7 +13,6 @@ import { createServiceFn, listAllServicesFn } from '@/services/services'
 import { getAllServiceTypesFn } from '@/services/serviceTypes'
 import { getAllStores } from '@/services/stores'
 import { getAllSubServices } from '@/services/subServices'
-import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { IProduct } from '@/types/interfaces/Product/Product.interface'
 import { ICreateService } from '@/types/interfaces/services/MutationServices.interface'
 import { IService } from '@/types/interfaces/services/Services.interface'
@@ -24,7 +23,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Button, Form, FormInstance, message } from 'antd'
 import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 
 const create = (props: {
   localization: Localization
@@ -38,7 +37,7 @@ const create = (props: {
   const { localization, lang, stores, subServices, serviceTypes, products } = props
   //#endregion props
   //#region providers
-  const { permission, setSpinning } = useAuth()
+  const { setSpinning } = useAuth()
   //#endregion providers
 
   //#region ref
@@ -51,20 +50,16 @@ const create = (props: {
   const [data, setData] = useState<IService>()
   const [disabled, setDisabled] = useState(false)
   const [current, setCurrent] = useState(0)
-  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   //#end region states
 
   //#region useEffect
-  useEffect(() => {
-    setActualPermission(permission.permissions?.find(e => e.sectionName === 'Products'))
-  }, [permission])
+
   //#endregion useEffect
 
   //#region functions
   const HandleChangeCurrent = useCallback(
     (type: 'next' | 'back') => {
       const currentData = formRef.current?.getFieldsValue() as IService
-      console.log(currentData)
       setData(currentVal => ({ ...currentVal, ...currentData }))
       if (type === 'next') {
         setCurrent(current + 1)
@@ -79,7 +74,6 @@ const create = (props: {
     const finalData = { ...data, ...newData }
     setData(finalData)
     setSpinning(true)
-    console.log(finalData)
     try {
       await createServiceFn(finalData as unknown as ICreateService)
       message.success(localization.translations.successfullyCreated)
@@ -130,7 +124,12 @@ const create = (props: {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}></div>
               <div className="elementsContainer">
                 {current === 0 && (
-                  <FormGeneralInformation inicialData={data?.photo} translate={localization.translations} dataServiceType={serviceTypes} />
+                  <FormGeneralInformation
+                    //@ts-ignore
+                    inicialData={{ originFileObj: data?.photo, filename: data?.photo?.name }}
+                    translate={localization.translations}
+                    dataServiceType={serviceTypes}
+                  />
                 )}
                 {current === 1 && <FormResources isUpdate={false} products={products} translate={localization.translations} />}
                 {current === 2 && <FormComercialInformation isUpdate={false} translate={localization.translations} />}

@@ -1,32 +1,28 @@
 //types
 import { deleteProduct } from '@/graphql/product/mutation/deleteProduct'
-import { updateProduct } from '@/graphql/product/mutation/updateProduct'
 import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { IBrands } from '@/types/interfaces/Brands/Brands.interface'
 import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
-import { IProduct, IProducts, IService } from '@/types/types'
-import { UserOutlined } from '@ant-design/icons'
-import { Avatar, Image } from 'antd'
+import { IProduct } from '@/types/interfaces/Product/Product.interface'
+import { IService } from '@/types/interfaces/services/Services.interface'
+import { EditOutlined, UserOutlined } from '@ant-design/icons'
+import { Avatar, Button, Image, Tooltip } from 'antd'
 import { ColumnType } from 'antd/lib/table'
 import { gql } from 'apollo-boost'
+import Link from 'next/link'
 import React, { useContext } from 'react'
 //component
 import ColumnFactory from '../crudFunctions/columnFactory'
 import DeleteItem from '../crudFunctions/delete'
-import UpdateItem from '../crudFunctions/update'
-import { formElements1 } from './create/stepOne/formElements1'
-import FormItems from './create/stepOne/formItem1'
 const columns = (props: {
   translations: ITranslations
   actualPermission: IPermissionsPrivilege
   permision: IPrivilege
-  services: IService[]
   lang: string
   after: () => void
-  brands: IBrands[]
 }): ColumnType<IProduct>[] => {
-  const { translations, actualPermission, permision, brands, after, services } = props
+  const { translations, actualPermission, permision, lang, after } = props
   const { theme } = useContext(ThemeContext)
 
   // const getFormElements = () => {
@@ -41,16 +37,13 @@ const columns = (props: {
   const operations = (record: IProduct) => {
     return (
       <>
-        <UpdateItem
-          // beforeShowUpdate={beforeShowUpdate}
-          afterUpdate={after}
-          actualPermission={actualPermission}
-          translations={translations}
-          mutation={gql(updateProduct)}
-          record={record}
-          FormItems={<FormItems translations={translations} isUpdate services={services} brands={brands} />}
-          formElements={formElements1(services, brands)}
-        />
+        <Tooltip title="Actualizar producto">
+          <Link href={{ pathname: '/[lang]/products/[id]', query: { lang, id: record._id } }}>
+            <a>
+              <Button style={{ margin: '5px' }} shape="circle" icon={<EditOutlined />} />
+            </a>
+          </Link>
+        </Tooltip>
         <DeleteItem
           afterDelete={after}
           actualPermission={actualPermission}
@@ -66,33 +59,14 @@ const columns = (props: {
   return ColumnFactory({
     columns: [
       {
-        name: 'name'
-      },
-      {
-        name: 'abbreviation'
-      },
-      {
-        name: 'brand',
-<<<<<<< HEAD
-        customRender: (record: IProduct, index) => {
-=======
-        //@ts-ignore
-        customRender: (record: IProduct) => {
->>>>>>> origin/FEATURE/JA-HU-66
-          return record.brand ? (record.brand as IBrands).name : ''
-        }
-      },
-      {
         name: 'photo',
         width: 60,
-        customRender: (record: IService, index) => {
+        fixed: 'left',
+        customRender: (record: IProduct, index) => {
           return (
             <div>
               {record?.photo?.key ? (
-                <Avatar
-                  style={{ border: '1px solid #ff8623', overflow: 'hidden' }}
-                  src={<Image preview={true} src={`${process.env.NEXT_PUBLIC_S3}/${record.photo.key}`} />}
-                />
+                <Avatar style={{ border: '1px solid #ff8623', overflow: 'hidden' }} src={<Image preview={true} src={`${record.photo.key}`} />} />
               ) : (
                 <Avatar style={{ border: '1px solid #ff8623' }} icon={<UserOutlined />} />
               )}
@@ -101,27 +75,55 @@ const columns = (props: {
         }
       },
       {
-        name: 'productType'
+        name: 'name',
+        width: 100,
+        fixed: 'left'
       },
       {
-        name: 'price'
+        name: 'abbreviation',
+        width: 100
       },
       {
-        name: 'measureType'
+        name: 'brand',
+        width: 100,
+        //@ts-ignore
+        customRender: (record: IProduct) => {
+          return record.brand ? (record.brand as IBrands).name : ''
+        }
       },
       {
-        name: 'amount'
+        name: 'productType',
+        width: 100
       },
       {
-        name: 'services'
+        name: 'price',
+        width: 100
       },
       {
-        name: 'designedFor'
+        name: 'measureType',
+        width: 100
+      },
+      {
+        name: 'amount',
+        width: 100
+      },
+      {
+        name: 'services',
+        width: 100,
+        customRender: (record: IProduct) => (record.services as IService[]).map(e => e.name).join(', ')
+      },
+      {
+        name: 'designedFor',
+        width: 100
       }
     ],
     translate: translations,
     //@ts-ignore
     operations: operations,
+    operationOptions: {
+      fixed: 'right',
+      width: 120
+    },
     nonShowOperation: !actualPermission?.update && !actualPermission?.delete && permision.name !== 'admin' && true
   })
 }

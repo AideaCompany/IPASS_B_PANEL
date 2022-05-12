@@ -1,21 +1,17 @@
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { IStores } from '@/types/interfaces/Stores/stores.interface'
-import { IService } from '@/types/types'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElementslaboral = (
-  stores: IStores[],
-  services: IService[],
-  inicialData?: boolean | unknown
-): FormFactory.IFormFactoryType<IStaff>[] => [
-  {
-    name: 'specialty',
-    type: 'string'
-  },
+export const formElementsLaboral = (stores: IStores[]): FormFactory.IFormFactoryType<IStaff>[] => [
   {
     name: 'stores',
     type: 'selectMultiple',
     data: stores
+  },
+  {
+    name: 'specialty',
+    type: 'string',
+    required: false
   },
   {
     name: 'AET',

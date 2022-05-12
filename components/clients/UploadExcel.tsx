@@ -1,7 +1,7 @@
 import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { createMassiveClientFn } from '@/services/clients'
-import { IClient } from '@/types/types'
+import { IClient } from '@/types/interfaces/Clients/client.interface'
 import { FileExcelOutlined } from '@ant-design/icons'
 import { Button, List, message, Modal, Tooltip, Upload } from 'antd'
 import { UploadChangeParam } from 'antd/lib/upload'

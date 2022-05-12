@@ -1,15 +1,8 @@
+import { IProduct } from '@/types/interfaces/Product/Product.interface'
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
-import { IStores } from '@/types/interfaces/Stores/stores.interface'
-import { IProduct, IServiceType, ISubService } from '@/types/types'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElementsResources = (
-  dataServiceType: IServiceType[] | undefined,
-  dataProducts: IProduct[] | undefined,
-  staff: IStaff[],
-  stores: IStores[],
-  subServices: ISubService[]
-): FormFactory.IFormFactoryType<undefined>[] => {
+export const formElementsResources = (dataProducts: IProduct[] | undefined, staff: IStaff[]): FormFactory.IFormFactoryType<undefined>[] => {
   const formElementsDynamicProducts: FormFactory.IFormFactoryType<undefined>[] = [
     {
       name: 'product',

@@ -1,36 +1,18 @@
 import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IStaff } from '@/types/interfaces/staff/staff.interface'
-import { IStores } from '@/types/interfaces/Stores/stores.interface'
-import { IProduct, IServiceType, ISubService } from '@/types/types'
-
+import { IProduct } from '@/types/interfaces/Product/Product.interface'
 import { useContext } from 'react'
 import FormFactory from '../../../crudFunctions/FormFactory'
 import { formElementsGeneralInformation } from './formElementsGeneralInformation'
 
-const FormGeneralInformation = (props: {
-  translate: ITranslations
-  isUpdate?: boolean
-  dataServiceType?: IServiceType[]
-  dataProducts?: IProduct[]
-  staff: IStaff[]
-  stores: IStores[]
-  subServices: ISubService[]
-}): JSX.Element => {
-  const { translate, isUpdate, dataServiceType, dataProducts, staff, stores, subServices } = props
+const FormGeneralInformation = (props: { translate: ITranslations; isUpdate?: boolean; dataProducts?: IProduct[] }): JSX.Element => {
+  const { translate, isUpdate, dataProducts } = props
   const updating = isUpdate ? true : false
   const { theme } = useContext(ThemeContext)
 
   return (
     <div className="formContainer">
-      {
-        <FormFactory
-          translate={translate}
-          isUpdate={updating}
-          theme={theme}
-          formElements={formElementsGeneralInformation(dataServiceType, dataProducts, staff, stores, subServices)}
-        />
-      }
+      {<FormFactory translate={translate} isUpdate={updating} theme={theme} formElements={formElementsGeneralInformation(dataProducts, [])} />}
     </div>
   )
 }

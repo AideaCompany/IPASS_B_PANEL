@@ -1,23 +1,20 @@
 //types
 import { deleteSubService } from '@/graphql/subServices/mutations/deleteSubService'
-import { updateSubService } from '@/graphql/subServices/mutations/updateSubService'
 import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IProduct } from '@/types/interfaces/Product/Product.interface'
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
-import { IStores } from '@/types/interfaces/Stores/stores.interface'
-import { IProduct, ISubService } from '@/types/types'
-import { UserOutlined } from '@ant-design/icons'
-import { Avatar, Image } from 'antd'
+import { ISubService } from '@/types/interfaces/SubServices/SubServices.interface'
+import { EditOutlined, UserOutlined } from '@ant-design/icons'
+import { Avatar, Button, Image, Tooltip } from 'antd'
 import { ColumnType } from 'antd/lib/table'
 import gql from 'graphql-tag'
+import Link from 'next/link'
 import React, { useContext } from 'react'
 //component
 import ColumnFactory from '../crudFunctions/columnFactory'
 import DeleteItem from '../crudFunctions/delete'
-import UpdateItem from '../crudFunctions/update'
-import { formElementsGeneralInformation } from './create/stepOne/formElementsGeneralInformation'
-import FormItemsGeneralInformation from './create/stepOne/formGeneralInformation'
 
 const columns = (props: {
   translations: ITranslations
@@ -25,25 +22,21 @@ const columns = (props: {
   beforeShowUpdate?: (param: any) => any
   privileges: IPrivilege[]
   after: () => void
-  staff: IStaff[]
-  stores: IStores[]
+  lang: string
   // filters: any[]
   dataProducts: IProduct[] | undefined
 }): ColumnType<ISubService>[] => {
-  const { translations, actualPermission, staff, stores, after, beforeShowUpdate, dataProducts } = props
+  const { translations, actualPermission, after, lang } = props
   const { theme } = useContext(ThemeContext)
   const operations = (record: any) => (
     <>
-      <UpdateItem
-        beforeShowUpdate={beforeShowUpdate}
-        actualPermission={actualPermission}
-        translations={translations}
-        mutation={gql(updateSubService)}
-        record={record}
-        afterUpdate={after}
-        FormItems={<FormItemsGeneralInformation staff={staff} stores={stores} dataProducts={dataProducts} translations={translations} isUpdate />}
-        formElements={formElementsGeneralInformation(dataProducts, staff, stores)}
-      />
+      <Tooltip title="Actualizar servicio">
+        <Link href={{ pathname: '/[lang]/subServices/[id]', query: { lang, id: record._id } }}>
+          <a>
+            <Button style={{ margin: '5px' }} shape="circle" icon={<EditOutlined />} />
+          </a>
+        </Link>
+      </Tooltip>
       <DeleteItem
         actualPermission={actualPermission}
         afterDelete={after}

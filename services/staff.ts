@@ -1,10 +1,12 @@
 import client from '@/graphql/config'
 import { createMassiveStaff } from '@/graphql/Staff/mutation/createMassiveStaff'
+import { createStaff } from '@/graphql/Staff/mutation/createStaff'
 import { signUpStaff } from '@/graphql/Staff/mutation/signUpStaff'
+import { updateStaff } from '@/graphql/Staff/mutation/updateStaff'
 import { getStaff } from '@/graphql/Staff/queries/getStaff'
 import { listStaff } from '@/graphql/Staff/queries/listStaff'
 import { IPaginated, IResponseMassive } from '@/types/interfaces/graphqlTypes'
-import { ICreateStaff } from '@/types/interfaces/staff/mutationStaff.interface'
+import { ICreateStaff, IUpdateStaff } from '@/types/interfaces/staff/mutationStaff.interface'
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { gql } from '@apollo/client'
 
@@ -26,27 +28,17 @@ export const createMassiveStaffFn = async (input: ICreateStaff[]): Promise<IResp
   ).data.createMassiveStaff) as IResponseMassive[]
 }
 
-// export const generateNewTemporalQRFn = async (_id: string): Promise<boolean> => {
-//   client.cache.reset()
-//   return (await client.mutate({ mutation: gql(gen), variables: { _id } })).data.generateNewTemporalQR
-// }
-
-// export const generateNewPermanentQRFn = async (_id: string): Promise<boolean> => {
-//   client.cache.reset()
-//   return (await client.mutate({ mutation: gql(generateNewPermanentQR), variables: { _id } })).data.generateNewTemporalQR
-// }
-
-// export const deleteTemporalQRFn = async (_id: string): Promise<boolean> => {
-//   client.cache.reset()
-//   return (await client.mutate({ mutation: gql(deleteTemporalQR), variables: { _id } })).data.deleteTemporalQR
-// }
-
-// export const listGroupWorkerIfExistFn = async (): Promise<IGroupWorker[]> => {
-//   client.cache.reset()
-//   return convertTotable<IStaff>((await client.query({ query: gql(listGroupWorkerIfExist) })).data.listGroupWorkerIfExist)
-// }
-
-export const getStaffFn = async (id: string): Promise<IStaff> => {
+export const getStaffFn = async (_id: string): Promise<IStaff> => {
   client.cache.reset()
-  return (await client.query({ query: gql(getStaff), variables: { _id: id } })).data.getStaff as IStaff
+  return (await client.query({ query: gql(getStaff), variables: { _id } })).data.getStaff as IStaff
+}
+
+export const createStaffFn = async (input: ICreateStaff): Promise<IStaff> => {
+  client.cache.reset()
+  return (await client.mutate({ mutation: gql(createStaff), variables: { input } })).data.createStaff as IStaff
+}
+
+export const updateStaffFn = async (input: IUpdateStaff): Promise<IStaff> => {
+  client.cache.reset()
+  return (await client.mutate({ mutation: gql(updateStaff), variables: { input } })).data.updateStaff as IStaff
 }

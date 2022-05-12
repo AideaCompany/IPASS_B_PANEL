@@ -1,5 +1,5 @@
-import { graphqlFile, uploadedFile } from 'interfaces'
-import { IService } from 'interfaces/services/Services.interface'
+import { graphqlFile, uploadedFile } from '..'
+import { IService } from '../services/Services.interface'
 
 export interface ICreateProduct {
   name: string

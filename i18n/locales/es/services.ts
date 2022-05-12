@@ -10,6 +10,7 @@ const services = {
   product: 'Producto',
   productQuantity: 'Cantidad de producto',
   titleModalCreate: 'Crear Servicio',
+  titleModalUpdate: 'Actualizar Servicio',
   staffers: 'Staffers',
   eta: 'ETA',
   price: 'Precio',

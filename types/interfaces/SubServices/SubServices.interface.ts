@@ -1,15 +1,17 @@
-import { fileType } from 'interfaces'
-import { IProducts } from 'interfaces/services/Services.interface'
-import { IStaff } from 'interfaces/staff/staff.interface'
-import { IStores } from 'interfaces/Stores/stores.interface'
-import { Document } from 'mongoose'
+import { basicTable } from '@/types/typeTemplate'
+import { uploadedFile } from '..'
+import { IProducts } from '../services/Services.interface'
+import { IServiceType } from '../ServiceType/serviceType.interface'
+import { IStaff } from '../staff/staff.interface'
+import { IStores } from '../Stores/stores.interface'
 
-export interface ISubService extends Document {
+export interface ISubService extends basicTable {
   plus: boolean
   abbreviation: string
   name: string
+  type: IServiceType | string
   products: IProducts[]
-  photo: fileType
+  photo: uploadedFile
   staffers: string[] | IStaff[]
   eta: string
   price: number

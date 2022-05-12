@@ -25,7 +25,7 @@ type layoutObj = {
 }
 const MainLayout = (props: LayoutProps) => {
   //props
-  const { children, title, lang, getData, create, hideButtons, notShowHeader, layoutMargin = { margin: '40px 16px' } } = props
+  const { children, title, lang, getData, create, hideButtons, notShowHeader, layoutMargin = { margin: '0px' } } = props
   const router = useRouter()
   //provider
   const { toggleCollapsed, collapsed, theme } = useContext(ThemeContext)

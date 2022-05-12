@@ -1,19 +1,20 @@
 import MainLayout from '@/components/layout/Layout'
-import Steps from '@/components/staff/create/Steps'
 import FormItemsPersonal from '@/components/staff/create/StepOne/formItemPersonal'
+import Steps from '@/components/staff/create/Steps'
+import FormItemsLaboral from '@/components/staff/create/stepTwo/formItemLaboral'
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
-import { ThemeContext } from '@/providers/ThemeContext'
+import { createStaffFn } from '@/services/staff'
 import { getAllStores } from '@/services/stores'
-import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { ICreateStaff } from '@/types/interfaces/staff/mutationStaff.interface'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { IStores } from '@/types/interfaces/Stores/stores.interface'
-import { IProducts } from '@/types/types'
 import { PlusOutlined } from '@ant-design/icons'
-import { Button, Form, FormInstance } from 'antd'
+import { Button, Form, FormInstance, message } from 'antd'
 import { GetServerSidePropsContext } from 'next'
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import FormItemsLaboral from '@/components/staff/create/stepTwo/formItemLaboral'
+import { useRouter } from 'next/router'
+import React, { useCallback, useRef, useState } from 'react'
 
 const create = (props: { localization: Localization; lang: string; stores: IStores[] }) => {
   //#region props
@@ -21,25 +22,21 @@ const create = (props: { localization: Localization; lang: string; stores: IStor
   //#region
   const { setSpinning } = useAuth()
   //states
-  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   //providers
-  const { permission } = useAuth()
   const [current, setCurrent] = useState(0)
-  const { theme } = useContext(ThemeContext)
-
+  const router = useRouter()
   //#region ref
-  const formRef = useRef<FormInstance<IProducts>>(null)
+  const formRef = useRef<FormInstance<IStaff>>(null)
   //#region  states
 
   const [error, setError] = useState('')
-  const [data, setData] = useState<IProducts>()
+  const [data, setData] = useState<IStaff>()
   const [disabled, setDisabled] = useState(false)
   //#end region states
   //#region functions
   const HandleChangeCurrent = useCallback(
     (type: 'next' | 'back') => {
-      const currentData = formRef.current?.getFieldsValue() as IProducts
-      console.log(currentData)
+      const currentData = formRef.current?.getFieldsValue() as IStaff
       setData(currentVal => ({ ...currentVal, ...currentData }))
       if (type === 'next') {
         setCurrent(current + 1)
@@ -50,26 +47,25 @@ const create = (props: { localization: Localization; lang: string; stores: IStor
     [current]
   )
   const createProduct = async () => {
-    const newData = (await formRef.current?.validateFields()) as IProducts
+    const newData = (await formRef.current?.validateFields()) as IStaff
     const finalData = { ...data, ...newData }
-    // setData(finalData)
-    // setSpinning(true)
-    console.log(finalData)
-    // try {
-    //   await getAllProductsFn(finalData as unknown as ICreateLocation)
-    //   message.success(localization.translations.successfullyCreated)
-    //   router.push('/[lang]/location', `/${lang}/location`)
-    // } catch (currentError) {
-    //   manageMentError(
-    //     currentError as {
-    //       graphQLErrors: {
-    //         message: string
-    //       }[]
-    //     }
-    //   )
-    // } finally {
-    //   setSpinning(false)
-    // }
+    setData(finalData)
+    setSpinning(true)
+    try {
+      await createStaffFn(finalData as unknown as ICreateStaff)
+      message.success(localization.translations.successfullyCreated)
+      router.push('/[lang]/staff', `/${lang}/staff`)
+    } catch (currentError) {
+      // manageMentError(
+      //   currentError as {
+      //     graphQLErrors: {
+      //       message: string
+      //     }[]
+      //   }
+      // )
+    } finally {
+      setSpinning(false)
+    }
   }
   const validateForm = () => {
     formRef.current
@@ -93,9 +89,7 @@ const create = (props: { localization: Localization; lang: string; stores: IStor
         }
       })
   }
-  useEffect(() => {
-    setActualPermission(permission.permissions?.find(e => e.sectionName === 'Products'))
-  }, [permission])
+
   return (
     <MainLayout hideButtons lang={lang} title={localization.translations.titleModalCreate}>
       <Form onValuesChange={validateForm} component={false} ref={formRef}>
@@ -107,7 +101,13 @@ const create = (props: { localization: Localization; lang: string; stores: IStor
             <div className="elementsContainer">
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}></div>
               <div className="elementsContainer">
-                {current === 0 && <FormItemsPersonal stores={stores} translate={localization.translations} />}
+                {current === 0 && (
+                  <FormItemsPersonal
+                    //@ts-ignore
+                    inicialData={{ originFileObj: data?.photo, filename: data?.photo?.name }}
+                    translate={localization.translations}
+                  />
+                )}
                 {current === 1 && <FormItemsLaboral stores={stores} translate={localization.translations} />}
               </div>
               {error && <div className="error">{error}</div>}

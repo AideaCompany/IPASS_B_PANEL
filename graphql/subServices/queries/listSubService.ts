@@ -9,6 +9,10 @@ export const listSubService = /* GraphQL */ `
         products {
           productQuantity
         }
+        type {
+          _id
+          name
+        }
         eta
         staffers {
           _id
@@ -36,14 +40,20 @@ export const listSubService = /* GraphQL */ `
         }
         price
         cost
-        subServiceFee
+        serviceFee
         taxes
         discounts
-        subServiceTime
+        serviceTime
         returnTime
         photo {
           filename
           key
+        }
+        sex
+        stores {
+          _id
+          name
+          address
         }
         createdAt
         updatedAt

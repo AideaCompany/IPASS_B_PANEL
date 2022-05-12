@@ -1,40 +1,44 @@
-import FormItemsInformationClient from '@/components/clients/create/stepOne/formItemsInformationClient'
-import Steps from '@/components/clients/create/Steps'
-import FormItemsComercialClients from '@/components/clients/create/stepTwo/formItemsComercialClients'
 import MainLayout from '@/components/layout/Layout'
+import FormItemsPersonal from '@/components/staff/create/StepOne/formItemPersonal'
+import Steps from '@/components/staff/create/Steps'
+import FormItemsLaboral from '@/components/staff/create/stepTwo/formItemLaboral'
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
-import { createClientFn } from '@/services/clients'
-import { ICreateClient } from '@/types/interfaces/Clients/MutationClient.interface'
-import { IProducts } from '@/types/types'
+import { getStaffFn, updateStaffFn } from '@/services/staff'
+import { getAllStores } from '@/services/stores'
+import { IUpdateStaff } from '@/types/interfaces/staff/mutationStaff.interface'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
+import { IStores } from '@/types/interfaces/Stores/stores.interface'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Form, FormInstance, message } from 'antd'
 import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import React, { useCallback, useRef, useState } from 'react'
 
-const create = (props: { localization: Localization; lang: string }) => {
-  const router = useRouter()
+const update = (props: { localization: Localization; lang: string; stores: IStores[]; staff: IStaff }) => {
   //#region props
-  const { localization, lang } = props
+  const { localization, lang, stores, staff } = props
   //#region
   const { setSpinning } = useAuth()
+  //states
+
   //providers
   const [current, setCurrent] = useState(0)
-
+  const router = useRouter()
   //#region ref
-  const formRef = useRef<FormInstance<IProducts>>(null)
+  const formRef = useRef<FormInstance<IStaff>>(null)
   //#region  states
+  //@ts-ignore
+  const [data, setData] = useState<IStaff>({
+    photo: staff.photo
+  })
 
-  const [error, setError] = useState('')
-  const [data, setData] = useState<IProducts>()
-  const [disabled, setDisabled] = useState(false)
   //#end region states
   //#region functions
   const HandleChangeCurrent = useCallback(
     (type: 'next' | 'back') => {
-      const currentData = formRef.current?.getFieldsValue() as IProducts
+      const currentData = formRef.current?.getFieldsValue() as IStaff
       setData(currentVal => ({ ...currentVal, ...currentData }))
       if (type === 'next') {
         setCurrent(current + 1)
@@ -45,14 +49,14 @@ const create = (props: { localization: Localization; lang: string }) => {
     [current]
   )
   const createProduct = async () => {
-    const newData = (await formRef.current?.validateFields()) as IProducts
-    const finalData = { ...data, ...newData }
+    const newData = (await formRef.current?.validateFields()) as IStaff
+    const finalData = { ...data, ...newData, _id: staff._id }
     setData(finalData)
     setSpinning(true)
     try {
-      await createClientFn(finalData as unknown as ICreateClient)
-      message.success(localization.translations.successfullyCreated)
-      router.push('/[lang]/clients', `/${lang}/clients`)
+      await updateStaffFn(finalData as unknown as IUpdateStaff)
+      message.success(localization.translations.successfullyUpdated)
+      router.push('/[lang]/staff', `/${lang}/staff`)
     } catch (currentError) {
       // manageMentError(
       //   currentError as {
@@ -65,32 +69,10 @@ const create = (props: { localization: Localization; lang: string }) => {
       setSpinning(false)
     }
   }
-  const validateForm = () => {
-    formRef.current
-      ?.validateFields()
-      .then(() => {
-        setError('')
-        setDisabled(false)
-      })
-      .catch((actualError: { errorFields: { name: string[] }[] }) => {
-        if (actualError.errorFields.length > 0) {
-          if (actualError.errorFields[0].name.find((name: string) => name === 'admins')) {
-            setError(localization.translations.selectMinimumAdmin)
-            setDisabled(true)
-          } else {
-            setError(localization.translations.allFieldsAreRequired)
-            setDisabled(true)
-          }
-        } else {
-          setError('')
-          setDisabled(false)
-        }
-      })
-  }
 
   return (
-    <MainLayout hideButtons lang={lang} title={localization.translations.titleModalCreate}>
-      <Form onValuesChange={validateForm} component={false} ref={formRef}>
+    <MainLayout hideButtons lang={lang} title={localization.translations.titleModalUpdate}>
+      <Form initialValues={{ ...staff, stores: (staff.stores as IStores[])?.map(e => e._id) }} component={false} ref={formRef}>
         <div className="container_create_location flex">
           <div className="containerForms">
             <div className="stepsContainer">
@@ -99,10 +81,17 @@ const create = (props: { localization: Localization; lang: string }) => {
             <div className="elementsContainer">
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}></div>
               <div className="elementsContainer">
-                {current === 0 && <FormItemsInformationClient translations={localization.translations} />}
-                {current === 1 && <FormItemsComercialClients translations={localization.translations} />}
+                {current === 0 && (
+                  <FormItemsPersonal
+                    //@ts-ignore
+                    inicialData={{ originFileObj: data?.photo, filename: data?.photo?.name, key: data?.photo?.key }}
+                    translate={localization.translations}
+                    isUpdate={true}
+                  />
+                )}
+                {current === 1 && <FormItemsLaboral isUpdate={true} stores={stores} translate={localization.translations} />}
               </div>
-              {error && <div className="error">{error}</div>}
+
               <div className="buttons">
                 <>
                   {current > 0 && (
@@ -114,7 +103,7 @@ const create = (props: { localization: Localization; lang: string }) => {
                   )}
                   {current < 1 && (
                     <Form.Item noStyle>
-                      <Button disabled={disabled} onClick={() => HandleChangeCurrent('next')} type="primary" shape="round" htmlType="submit">
+                      <Button onClick={() => HandleChangeCurrent('next')} type="primary" shape="round" htmlType="submit">
                         {localization.translations.next}
                       </Button>
                     </Form.Item>
@@ -122,7 +111,7 @@ const create = (props: { localization: Localization; lang: string }) => {
                   {current === 1 && (
                     <Form.Item noStyle>
                       <Button disabled={false} onClick={createProduct} icon={<PlusOutlined />} shape="round" type="primary">
-                        {localization.translations.titleModalCreate}
+                        {localization.translations.titleModalUpdate}
                       </Button>
                     </Form.Item>
                   )}
@@ -136,9 +125,17 @@ const create = (props: { localization: Localization; lang: string }) => {
   )
 }
 
-export default React.memo(create)
+export default React.memo(update)
 
-export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
-  const localization = getLocalizationProps(ctx, 'clients')
-  return { props: { localization } }
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  try {
+    const localization = getLocalizationProps(ctx, 'staff')
+    const stores = await getAllStores()
+    const staff = await getStaffFn(ctx.query.id as string)
+    return { props: { localization, stores, staff } }
+  } catch (error) {
+    return {
+      notFound: true
+    }
+  }
 }

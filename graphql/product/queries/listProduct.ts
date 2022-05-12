@@ -53,11 +53,12 @@ export const listProduct = /* GraphQL */ `
           eta
           price
           cost
-          subServiceFee
+          serviceFee
           taxes
           discounts
-          subServiceTime
+          serviceTime
           returnTime
+          sex
           createdAt
           updatedAt
         }
@@ -65,6 +66,8 @@ export const listProduct = /* GraphQL */ `
         updatedAt
       }
       designedFor
+      createdAt
+      updatedAt
     }
   }
 `

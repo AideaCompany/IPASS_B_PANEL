@@ -1,6 +1,6 @@
 import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 import FormFactory from '../../../crudFunctions/FormFactory'
 import { formElementsComercialInformation } from './formElementsComercialInformation'
 

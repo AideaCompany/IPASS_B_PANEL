@@ -10,11 +10,6 @@ export const formElementsComplements = (stores: IStores[], subServices: ISubServ
       data: ['Hombre', 'Mujer']
     },
     {
-      name: 'stores',
-      type: 'selectMultiple',
-      data: stores
-    },
-    {
       name: 'subService',
       type: 'selectMultiple',
       data: subServices
