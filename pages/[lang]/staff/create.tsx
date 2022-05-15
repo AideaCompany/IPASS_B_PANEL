@@ -5,8 +5,10 @@ import FormItemsLaboral from '@/components/staff/create/stepTwo/formItemLaboral'
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
+import { listAllServicesFn } from '@/services/services'
 import { createStaffFn } from '@/services/staff'
 import { getAllStores } from '@/services/stores'
+import { IService } from '@/types/interfaces/services/Services.interface'
 import { ICreateStaff } from '@/types/interfaces/staff/mutationStaff.interface'
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { IStores } from '@/types/interfaces/Stores/stores.interface'
@@ -16,9 +18,9 @@ import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import React, { useCallback, useRef, useState } from 'react'
 
-const create = (props: { localization: Localization; lang: string; stores: IStores[] }) => {
+const create = (props: { localization: Localization; lang: string; stores: IStores[]; services: IService[] }) => {
   //#region props
-  const { localization, lang, stores } = props
+  const { localization, lang, stores, services } = props
   //#region
   const { setSpinning } = useAuth()
   //states
@@ -108,7 +110,7 @@ const create = (props: { localization: Localization; lang: string; stores: IStor
                     translate={localization.translations}
                   />
                 )}
-                {current === 1 && <FormItemsLaboral stores={stores} translate={localization.translations} />}
+                {current === 1 && <FormItemsLaboral service={services} stores={stores} translate={localization.translations} />}
               </div>
               {error && <div className="error">{error}</div>}
               <div className="buttons">
@@ -149,6 +151,6 @@ export default React.memo(create)
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const localization = getLocalizationProps(ctx, 'staff')
   const stores = await getAllStores()
-
-  return { props: { localization, stores } }
+  const services = await listAllServicesFn()
+  return { props: { localization, stores, services } }
 }

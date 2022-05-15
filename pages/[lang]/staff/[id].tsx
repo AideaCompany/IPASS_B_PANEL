@@ -5,8 +5,10 @@ import FormItemsLaboral from '@/components/staff/create/stepTwo/formItemLaboral'
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
+import { listAllServicesFn } from '@/services/services'
 import { getStaffFn, updateStaffFn } from '@/services/staff'
 import { getAllStores } from '@/services/stores'
+import { IService } from '@/types/interfaces/services/Services.interface'
 import { IUpdateStaff } from '@/types/interfaces/staff/mutationStaff.interface'
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { IStores } from '@/types/interfaces/Stores/stores.interface'
@@ -16,9 +18,9 @@ import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import React, { useCallback, useRef, useState } from 'react'
 
-const update = (props: { localization: Localization; lang: string; stores: IStores[]; staff: IStaff }) => {
+const update = (props: { localization: Localization; lang: string; stores: IStores[]; staff: IStaff; services: IService[] }) => {
   //#region props
-  const { localization, lang, stores, staff } = props
+  const { localization, lang, stores, staff, services } = props
   //#region
   const { setSpinning } = useAuth()
   //states
@@ -72,7 +74,11 @@ const update = (props: { localization: Localization; lang: string; stores: IStor
 
   return (
     <MainLayout hideButtons lang={lang} title={localization.translations.titleModalUpdate}>
-      <Form initialValues={{ ...staff, stores: (staff.stores as IStores[])?.map(e => e._id) }} component={false} ref={formRef}>
+      <Form
+        initialValues={{ ...staff, stores: (staff.stores as IStores[])?.map(e => e._id), services: (staff.services as IService[])?.map(e => e._id) }}
+        component={false}
+        ref={formRef}
+      >
         <div className="container_create_location flex">
           <div className="containerForms">
             <div className="stepsContainer">
@@ -89,7 +95,7 @@ const update = (props: { localization: Localization; lang: string; stores: IStor
                     isUpdate={true}
                   />
                 )}
-                {current === 1 && <FormItemsLaboral isUpdate={true} stores={stores} translate={localization.translations} />}
+                {current === 1 && <FormItemsLaboral service={services} isUpdate={true} stores={stores} translate={localization.translations} />}
               </div>
 
               <div className="buttons">
@@ -132,7 +138,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     const localization = getLocalizationProps(ctx, 'staff')
     const stores = await getAllStores()
     const staff = await getStaffFn(ctx.query.id as string)
-    return { props: { localization, stores, staff } }
+    const services = await listAllServicesFn()
+    return { props: { localization, stores, staff, services } }
   } catch (error) {
     return {
       notFound: true

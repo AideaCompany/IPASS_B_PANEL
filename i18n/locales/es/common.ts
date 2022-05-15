@@ -78,6 +78,7 @@ const common = {
   code: 'Código Temporal',
   typeDocument: 'Tipo de documento',
   document: 'Documento',
-  phone: 'Teléfono'
+  phone: 'Teléfono',
+  schedule: 'Agenda'
 }
 export default common

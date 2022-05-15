@@ -1,4 +1,5 @@
 import { basicTable, fileType } from '@/types/typeTemplate'
+import { IService } from '../services/Services.interface'
 import { IStores } from '../Stores/stores.interface'
 
 export interface IStaff extends basicTable {
@@ -27,7 +28,7 @@ export interface IStaff extends basicTable {
   tokenExpo?: string
   plus?: boolean
   verifyLogin: boolean
-
+  services: IService[] | string[]
   // canUseAuthenticator?: boolean
   // privilegeID?: IPrivilege
 

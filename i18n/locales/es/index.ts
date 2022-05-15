@@ -30,6 +30,7 @@ import subServices from './subServices'
 import stores from './stores'
 import brands from './brands'
 import styleHair from './styleHair'
+import schedule from './schedule'
 export default {
   common,
   auth,
@@ -62,5 +63,6 @@ export default {
   subServices,
   stores,
   brands,
-  styleHair
+  styleHair,
+  schedule
 }

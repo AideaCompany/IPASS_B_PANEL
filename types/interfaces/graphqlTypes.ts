@@ -1,4 +1,4 @@
-export type FilterType = { [value: string]: string }[] | { [value: string]: string }
+export type FilterType = { [value: string]: string | any }[] | { [value: string]: string }
 
 export interface IPaginateRequirement {
   page: number
