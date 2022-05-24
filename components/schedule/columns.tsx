@@ -15,7 +15,7 @@ const columns = (props: {
   after: () => void
   beforeShowUpdate?: (param: any) => any
 }): ColumnType<IServiceSchedule>[] => {
-  const { translations, actualPermission, after } = props
+  const { translations, actualPermission } = props
   const operations = (record: IServiceSchedule) => <></>
 
   return ColumnFactory({
