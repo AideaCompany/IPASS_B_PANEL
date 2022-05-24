@@ -15,11 +15,12 @@ import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.in
 import { IService } from '@/types/interfaces/services/Services.interface'
 import { IServiceSchedule } from '@/types/interfaces/ServiceSchedule/serviceSchedule.interface'
 import { IStaff } from '@/types/interfaces/staff/staff.interface'
-import { formatFiltersTable } from '@/utils/utils'
-import { DatePicker, Form } from 'antd'
+import { PlusOutlined } from '@ant-design/icons'
+import { Button, DatePicker, Tooltip } from 'antd'
 import moment, { Moment } from 'moment-timezone'
 //next
 import { GetServerSidePropsContext } from 'next'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 
@@ -76,8 +77,15 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
 
   const filtersForm = (): JSX.Element => {
     return (
-      <div>
+      <div style={{ marginRight: '40px' }}>
         <DatePicker value={day} onChange={value => setDay(value as Moment)} />
+        <Tooltip title="Agregar agenda">
+          <Link href={{ pathname: '/[lang]/schedule/create', query: { lang } }}>
+            <a>
+              <Button style={{ margin: '5px' }} shape="circle" icon={<PlusOutlined />} />
+            </a>
+          </Link>
+        </Tooltip>
       </div>
     )
   }
