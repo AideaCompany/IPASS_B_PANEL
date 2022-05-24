@@ -4,7 +4,6 @@ import SelectHours from '@/components/schedule/Create/SelectHours'
 import SelectServices from '@/components/schedule/Create/SelectService'
 import Steps from '@/components/schedule/Create/Steps'
 import { Localization } from '@/i18n/types'
-import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllClients } from '@/services/clients'
 import { listAllServicesFn } from '@/services/services'
@@ -15,18 +14,18 @@ import { IStaff } from '@/types/interfaces/staff/staff.interface'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Form, FormInstance } from 'antd'
 import { GetServerSidePropsContext } from 'next'
-import { useRouter } from 'next/router'
 import React, { useCallback, useRef, useState } from 'react'
 
 const create = (props: { clients: IClient[]; localization: Localization; lang: string; services: IService[]; staff: IStaff[] }) => {
   //#region props
   const { localization, lang, services, clients, staff } = props
   //#region
-  const { setSpinning } = useAuth()
+  // const { setSpinning } = useAuth()
   //providers
   const [current, setCurrent] = useState(0)
+  // @ts-ignore
   const [data, setData] = useState({})
-  const router = useRouter()
+  // const router = useRouter()
   //#region ref
   const formRef = useRef<FormInstance>(null)
   const HandleChangeCurrent = useCallback(
