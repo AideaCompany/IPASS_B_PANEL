@@ -2,6 +2,7 @@ const common = {
   uploadGallery: 'Subir Galeria',
   gallery: 'Galeria',
   cms: 'Seguridad',
+  clients: 'Clientes',
   event: 'Eventos',
   contact: 'Contactos',
   visitorCategory: 'Categorías visitante',

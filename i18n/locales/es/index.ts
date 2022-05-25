@@ -24,6 +24,7 @@ import eventExpress from './eventExpress'
 import dashboard from './dashboard'
 import products from './products'
 import serviceTypes from './serviceTypes'
+import clients from './clients'
 export default {
   common,
   auth,
@@ -50,5 +51,6 @@ export default {
   eventExpress,
   dashboard,
   products,
-  serviceTypes
+  serviceTypes,
+  clients
 }
