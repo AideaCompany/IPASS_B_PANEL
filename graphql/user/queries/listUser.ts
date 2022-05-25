@@ -10,9 +10,9 @@ export const listUser = /* GraphQL */ `
         }
         name1
         name2
-        lastname1
-        lastname2
-        lastname
+        lastName1
+        lastName2
+        lastName
         email
         codeWorker
         privilegeID {
@@ -27,7 +27,7 @@ export const listUser = /* GraphQL */ `
         admin {
           _id
           name
-          lastname
+          lastName
           email
           codeWorker
           active

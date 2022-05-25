@@ -1,7 +1,9 @@
-import { IContact, ILocation } from '@/types/types'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
+import { IEventExpress } from '@/types/interfaces/EventExpress/eventExpress.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElements = (locations?: ILocation[], contacts?: IContact[]): FormFactory.FormFactoryType[] => [
+export const formElements = (locations?: ILocation[], contacts?: IContact[]): FormFactory.IFormFactoryType<IEventExpress>[] => [
   {
     name: 'name',
     type: 'string',

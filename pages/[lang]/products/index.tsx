@@ -1,23 +1,21 @@
 //react
 //Components
-import CreateItem from '@/components/crudFunctions/create'
 import MainLayout from '@/components/layout/Layout'
 import columns from '@/components/products/columns'
-import { formElements } from '@/components/products/formElements'
-import FormItems from '@/components/products/formItem'
-import UploadExcel from '@/components/clients/UploadExcel'
 import TableData from '@/components/TableDatas'
-import { createProduct } from '@/graphql/product/mutation/createProduct'
 //types
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 //Context
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllProductsFn } from '@/services/products'
-import { IProduct, PermissionsPrivilege } from '@/types/types'
-import { gql } from '@apollo/client'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IProduct } from '@/types/interfaces/Product/Product.interface'
+import { PlusOutlined } from '@ant-design/icons'
+import { Button, Tooltip } from 'antd'
 //next
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetServerSidePropsContext } from 'next'
+import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 interface actualItem extends IProduct {}
@@ -27,9 +25,9 @@ const Products = (props: { localization: Localization; lang: string }) => {
   const { localization, lang } = props
 
   //states
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
-  const [data, setdata] = useState<actualItem[]>([])
-  const [loading, setloading] = useState<boolean>(true)
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
+  const [data, setData] = useState<actualItem[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
   //providers
   const { permission } = useAuth()
   //Effect
@@ -46,43 +44,36 @@ const Products = (props: { localization: Localization; lang: string }) => {
   }, [actualPermission])
 
   const getData = async () => {
-    setloading(true)
+    setLoading(true)
     const data = await getAllProductsFn()
-    console.log(data)
-    // setdata(await getAllProductsFn())
-    setloading(false)
+    setData(data)
+    setLoading(false)
   }
+
+  const goToCreate = () => (
+    <Tooltip title="Crear producto">
+      <Link href={{ pathname: '/[lang]/products/create', query: { lang } }}>
+        <a>
+          <Button style={{ margin: '5px' }} shape="circle" icon={<PlusOutlined />} />
+        </a>
+      </Link>
+    </Tooltip>
+  )
 
   return (
     <>
-      <MainLayout
-        create={
-          <CreateItem
-            iconButton={true}
-            actualPermission={actualPermission as PermissionsPrivilege}
-            translations={localization.translations}
-            mutation={gql(createProduct)}
-            formElements={formElements()}
-            FormItem={<FormItems isUpdate={true} translations={localization.translations} />}
-            afterCreate={getData}
-
-            /* manageMentError={manageMentError} */
-          />
-        }
-        getData={getData}
-        lang={lang}
-        title={localization?.translations.titleSection}
-      >
+      <MainLayout create={goToCreate()} getData={getData} lang={lang} title={localization?.translations.titleSection}>
         <>
-          <UploadExcel reload={getData} translations={localization.translations} />
           <TableData
             columns={columns({
               translations: localization.translations,
-              actualPermission: actualPermission as PermissionsPrivilege,
+              actualPermission: actualPermission as IPermissionsPrivilege,
               permision: permission,
               lang: lang,
+
               after: getData
             })}
+            scroll={{ x: 1500, y: '60vh' }}
             data={data}
             loading={loading}
           />
@@ -94,18 +85,15 @@ const Products = (props: { localization: Localization; lang: string }) => {
 
 export default React.memo(Products)
 
-export const getStaticProps: GetStaticProps = async ctx => {
-  const localization = getLocalizationProps(ctx, 'products')
-  return {
-    props: {
-      localization
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  try {
+    const localization = getLocalizationProps(ctx, 'products')
+    const page = ctx.query.page ? parseInt(ctx.query.page as string) : 1
+    const limit = ctx.query.limit ? parseInt(ctx.query.limit as string) : 10
+    return { props: { localization, page, limit } }
+  } catch (e) {
+    return {
+      notFound: true
     }
-  }
-}
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: ['es', 'en'].map(lang => ({ params: { lang } })),
-    fallback: false
   }
 }

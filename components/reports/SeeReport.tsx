@@ -1,22 +1,25 @@
 import { ThemeContext } from '@/providers/ThemeContext'
+import { ILocationEntries } from '@/types/interfaces/ILocationEntries/LocationEntries.interface'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { EyeOutlined } from '@ant-design/icons'
 import { Modal, Tooltip } from 'antd'
 import React, { useContext } from 'react'
-import { Translations } from '../../i18n/types'
-import { PermissionsPrivilege } from '../../types/types'
+import { ITranslations } from '../../i18n/types'
+
 import ReportContent from './ReportContent'
 
 const SeeReport = (props: {
-  actualPermisions: PermissionsPrivilege
-  translations: Translations
-  record: any
+  actualPermisions: IPermissionsPrivilege
+  translations: ITranslations
+  record: ILocationEntries
   afterDelete?: () => void
 }): JSX.Element => {
   const { actualPermisions, translations, record } = props
   const { theme } = useContext(ThemeContext)
-  const seeModal = (item: any) => {
+  const seeModal = (item: ILocationEntries) => {
     Modal.confirm({
-      title: `${item.type}: ${item.name}`,
+      title: `${item.type as string}: `,
+      //@ts-ignore
       content: <ReportContent element={item} />,
       className: `modalCrud${theme}`,
       cancelButtonProps: { style: { display: 'none' } },

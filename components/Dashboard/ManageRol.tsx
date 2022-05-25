@@ -1,13 +1,13 @@
 import MainLayout from '@/components/layout/Layout'
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import useSecurity from '@/providers/SecurityContext'
 import React from 'react'
 import SecurityScreen from './SecurityScreen'
 
-const ManageRol = ({ translate }: { translate: Translations }) => {
+const ManageRol = ({ translate }: { translate: ITranslations }) => {
   const { lang } = useSecurity()
   return (
-    <MainLayout layoutMargin={{ margin: '0px 0px' }} notShowHeader hideButtons lang={lang} title={`Seguridad`}>
+    <MainLayout layoutMargin={{ margin: '0px 0px' }} notShowHeader hideButtons lang={lang} title={'Seguridad'}>
       <SecurityScreen translate={translate} />
     </MainLayout>
   )

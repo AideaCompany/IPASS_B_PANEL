@@ -1,10 +1,10 @@
 //react
 //Components
+import CreateItem from '@/components/crudFunctions/create'
+import MainLayout from '@/components/layout/Layout'
 import columns from '@/components/styleHair/columns'
 import { formElements } from '@/components/styleHair/formElements'
 import FormItems from '@/components/styleHair/formItem'
-import CreateItem from '@/components/crudFunctions/create'
-import MainLayout from '@/components/layout/Layout'
 import TableData from '@/components/TableDatas'
 import { createStyleHair } from '@/graphql/styleHair/mutations/createStyleHair'
 //types
@@ -13,21 +13,21 @@ import useAuth from '@/providers/AuthContext'
 //Context
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllstyleHair } from '@/services/styleHair'
-import { IstyleHair, ILocation, PermissionsPrivilege } from '@/types/types'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IStyleHair } from '@/types/interfaces/StyleHair/styleHair.interface'
 import { gql } from '@apollo/client'
 //next
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React, { useEffect, useState } from 'react'
 
-interface actualItem extends IstyleHair {}
+interface actualItem extends IStyleHair {}
 const styleHair = (props: { localization: Localization; lang: string }) => {
   //props
   const { localization, lang } = props
 
   //states
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setdata] = useState<actualItem[]>([])
-  const [locations, setLocations] = useState<ILocation[]>([])
   const [loading, setloading] = useState<boolean>(true)
   //providers
   const { permission } = useAuth()
@@ -56,7 +56,7 @@ const styleHair = (props: { localization: Localization; lang: string }) => {
         create={
           <CreateItem
             iconButton={true}
-            actualPermission={actualPermission as PermissionsPrivilege}
+            actualPermission={actualPermission as IPermissionsPrivilege}
             translations={localization.translations}
             mutation={gql(createStyleHair)}
             formElements={formElements()}
@@ -73,7 +73,7 @@ const styleHair = (props: { localization: Localization; lang: string }) => {
         <TableData
           columns={columns({
             translations: localization.translations,
-            actualPermission: actualPermission as PermissionsPrivilege,
+            actualPermission: actualPermission as IPermissionsPrivilege,
             permision: permission,
 
             lang: lang,

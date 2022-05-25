@@ -1,9 +1,12 @@
+/* eslint-disable no-unused-vars */
 //types
 import { deleteEventChangeStatus } from '@/graphql/event/mutation/deleteEventChangeStatus'
 import { updateEvent } from '@/graphql/event/mutation/updateEvent'
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IEvent, ILocation, PermissionsPrivilege, Privilege } from '@/types/types'
+import { IEvent } from '@/types/interfaces/Event/event.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { getTime } from '@/utils/utils'
 import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons'
 import { ColumnType } from 'antd/lib/table'
@@ -18,27 +21,35 @@ import { formElements } from './formElements'
 import FormItems from './formItem'
 import ManageGuest from './ManageGuest'
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  permision: Privilege
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
+  permision: IPrivilege
   lang: string
   locations: ILocation[]
-  beforeShowUpdate?: (param: any) => any
+  beforeShowUpdate?: (param: IEvent) => IEvent
   after: () => void
 }): ColumnType<IEvent>[] => {
   const { translations, actualPermission, locations, after } = props
   const { theme } = useContext(ThemeContext)
-  const beforeUpdateRecord = (record: any) => {
+  const beforeUpdateRecord = (record: IEvent) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
     record.start = record.rangeTime[0]
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
     record.end = record.rangeTime[1]
-    const { rangeTime, ...newRecord } = record
-    return newRecord
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
+    delete record.rangeTime
+    return record
   }
-  const beforeShowUpdate = (record: any) => {
+  const beforeShowUpdate = (record: IEvent) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
     record.rangeTime = [moment(record.start), moment(record.end)]
     return record
   }
-  const operations = (record: any) => (
+  const operations = (record: IEvent) => (
     <>
       <ManageGuest translations={translations} record={record} />
       <UpdateItem
@@ -79,7 +90,7 @@ const columns = (props: {
       },
       {
         name: 'location',
-        customRender: (render: IEvent) => <>{`${render?.location?.name}`}</>
+        customRender: (render: IEvent) => <>{`${(render?.location as ILocation)?.name}`}</>
       },
       {
         name: 'beforeStart'

@@ -1,11 +1,12 @@
 import { ThemeContext } from '@/providers/ThemeContext'
 import { resetTokenFn } from '@/services/users'
-import { IWorker, User } from '@/types/types'
+import { IStaff } from '@/types/interfaces/staff/staff.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
 import { RedoOutlined } from '@ant-design/icons'
 import { Button, Modal, Tooltip } from 'antd'
 import React, { useContext } from 'react'
 
-const ResetToken = ({ record, type, after }: { record: User | IWorker; type: string; after: () => void }) => {
+const ResetToken = ({ record, type, after }: { record: IUser | IStaff; type: string; after: () => void }) => {
   //#region provider
   const { theme } = useContext(ThemeContext)
   //#endregion provider

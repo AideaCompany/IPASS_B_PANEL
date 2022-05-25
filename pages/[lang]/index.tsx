@@ -1,14 +1,13 @@
+import React from 'react'
 import { GetStaticPaths, GetStaticProps } from 'next'
-//component
-import { Localization } from '../../i18n/types'
 import { getLocalizationProps } from '../../providers/LenguageContext'
-const dashboard = (props: { localization: Localization }) => {
+const dashboard = () => {
   return <></>
 }
 
 export default dashboard
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'auth')
   return {
     props: {
@@ -17,7 +16,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
   }
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false

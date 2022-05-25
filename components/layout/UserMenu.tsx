@@ -11,7 +11,7 @@ const UserMenu = () => {
   const [userPicture] = useState<string>('')
   useEffect(() => {
     if (user) {
-      setusername(`${user.name} ${user.lastname}`)
+      setusername(`${user.name as string} ${user.lastName as string}`)
     }
   }, [user])
 

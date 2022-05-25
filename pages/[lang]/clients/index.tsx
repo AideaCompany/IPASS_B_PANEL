@@ -1,11 +1,8 @@
 import columns from '@/components/clients/columns'
-import { formElements } from '@/components/clients/formElements'
-import FormItems from '@/components/clients/formItems'
-import CreateItem from '@/components/crudFunctions/create'
+import UploadExcel from '@/components/clients/UploadExcel'
 //components
 import MainLayout from '@/components/layout/Layout'
 import TableData from '@/components/TableDatas'
-import { createClient } from '@/graphql/clients/mutations/createClient'
 import { setToken } from '@/graphql/config'
 //Lenguage
 import { Localization } from '@/i18n/types'
@@ -16,16 +13,21 @@ import { getAllApps } from '@/services/apps'
 import { getAllClients } from '@/services/clients'
 import { getAllLocationActive } from '@/services/locations'
 import { listTimeZonesFn } from '@/services/timeZone'
-import { listGroupWorkerIfExistFn } from '@/services/workers'
+import { IClient } from '@/types/interfaces/Clients/client.interface'
+import { IPaginated } from '@/types/interfaces/graphqlTypes'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 //apollo
-import { IClient, Paginated, PermissionsPrivilege } from '@/types/types'
+
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
-import { gql } from '@apollo/client'
+import { PlusOutlined } from '@ant-design/icons'
+import { Button, Tooltip } from 'antd'
 import * as cookie from 'cookie'
 //next
 import { GetServerSidePropsContext } from 'next'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+
 const clients = (props: { localization: Localization; lang: string; page: number; limit: number }): JSX.Element => {
   //props
   const { localization, lang, page, limit } = props
@@ -35,21 +37,20 @@ const clients = (props: { localization: Localization; lang: string; page: number
   const router = useRouter()
   //state
   const [data, setData] = useState<IClient[]>()
-  const [loading, setLoading] = useState<boolean>(true)
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
-  const [_, setPermissionPermission] = useState<PermissionsPrivilege>()
+  const [loading, setLoading] = useState<boolean>(false)
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
+  const [_, setPermissionPermission] = useState<IPermissionsPrivilege>()
   const [filters, setFilters] = useState<any>([])
   const [actualLimit, setActualLimit] = useState(limit)
   const [actualPage, setActualPage] = useState(page)
-  const [pagination, setPagination] = useState<Paginated<IClient>>()
-
+  const [pagination, setPagination] = useState<IPaginated<IClient>>()
   //Effect
   useEffect(() => {
     ;(async () => {
       if (permission) {
         setLoading(true)
-        setPermissionPermission(permission.permissions?.find(e => e.sectionName === 'Permission'))
-        setActualPermission(permission.permissions?.find(e => e.sectionName?.toLocaleLowerCase() === 'clients'))
+        setPermissionPermission(permission.permissions?.find((e: any) => e.sectionName === 'Permission'))
+        setActualPermission(permission.permissions?.find((e: any) => e.sectionName?.toLocaleLowerCase() === 'clients'))
       }
     })()
   }, [permission])
@@ -69,52 +70,38 @@ const clients = (props: { localization: Localization; lang: string; page: number
     setLoading(true)
 
     const result = await getAllClients(actualPage, actualLimit, filters)
+
     setPagination(result)
-    setData(
-      convertTotable(result.docs)
-        .map(e => ({
-          ...e,
-          photo: e.photo ? { ...e.photo, key: `${process.env.NEXT_PUBLIC_S3}/${e.photo.key}` } : e.photo
-        }))
-        .reverse()
-    )
+    setData(convertTotable(result.docs).reverse())
 
     setLoading(false)
   }
 
-  const beforeCreate = (item: IClient) => {
-    console.log(item)
-    const newClient = item
-    return newClient
-  }
-
-  const createButton = (
+  const goToCreate = () => (
     <div className="ButtonsUp">
-      <CreateItem
-        actualPermission={actualPermission as PermissionsPrivilege}
-        translations={localization.translations}
-        mutation={gql(createClient)}
-        formElements={formElements()}
-        afterCreate={getData}
-        beforeCreate={beforeCreate}
-        iconButton={true}
-        FormItem={<FormItems isUpdate={true} translations={localization.translations} />}
-      />
+      <UploadExcel reload={getData} translations={localization.translations} />
+      <Tooltip title="Crear cliente">
+        <Link href={{ pathname: '/[lang]/clients/create', query: { lang } }}>
+          <a>
+            <Button style={{ margin: '5px' }} shape="circle" icon={<PlusOutlined />} />
+          </a>
+        </Link>
+      </Tooltip>
     </div>
   )
-
   const onchange = (_: any, filters: any, sorter: any) => {
     setFilters(formatFiltersTable(filters))
   }
 
   return (
     <>
-      <MainLayout getData={getData} create={createButton} lang={lang} title={`${localization?.translations.titleSection} `}>
+      <MainLayout getData={getData} create={goToCreate()} lang={lang} title={`${localization?.translations.titleSection} `}>
         <div>
           <TableData
             columns={columns({
+              lang,
               translations: localization.translations,
-              actualPermission: actualPermission as PermissionsPrivilege,
+              actualPermission: actualPermission as IPermissionsPrivilege,
               after: getData,
               privileges: privilege
             })}
@@ -164,9 +151,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       // const filters = queriesNames.length > 0 && queriesNames.map(e => ({ [e]: ctx.query[e] as string }))
       const locations = await getAllLocationActive()
       const timeZone = await listTimeZonesFn()
-      const groups = await listGroupWorkerIfExistFn()
       const apps = await getAllApps()
-      return { props: { localization, page, limit, locations, timeZone, groups, apps } }
+      return { props: { localization, page, limit, locations, timeZone, apps } }
     } else {
       return {
         notFound: true

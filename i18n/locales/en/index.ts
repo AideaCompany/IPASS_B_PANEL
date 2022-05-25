@@ -7,7 +7,7 @@ import gallery from './gallery'
 import timeZone from './timeZone'
 import eventExpress from './eventExpress'
 import contact from './contact'
-import worker from './worker'
+import staff from './staff'
 import device from './device'
 import products from './products'
 import serviceTypes from './serviceTypes'
@@ -21,8 +21,8 @@ export default {
   timeZone,
   eventExpress,
   contact,
-  worker,
   device,
   products,
-  serviceTypes
+  serviceTypes,
+  staff
 }

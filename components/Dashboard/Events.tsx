@@ -1,5 +1,7 @@
 import useSecurity from '@/providers/SecurityContext'
-import { IContact, IEvent } from '@/types/types'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
+import { IEvent } from '@/types/interfaces/Event/event.interface'
+
 import { getTime } from '@/utils/utils'
 import { UserOutlined } from '@ant-design/icons'
 import { List, Tooltip } from 'antd'

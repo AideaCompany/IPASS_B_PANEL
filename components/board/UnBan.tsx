@@ -3,10 +3,10 @@ import { message, Modal, Tooltip } from 'antd'
 import { DocumentNode } from 'graphql'
 import React from 'react'
 import client from '../../graphql/config'
-import { Translations } from '../../i18n/types'
+import { ITranslations } from '../../i18n/types'
 
 const UnBan = (props: {
-  translations: Translations
+  translations: ITranslations
   mutation: DocumentNode
   theme: string
   record: any
@@ -28,7 +28,7 @@ const UnBan = (props: {
   }
 
   const unBanModal = async (item: any) => {
-    var result
+    let result
     if (content) {
       result = await content(item)
     }

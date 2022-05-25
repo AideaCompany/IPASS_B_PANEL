@@ -12,7 +12,7 @@ const dashboard = {
   location: 'Locación',
   state: 'Estado',
   name: 'Nombre (Invitado)',
-  lastname: 'Apellido (Invitado)',
+  lastName: 'Apellido (Invitado)',
   dpi: 'DPI',
   deletedDate: 'Fecha de eliminación',
   whoDeleted: 'Eliminado por',

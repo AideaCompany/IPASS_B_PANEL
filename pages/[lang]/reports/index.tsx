@@ -17,7 +17,11 @@ import { getAllLocationActive } from '@/services/locations'
 import { getAllMasterLocation } from '@/services/masterLocations'
 import { generateReport, generateReportPDF } from '@/services/report'
 import { getAllHostUsers, listAllUsersFn } from '@/services/users'
-import { ILocation, ILocationEntries, Paginated, PermissionsPrivilege, User } from '@/types/types'
+import { FilterType, IPaginated } from '@/types/interfaces/graphqlTypes'
+import { ILocationEntries } from '@/types/interfaces/ILocationEntries/LocationEntries.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
 import { getDpi, getHost, getLastName, getName, getType } from '@/utils/report'
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
 import { Button, Form, FormInstance } from 'antd'
@@ -29,14 +33,14 @@ import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-interface actualItem extends ILocationEntries {}
+type actualItem = ILocationEntries
 
 const visitorCategory = (props: { localization: Localization; lang: string; page: number; limit: number }) => {
   //props
   const { localization, lang, page, limit } = props
 
   //states
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   //#region tables init data
   const [dataHis, setDataHis] = useState<actualItem[]>([])
   //#endregion tables init data
@@ -44,16 +48,16 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
   //#region filtered tables data
   const [filteredDataHist, setFilteredDataHist] = useState<actualItem[]>([])
   const [filteredLocEntr, setfilteredLocEntr] = useState<actualItem[]>([])
-  const [filters, setFilters] = useState<any>([])
+  const [filters, setFilters] = useState<FilterType[]>([])
   const [actualLimit, setActualLimit] = useState(limit)
   const [actualPage, setActualPage] = useState(page)
-  const [pagination, setPagination] = useState<Paginated<actualItem>>()
+  const [pagination, setPagination] = useState<IPaginated<actualItem>>()
   //#endregion filtered tables data
 
   //#region filters locEntr data
   const [locations, setLocations] = useState<ILocation[]>([])
-  const [hosts, sethosts] = useState<User[]>([])
-  const [users, setusers] = useState<User[]>([])
+  const [hosts, sethosts] = useState<IUser[]>([])
+  const [users, setusers] = useState<IUser[]>([])
   //#endregion filters locEntr data
 
   const [loading, setloading] = useState<boolean>(true)
@@ -73,6 +77,7 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
   }, [permission])
 
   useEffect(() => {
+    // eslint-disable-next-line no-extra-semi , @typescript-eslint/no-extra-semi
     ;(async () => {
       if (actualPermission) {
         getData()
@@ -86,13 +91,17 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
     setloading(true)
     const tempLocation = await getAllLocationActive()
     setLocations(tempLocation)
-    const locations = tempLocation.map((location: any) => ({ ...location, type: 'Locación' }))
-    const events = (await getAllEventsHistory()).map((event: any) => ({ ...event, type: 'Evento' }))
-    const users = (await getAllHistoryUser()).map((user: any) => ({ ...user, type: 'Usuario' }))
-    const masterLocations = (await getAllMasterLocation()).map((masterLoc: any) => ({ ...masterLoc, type: 'Locación Maestra' }))
-    const result = [...events, ...locations, ...users, ...masterLocations]
+    const currentLocations = tempLocation.map(location => ({ ...location, type: 'Locación' }))
+    const events = (await getAllEventsHistory()).map(event => ({ ...event, type: 'Evento' }))
+    const currentUsers = (await getAllHistoryUser()).map(user => ({ ...user, type: 'Usuario' }))
+    const masterLocations = (await getAllMasterLocation()).map(masterLoc => ({ ...masterLoc, type: 'Locación Maestra' }))
+    const result = [...events, ...currentLocations, ...currentUsers, ...masterLocations]
     //#region datahis
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
     setDataHis(result)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
     setFilteredDataHist(result)
     //#endregion datahis
 
@@ -109,7 +118,10 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
     delete values.start
     delete values.end
     const result = await listLocationEntriesPaginatedFn(actualPage, actualLimit, {
+      /* eslint-disable */
+      //@ts-ignore
       filters: [...filters],
+      //@ts-ignore
       selected: [
         ...Object.keys(values)
           .filter(e => values[e])
@@ -121,9 +133,10 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
         apps: values.apps
       }
     })
-    console.log(result)
+
     setPagination(result)
     setfilteredLocEntr(
+      //@ts-ignore
       convertTotable(
         result.docs.map(e => ({
           ...e,
@@ -131,7 +144,7 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
           date: e.createdAt,
           host: getHost(e),
           name: getName(e),
-          lastname: getLastName(e),
+          lastName: getLastName(e),
           in: e.hourIn,
           out: e.hourOut,
           location: e.location,
@@ -139,27 +152,36 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
         }))
       )
     )
+    /* eslint-enable */
     setloading(false)
   }
 
-  const getFilteredLocEntr = async (filter: any) => {
+  const getFilteredLocEntr = async (filter: FilterType) => {
     setloading(true)
     const resultLoc = await getAllLocationEntries(filter)
     setfilteredLocEntr(resultLoc)
     setloading(false)
   }
 
-  const getFilteredHistory = async (filter: any) => {
+  const getFilteredHistory = (filter: FilterType) => {
     setloading(true)
-    var filtered = dataHis
+    /* eslint-disable */
+    //@ts-ignore
+    let filtered = dataHis
+    //@ts-ignore
     if (filter.start !== null && filter.end !== null) {
+      //@ts-ignore
       filtered = filtered.filter((item: any) => moment(item.updatedAt).isBetween(filter.start, filter.end, 'days', '[]'))
     }
+    //@ts-ignore
     if (filter.users !== null) {
+      //@ts-ignore
       filtered = filtered.filter((item: any) => {
+        //@ts-ignore
         if (!filter.users) {
           return true
         } else {
+          //@ts-ignore
           return !item.whoDeleted ? false : item.whoDeleted._id == filter?.users
         }
       })
@@ -176,7 +198,9 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
     delete values.end
     setloading(true)
     const res = await generateReport(actualPage, actualLimit, {
+      //@ts-ignore
       filters: [...filters],
+      //@ts-ignore
       selected: [
         ...Object.keys(values)
           .filter(e => values[e])
@@ -188,16 +212,17 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
         apps: values.apps
       }
     })
-    let a = document.createElement('a')
+    const a = document.createElement('a')
     a.style.display = 'none'
-    a.href = `${process.env.NEXT_PUBLIC_BACK_FILES}/report/${res}`
+
+    a.href = `${process.env.NEXT_PUBLIC_BACK_FILES as string}/report/${res}`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
     setloading(false)
   }
-  const onchange = (_: any, filters: any, sorter: any) => {
-    setFilters(formatFiltersTable(filters))
+  const onchange = (_: unknown, newFilters: FilterType) => {
+    setFilters(formatFiltersTable(newFilters))
   }
   useEffect(() => {
     getLocationEntries()
@@ -210,7 +235,9 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
     delete values.end
     setloading(true)
     const res = await generateReportPDF(actualPage, actualLimit, {
+      //@ts-ignore
       filters: [...filters],
+      //@ts-ignore
       selected: [
         ...Object.keys(values)
           .filter(e => values[e])
@@ -222,9 +249,10 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
         apps: values.apps
       }
     })
-    let a = document.createElement('a')
+    /* eslint-enable */
+    const a = document.createElement('a')
     a.style.display = 'none'
-    a.href = `${process.env.NEXT_PUBLIC_BACK_FILES}/report/${res}`
+    a.href = `${process.env.NEXT_PUBLIC_BACK_FILES as string}/report/${res}`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -286,25 +314,28 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
               permision: permission,
               lang: lang
             })}
+            /* eslint-disable */
+            //@ts-ignore
             onChange={onchange}
+            /* eslint-enable */
             pagination={{
               pageSize: actualLimit,
               size: 'default',
               total: pagination?.totalDocs,
               showTotal: (total, range) => `Mostrando ${range[0]}-${range[1]} de ${total} registros`,
               current: actualPage,
-              onChange: page => {
-                setActualPage(page)
+              onChange: newPage => {
+                setActualPage(newPage)
                 router.replace({
                   pathname: router.pathname,
-                  query: { ...router.query, page }
+                  query: { ...router.query, newPage }
                 })
               },
-              onShowSizeChange: (_, limit) => {
-                setActualLimit(limit)
+              onShowSizeChange: (_, newLimit) => {
+                setActualLimit(newLimit)
                 router.replace({
                   pathname: router.pathname,
-                  query: { ...router.query, limit }
+                  query: { ...router.query, newLimit }
                 })
               }
             }}
@@ -317,7 +348,7 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
             <Form ref={formHistory} onFinish={getFilteredHistory}>
               <div className="top">
                 <FormFactory
-                  isUpdate={false}
+                  isUpdate={true}
                   theme={theme}
                   translate={localization.translations}
                   formElements={[
@@ -326,9 +357,9 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
                     {
                       name: 'users',
                       type: 'select',
-                      data: users.map((user: any) => {
+                      data: users.map((user: IUser) => {
                         user.name = user.email
-                        return { ...user }
+                        return user
                       })
                     }
                   ]}
@@ -349,9 +380,10 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
           </div>
 
           <TableData
+            //@ts-ignore
             columns={columnsHis({
               translations: localization.translations,
-              actualPermission: actualPermission as PermissionsPrivilege,
+              actualPermission: actualPermission as IPermissionsPrivilege,
               permision: permission,
               lang: lang
             })}
@@ -366,7 +398,7 @@ const visitorCategory = (props: { localization: Localization; lang: string; page
 
 export default React.memo(visitorCategory)
 
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
   const localization = getLocalizationProps(ctx, 'reports')
   const page = ctx.query.page ? parseInt(ctx.query.page as string) : 1
   const limit = ctx.query.limit ? parseInt(ctx.query.limit as string) : 10

@@ -1,5 +1,6 @@
 import useSecurity from '@/providers/SecurityContext'
-import { ILocation } from '@/types/types'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+
 import { Card, Select } from 'antd'
 import React from 'react'
 import ChangeView from './ChangeView'
@@ -20,7 +21,7 @@ const Buttons = () => {
             defaultValue={locations[0]?._id}
             allowClear={false}
             filterOption={(input, option: any) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-            onChange={value => setSelectedLocation((locations as ILocation[])?.find(e => e._id === value) as ILocation)}
+            onChange={value => setSelectedLocation(((locations as ILocation[])?.find(e => e._id === value) as ILocation) || null)}
           >
             {locations?.map(e => (
               <Select.Option key={e._id} value={e._id}>

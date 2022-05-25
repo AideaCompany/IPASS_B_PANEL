@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { DocumentNode } from 'graphql'
-import { Translations } from '../../i18n/types'
+import { ITranslations } from '../../i18n/types'
 import client from '../../graphql/config'
 import { message, Modal, Tooltip } from 'antd'
-import { PermissionsPrivilege } from '../../types/types'
+
 import { DeleteOutlined } from '@ant-design/icons'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 
 const DeleteItem = (props: {
-  actualPermission: PermissionsPrivilege
-  translations: Translations
+  actualPermission: IPermissionsPrivilege
+  translations: ITranslations
   mutation: DocumentNode
   theme: string
   record: any
@@ -19,19 +21,21 @@ const DeleteItem = (props: {
   const deleteItem = (data: any) => {
     client
       .mutate({ mutation: mutation, variables: { input: { _id: data._id } } })
-      .then(res => {
+      .then(() => {
         message.success(translations.successfullyDeleted)
-        afterDelete && afterDelete()
+        if (afterDelete) {
+          afterDelete()
+        }
       })
       .catch(err => {
-        console.error(err)
+        console.info(err)
         message.error(translations.errorDeleted)
       })
   }
 
   const deleteModal = (item: any) => {
     Modal.confirm({
-      title: `${translations.titleModalDelete} ${item.name}?`,
+      title: `${translations.titleModalDelete} ${item.name as string}?`,
       okText: translations.buttonDelete,
       onOk: () => deleteItem(item),
       cancelText: translations.cancel,

@@ -6,7 +6,7 @@ export const createEventExpress = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
       }
       start
@@ -35,7 +35,7 @@ export const createEventExpress = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           country

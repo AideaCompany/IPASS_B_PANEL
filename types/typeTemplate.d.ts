@@ -1,20 +1,20 @@
 import { ColumnFilterItem } from 'antd/lib/table/interface'
 
-export type ColumnFactoryType = {
+export type ColumnFactoryType<T> = {
   name: string
   search?: boolean
   sort?: boolean
   filter?: ColumnFilterItem[]
-  customRender?: (render: any, index?: number) => JSX.Element | string
+  customRender?: (render: T, index?: number) => JSX.Element | string
   customFilter?: string
-  filteredValue?: any
+  filteredValue?: T
   fixed?: 'left' | 'right' | false
-  width?: any
+  width?: string | number
   ellipsis?: boolean
 }
 
 export type basicTable = {
-  _id: string
+  _id?: string
   key?: string
   createdAt?: Date
   updatedAt?: Date
@@ -27,10 +27,11 @@ export type operation = 'create' | 'update' | 'delete'
 export namespace FormFactory {
   /**
    *  Type para form factory
+   *
    * @param FormFactoryType
    * @param typeForm Tipo de item
    */
-  export interface FormFactoryType {
+  export interface IFormFactoryType<T> {
     /**
      * @param name Nombre del item, colocar el mismo para errores y para label
      * @param type Tipo de item
@@ -49,15 +50,15 @@ export namespace FormFactory {
     type: typeForm
     visible?: boolean
     required?: boolean
-    adicionalProps?: any
+    adicionalProps?: object
     fullWidth?: boolean
     // Para selector
-    data?: any[]
+    data?: string[] | unknown[]
     //para Table
-    actualFormRef?: FormInstance<any> | null | undefined
+    actualFormRef?: FormInstance<T> | null | undefined
     FormItems?: (update: boolean, key?: string) => JSX.Element
     columnsItem?: ColumnFactoryType[]
-    inicialData?: any
+    inicialData?: object | boolean | fileType | unknown
     //Para dynamic
     formListElements?: FormFactoryType[]
     //mostrar

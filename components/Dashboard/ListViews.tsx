@@ -1,7 +1,11 @@
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import useSecurity from '@/providers/SecurityContext'
-import { IContact, IEvent, IEventExpress, ILocation, ILocationEntries } from '@/types/types'
-import { typeQr } from '@/types/valuesAddQr'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
+import { IEvent } from '@/types/interfaces/Event/event.interface'
+import { IEventExpress } from '@/types/interfaces/EventExpress/eventExpress.interface'
+import { ILocationEntries } from '@/types/interfaces/ILocationEntries/LocationEntries.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { typeQr } from '@/types/interfaces/valuesAddQr'
 import { getDpi, getHost, getLastName, getName, getType } from '@/utils/report'
 import { CalendarOutlined, UserOutlined } from '@ant-design/icons'
 import { Table, Tooltip } from 'antd'
@@ -9,19 +13,32 @@ import moment from 'moment-timezone'
 import React, { useState } from 'react'
 import ColumnFactory from '../crudFunctions/columnFactory'
 
-const ListViews = ({ translate }: { translate: Translations }) => {
+interface IListViews extends ILocationEntries {
+  date: string
+  host: string
+  name: string
+  lastName: string
+  in: string
+  out: string
+  location: string
+  dpi: string
+}
+
+const ListViews = ({ translate }: { translate: ITranslations }) => {
   const { setContactData, setShowContact, setEventData, setShowEvent, entries } = useSecurity()
   // @ts-ignore
   const [searchedWord, setSearchedWord] = useState<string>('')
   console.log(entries)
-  const values = entries.map((e, i) => ({
+
+  //@ts-ignore
+  const values: IListViews = entries.map((e, i) => ({
     ...e,
     key: i,
     type: getType(e.typeQr),
     date: e.createdAt,
     host: getHost(e),
     name: getName(e),
-    lastname: getLastName(e),
+    lastName: getLastName(e),
     in: e.hourIn,
     out: e.hourOut,
     location: e.location,
@@ -46,16 +63,18 @@ const ListViews = ({ translate }: { translate: Translations }) => {
         </div>
       </div> */}
       <Table
+        //@ts-ignore
         dataSource={values}
         rowClassName="rowTable"
         sticky={true}
         pagination={{ pageSize: 6 }}
         // scroll={{ y: '65vh' }}
-        columns={ColumnFactory({
+        columns={ColumnFactory<IListViews>({
           columns: [
             {
               name: 'type',
-              customRender: (render: typeQr) => render,
+              //@ts-ignore
+              customRender: (render: string) => render,
               search: true
             },
             {
@@ -74,7 +93,7 @@ const ListViews = ({ translate }: { translate: Translations }) => {
             },
             {
               name: 'host',
-              customRender: (render: ILocationEntries) => render.host
+              customRender: (render: ILocationEntries) => render.host as string
             },
             {
               name: 'location',
@@ -82,16 +101,19 @@ const ListViews = ({ translate }: { translate: Translations }) => {
             },
             {
               name: 'name',
+              //@ts-ignore
               customRender: (render: string) => render,
               search: true
             },
             {
-              name: 'lastname',
+              name: 'lastName',
+              //@ts-ignore
               customRender: (render: string) => render,
               search: true
             },
             {
               name: 'dpi',
+              //@ts-ignore
               customRender: (render: string) => render,
               search: true
             },
@@ -99,7 +121,7 @@ const ListViews = ({ translate }: { translate: Translations }) => {
               name: 'seeMore',
               customRender: (render: ILocationEntries) => {
                 const toReturn = []
-                if ([typeQr.event, typeQr.eventExpress].includes(render.typeQr)) {
+                if ([typeQr.event, typeQr.eventExpress].includes(render.typeQr as typeQr)) {
                   toReturn.push(
                     <>
                       <Tooltip title={'Ver evento'}>
@@ -125,7 +147,7 @@ const ListViews = ({ translate }: { translate: Translations }) => {
                 //             toSeeContact({
                 //               verified: false,
                 //               firstName: (render.worker as IWorker).name,
-                //               lastName: (render.worker as IWorker).lastname,
+                //               lastName: (render.worker as IWorker).lastName,
                 //               email: (render.worker as IWorker).email
                 //             } as IContact)
                 //           }
@@ -144,7 +166,7 @@ const ListViews = ({ translate }: { translate: Translations }) => {
                 //             toSeeContact({
                 //               verified: false,
                 //               firstName: (render.user as User).name,
-                //               lastName: (render.user as User).lastname,
+                //               lastName: (render.user as User).lastName,
                 //               email: (render.user as User).email
                 //             } as IContact)
                 //           }

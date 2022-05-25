@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 export const listServiceType = /* GraphQL */` 
  query listServiceType{
     listServiceType{
@@ -6,3 +7,17 @@ export const listServiceType = /* GraphQL */`
     }
 }
 `;
+=======
+export const listServiceType = /* GraphQL */ `
+  query listServiceType {
+    listServiceType {
+      _id
+      name
+      logo {
+        filename
+        key
+      }
+    }
+  }
+`
+>>>>>>> dev

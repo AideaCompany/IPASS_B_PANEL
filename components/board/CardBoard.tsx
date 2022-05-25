@@ -1,8 +1,8 @@
-import { iGeneralAnalythics } from '@/types/types'
+import { IGeneralAnalythics } from '@/types/types'
 import { Card } from 'antd'
 import React from 'react'
 
-const CardBoard = ({ generalAnalythics }: { generalAnalythics: iGeneralAnalythics }) => {
+const CardBoard = ({ generalAnalythics }: { generalAnalythics: IGeneralAnalythics }) => {
   const { eventos, eventosExpress, incumplimientos } = generalAnalythics
 
   return (

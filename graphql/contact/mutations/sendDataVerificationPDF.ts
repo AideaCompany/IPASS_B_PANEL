@@ -10,7 +10,7 @@ export const sendDataVerificationPDF = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id

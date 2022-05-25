@@ -1,5 +1,6 @@
 //types
 import { deleteClient } from '@/graphql/clients/mutations/deleteClient'
+<<<<<<< HEAD
 import { updateClient } from '@/graphql/clients/mutations/updateClient'
 import { Translations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
@@ -8,10 +9,23 @@ import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Image } from 'antd'
 import { ColumnType } from 'antd/lib/table'
 import gql from 'graphql-tag'
+=======
+import { ITranslations } from '@/i18n/types'
+import { ThemeContext } from '@/providers/ThemeContext'
+import { IClient } from '@/types/interfaces/Clients/client.interface'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { EditFilled, UserOutlined } from '@ant-design/icons'
+import { Avatar, Button, Image, Tooltip } from 'antd'
+import { ColumnType } from 'antd/lib/table'
+import gql from 'graphql-tag'
+import moment from 'moment-timezone'
+import Link from 'next/link'
+>>>>>>> dev
 import React, { useContext } from 'react'
 //component
 import ColumnFactory from '../crudFunctions/columnFactory'
 import DeleteItem from '../crudFunctions/delete'
+<<<<<<< HEAD
 import UpdateItem from '../crudFunctions/update'
 import { formElements } from './formElements'
 import FormItems from './formItems'
@@ -38,6 +52,29 @@ const columns = (props: {
         FormItems={<FormItems translations={translations} isUpdate />}
         formElements={formElements()}
       />
+=======
+import RenderCheck from '../RenderCheck'
+
+const columns = (props: {
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
+  privileges: IPrivilege[]
+  after: () => void
+  lang: string
+  // filters: any[]
+}): ColumnType<IClient>[] => {
+  const { translations, actualPermission, after, lang } = props
+  const { theme } = useContext(ThemeContext)
+  const operations = (record: IClient) => (
+    <>
+      <Tooltip title="Crear cliente">
+        <Link href={{ pathname: '/[lang]/clients/[id]', query: { lang, id: record._id } }}>
+          <a>
+            <Button style={{ margin: '5px' }} shape="circle" icon={<EditFilled />} />
+          </a>
+        </Link>
+      </Tooltip>
+>>>>>>> dev
       <DeleteItem
         actualPermission={actualPermission}
         afterDelete={after}
@@ -66,12 +103,16 @@ const columns = (props: {
           )
         }
       },
+<<<<<<< HEAD
       {
         name: 'plus',
         fixed: 'left',
         search: true,
         width: 100
       },
+=======
+
+>>>>>>> dev
       {
         name: 'name1',
         fixed: 'left',
@@ -79,13 +120,18 @@ const columns = (props: {
         width: 200
       },
       {
+<<<<<<< HEAD
         name: 'lastname1',
         fixed: 'left',
+=======
+        name: 'lastName1',
+>>>>>>> dev
         search: true,
         width: 200
       },
       {
         name: 'phone1',
+<<<<<<< HEAD
         fixed: 'left',
         search: true,
         width: 150
@@ -118,6 +164,8 @@ const columns = (props: {
       },
       {
         name: 'phone2',
+=======
+>>>>>>> dev
         search: true,
         width: 150
       },
@@ -127,6 +175,7 @@ const columns = (props: {
         width: 250
       },
       {
+<<<<<<< HEAD
         name: 'privateAddress',
         search: true,
         width: 150
@@ -178,10 +227,14 @@ const columns = (props: {
       },
       {
         name: 'productsNotes',
+=======
+        name: 'document',
+>>>>>>> dev
         search: true,
         width: 150
       },
       {
+<<<<<<< HEAD
         name: 'medicalNotes',
         search: true,
         width: 150
@@ -190,6 +243,18 @@ const columns = (props: {
         name: 'socialMedia',
         search: true,
         width: 150
+=======
+        name: 'plus',
+        customRender: (record: IClient) => <RenderCheck value={record?.plus} />,
+        search: true,
+        width: 100
+      },
+      {
+        name: 'createdAt',
+        customRender: (record: IClient) => moment.tz(record?.createdAt, 'America/Guatemala').format('DD/MM/YYYY'),
+        search: true,
+        width: 200
+>>>>>>> dev
       }
     ],
     translate: translations,

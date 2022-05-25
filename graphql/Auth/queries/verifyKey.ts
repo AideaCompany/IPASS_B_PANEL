@@ -1,5 +1,5 @@
-export const verifyKey = /* GraphQL */` 
- query verifyKey($key: String){
+export const verifyKey = /* GraphQL */ `
+  query verifyKey($key: String) {
     verifyKey(key: $key)
-}
-`;
+  }
+`

@@ -13,7 +13,8 @@ import useAuth from '@/providers/AuthContext'
 //Context
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllBrands } from '@/services/brands'
-import { IBrands, ILocation, PermissionsPrivilege } from '@/types/types'
+import { IBrands } from '@/types/interfaces/Brands/Brands.interface'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { gql } from '@apollo/client'
 //next
 import { GetStaticPaths, GetStaticProps } from 'next'
@@ -25,15 +26,14 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
   const { localization, lang } = props
 
   //states
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setdata] = useState<actualItem[]>([])
-  const [locations, setLocations] = useState<ILocation[]>([])
   const [loading, setloading] = useState<boolean>(true)
   //providers
   const { permission } = useAuth()
   //Effect
   useEffect(() => {
-    setActualPermission(permission.permissions?.find(e => e.sectionName === 'brands'))
+    setActualPermission(permission.permissions?.find(e => e.sectionName === 'Brands'))
   }, [permission])
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
         create={
           <CreateItem
             iconButton={true}
-            actualPermission={actualPermission as PermissionsPrivilege}
+            actualPermission={actualPermission as IPermissionsPrivilege}
             translations={localization.translations}
             mutation={gql(createBrands)}
             formElements={formElements()}
@@ -73,10 +73,8 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
         <TableData
           columns={columns({
             translations: localization.translations,
-            actualPermission: actualPermission as PermissionsPrivilege,
+            actualPermission: actualPermission as IPermissionsPrivilege,
             permision: permission,
-
-            lang: lang,
             after: getData
           })}
           data={data}

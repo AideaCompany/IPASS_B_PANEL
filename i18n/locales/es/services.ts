@@ -10,6 +10,7 @@ const services = {
   product: 'Producto',
   productQuantity: 'Cantidad de producto',
   titleModalCreate: 'Crear Servicio',
+  titleModalUpdate: 'Actualizar Servicio',
   staffers: 'Staffers',
   eta: 'ETA',
   price: 'Precio',
@@ -21,6 +22,10 @@ const services = {
   returnTime: 'Tiempo de retorno',
   stores: 'Establecimientos',
   subService: 'SubServicio',
+  generalInformation: 'Información del servicio',
+  resources: 'Recursos',
+  comercialInformation: 'Información comercial',
+  complements: 'Anexos',
   //messages
   errorName: 'Por favor ingrese un nombre'
 }

@@ -1,6 +1,7 @@
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElementsSuperanfitrion = (): FormFactory.FormFactoryType[] => [
+export const formElementsSuperanfitrion = (): FormFactory.IFormFactoryType<IContact>[] => [
   {
     name: 'DPI',
     type: 'string',

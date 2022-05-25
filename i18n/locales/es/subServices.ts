@@ -1,5 +1,5 @@
 const subServices = {
-  titleSection: 'Lista de subservicios',
+  titleSection: 'Lista de sub servicios',
   plus: 'Plus',
   name: 'Nombre',
   photo: 'Icono',
@@ -9,7 +9,8 @@ const subServices = {
   addNew: 'Agrega Productos',
   product: 'Producto',
   productQuantity: 'Cantidad de producto',
-  titleModalCreate: 'Crear Servicio',
+  titleModalCreate: 'Crear SubServicio',
+  titleModalUpdate: 'Actualizar SubServicio',
   staffers: 'Staffers',
   eta: 'ETA',
   price: 'Precio',
@@ -18,11 +19,19 @@ const subServices = {
   taxes: 'Impuestos',
   discounts: 'Descuentos',
   subServiceTime: 'Tiempo del servicio',
+  serviceTime: 'Tiempo del servicio',
   returnTime: 'Tiempo de retorno',
   stores: 'Establecimientos',
   subService: 'SubServicio',
+  serviceFee: 'Comisión',
+  generalInformation: 'Información del servicio',
+  resources: 'Recursos',
+  comercialInformation: 'Información comercial',
+  complements: 'Anexos',
   //messages
-  errorName: 'Por favor ingrese un nombre'
+  errorName: 'Por favor ingrese un nombre',
+  successfullyCreated: 'Creado con éxito',
+  successfullyUpdated: 'Actualizado con éxito'
 }
 
 export default subServices

@@ -1,5 +1,4 @@
 import { updateMasterLocationFn } from '@/services/masterLocations'
-import { ILocation, IMasterLocation } from '@/types/types'
 import { CommonPropsModal } from '@/utils/utils'
 
 import { PlusOutlined } from '@ant-design/icons'
@@ -22,6 +21,8 @@ import ReactFlow, {
 import ButtonEdge from './ButtonEdge'
 import dagre from 'dagre'
 import _ from 'lodash'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IMasterLocation } from '@/types/interfaces/MasterLocation/MasterLocation.interface'
 
 const dagreGraph = new dagre.graphlib.Graph()
 dagreGraph.setDefaultEdgeLabel(() => ({}))
@@ -76,7 +77,7 @@ const index = ({ locations, masterLocation }: { locations: ILocation[]; masterLo
   }
   //#region states
   const [visible, setVisible] = useState(false)
-  const [elements, setElements] = useState<Elements>(getLayoutedElements(elementsInitial))
+  const [elements, setElements] = useState<Elements>(getLayoutedElements(elementsInitial as Edge<any>[]))
   const [instance, setInstance] = useState(null)
   //#endregion states
 

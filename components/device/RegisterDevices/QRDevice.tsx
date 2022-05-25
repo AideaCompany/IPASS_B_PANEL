@@ -1,6 +1,6 @@
 import Qr from '@/components/Qr'
-import { Translations } from '@/i18n/types'
-import { IDevice } from '@/types/types'
+import { ITranslations } from '@/i18n/types'
+import { IDevice } from '@/types/interfaces/Device/Device.interface'
 import { download_qr } from '@/utils/QR_utils'
 import { CommonPropsModal } from '@/utils/utils'
 import { DownloadOutlined, QrcodeOutlined } from '@ant-design/icons'
@@ -8,7 +8,7 @@ import { Button, Tooltip } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import React, { useState } from 'react'
 
-const QRDevice = ({ device, translations }: { device: IDevice; translations: Translations }) => {
+const QRDevice = ({ device, translations }: { device: IDevice; translations: ITranslations }) => {
   //#region  states
   const [visible, setVisible] = useState(false)
   //#endregion states

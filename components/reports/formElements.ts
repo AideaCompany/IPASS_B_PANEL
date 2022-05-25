@@ -1,7 +1,7 @@
-import { ILocation } from '@/types/types'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElements = (locations?: ILocation[]): FormFactory.FormFactoryType[] => [
+export const formElements = (locations?: ILocation[]): FormFactory.IFormFactoryType<unknown>[] => [
   {
     name: 'name',
     type: 'string',

@@ -9,11 +9,13 @@ import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 //Context
 import { getLocalizationProps } from '@/providers/LenguageContext'
-import { getAllLocationActive } from '@/services/locations'
 import { getAllRisks } from '@/services/risk'
 import { getResetTime } from '@/services/riskReset'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IRisk } from '@/types/interfaces/Risk/Risk.interface'
+import { IRiskReset } from '@/types/interfaces/RiskReset/RiskReset.interface'
 /* import { getAllAuthenticator } from '@/services/risk' */
-import { ILocation, IRisk, IRiskReset, PermissionsPrivilege } from '@/types/types'
+
 import { FileOutlined } from '@ant-design/icons'
 import { Button, Tooltip } from 'antd'
 //next
@@ -21,16 +23,16 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 
-interface actualItem extends IRisk {}
+type actualItem = IRisk
 const visitorCategory = (props: { localization: Localization; lang: string }) => {
   //props
   const { localization, lang } = props
 
   //states
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [data, setdata] = useState<actualItem[]>([])
   const [resetTime, setResetTime] = useState<IRiskReset[]>([])
-  const [_, setLocations] = useState<ILocation[]>([])
+
   const [loading, setloading] = useState<boolean>(true)
   //providers
   const { permission } = useAuth()
@@ -41,18 +43,15 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
   }, [permission])
 
   useEffect(() => {
-    ;(async () => {
-      if (actualPermission) {
-        getData()
-      }
-    })()
+    if (actualPermission) {
+      getData()
+    }
   }, [actualPermission])
 
   const getData = async () => {
     setloading(true)
     setdata(await getAllRisks())
     setResetTime(await getResetTime())
-    setLocations(await getAllLocationActive())
     setloading(false)
   }
 
@@ -75,7 +74,7 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
           <TableData
             columns={columns({
               translations: localization.translations,
-              actualPermission: actualPermission as PermissionsPrivilege,
+              actualPermission: actualPermission as IPermissionsPrivilege,
               permision: permission,
               lang: lang,
               after: getData
@@ -87,7 +86,7 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
           <TableData
             columns={columnsTime({
               translations: localization.translations,
-              actualPermission: actualPermission as PermissionsPrivilege,
+              actualPermission: actualPermission as IPermissionsPrivilege,
               permision: permission,
               lang: lang,
               after: getData
@@ -103,7 +102,7 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
 
 export default React.memo(visitorCategory)
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'risk')
   return {
     props: {
@@ -111,7 +110,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
     }
   }
 }
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false

@@ -3,7 +3,7 @@ export const listHistoryUser = /* GraphQL */ `
     listHistoryUser {
       _id
       name
-      lastname
+      lastName
       email
       privilegeID {
         _id
@@ -44,7 +44,7 @@ export const listHistoryUser = /* GraphQL */ `
         whoDeleted {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -103,7 +103,7 @@ export const listHistoryUser = /* GraphQL */ `
         admins {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -124,7 +124,7 @@ export const listHistoryUser = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -145,7 +145,7 @@ export const listHistoryUser = /* GraphQL */ `
         security {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -183,7 +183,7 @@ export const listHistoryUser = /* GraphQL */ `
         whoDeleted {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -205,7 +205,7 @@ export const listHistoryUser = /* GraphQL */ `
       admin {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -236,7 +236,7 @@ export const listHistoryUser = /* GraphQL */ `
       whoDeleted {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id

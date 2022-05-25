@@ -1,13 +1,14 @@
 import FormFactory from '@/components/crudFunctions/FormFactory'
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { getAllLocationActive } from '@/services/locations'
-import { ILocation } from '@/types/types'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+
 import React, { useContext, useEffect, useState } from 'react'
 import { formElements } from './formElements'
 
-const InfoEventForm = ({ translate, validate }: { translate: Translations; validate: () => void }) => {
+const InfoEventForm = ({ translate, validate }: { translate: ITranslations; validate: () => void }) => {
   const { theme } = useContext(ThemeContext)
   const { permission } = useAuth()
   // const { validate } = useLocation()
@@ -27,8 +28,8 @@ const InfoEventForm = ({ translate, validate }: { translate: Translations; valid
   }, [])
 
   const getData = async () => {
-    const locations = await getAllLocationActive()
-    setLocations(locations)
+    const currentLocations = await getAllLocationActive()
+    setLocations(currentLocations)
   }
 
   return (

@@ -1,7 +1,7 @@
 const common = {
   uploadGallery: 'Subir Galeria',
   gallery: 'Galeria',
-  cms: 'Seguridad',
+  cms: 'Dashboard',
   clients: 'Clientes',
   services: 'Servicios',
   subservices: 'SubServicios',
@@ -43,13 +43,13 @@ const common = {
   errorPrivilege: 'Por favor, Selecciona el Rol del usuario.',
   errorDocument: 'Por favor, Inserta tu documento',
   errorPhone: 'Por favor, Inserta tu teléfono',
-  error: `Por favor, Selecciona el país del usuario.`,
+  error: 'Por favor, Selecciona el país del usuario.',
   errorTokenConfirm: 'Por favor inserta tu código de verificación.',
   generalError: 'Algo salió mal',
   goBack: 'Regresar',
   titleDashboard: 'Panel de administración.',
   location: 'Locación',
-  worker: 'Trabajadores',
+  staff: 'Staffer',
   products: 'Productos',
   serviceTypes: 'Tipos de servicios',
   creating: 'Creando ...',
@@ -78,6 +78,7 @@ const common = {
   code: 'Código Temporal',
   typeDocument: 'Tipo de documento',
   document: 'Documento',
-  phone: 'Teléfono'
+  phone: 'Teléfono',
+  schedule: 'Agenda'
 }
 export default common

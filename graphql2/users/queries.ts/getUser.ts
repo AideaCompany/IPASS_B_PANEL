@@ -3,7 +3,7 @@ export const getUser = /* GraphQL */ `
     getUser(_id: $_id) {
       _id
       name
-      lastname
+      lastName
       email
       privilegeID {
         _id
@@ -28,7 +28,7 @@ export const getUser = /* GraphQL */ `
       admin {
         _id
         name
-        lastname
+        lastName
         email
         active
         token

@@ -1,14 +1,14 @@
 //types
 import ColumnFactory from '@/components/crudFunctions/columnFactory'
-import { Translations } from '@/i18n/types'
-import { IContact, ILocation } from '@/types/types'
+import { ITranslations } from '@/i18n/types'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
 import { ColumnType } from 'antd/lib/table'
 import React from 'react'
 
-const columns = (props: { translations: Translations }): ColumnType<ILocation>[] => {
+const columns = (props: { translations: ITranslations }): ColumnType<ILocation>[] => {
   const { translations } = props
 
-  const operations = (record: IContact) => <></>
+  const operations = () => <></>
   return ColumnFactory({
     columns: [
       {

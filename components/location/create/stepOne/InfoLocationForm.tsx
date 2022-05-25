@@ -1,14 +1,15 @@
 import FormFactory from '@/components/crudFunctions/FormFactory'
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import useLocation from '@/providers/LocationContext'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { getAvailableDevices } from '@/services/device'
-import { IDevice } from '@/types/types'
+import { IDevice } from '@/types/interfaces/Device/Device.interface'
+
 import React, { useContext, useEffect, useState } from 'react'
 import { formElementsSuperAdmin } from './formElementsSuperAdmin'
 
-const InfoLocationForm = ({ translate }: { translate: Translations }) => {
+const InfoLocationForm = ({ translate }: { translate: ITranslations }) => {
   const { theme } = useContext(ThemeContext)
   const { permission } = useAuth()
   const { validate } = useLocation()
@@ -28,13 +29,13 @@ const InfoLocationForm = ({ translate }: { translate: Translations }) => {
   }, [])
 
   const getData = async () => {
-    const devices = await getAvailableDevices()
-    setDevices(devices)
+    const newDevices = await getAvailableDevices()
+    setDevices(newDevices)
   }
 
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-      <FormFactory isUpdate={false} formElements={getFormElements()} theme={theme} translate={translate} />
+      <FormFactory isUpdate={true} formElements={getFormElements()} theme={theme} translate={translate} />
     </div>
   )
 }

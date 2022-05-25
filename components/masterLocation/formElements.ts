@@ -1,7 +1,8 @@
-import { ILocation } from '@/types/types'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IMasterLocation } from '@/types/interfaces/MasterLocation/MasterLocation.interface'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElements = (locations: ILocation[]): FormFactory.FormFactoryType[] => [
+export const formElements = (locations: ILocation[]): FormFactory.IFormFactoryType<IMasterLocation>[] => [
   {
     name: 'name',
     type: 'string',

@@ -3,7 +3,8 @@ import MainLayout from '@/components/layout/Layout'
 import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { createDeviceFn } from '@/services/device'
-import { IDevice } from '@/types/types'
+import { IDevice } from '@/types/interfaces/Device/Device.interface'
+import { ICreateDevice } from '@/types/interfaces/Device/MutationDevice.interface'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Form, FormInstance, message } from 'antd'
 import { Localization } from 'i18n/types'
@@ -11,7 +12,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import React, { useRef, useState } from 'react'
 
-const create = (props: { localization: Localization; lang: string }) => {
+const createDevice = (props: { localization: Localization; lang: string }) => {
   //#region props
   const { localization, lang } = props
   //#end region props
@@ -31,8 +32,8 @@ const create = (props: { localization: Localization; lang: string }) => {
 
   //#region functions
 
-  const manageMentError = (error: any) => {
-    if (error['graphQLErrors'][0].message.includes('E11000 duplicate')) {
+  const manageMentError = (currentError: { graphQLErrors: { message: string }[] }) => {
+    if (currentError['graphQLErrors'][0].message.includes('E11000 duplicate')) {
       message.error({ content: localization.translations.serialDuplicated, key: 'creating' })
     } else {
       message.error({ content: localization.translations.errorCreated, key: 'creating' })
@@ -40,29 +41,30 @@ const create = (props: { localization: Localization; lang: string }) => {
   }
 
   const create = async () => {
-    const newData = (await formRef.current?.validateFields()) as IDevice
+    //@ts-ignore
+    const newData = (await formRef.current?.validateFields()) as ICreateDevice
     setSpinning(true)
     try {
       await createDeviceFn(newData)
       message.success(localization.translations.successfullyCreated)
       router.push('/[lang]/device', `/${lang}/device`)
-    } catch (error: any) {
-      manageMentError(error)
+    } catch (currentError) {
+      manageMentError(currentError as { graphQLErrors: { message: string }[] })
     } finally {
       setSpinning(false)
     }
   }
 
-  const validateForm = async () => {
+  const validateForm = () => {
     formRef.current
       ?.validateFields()
       .then(() => {
         setError('')
         setDisabled(false)
       })
-      .catch(async (error: any) => {
-        if (error.errorFields.length > 0) {
-          if (error.errorFields[0].name.find((name: string) => name === 'admins')) {
+      .catch((currentError: { errorFields: { name: string[] }[] }) => {
+        if (currentError.errorFields.length > 0) {
+          if (currentError.errorFields[0].name.find((name: string) => name === 'admins')) {
             setError(localization.translations.selectMinimumAdmin)
             setDisabled(true)
           } else {
@@ -101,8 +103,8 @@ const create = (props: { localization: Localization; lang: string }) => {
   )
 }
 
-export default React.memo(create)
-export const getStaticProps: GetStaticProps = async ctx => {
+export default React.memo(createDevice)
+export const getStaticProps: GetStaticProps = ctx => {
   const localization = getLocalizationProps(ctx, 'device')
   return {
     props: {
@@ -110,7 +112,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
     }
   }
 }
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: ['es', 'en'].map(lang => ({ params: { lang } })),
     fallback: false

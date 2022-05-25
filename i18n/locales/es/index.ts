@@ -4,7 +4,7 @@ import layout from './layout'
 import user from './user'
 import permission from './permission'
 import gallery from './gallery'
-import worker from './worker'
+import staff from './staff'
 import location from './location'
 import event from './event'
 import contact from './contact'
@@ -30,6 +30,7 @@ import subServices from './subServices'
 import stores from './stores'
 import brands from './brands'
 import styleHair from './styleHair'
+import schedule from './schedule'
 export default {
   common,
   auth,
@@ -37,7 +38,7 @@ export default {
   user,
   permission,
   gallery,
-  worker,
+  staff,
   location,
   event,
   contact,
@@ -62,5 +63,6 @@ export default {
   subServices,
   stores,
   brands,
-  styleHair
+  styleHair,
+  schedule
 }

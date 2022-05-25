@@ -1,5 +1,6 @@
 //types
 import { deleteService } from '@/graphql/services/mutations/deleteService'
+<<<<<<< HEAD
 import { updateService } from '@/graphql/services/mutations/updateService'
 import { Translations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
@@ -8,10 +9,22 @@ import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Image } from 'antd'
 import { ColumnType } from 'antd/lib/table'
 import gql from 'graphql-tag'
+=======
+import { ITranslations } from '@/i18n/types'
+import { ThemeContext } from '@/providers/ThemeContext'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IService } from '@/types/interfaces/services/Services.interface'
+import { EditOutlined, UserOutlined } from '@ant-design/icons'
+import { Avatar, Button, Image, Tooltip } from 'antd'
+import { ColumnType } from 'antd/lib/table'
+import gql from 'graphql-tag'
+import Link from 'next/link'
+>>>>>>> dev
 import React, { useContext } from 'react'
 //component
 import ColumnFactory from '../crudFunctions/columnFactory'
 import DeleteItem from '../crudFunctions/delete'
+<<<<<<< HEAD
 import UpdateItem from '../crudFunctions/update'
 import { formElements } from './formElements'
 import FormItems from './formItems'
@@ -40,6 +53,28 @@ const columns = (props: {
         FormItems={<FormItems dataProducts={dataProducts} dataServiceType={dataServiceType} translations={translations} isUpdate />}
         formElements={formElements(dataServiceType, dataProducts)}
       />
+=======
+
+const columns = (props: {
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
+  privileges: IPrivilege[]
+  after: () => void
+  // filters: any[]
+  lang: string
+}): ColumnType<IService>[] => {
+  const { translations, actualPermission, lang, after } = props
+  const { theme } = useContext(ThemeContext)
+  const operations = (record: IService) => (
+    <>
+      <Tooltip title="Actualizar servicio">
+        <Link href={{ pathname: '/[lang]/services/[id]', query: { lang, id: record._id } }}>
+          <a>
+            <Button style={{ margin: '5px' }} shape="circle" icon={<EditOutlined />} />
+          </a>
+        </Link>
+      </Tooltip>
+>>>>>>> dev
       <DeleteItem
         actualPermission={actualPermission}
         afterDelete={after}
@@ -80,6 +115,7 @@ const columns = (props: {
         width: 150,
         search: true
       },
+<<<<<<< HEAD
       {
         name: 'type',
         fixed: 'left',
@@ -101,6 +137,20 @@ const columns = (props: {
         search: true,
         width: 150
       },
+=======
+      // {
+      //   name: 'type',
+      //   fixed: 'left',
+      //   width: 150,
+      //   search: true
+      // },
+      // {
+      //   name: 'plus',
+      //   search: true,
+      //   customRender: (record: IService) => <RenderCheck value={record.plus} />,
+      //   width: 150
+      // },
+>>>>>>> dev
       {
         name: 'eta',
         search: true,
@@ -145,6 +195,7 @@ const columns = (props: {
         name: 'sex',
         search: true,
         width: 150
+<<<<<<< HEAD
       },
       {
         name: 'stores',
@@ -155,6 +206,8 @@ const columns = (props: {
         name: 'subService',
         search: true,
         width: 150
+=======
+>>>>>>> dev
       }
     ],
     translate: translations,

@@ -31,14 +31,14 @@
 
     // /* Handle */
     &::-webkit-scrollbar-thumb {
-      background: $mainOrange;
+      background: $antBlue;
       border-radius: 5px;
       transition: ease-in-out 0.3s;
     }
 
     /* Handle on hover */
     &::-webkit-scrollbar-thumb:hover {
-      background: rgba($color: $lightOrange, $alpha: 0.9);
+      background: rgba($color: $antBlue, $alpha: 0.9);
     }
   }
   .ant-layout-sider-children {
@@ -46,9 +46,9 @@
   }
 
   .ant-layout-sider-trigger {
-    background: $lightOrange;
+    background: $antBlue;
     border-radius: 0 20px 20px 0;
-    color: $mainDarkColor;
+    color: $mainColor;
     height: 40px;
   }
   .headerLayout {
@@ -76,14 +76,14 @@
 
     // /* Handle */
     &::-webkit-scrollbar-thumb {
-      background: $mainOrange;
+      background: $antBlue;
       border-radius: 5px;
       transition: ease-in-out 0.3s;
     }
 
     /* Handle on hover */
     &::-webkit-scrollbar-thumb:hover {
-      background: rgba($color: $mainOrange, $alpha: 0.9);
+      background: rgba($color: $antBlue, $alpha: 0.9);
     }
     h1 {
       font-weight: bold;
@@ -112,7 +112,7 @@
     }
     .ant-layout-sider-trigger {
       // color: $mainDarkColor;
-      background: $mainOrange;
+      background: $antBlue;
     }
     // .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal)
     //   .ant-menu-item-selected {
@@ -131,13 +131,13 @@
 
       // /* Handle */
       &::-webkit-scrollbar-thumb {
-        background: $mainOrange;
+        background: $antBlue;
         border-radius: 5px;
       }
 
       /* Handle on hover */
       &::-webkit-scrollbar-thumb:hover {
-        background: $lightOrange;
+        background: $lightBlue;
       }
       h1 {
         color: $colorDarkText;

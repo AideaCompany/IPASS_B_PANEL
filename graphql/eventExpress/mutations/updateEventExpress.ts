@@ -6,7 +6,7 @@ export const updateEventExpress = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
       }
       start
@@ -35,7 +35,7 @@ export const updateEventExpress = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
           country

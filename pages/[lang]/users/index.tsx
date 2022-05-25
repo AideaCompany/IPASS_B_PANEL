@@ -6,37 +6,43 @@ import columns from '@/components/users/columns'
 import { formElements } from '@/components/users/formElements'
 import FormItems from '@/components/users/formItems'
 import ModalKeyUser from '@/components/users/ModalKeyUser'
+import { setToken } from '@/graphql/config'
 import { createUser } from '@/graphql/user/mutation/createUser'
 //Lenguage
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import useData from '@/providers/DataContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
+import { getAllApps } from '@/services/apps'
 import { getAllLocationActive } from '@/services/locations'
 import { listTimeZonesFn } from '@/services/timeZone'
-import { countUserWorkerFn, getAllUsers, verifyKeyUserFn } from '@/services/users'
-import { listGroupWorkerIfExistFn } from '@/services/workers'
+import { getAllUsers, verifyKeyUserFn } from '@/services/users'
+import { IApps } from '@/types/interfaces/Apps/Apps.interface'
+import { FilterType, IPaginated } from '@/types/interfaces/graphqlTypes'
+import { IGroupWorker } from '@/types/interfaces/GroupWorker/GroupWorker.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
 //apollo
-import { IApps, IGroupWorker, ILocation, iTimeZone, Paginated, PermissionsPrivilege, User } from '@/types/types'
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
 import { gql } from '@apollo/client'
-import { setToken } from '@/graphql/config'
 //antd
 import { Button, Tooltip } from 'antd'
+import * as cookie from 'cookie'
 import { Role } from 'icons/personalIcons'
 //next
 import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import * as cookie from 'cookie'
-import { getAllApps } from '@/services/apps'
+
 const user = (props: {
   localization: Localization
   lang: string
   page: number
   limit: number
   locations: ILocation[]
-  timeZone: iTimeZone[]
+  timeZone: ITimeZone[]
   groups: IGroupWorker[]
   apps: IApps[]
 }): JSX.Element => {
@@ -47,26 +53,23 @@ const user = (props: {
   const { permission } = useAuth()
   const router = useRouter()
   //state
-  const [data, setData] = useState<User[]>()
+  const [data, setData] = useState<IUser[]>()
   const [loading, setLoading] = useState<boolean>(true)
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
-  const [_, setPermissionPermission] = useState<PermissionsPrivilege>()
-  const [filters, setFilters] = useState<any>([])
-  const [actualLimit, setActualLimit] = useState(limit)
-  const [actualPage, setActualPage] = useState(page)
-  const [pagination, setPagination] = useState<Paginated<User>>()
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
+
+  const [filters, setFilters] = useState<FilterType>([])
+  const [actualLimit, setActualLimit] = useState<number>(limit)
+  const [actualPage, setActualPage] = useState<number>(page)
+  const [pagination, setPagination] = useState<IPaginated<IUser>>()
   const [open, setOpen] = useState(false)
-  const [countUsers, setCountUsers] = useState(0)
 
   //Effect
   useEffect(() => {
-    ;(async () => {
-      if (permission) {
-        setLoading(true)
-        setPermissionPermission(permission.permissions?.find(e => e.sectionName === 'Permission'))
-        setActualPermission(permission.permissions?.find(e => e.sectionName?.toLocaleLowerCase() === 'users'))
-      }
-    })()
+    if (permission) {
+      setLoading(true)
+      // setPermissionPermission(permission.permissions?.find(e => e.sectionName === 'Permission'))
+      setActualPermission(permission.permissions?.find(e => e.sectionName?.toLocaleLowerCase() === 'users'))
+    }
   }, [permission])
 
   useEffect(() => {
@@ -86,14 +89,13 @@ const user = (props: {
     if (!res) {
       setOpen(true)
     } else {
-      setCountUsers(await countUserWorkerFn())
       const result = await getAllUsers(actualPage, actualLimit, filters)
       setPagination(result)
       setData(
         convertTotable(result.docs)
           .map(e => ({
             ...e,
-            photo: e.photo ? { ...e.photo, key: `${process.env.NEXT_PUBLIC_S3}/${e.photo.key}` } : e.photo
+            photo: e.photo ? { ...e.photo, key: `${process.env.NEXT_PUBLIC_S3 as string}/${e.photo.key}` } : e.photo
           }))
           .reverse()
       )
@@ -101,8 +103,7 @@ const user = (props: {
     setLoading(false)
   }
 
-  const beforeCreate = (item: User) => {
-    console.log(item)
+  const beforeCreate = (item: IUser) => {
     const newUser = item
     newUser.lang = lang
     return newUser
@@ -111,7 +112,7 @@ const user = (props: {
   const createButton = (
     <div className="ButtonsUp">
       <CreateItem
-        actualPermission={actualPermission as PermissionsPrivilege}
+        actualPermission={actualPermission as IPermissionsPrivilege}
         translations={localization.translations}
         mutation={gql(createUser)}
         formElements={formElements(privilege, apps, locations, timeZone)}
@@ -144,12 +145,12 @@ const user = (props: {
     </div>
   )
 
-  const onchange = (_: any, filters: any, sorter: any) => {
-    setFilters(formatFiltersTable(filters))
+  const onchange = (_: unknown, currentFilters: FilterType) => {
+    setFilters(formatFiltersTable(currentFilters))
   }
 
-  const beforeShowUpdate = (render: User) => {
-    render.group = (render?.group as IGroupWorker[])?.map(e => e._id)
+  const beforeShowUpdate = (render: IUser) => {
+    // render.group = (render?.group as IGroupWorker[])?.map(e => e._id)
     // render.timeZone = (render?.timeZone as iTimeZone[])?.map(e => e._id)
     // render.nativeLocation = (render?.nativeLocation as ILocation)?._id
     return render
@@ -158,18 +159,13 @@ const user = (props: {
   return (
     <>
       <ModalKeyUser getData={getData} visible={open} setOpen={setOpen} />
-      <MainLayout
-        getData={getData}
-        create={createButton}
-        lang={lang}
-        title={`${localization?.translations.titleSection} - ${countUsers - 1}/1500 usuarios`}
-      >
+      <MainLayout getData={getData} create={createButton} lang={lang} title={`${localization?.translations.titleSection}`}>
         <div>
           <TableData
             columns={columns({
               apps,
               translations: localization.translations,
-              actualPermission: actualPermission as PermissionsPrivilege,
+              actualPermission: actualPermission as IPermissionsPrivilege,
               after: getData,
               privileges: privilege,
               beforeShowUpdate: beforeShowUpdate,
@@ -179,6 +175,8 @@ const user = (props: {
             })}
             data={data}
             loading={loading}
+            /* eslint-disable-next-line */
+            // @ts-ignore
             onChange={onchange}
             scroll={{ x: 1500, y: '60vh' }}
             pagination={{
@@ -187,18 +185,18 @@ const user = (props: {
               total: pagination?.totalDocs,
               showTotal: (total, range) => `Mostrando ${range[0]}-${range[1]} de ${total} Usuario`,
               current: actualPage,
-              onChange: page => {
-                setActualPage(page)
+              onChange: newPage => {
+                setActualPage(newPage)
                 router.replace({
                   pathname: router.pathname,
-                  query: { ...router.query, page }
+                  query: { ...router.query, page: newPage }
                 })
               },
-              onShowSizeChange: (_, limit) => {
-                setActualLimit(limit)
+              onShowSizeChange: (_, newLimit) => {
+                setActualLimit(newLimit)
                 router.replace({
                   pathname: router.pathname,
-                  query: { ...router.query, limit }
+                  query: { ...router.query, newLimit }
                 })
               }
             }}
@@ -211,11 +209,11 @@ const user = (props: {
 
 export default React.memo(user)
 
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const token = ctx?.req?.headers?.cookie
   if (token) {
-    if (cookie.parse(token as string).authRenapPanel) {
-      setToken(cookie.parse(token as string).authRenapPanel)
+    if (cookie.parse(token).authRenapPanel) {
+      setToken(cookie.parse(token).authRenapPanel)
       const localization = getLocalizationProps(ctx, 'user')
       const page = ctx.query.page ? parseInt(ctx.query.page as string) : 1
       const limit = ctx.query.limit ? parseInt(ctx.query.limit as string) : 10
@@ -223,9 +221,9 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       // const filters = queriesNames.length > 0 && queriesNames.map(e => ({ [e]: ctx.query[e] as string }))
       const locations = await getAllLocationActive()
       const timeZone = await listTimeZonesFn()
-      const groups = await listGroupWorkerIfExistFn()
+      // const groups = await listGroupWorkerIfExistFn()
       const apps = await getAllApps()
-      return { props: { localization, page, limit, locations, timeZone, groups, apps } }
+      return { props: { localization, page, limit, locations, timeZone, groups: [], apps } }
     } else {
       return {
         notFound: true

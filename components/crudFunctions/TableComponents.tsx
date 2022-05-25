@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useRef, useState, useEffect } from 'react'
 
-import { Translations } from 'i18n/types'
+import { ITranslations } from 'i18n/types'
 import ButtonsCrud from '@/components/ButtonsCrud'
 import { FormInstance } from 'antd/lib/form'
 import { message, Modal, Form, Tooltip } from 'antd'
@@ -11,19 +14,19 @@ import { ColumnFactoryType } from '@/types/typeTemplate'
 
 const TableComponent = (props: {
   FormItems: (update: boolean, key?: string) => JSX.Element
-  translations: Translations
+  translations: ITranslations
   theme: string
   actualRef: FormInstance<any> | null | undefined
   name: string
-  columns: ColumnFactoryType[]
-  inicialData?: any
+  columns: ColumnFactoryType<any>[]
+  inicialData?: any[]
 }) => {
   const { translations, theme, actualRef, columns, FormItems, name, inicialData } = props
   const formRef = useRef<FormInstance>(null)
   const [data, setdata] = useState<any>([])
   useEffect(() => {
     if (inicialData) {
-      inicialData.map((e: any, i: any) => (e.key = i))
+      inicialData.map((e, i: any) => (e.key = i))
       actualRef?.setFieldsValue({ [name]: inicialData })
       setdata(inicialData)
     } else if (actualRef) {
@@ -36,8 +39,8 @@ const TableComponent = (props: {
   }, [actualRef, inicialData])
 
   const createItem = async () => {
-    var formData = await formRef.current?.validateFields()
-    var actualData = actualRef?.getFieldValue(name)
+    const formData = await formRef.current?.validateFields()
+    let actualData = actualRef?.getFieldValue(name)
     if (actualData) {
       actualData.push({ ...formData })
     } else {
@@ -66,8 +69,8 @@ const TableComponent = (props: {
     })
   }
   const updateItem = async (key: string) => {
-    var formData: any = await formRef.current?.validateFields()
-    var actualData: any = actualRef?.getFieldValue(name)
+    const formData: any = await formRef.current?.validateFields()
+    const actualData: any = actualRef?.getFieldValue(name)
     const pos = actualData.findIndex((e: any) => e.key === key)
     if (pos !== -1) {
       actualData[pos] = { ...formData, key }
@@ -80,10 +83,10 @@ const TableComponent = (props: {
       title: translations.update,
       content: (
         <Form ref={formRef} initialValues={item}>
-          {FormItems(true, item.key)}
+          {FormItems(true, item.key as string)}
         </Form>
       ),
-      onOk: () => updateItem(item.key),
+      onOk: () => updateItem(item.key as string),
       okText: translations.ok,
       cancelText: translations.cancel,
       okCancel: true,
@@ -91,8 +94,8 @@ const TableComponent = (props: {
       className: `modalCrud${theme}`
     })
   }
-  const deleteItem = async (key: string) => {
-    var actualData: any = actualRef?.getFieldValue(name)
+  const deleteItem = (key: string) => {
+    const actualData: any = actualRef?.getFieldValue(name)
     const pos = actualData.findIndex((e: any) => e.key === key)
     if (pos !== -1) {
       actualData.splice(pos, 1)

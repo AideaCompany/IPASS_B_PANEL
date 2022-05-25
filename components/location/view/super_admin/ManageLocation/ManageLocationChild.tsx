@@ -1,5 +1,6 @@
 import useLocationView from '@/providers/ViewLocationContext'
-import { ILocation } from '@/types/types'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+
 import { Form, Table, Transfer } from 'antd'
 import { TableRowSelection } from 'antd/lib/table/interface'
 import difference from 'lodash/difference'
@@ -15,9 +16,9 @@ const ManageLocationChild = ({
 
   const [targetKeys, setTargetKeys] = useState<string[]>(actualLocation?.childLocations ? (actualLocation.childLocations as string[]) : [])
 
-  const onChange = (targetKeys: string[]) => {
-    setSelectedLocations(targetKeys)
-    setTargetKeys(targetKeys)
+  const onChange = (currentTargetKeys: string[]) => {
+    setSelectedLocations(currentTargetKeys)
+    setTargetKeys(currentTargetKeys)
   }
   const columns = [
     {
@@ -48,7 +49,7 @@ const ManageLocationChild = ({
         >
           {({ filteredItems, onItemSelectAll, onItemSelect, selectedKeys: listSelectedKeys, disabled: listDisabled }) => {
             const rowSelection: TableRowSelection<{
-              key: any
+              key: string
             }> = {
               getCheckboxProps: () => ({ disabled: listDisabled }),
               onSelectAll(selected, selectedRows) {
@@ -66,13 +67,16 @@ const ManageLocationChild = ({
               <Table
                 rowSelection={rowSelection}
                 columns={columns}
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 //@ts-ignore
                 dataSource={filteredItems}
                 size="small"
                 style={{ pointerEvents: listDisabled ? 'none' : undefined }}
                 onRow={({ key }) => ({
                   onClick: () => {
-                    if (listDisabled) return
+                    if (listDisabled) {
+                      return
+                    }
                     onItemSelect(key, !listSelectedKeys.includes(key))
                   }
                 })}

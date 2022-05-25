@@ -1,5 +1,5 @@
-export const countUserWorker = /* GraphQL */` 
- query countUserWorker{
+export const countUserWorker = /* GraphQL */ `
+  query countUserWorker {
     countUserWorker
-}
-`;
+  }
+`

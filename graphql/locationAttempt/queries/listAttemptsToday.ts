@@ -6,7 +6,7 @@ export const listAttemptsToday = /* GraphQL */ `
       worker {
         _id
         name
-        lastname
+        lastName
         email
         verifyLogin
         active
@@ -54,7 +54,7 @@ export const listAttemptsToday = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
 

@@ -1,10 +1,16 @@
 import { deleteUser } from '@/graphql/user/mutation/deleteUser'
 import { updateUser } from '@/graphql/user/mutation/updateUser'
 //types
-import { Translations } from '@/i18n/types'
+import { ITranslations } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { IApps, IGroupWorker, ILocation, iTimeZone, PermissionsPrivilege, Privilege, User } from '@/types/types'
+import { IApps } from '@/types/interfaces/Apps/Apps.interface'
+import { IGroupWorker } from '@/types/interfaces/GroupWorker/GroupWorker.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
+import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
+import { IUser } from '@/types/interfaces/user/User.interface'
+import { fileType } from '@/types/typeTemplate'
 import { CheckCircleFilled, CloseCircleFilled, UserOutlined } from '@ant-design/icons'
 import { Avatar, Image } from 'antd'
 import { ColumnType } from 'antd/lib/table'
@@ -20,23 +26,23 @@ import FormItems from './formItems'
 import ResetToken from './ResetToken'
 
 const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  beforeShowUpdate?: (param: any) => any
-  privileges: Privilege[]
+  translations: ITranslations
+  actualPermission: IPermissionsPrivilege
+  beforeShowUpdate?: (param: IUser) => void
+  privileges: IPrivilege[]
   after: () => void
   groups: IGroupWorker[]
   locations: ILocation[]
-  timeZone: iTimeZone[]
+  timeZone: ITimeZone[]
   apps: IApps[]
   // filters: any[]
-}): ColumnType<User>[] => {
+}): ColumnType<IUser>[] => {
   const { translations, actualPermission, apps, after, privileges, beforeShowUpdate, groups, locations, timeZone } = props
   const { theme } = useContext(ThemeContext)
   const { permission } = useAuth()
   // const actualFilters = filters.reduce((a, b) => ({ ...a, ...b }))
 
-  const operations = (record: any) => (
+  const operations = (record: IUser) => (
     <>
       <UpdateItem
         beforeShowUpdate={beforeShowUpdate}
@@ -55,7 +61,7 @@ const columns = (props: {
             locations={locations}
             translations={translations}
             isUpdate
-            inicialData={record.photo}
+            inicialData={record.photo as fileType}
           />
         }
         formElements={formElements(privileges, apps, locations, timeZone)}
@@ -77,7 +83,7 @@ const columns = (props: {
         name: 'photo',
         fixed: 'left',
         width: 60,
-        customRender: (record: User, index) => {
+        customRender: (record: IUser) => {
           return (
             <div>
               {record?.photo?.key ? (
@@ -97,15 +103,10 @@ const columns = (props: {
         width: 200
       },
       {
-        name: 'lastname',
+        name: 'lastName',
         search: true,
         fixed: 'left',
         width: 150
-      },
-      {
-        name: 'codeWorker',
-        search: true,
-        width: 200
       },
       {
         name: 'name1',
@@ -118,12 +119,12 @@ const columns = (props: {
         width: 150
       },
       {
-        name: 'lastname1',
+        name: 'lastName1',
         search: true,
         width: 150
       },
       {
-        name: 'lastname2',
+        name: 'lastName2',
         search: true,
         width: 150
       },
@@ -150,46 +151,48 @@ const columns = (props: {
       {
         name: 'group',
         width: 150,
-        customRender: (record: User) => (record.group as IGroupWorker[])?.map(e => e.abbreviation).join(', ')
+        customRender: (record: IUser) => (record.group as IGroupWorker[])?.map(e => e.abbreviation).join(', ')
       },
       {
         name: 'nativeLocation',
         width: 150,
-        customRender: (record: User) => (record.nativeLocation as ILocation[])?.map(e => e.name).join(', ')
+        customRender: (record: IUser) => (record.nativeLocation as ILocation[])?.map(e => e.name).join(', ')
       },
       {
         name: 'active',
         width: 80,
-        customRender: (record: User) => <RenderCheck value={record.active} />
+        customRender: (record: IUser) => <RenderCheck value={record.active} />
       },
       {
         name: 'canAccessToApp',
         width: 180,
-        customRender: (record: User) => <RenderCheck value={record.canAccessToApp} />
+        customRender: (record: IUser) => <RenderCheck value={record.canAccessToApp} />
       },
       {
         name: 'canAccessToWeb',
         width: 180,
-        customRender: (record: User) => <RenderCheck value={record.canAccessToWeb} />
+        customRender: (record: IUser) => <RenderCheck value={record.canAccessToWeb} />
       },
       {
         name: 'timeZone',
         width: 150,
-        customRender: (record: User) => (record?.timeZone as iTimeZone[])?.map(e => e?.abbreviation)?.join(', ')
+        customRender: (record: IUser) => (record?.timeZone as ITimeZone[])?.map(e => e?.abbreviation)?.join(', ')
       },
       {
         name: 'apps',
         width: 150,
-        customRender: (record: User) => record?.apps?.map(e => e?.abbreviation)?.join(', ')
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        customRender: (record: IUser) => record?.apps?.map((e: IApps) => e?.abbreviation)?.join(', ')
       },
       {
         name: 'canUseAuthenticator',
         width: 150,
-        customRender: (record: User) => <RenderCheck value={record?.canUseAuthenticator} />
+        customRender: (record: IUser) => <RenderCheck value={record?.canUseAuthenticator} />
       },
       {
         name: 'active',
-        customRender: (render: User) => (
+        customRender: (render: IUser) => (
           <>
             {render.active ? (
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -207,9 +210,11 @@ const columns = (props: {
 
       {
         name: 'privilegeID',
-        customRender: (render: User) => render.privilegeID.name as string,
+        customRender: (render: IUser) => (render.privilegeID as IPrivilege).name,
         customFilter: '_id',
-        filter: privileges.map((privilege: Privilege) => ({ text: privilege.name as string, value: privilege._id as string })),
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        filter: privileges.map((privilege: IPrivilege) => ({ text: privilege.name, value: privilege._id })),
         width: 150,
         fixed: 'right'
       }

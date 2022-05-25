@@ -1,4 +1,5 @@
 import { addKeyUserFn } from '@/services/users'
+import { IUser } from '@/types/interfaces/user/User.interface'
 import { CommonPropsModal } from '@/utils/utils'
 import { Button, Form, Input, message, Modal } from 'antd'
 import React from 'react'
@@ -13,8 +14,8 @@ const ModalKeyUser = ({
   getData: () => void
 }) => {
   //#region functions
-  const addKey = async (data: any) => {
-    const res = await addKeyUserFn(data.key)
+  const addKey = async (data: IUser) => {
+    const res = await addKeyUserFn(data.key as string)
     if (res) {
       handleClose()
       getData()
@@ -32,7 +33,7 @@ const ModalKeyUser = ({
   return (
     <Modal visible={visible} {...CommonPropsModal} width={500}>
       <Form onFinish={addKey}>
-        <h2>Para habilitar la creación de usuarios y trabajadores, inserta la llave de activación de usuarios</h2>
+        <h2>Para habilitar la creación de usuarios y staffers, inserta la llave de activación de usuarios</h2>
         <Form.Item name="key" rules={[{ required: true, message: 'Clave obligatoria' }]}>
           <Input placeholder="Key"></Input>
         </Form.Item>

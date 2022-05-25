@@ -77,7 +77,7 @@ export const createUser = /* GraphQL */ `
     createUser(input: $input) {
       _id
       name
-      lastname
+      lastName
       email
       privilegeID {
         _id
@@ -167,7 +167,7 @@ export const deleteUser = /* GraphQL */ `
     deleteUser(input: $input) {
       _id
       name
-      lastname
+      lastName
       email
       privilegeID {
         _id
@@ -250,7 +250,7 @@ export const updateUser = /* GraphQL */ `
     updateUser(input: $input) {
       _id
       name
-      lastname
+      lastName
       email
       privilegeID {
         _id

@@ -1,6 +1,7 @@
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElements = (): FormFactory.FormFactoryType[] => [
+export const formElements = (): FormFactory.IFormFactoryType<ITimeZone>[] => [
   {
     name: 'name',
     type: 'string',
@@ -8,13 +9,13 @@ export const formElements = (): FormFactory.FormFactoryType[] => [
     adicionalProps: { min: 1 }
   },
   {
-    name: 'start',
-    type: 'hour',
+    name: 'abbreviation',
+    type: 'string',
     required: true
   },
   {
-    name: 'abbreviation',
-    type: 'string',
+    name: 'start',
+    type: 'hour',
     required: true
   },
   {
@@ -25,7 +26,7 @@ export const formElements = (): FormFactory.FormFactoryType[] => [
   {
     name: 'days',
     type: 'selectMultiple',
-    data: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'],
+    data: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
     required: true
   }
 ]

@@ -1,6 +1,9 @@
 import useAuth from '@/providers/AuthContext'
 import { acceptEventExpressFn, denyEventExpressFn } from '@/services/eventExpress'
-import { IContact, IEventExpress, ILocation } from '@/types/types'
+import { verifiedData, verifiedDataPDF } from '@/types/interfaces'
+import { IContact } from '@/types/interfaces/Contact/Contact.interface'
+import { IEventExpress } from '@/types/interfaces/EventExpress/eventExpress.interface'
+import { ILocation } from '@/types/interfaces/Location/Location.interface'
 import { capitalize, CommonPropsModal, getTime } from '@/utils/utils'
 import { InfoOutlined } from '@ant-design/icons'
 import { Button, Descriptions, Image, Tooltip } from 'antd'
@@ -18,7 +21,6 @@ const EventInfo = ({ event }: { event: IEventExpress }) => {
   const [open, setOpen] = useState(false)
   //#endregion states
 
-  console.log(contact)
   //#region functions
   const handleCloseModal = () => {
     setOpen(false)
@@ -28,7 +30,7 @@ const EventInfo = ({ event }: { event: IEventExpress }) => {
     try {
       await acceptEventExpressFn(event?._id as string)
     } catch (error) {
-      console.log(error)
+      console.info(error)
     } finally {
       handleCloseModal()
     }
@@ -38,7 +40,7 @@ const EventInfo = ({ event }: { event: IEventExpress }) => {
     try {
       await denyEventExpressFn(event?._id as string)
     } catch (error) {
-      console.log(error)
+      console.info(error)
     } finally {
       handleCloseModal()
     }
@@ -79,100 +81,110 @@ const EventInfo = ({ event }: { event: IEventExpress }) => {
           </Descriptions>
           <Descriptions column={1} title="Información de visitante">
             <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Nombre">
-              {capitalize(contact?.firstName)}
+              {capitalize((contact as IContact)?.firstName)}
             </Descriptions.Item>
             <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Apellidos">
-              {capitalize(contact?.lastName)}
+              {capitalize((contact as IContact)?.lastName)}
             </Descriptions.Item>
             <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Email">
-              {contact?.email}
+              {(contact as IContact)?.email}
             </Descriptions.Item>
             <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Teléfono">
-              {contact?.phone}
+              {(contact as IContact)?.phone}
             </Descriptions.Item>
           </Descriptions>
-          {contact?.verified && contact?.verifiedData && contact?.verifiedData.documentNumber && (
-            <>
-              <Descriptions column={1} title="Información de verificaión">
-                <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Nombre">
-                  {contact?.verifiedData?.firstName}
-                </Descriptions.Item>
-                <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Apellidos">
-                  {contact?.verifiedData?.lastName}
-                </Descriptions.Item>
-                <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Número DPI">
-                  {contact?.verifiedData?.documentNumber}
-                </Descriptions.Item>
-                <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Género">
-                  {contact?.verifiedData?.sex}
-                </Descriptions.Item>
-                <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Nacionalidad">
-                  {contact?.verifiedData?.nationality}
-                </Descriptions.Item>
-                <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Fecha de nacimiento">
-                  {contact?.verifiedData?.birthDate}
-                </Descriptions.Item>
-              </Descriptions>
-              <p style={{ fontWeight: 'bold' }}>Foto</p>
-              <Image width={'100%'} src={`${publicS3}/${contact?.verifiedData?.photo?.key}`} />
-              {contact.typeVerified !== 'PASS' && (
-                <>
-                  <p style={{ fontWeight: 'bold' }}>Documento Lado A</p>
-                  <Image width={'100%'} src={`${publicS3}/${contact?.verifiedData?.documentA?.key}`} />
-                </>
-              )}
-              <p style={{ fontWeight: 'bold' }}>{contact.typeVerified !== 'PASS' ? 'documento Lado B' : 'Documento'}</p>
-              <Image width={'100%'} src={`${publicS3}/${contact?.verifiedData?.documentB?.key}`} />
-            </>
-          )}
-          {contact?.verified && contact.verifiedDataPDF && (
+          {(contact as IContact)?.verified &&
+            (contact as IContact)?.verifiedData &&
+            ((contact as IContact)?.verifiedData as verifiedData).documentNumber && (
+              <>
+                <Descriptions column={1} title="Información de verificaión">
+                  <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Nombre">
+                    {(contact as IContact)?.verifiedData?.firstName}
+                  </Descriptions.Item>
+                  <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Apellidos">
+                    {(contact as IContact)?.verifiedData?.lastName}
+                  </Descriptions.Item>
+                  <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Número DPI">
+                    {(contact as IContact)?.verifiedData?.documentNumber}
+                  </Descriptions.Item>
+                  <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Género">
+                    {(contact as IContact)?.verifiedData?.sex}
+                  </Descriptions.Item>
+                  <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Nacionalidad">
+                    {(contact as IContact)?.verifiedData?.nationality}
+                  </Descriptions.Item>
+                  <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Fecha de nacimiento">
+                    {(contact as IContact)?.verifiedData?.birthDate}
+                  </Descriptions.Item>
+                </Descriptions>
+                <p style={{ fontWeight: 'bold' }}>Foto</p>
+                <Image width={'100%'} src={`${publicS3}/${((contact as IContact)?.verifiedData as verifiedData)?.photo?.key}`} />
+                {(contact as IContact).typeVerified !== 'PASS' && (
+                  <>
+                    <p style={{ fontWeight: 'bold' }}>Documento Lado A</p>
+                    <Image width={'100%'} src={`${publicS3}/${((contact as IContact)?.verifiedData as verifiedData)?.documentA?.key}`} />
+                  </>
+                )}
+                <p style={{ fontWeight: 'bold' }}>{(contact as IContact).typeVerified !== 'PASS' ? 'documento Lado B' : 'Documento'}</p>
+                <Image width={'100%'} src={`${publicS3}/${((contact as IContact)?.verifiedData as verifiedData)?.documentB?.key}`} />
+              </>
+            )}
+          {(contact as IContact)?.verified && (contact as IContact).verifiedDataPDF && (
             <>
               <Descriptions column={1} title="Información de verificaión">
                 <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Nombre y Apellido">
-                  {contact?.verifiedDataPDF?.name}
+                  {(contact as IContact)?.verifiedDataPDF?.name}
                 </Descriptions.Item>
 
                 <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Número de licencia">
-                  {contact?.verifiedDataPDF?.licNum}
+                  {(contact as IContact)?.verifiedDataPDF?.licNum}
                 </Descriptions.Item>
                 <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Fecha de nacimiento">
-                  {contact?.verifiedDataPDF?.expedition}
+                  {(contact as IContact)?.verifiedDataPDF?.expedition}
                 </Descriptions.Item>
                 <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Fecha de expiración">
-                  {contact?.verifiedDataPDF?.expiration}
+                  {(contact as IContact)?.verifiedDataPDF?.expiration}
                 </Descriptions.Item>
               </Descriptions>
               <p style={{ fontWeight: 'bold' }}>Foto</p>
-              <Image width={'100%'} src={`${publicS3}/${contact?.verifiedDataPDF?.photo?.key}`} />
-              {contact.typeVerified !== 'PASS' && (
+              <Image width={'100%'} src={`${publicS3}/${((contact as IContact)?.verifiedDataPDF as verifiedDataPDF)?.photo?.key as string}`} />
+              {(contact as IContact).typeVerified !== 'PASS' && (
                 <>
                   <p style={{ fontWeight: 'bold' }}>Documento Lado A</p>
-                  <Image width={'100%'} src={`${publicS3}/${contact?.verifiedDataPDF?.documentA?.key}`} />
+                  <Image
+                    width={'100%'}
+                    src={`${publicS3}/${((contact as IContact)?.verifiedDataPDF as verifiedDataPDF)?.documentA?.key as string}`}
+                  />
                 </>
               )}
-              <p style={{ fontWeight: 'bold' }}>{contact.typeVerified !== 'PASS' ? 'documento Lado B' : 'Documento'}</p>
-              <Image width={'100%'} src={`${publicS3}/${contact?.verifiedDataPDF?.documentB?.key}`} />
+              <p style={{ fontWeight: 'bold' }}>{(contact as IContact).typeVerified !== 'PASS' ? 'documento Lado B' : 'Documento'}</p>
+              <Image width={'100%'} src={`${publicS3}/${((contact as IContact)?.verifiedDataPDF as verifiedDataPDF)?.documentB?.key as string}`} />
             </>
           )}
-          {event.invitados.length > 0 && (
-            <div>
-              <h2>Información de visitates extra</h2>
-              {(event.invitados as IContact[]).map(e => {
-                return (
-                  <Descriptions key={e._id} column={1} title={`${capitalize(e.firstName)} ${capitalize(e.lastName)}`}>
-                    <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Email">
-                      {e?.email}
-                    </Descriptions.Item>
-                    <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Teléfono">
-                      {e?.phone}
-                    </Descriptions.Item>
-                  </Descriptions>
-                )
-              })}
-            </div>
-          )}
+
+          {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore
+            event?.invitados?.length > 0 && (
+              <div>
+                <h2>Información de visitates extra</h2>
+                {(event.invitados as IContact[]).map(e => {
+                  return (
+                    <Descriptions key={e._id} column={1} title={`${capitalize(e.firstName)} ${capitalize(e.lastName)}`}>
+                      <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Email">
+                        {e?.email}
+                      </Descriptions.Item>
+                      <Descriptions.Item labelStyle={{ fontWeight: 'bold' }} label="Teléfono">
+                        {e?.phone}
+                      </Descriptions.Item>
+                    </Descriptions>
+                  )
+                })}
+              </div>
+            )
+          }
         </div>
-        {permission.name !== 'super_anfitrion' && event.state === 'waiting' && event.contact?.verified && (
+        {permission.name !== 'super_anfitrion' && event.state === 'waiting' && (event.contact as IContact)?.verified && (
           <div className="container__buttons">
             <Button danger onClick={deny}>
               Rechazar Evento

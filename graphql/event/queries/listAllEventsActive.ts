@@ -7,7 +7,7 @@ export const listAllEventsActive = /* GraphQL */ `
       host {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id
@@ -72,7 +72,7 @@ export const listAllEventsActive = /* GraphQL */ `
         admins {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -93,7 +93,7 @@ export const listAllEventsActive = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -114,7 +114,7 @@ export const listAllEventsActive = /* GraphQL */ `
         security {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -152,7 +152,7 @@ export const listAllEventsActive = /* GraphQL */ `
         whoDeleted {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -212,7 +212,7 @@ export const listAllEventsActive = /* GraphQL */ `
         host {
           _id
           name
-          lastname
+          lastName
           email
           active
 
@@ -249,7 +249,7 @@ export const listAllEventsActive = /* GraphQL */ `
       whoDeleted {
         _id
         name
-        lastname
+        lastName
         email
         privilegeID {
           _id

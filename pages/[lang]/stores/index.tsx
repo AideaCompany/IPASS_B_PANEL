@@ -12,24 +12,25 @@ import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 //Context
 import { getLocalizationProps } from '@/providers/LenguageContext'
+import { listAllServicesFn } from '@/services/services'
 import { getAllStores } from '@/services/stores'
 import { listTimeZonesFn } from '@/services/timeZone'
-import { ILocation, IStores, iTimeZone, PermissionsPrivilege } from '@/types/types'
+import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
+import { IService } from '@/types/interfaces/services/Services.interface'
+import { IStores } from '@/types/interfaces/Stores/stores.interface'
+import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
 import { gql } from '@apollo/client'
 //next
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetServerSidePropsContext } from 'next'
 import React, { useEffect, useState } from 'react'
 
-interface actualItem extends IStores {}
-const visitorCategory = (props: { localization: Localization; lang: string }) => {
+const visitorCategory = (props: { localization: Localization; lang: string; timeZone: ITimeZone[]; services: IService[] }) => {
   //props
-  const { localization, lang } = props
+  const { localization, lang, timeZone, services } = props
 
   //states
-  const [timeZone, setTimeZone] = useState<iTimeZone[]>([])
-  const [actualPermission, setActualPermission] = useState<PermissionsPrivilege>()
-  const [data, setdata] = useState<actualItem[]>([])
-  const [locations, setLocations] = useState<ILocation[]>([])
+  const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
+  const [data, setdata] = useState<IStores[]>([])
   const [loading, setloading] = useState<boolean>(true)
   //providers
   const { permission } = useAuth()
@@ -39,17 +40,14 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
   }, [permission])
 
   useEffect(() => {
-    ;(async () => {
-      if (actualPermission) {
-        getData()
-      }
-    })()
+    if (actualPermission) {
+      getData()
+    }
   }, [actualPermission])
 
   const getData = async () => {
     setloading(true)
     setdata(await getAllStores())
-    setTimeZone(await listTimeZonesFn())
     setloading(false)
   }
 
@@ -59,14 +57,12 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
         create={
           <CreateItem
             iconButton={true}
-            actualPermission={actualPermission as PermissionsPrivilege}
+            actualPermission={actualPermission as IPermissionsPrivilege}
             translations={localization.translations}
             mutation={gql(createStores)}
-            formElements={formElements(timeZone)}
-            FormItem={<FormItems timeZone={timeZone} isUpdate={true} translations={localization.translations} />}
+            formElements={formElements(timeZone, services)}
+            FormItem={<FormItems services={services} timeZone={timeZone} isUpdate={true} translations={localization.translations} />}
             afterCreate={getData}
-
-            /* manageMentError={manageMentError} */
           />
         }
         getData={getData}
@@ -75,8 +71,9 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
       >
         <TableData
           columns={columns({
+            services,
             translations: localization.translations,
-            actualPermission: actualPermission as PermissionsPrivilege,
+            actualPermission: actualPermission as IPermissionsPrivilege,
             permision: permission,
             timeZone,
             lang: lang,
@@ -92,17 +89,9 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
 
 export default React.memo(visitorCategory)
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const localization = getLocalizationProps(ctx, 'stores')
-  return {
-    props: {
-      localization
-    }
-  }
-}
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: ['es', 'en'].map(lang => ({ params: { lang } })),
-    fallback: false
-  }
+  const timeZone = await listTimeZonesFn()
+  const services = await listAllServicesFn()
+  return { props: { localization, timeZone, services } }
 }

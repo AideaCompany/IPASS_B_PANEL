@@ -1,6 +1,6 @@
 const drawBackground = (elem: HTMLImageElement) => {
   // create a new canvas
-  var c = document.createElement('canvas')
+  const c = document.createElement('canvas')
   // set its width&height to the required ones
   // draw our canvas to the new one
   c.height = elem.height + 9
@@ -15,8 +15,7 @@ const drawBackground = (elem: HTMLImageElement) => {
 }
 
 export const download_qr = (id: string, name: string) => {
-  //@ts-ignore
-  const canvas = document.getElementById(id).firstChild as HTMLCanvasElement
+  const canvas = (document.getElementById(id) as HTMLElement).firstChild as HTMLCanvasElement
   const img = new Image()
   img.src = canvas.toDataURL('image/jpeg')
   img.onload = () => {

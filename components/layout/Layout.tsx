@@ -4,14 +4,10 @@ import { LanguageContext } from '@/providers/LenguageContext'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { LayoutProps } from '@/types/types'
 import {
-  AuditOutlined,
-  BarChartOutlined,
-  BarcodeOutlined,
-  CalendarOutlined,
-  CodeOutlined,
   DesktopOutlined,
   FieldTimeOutlined,
   HeartOutlined,
+<<<<<<< HEAD
   LaptopOutlined,
   OrderedListOutlined,
   PieChartOutlined,
@@ -20,9 +16,16 @@ import {
   TagsOutlined,
   UserOutlined,
   WarningOutlined
+=======
+  PlusOutlined,
+  ScheduleOutlined,
+  ShoppingOutlined,
+  TagsOutlined,
+  UserOutlined
+>>>>>>> dev
 } from '@ant-design/icons'
 import { Button, Layout, Menu, Tooltip } from 'antd'
-import { Building, CategoryIcon, HouseIcon, Raspberry, Worker } from 'icons/personalIcons'
+import { Building, Worker } from 'icons/personalIcons'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useState } from 'react'
@@ -42,7 +45,7 @@ type layoutObj = {
 }
 const MainLayout = (props: LayoutProps) => {
   //props
-  const { children, title, lang, getData, create, hideButtons, notShowHeader, layoutMargin = { margin: '40px 16px' } } = props
+  const { children, title, lang, getData, create, hideButtons, notShowHeader, layoutMargin = { margin: '0px' } } = props
   const router = useRouter()
   //provider
   const { toggleCollapsed, collapsed, theme } = useContext(ThemeContext)
@@ -61,6 +64,7 @@ const MainLayout = (props: LayoutProps) => {
       path: '/clients',
       title: localization.translations.clients,
       icon: <UserOutlined />
+<<<<<<< HEAD
     },
     {
       path: '/services',
@@ -102,53 +106,126 @@ const MainLayout = (props: LayoutProps) => {
       path: '/event',
       title: localization.translations.event,
       icon: <CalendarOutlined />
+=======
+>>>>>>> dev
     },
     {
-      path: '/eventExpress',
-      title: localization.translations.eventExpress,
-      icon: <CalendarOutlined />
+      path: '/schedule',
+      title: localization.translations.schedule,
+      icon: <ScheduleOutlined />
     },
     {
-      path: '/contact',
-      title: localization.translations.contact,
-      icon: <AuditOutlined />
+      path: '/services',
+      title: localization.translations.services,
+      icon: <HeartOutlined />
     },
     {
-      path: '/visitorCategory',
-      title: localization.translations.visitorCategory,
-      icon: <CategoryIcon />
+      path: '/subServices',
+      title: localization.translations.subservices,
+      icon: <HeartOutlined />
     },
-    {
-      path: '/visitorBrand',
-      title: localization.translations.visitorBrand,
-      icon: <BarcodeOutlined />
-    },
-    {
-      path: '/visitorPlace',
-      title: localization.translations.visitorPlace,
-      icon: <HouseIcon />
-    },
-    {
-      path: '/device',
-      title: localization.translations.device,
-      icon: <LaptopOutlined />
-    },
-    {
-      path: '/apps',
-      title: localization.translations.apps,
-      icon: <CodeOutlined />
-    },
-    {
-      path: '/authenticator',
-      title: localization.translations.authenticator,
-      icon: <OrderedListOutlined />
-    },
+    // {
+    //   path: '/reports',
+    //   title: localization.translations.reports,
+    //   icon: <BarChartOutlined />
+    // },
+    // {
+    //   path: '/risk',
+    //   title: localization.translations.risk,
+    //   icon: <WarningOutlined />
+    // },
+    // {
+    //   path: '/board',
+    //   title: localization.translations.board,
+    //   icon: <PieChartOutlined />
+    // },
+    // {
+    //   path: '/masterLocation',
+    //   title: localization.translations.masterLocation,
+    //   icon: <Building />
+    // },
+    // {
+    //   path: '/location',
+    //   title: localization.translations.location,
+    //   icon: <HeartOutlined />
+    // },
+    // {
+    //   path: '/event',
+    //   title: localization.translations.event,
+    //   icon: <CalendarOutlined />
+    // },
+    // {
+    //   path: '/eventExpress',
+    //   title: localization.translations.eventExpress,
+    //   icon: <CalendarOutlined />
+    // },
+    // {
+    //   path: '/contact',
+    //   title: localization.translations.contact,
+    //   icon: <AuditOutlined />
+    // },
+    // {
+    //   path: '/visitorCategory',
+    //   title: localization.translations.visitorCategory,
+    //   icon: <CategoryIcon />
+    // },
+    // {
+    //   path: '/visitorBrand',
+    //   title: localization.translations.visitorBrand,
+    //   icon: <BarcodeOutlined />
+    // },
+    // {
+    //   path: '/visitorPlace',
+    //   title: localization.translations.visitorPlace,
+    //   icon: <HouseIcon />
+    // },
+    // {
+    //   path: '/device',
+    //   title: localization.translations.device,
+    //   icon: <LaptopOutlined />
+    // },
+    // {
+    //   path: '/apps',
+    //   title: localization.translations.apps,
+    //   icon: <CodeOutlined />
+    // },
+    // {
+    //   path: '/authenticator',
+    //   title: localization.translations.authenticator,
+    //   icon: <OrderedListOutlined />
+    // },
     {
       path: '/timeZone',
       title: localization.translations.timeZone,
       icon: <FieldTimeOutlined />
     },
     {
+      path: '/stores',
+      title: localization.translations.stores,
+      icon: <Building />
+    },
+    {
+      path: '/brands',
+      title: localization.translations.brands,
+      icon: <ShoppingOutlined />
+    },
+    {
+      path: '/styleHair',
+      title: localization.translations.styleHair,
+      icon: <Building />
+    },
+    {
+      path: '/staff',
+      title: localization.translations.staff,
+      icon: <Worker />
+    },
+    {
+      path: '/products',
+      title: localization.translations.products,
+      icon: <ShoppingOutlined />
+    },
+    {
+<<<<<<< HEAD
       path: '/stores',
       title: localization.translations.stores,
       icon: <Building />
@@ -167,6 +244,11 @@ const MainLayout = (props: LayoutProps) => {
       path: '/worker',
       title: localization.translations.worker,
       icon: <Worker />
+=======
+      path: '/serviceTypes',
+      title: localization.translations.serviceTypes,
+      icon: <TagsOutlined />
+>>>>>>> dev
     },
     {
       path: '/products',
@@ -188,7 +270,7 @@ const MainLayout = (props: LayoutProps) => {
   useEffect(() => {
     if (section) {
       layoutObj.map((e, i) => {
-        if (router.asPath.replace(`/${router.query.lang}/`, '/').includes(e.path)) {
+        if (router.asPath.replace(`/${router.query.lang as string}/`, '/').includes(e.path)) {
           setSelectOption([(i + 1).toString()])
         }
       })
@@ -212,7 +294,7 @@ const MainLayout = (props: LayoutProps) => {
             flexDirection: 'column'
           }}
         >
-          <div className="logo">{collapsed ? <img src="/logoipasscompact.png" alt="" /> : <img src="/logoipass.svg" alt="" />}</div>
+          <div className="logo">{collapsed ? <img src="/VantLogo.png" alt="" /> : <img src="/VantLogo.png" alt="" />}</div>
           <Menu
             className="menu_left_layout"
             defaultOpenKeys={['0']}
@@ -221,11 +303,11 @@ const MainLayout = (props: LayoutProps) => {
             mode="inline"
           >
             {layoutObj.map((e, i) => {
-              const actual = permission.permissions?.find(l => `/${l.sectionName?.toLocaleLowerCase()}` === e.path.toLocaleLowerCase())
+              const actual = permission.permissions?.find(l => `/${(l.sectionName as string)?.toLocaleLowerCase()}` === e.path.toLocaleLowerCase())
               if (actual?.read || e.path === '/dashboard' || e.path === '/config') {
                 return (
                   <Menu.Item key={(i + 1).toString()} icon={e.icon}>
-                    <Link href={`/${router.query.lang}${e.path}`}>{e.title ? e.title : 'Sin traduccion'}</Link>
+                    <Link href={`/${router.query.lang as string}${e.path}`}>{e.title ? e.title : 'Sin traduccion'}</Link>
                   </Menu.Item>
                 )
               }
