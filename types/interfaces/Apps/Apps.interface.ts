@@ -5,5 +5,5 @@ export interface IApps extends Document {
   clientID: string
   tokenKey: string
   abbreviation: string
-  clientIDSecret: string
+  clientIDSecret: String
 }
