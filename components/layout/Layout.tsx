@@ -7,22 +7,11 @@ import {
   DesktopOutlined,
   FieldTimeOutlined,
   HeartOutlined,
-<<<<<<< HEAD
-  LaptopOutlined,
-  OrderedListOutlined,
-  PieChartOutlined,
-  PlusOutlined,
-  ShoppingOutlined,
-  TagsOutlined,
-  UserOutlined,
-  WarningOutlined
-=======
   PlusOutlined,
   ScheduleOutlined,
   ShoppingOutlined,
   TagsOutlined,
   UserOutlined
->>>>>>> dev
 } from '@ant-design/icons'
 import { Button, Layout, Menu, Tooltip } from 'antd'
 import { Building, Worker } from 'icons/personalIcons'
@@ -64,50 +53,6 @@ const MainLayout = (props: LayoutProps) => {
       path: '/clients',
       title: localization.translations.clients,
       icon: <UserOutlined />
-<<<<<<< HEAD
-    },
-    {
-      path: '/services',
-      title: localization.translations.services,
-      icon: <HeartOutlined />
-    },
-    {
-      path: '/subServices',
-      title: localization.translations.subservices,
-      icon: <HeartOutlined />
-    },
-    {
-      path: '/reports',
-      title: localization.translations.reports,
-      icon: <BarChartOutlined />
-    },
-    {
-      path: '/risk',
-      title: localization.translations.risk,
-      icon: <WarningOutlined />
-    },
-    {
-      path: '/board',
-      title: localization.translations.board,
-      icon: <PieChartOutlined />
-    },
-    {
-      path: '/masterLocation',
-      title: localization.translations.masterLocation,
-      icon: <Building />
-    },
-    {
-      path: '/location',
-      title: localization.translations.location,
-      icon: <Raspberry />
-    },
-
-    {
-      path: '/event',
-      title: localization.translations.event,
-      icon: <CalendarOutlined />
-=======
->>>>>>> dev
     },
     {
       path: '/schedule',
@@ -225,30 +170,9 @@ const MainLayout = (props: LayoutProps) => {
       icon: <ShoppingOutlined />
     },
     {
-<<<<<<< HEAD
-      path: '/stores',
-      title: localization.translations.stores,
-      icon: <Building />
-    },
-    {
-      path: '/brands',
-      title: localization.translations.brands,
-      icon: <Building />
-    },
-    {
-      path: '/styleHair',
-      title: localization.translations.styleHair,
-      icon: <Building />
-    },
-    {
-      path: '/worker',
-      title: localization.translations.worker,
-      icon: <Worker />
-=======
       path: '/serviceTypes',
       title: localization.translations.serviceTypes,
       icon: <TagsOutlined />
->>>>>>> dev
     },
     {
       path: '/products',

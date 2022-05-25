@@ -1,15 +1,5 @@
 //types
 import { deleteService } from '@/graphql/services/mutations/deleteService'
-<<<<<<< HEAD
-import { updateService } from '@/graphql/services/mutations/updateService'
-import { Translations } from '@/i18n/types'
-import { ThemeContext } from '@/providers/ThemeContext'
-import { IService, IProduct, IServiceType, PermissionsPrivilege, Privilege } from '@/types/types'
-import { UserOutlined } from '@ant-design/icons'
-import { Avatar, Image } from 'antd'
-import { ColumnType } from 'antd/lib/table'
-import gql from 'graphql-tag'
-=======
 import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
@@ -19,41 +9,10 @@ import { Avatar, Button, Image, Tooltip } from 'antd'
 import { ColumnType } from 'antd/lib/table'
 import gql from 'graphql-tag'
 import Link from 'next/link'
->>>>>>> dev
 import React, { useContext } from 'react'
 //component
 import ColumnFactory from '../crudFunctions/columnFactory'
 import DeleteItem from '../crudFunctions/delete'
-<<<<<<< HEAD
-import UpdateItem from '../crudFunctions/update'
-import { formElements } from './formElements'
-import FormItems from './formItems'
-
-const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  beforeShowUpdate?: (param: any) => any
-  privileges: Privilege[]
-  after: () => void
-  // filters: any[]
-  dataServiceType: IServiceType[] | undefined
-  dataProducts: IProduct[] | undefined
-}): ColumnType<IService>[] => {
-  const { translations, actualPermission, after, beforeShowUpdate, dataServiceType, dataProducts } = props
-  const { theme } = useContext(ThemeContext)
-  const operations = (record: any) => (
-    <>
-      <UpdateItem
-        beforeShowUpdate={beforeShowUpdate}
-        actualPermission={actualPermission}
-        translations={translations}
-        mutation={gql(updateService)}
-        record={record}
-        afterUpdate={after}
-        FormItems={<FormItems dataProducts={dataProducts} dataServiceType={dataServiceType} translations={translations} isUpdate />}
-        formElements={formElements(dataServiceType, dataProducts)}
-      />
-=======
 
 const columns = (props: {
   translations: ITranslations
@@ -74,7 +33,6 @@ const columns = (props: {
           </a>
         </Link>
       </Tooltip>
->>>>>>> dev
       <DeleteItem
         actualPermission={actualPermission}
         afterDelete={after}
@@ -115,29 +73,6 @@ const columns = (props: {
         width: 150,
         search: true
       },
-<<<<<<< HEAD
-      {
-        name: 'type',
-        fixed: 'left',
-        width: 150,
-        search: true
-      },
-      {
-        name: 'plus',
-        search: true,
-        width: 150
-      },
-      {
-        name: 'products',
-        search: true,
-        width: 150
-      },
-      {
-        name: 'staffers',
-        search: true,
-        width: 150
-      },
-=======
       // {
       //   name: 'type',
       //   fixed: 'left',
@@ -150,7 +85,6 @@ const columns = (props: {
       //   customRender: (record: IService) => <RenderCheck value={record.plus} />,
       //   width: 150
       // },
->>>>>>> dev
       {
         name: 'eta',
         search: true,
@@ -195,19 +129,6 @@ const columns = (props: {
         name: 'sex',
         search: true,
         width: 150
-<<<<<<< HEAD
-      },
-      {
-        name: 'stores',
-        search: true,
-        width: 150
-      },
-      {
-        name: 'subService',
-        search: true,
-        width: 150
-=======
->>>>>>> dev
       }
     ],
     translate: translations,

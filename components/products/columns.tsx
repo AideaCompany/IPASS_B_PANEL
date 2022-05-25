@@ -1,13 +1,5 @@
 //types
 import { deleteProduct } from '@/graphql/product/mutation/deleteProduct'
-<<<<<<< HEAD
-import { updateProduct } from '@/graphql/product/mutation/updateProduct'
-import { Translations } from '@/i18n/types'
-import { ThemeContext } from '@/providers/ThemeContext'
-import { ILocation, PermissionsPrivilege, Privilege } from '@/types/types'
-import { ColumnType } from 'antd/lib/table'
-import { gql } from 'apollo-boost'
-=======
 import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { IBrands } from '@/types/interfaces/Brands/Brands.interface'
@@ -19,24 +11,10 @@ import { Avatar, Button, Image, Tooltip } from 'antd'
 import { ColumnType } from 'antd/lib/table'
 import { gql } from 'apollo-boost'
 import Link from 'next/link'
->>>>>>> dev
 import React, { useContext } from 'react'
 //component
 import ColumnFactory from '../crudFunctions/columnFactory'
 import DeleteItem from '../crudFunctions/delete'
-<<<<<<< HEAD
-import UpdateItem from '../crudFunctions/update'
-import { formElements } from './formElements'
-import FormItems from './formItem'
-const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  permision: Privilege
-  lang: string
-  after: () => void
-}): ColumnType<ILocation>[] => {
-  const { translations, actualPermission, permision, after } = props
-=======
 const columns = (props: {
   translations: ITranslations
   actualPermission: IPermissionsPrivilege
@@ -45,7 +23,6 @@ const columns = (props: {
   after: () => void
 }): ColumnType<IProduct>[] => {
   const { translations, actualPermission, permision, lang, after } = props
->>>>>>> dev
   const { theme } = useContext(ThemeContext)
 
   // const getFormElements = () => {
@@ -57,21 +34,6 @@ const columns = (props: {
   //   }
   // }
 
-<<<<<<< HEAD
-  const operations = (record: ILocation) => {
-    return (
-      <>
-        <UpdateItem
-          // beforeShowUpdate={beforeShowUpdate}
-          afterUpdate={after}
-          actualPermission={actualPermission}
-          translations={translations}
-          mutation={gql(updateProduct)}
-          record={record}
-          FormItems={<FormItems translations={translations} isUpdate />}
-          formElements={formElements()}
-        />
-=======
   const operations = (record: IProduct) => {
     return (
       <>
@@ -82,7 +44,6 @@ const columns = (props: {
             </a>
           </Link>
         </Tooltip>
->>>>>>> dev
         <DeleteItem
           afterDelete={after}
           actualPermission={actualPermission}
@@ -98,40 +59,6 @@ const columns = (props: {
   return ColumnFactory({
     columns: [
       {
-<<<<<<< HEAD
-        name: 'name'
-      },
-      {
-        name: 'abbreviation'
-      },
-      {
-        name: 'brand'
-      },
-      {
-        name: 'photo'
-      },
-      {
-        name: 'productType'
-      },
-      {
-        name: 'price'
-      },
-      {
-        name: 'measureType'
-      },
-      {
-        name: 'amount'
-      },
-      {
-        name: 'services'
-      },
-      {
-        name: 'designedFor'
-      }
-    ],
-    translate: translations,
-    operations: operations,
-=======
         name: 'photo',
         width: 60,
         fixed: 'left',
@@ -197,7 +124,6 @@ const columns = (props: {
       fixed: 'right',
       width: 120
     },
->>>>>>> dev
     nonShowOperation: !actualPermission?.update && !actualPermission?.delete && permision.name !== 'admin' && true
   })
 }

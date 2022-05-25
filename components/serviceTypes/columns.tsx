@@ -1,11 +1,6 @@
 //types
 import { deleteServiceType } from '@/graphql/serviceType/mutation/deleteServiceType'
 import { updateServiceType } from '@/graphql/serviceType/mutation/updateServiceType'
-<<<<<<< HEAD
-import { Translations } from '@/i18n/types'
-import { ThemeContext } from '@/providers/ThemeContext'
-import { ILocation, PermissionsPrivilege, Privilege } from '@/types/types'
-=======
 import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
 import { uploadedFile } from '@/types/interfaces'
@@ -13,7 +8,6 @@ import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/
 import { IServiceType } from '@/types/interfaces/ServiceType/serviceType.interface'
 import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Image } from 'antd'
->>>>>>> dev
 import { ColumnType } from 'antd/lib/table'
 import { gql } from 'apollo-boost'
 import React, { useContext } from 'react'
@@ -23,15 +17,6 @@ import DeleteItem from '../crudFunctions/delete'
 import UpdateItem from '../crudFunctions/update'
 import { formElements } from './formElements'
 import FormItems from './formItem'
-<<<<<<< HEAD
-const columns = (props: {
-  translations: Translations
-  actualPermission: PermissionsPrivilege
-  permision: Privilege
-  lang: string
-  after: () => void
-}): ColumnType<ILocation>[] => {
-=======
 
 const columns = (props: {
   translations: ITranslations
@@ -40,7 +25,6 @@ const columns = (props: {
   lang: string
   after: () => void
 }): ColumnType<IServiceType>[] => {
->>>>>>> dev
   const { translations, actualPermission, permision, after } = props
   const { theme } = useContext(ThemeContext)
 
@@ -53,9 +37,6 @@ const columns = (props: {
   //   }
   // }
 
-<<<<<<< HEAD
-  const operations = (record: ILocation) => {
-=======
   const operations = (record: IServiceType) => {
     console.log(record)
     const newLogo = {
@@ -66,7 +47,6 @@ const columns = (props: {
     }
     newLogo.logo.key = `${process.env.NEXT_PUBLIC_S3}/${record.logo?.key}`
     newLogo.logo.filename = (record.logo as uploadedFile)?.filename
->>>>>>> dev
     return (
       <>
         <UpdateItem
@@ -75,13 +55,8 @@ const columns = (props: {
           translations={translations}
           mutation={gql(updateServiceType)}
           record={record}
-<<<<<<< HEAD
-          FormItems={<FormItems translations={translations} isUpdate />}
-          formElements={formElements()}
-=======
           FormItems={<FormItems inicialData={newLogo.logo} translations={translations} isUpdate />}
           formElements={formElements(newLogo.logo)}
->>>>>>> dev
         />
         <DeleteItem
           afterDelete={after}
@@ -99,11 +74,6 @@ const columns = (props: {
     columns: [
       {
         name: 'name'
-<<<<<<< HEAD
-      }
-    ],
-    translate: translations,
-=======
       },
       {
         name: 'logo',
@@ -125,7 +95,6 @@ const columns = (props: {
     ],
     translate: translations,
     //@ts-ignore
->>>>>>> dev
     operations: operations,
     nonShowOperation: !actualPermission?.update && !actualPermission?.delete && permision.name !== 'admin' && true
   })
