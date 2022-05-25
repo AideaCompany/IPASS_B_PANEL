@@ -27,6 +27,9 @@ import serviceTypes from './serviceTypes'
 import clients from './clients'
 import services from './services'
 import subServices from './subServices'
+import stores from './stores'
+import brands from './brands'
+import styleHair from './styleHair'
 export default {
   common,
   auth,
@@ -56,5 +59,8 @@ export default {
   serviceTypes,
   clients,
   services,
-  subServices
+  subServices,
+  stores,
+  brands,
+  styleHair
 }

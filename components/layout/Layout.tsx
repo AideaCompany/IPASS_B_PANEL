@@ -149,6 +149,21 @@ const MainLayout = (props: LayoutProps) => {
       icon: <FieldTimeOutlined />
     },
     {
+      path: '/stores',
+      title: localization.translations.stores,
+      icon: <Building />
+    },
+    {
+      path: '/brands',
+      title: localization.translations.brands,
+      icon: <Building />
+    },
+    {
+      path: '/styleHair',
+      title: localization.translations.styleHair,
+      icon: <Building />
+    },
+    {
       path: '/worker',
       title: localization.translations.worker,
       icon: <Worker />

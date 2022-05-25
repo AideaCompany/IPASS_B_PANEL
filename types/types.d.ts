@@ -407,6 +407,22 @@ export interface IMasterLocation extends Document, basicTable {
   deletedDate: string
   whoDeleted: IUser | string
 }
+export interface IStores extends Document, basicTable {
+  name: string
+  address: string
+  schedule: string
+}
+
+export interface IBrands extends Document, basicTable {
+  name: string
+  logo: fileType
+}
+export interface IstyleHair extends Document, basicTable {
+  name: string
+  text: string
+  question: string
+  photo: fileType
+}
 
 export type fileType = {
   filename: string
