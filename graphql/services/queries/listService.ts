@@ -11,32 +11,9 @@ export const listService = /* GraphQL */ `
           name
         }
         products {
-<<<<<<< HEAD
-          product {
-            _id
-            name
-            abbreviation
-            brand
-            photo {
-              filename
-              key
-            }
-            productType
-            price
-            measureType
-            amount
-            services
-            designedFor
-          }
           productQuantity
         }
         eta
-        staffers
-=======
-          productQuantity
-        }
-        eta
->>>>>>> dev
         price
         cost
         serviceFee
@@ -49,27 +26,12 @@ export const listService = /* GraphQL */ `
           filename
           key
         }
-<<<<<<< HEAD
-        stores
-=======
->>>>>>> dev
         subService {
           _id
           plus
           name
           abbreviation
           eta
-<<<<<<< HEAD
-          staffers
-          price
-          cost
-          subServiceFee
-          taxes
-          discounts
-          subServiceTime
-          returnTime
-          stores
-=======
           price
           cost
           serviceFee
@@ -78,7 +40,6 @@ export const listService = /* GraphQL */ `
           serviceTime
           returnTime
           sex
->>>>>>> dev
           createdAt
           updatedAt
         }

@@ -7,34 +7,6 @@ export const listSubService = /* GraphQL */ `
         name
         abbreviation
         products {
-<<<<<<< HEAD
-          product {
-            _id
-            name
-            abbreviation
-            brand
-            photo {
-              filename
-              key
-            }
-            productType
-            price
-            measureType
-            amount
-            services
-            designedFor
-          }
-          productQuantity
-        }
-        eta
-        staffers
-        price
-        cost
-        subServiceFee
-        taxes
-        discounts
-        subServiceTime
-=======
           productQuantity
         }
         type {
@@ -72,22 +44,17 @@ export const listSubService = /* GraphQL */ `
         taxes
         discounts
         serviceTime
->>>>>>> dev
         returnTime
         photo {
           filename
           key
         }
-<<<<<<< HEAD
-        stores
-=======
         sex
         stores {
           _id
           name
           address
         }
->>>>>>> dev
         createdAt
         updatedAt
       }
