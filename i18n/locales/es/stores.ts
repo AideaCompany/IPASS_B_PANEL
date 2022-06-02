@@ -7,6 +7,7 @@ const stores = {
   days: 'Días',
   schedule: 'Horario',
   location: 'Locaciones',
+  generes: 'Generos',
   onlyAllowAuthUSers: 'Solo usuarios verificados',
   //Form
   titleModalCreate: 'Crear Establecimiento',
