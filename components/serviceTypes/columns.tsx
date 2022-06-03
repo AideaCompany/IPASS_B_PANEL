@@ -81,10 +81,7 @@ const columns = (props: {
           return (
             <div>
               {record?.logo?.key ? (
-                <Avatar
-                  style={{ border: '1px solid #ff8623', overflow: 'hidden' }}
-                  src={<Image preview={true} src={`${process.env.NEXT_PUBLIC_S3}/${record.logo.key}`} />}
-                />
+                <Avatar style={{ border: '1px solid #ff8623', overflow: 'hidden' }} src={<Image preview={true} src={`${record.logo.key}`} />} />
               ) : (
                 <Avatar style={{ border: '1px solid #ff8623' }} icon={<UserOutlined />} />
               )}
