@@ -9,15 +9,11 @@ import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import useData from '@/providers/DataContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
-import { getAllApps } from '@/services/apps'
 import { getAllClients } from '@/services/clients'
-import { getAllLocationActive } from '@/services/locations'
-import { listTimeZonesFn } from '@/services/timeZone'
 import { IClient } from '@/types/interfaces/Clients/client.interface'
 import { IPaginated } from '@/types/interfaces/graphqlTypes'
 import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 //apollo
-
 import { convertTotable, formatFiltersTable } from '@/utils/utils'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Tooltip } from 'antd'
@@ -149,10 +145,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       const limit = ctx.query.limit ? parseInt(ctx.query.limit as string) : 10
       // const queriesNames = Object.keys(ctx.query).filter((e: string) => e !== 'page' && e !== 'limit' && e !== 'lang')
       // const filters = queriesNames.length > 0 && queriesNames.map(e => ({ [e]: ctx.query[e] as string }))
-      const locations = await getAllLocationActive()
-      const timeZone = await listTimeZonesFn()
-      const apps = await getAllApps()
-      return { props: { localization, page, limit, locations, timeZone, apps } }
+
+      return { props: { localization, page, limit } }
     } else {
       return {
         notFound: true
