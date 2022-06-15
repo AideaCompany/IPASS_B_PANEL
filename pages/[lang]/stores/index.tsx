@@ -1,12 +1,8 @@
 //react
 //Components
-import CreateItem from '@/components/crudFunctions/create'
 import MainLayout from '@/components/layout/Layout'
 import columns from '@/components/stores/columns'
-import { formElements } from '@/components/stores/formElements'
-import FormItems from '@/components/stores/formItem'
 import TableData from '@/components/TableDatas'
-import { createStores } from '@/graphql/stores/mutations/createStores'
 //types
 import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
@@ -19,9 +15,11 @@ import { IPermissionsPrivilege } from '@/types/interfaces/Privilege/Privilege.in
 import { IService } from '@/types/interfaces/services/Services.interface'
 import { IStores } from '@/types/interfaces/Stores/stores.interface'
 import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
-import { gql } from '@apollo/client'
+import { PlusOutlined } from '@ant-design/icons'
+import { Button, Tooltip } from 'antd'
 //next
 import { GetServerSidePropsContext } from 'next'
+import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 const visitorCategory = (props: { localization: Localization; lang: string; timeZone: ITimeZone[]; services: IService[] }) => {
@@ -51,24 +49,19 @@ const visitorCategory = (props: { localization: Localization; lang: string; time
     setloading(false)
   }
 
+  //functions
+  const goToCreate = () => (
+    <Tooltip title="Crear stores">
+      <Link href={{ pathname: '/[lang]/stores/create', query: { lang } }}>
+        <a>
+          <Button style={{ margin: '5px' }} shape="circle" icon={<PlusOutlined />} />
+        </a>
+      </Link>
+    </Tooltip>
+  )
   return (
     <>
-      <MainLayout
-        create={
-          <CreateItem
-            iconButton={true}
-            actualPermission={actualPermission as IPermissionsPrivilege}
-            translations={localization.translations}
-            mutation={gql(createStores)}
-            formElements={formElements(timeZone, services)}
-            FormItem={<FormItems services={services} timeZone={timeZone} isUpdate={true} translations={localization.translations} />}
-            afterCreate={getData}
-          />
-        }
-        getData={getData}
-        lang={lang}
-        title={localization?.translations.titleSection}
-      >
+      <MainLayout create={goToCreate()} getData={getData} lang={lang} title={localization?.translations.titleSection}>
         <TableData
           columns={columns({
             services,

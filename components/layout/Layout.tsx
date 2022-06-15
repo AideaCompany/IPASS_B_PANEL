@@ -9,6 +9,7 @@ import {
   HeartOutlined,
   PlusOutlined,
   ScheduleOutlined,
+  SettingOutlined,
   ShoppingOutlined,
   TagsOutlined,
   UserOutlined
@@ -27,7 +28,7 @@ import UserMenu from './UserMenu'
 
 const { Content, Sider } = Layout
 
-type layoutObj = {
+export type layoutObj = {
   path: string
   title: string
   icon: JSX.Element
@@ -178,6 +179,11 @@ const MainLayout = (props: LayoutProps) => {
       path: '/users',
       title: localization.translations.user,
       icon: <UserOutlined />
+    },
+    {
+      path: '/config',
+      title: localization.translations.config,
+      icon: <SettingOutlined />
     }
   ]
   //effect

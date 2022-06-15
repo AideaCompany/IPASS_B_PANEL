@@ -2,7 +2,9 @@ import client from '@/graphql/config'
 import { updateMasterLocation } from '@/graphql/masterLocations/mutation/updateMasterLocation'
 import { getMasterLocation } from '@/graphql/masterLocations/queries/getMasterLocation'
 import { listMasterLocationActive } from '@/graphql/masterLocations/queries/listMasterLocationActive'
+import { createStores } from '@/graphql/stores/mutations/createStores'
 import { listStores } from '@/graphql/stores/queries/listStores'
+import { ICreateStores } from '@/types/interfaces/Stores/mutationStores.interface'
 import { IStores } from '@/types/interfaces/Stores/stores.interface'
 
 import { convertTotable } from '@/utils/utils'
@@ -25,4 +27,8 @@ export const getMasterLocationFn = async (_id: string) => {
 
 export const updateMasterLocationFn = async (input: any) => {
   return (await client.mutate({ mutation: gql(updateMasterLocation), variables: { input } })).data.updateMasterLocation
+}
+
+export const createStoresFn = async (input: ICreateStores) => {
+  return (await client.mutate({ mutation: gql(createStores), variables: { input } })).data.createStores
 }
