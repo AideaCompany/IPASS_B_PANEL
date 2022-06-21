@@ -1,5 +1,5 @@
 import { IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
-import { CloudDownloadOutlined, EditOutlined } from '@ant-design/icons'
+import { CloudDownloadOutlined, EditOutlined, CoffeeOutlined } from '@ant-design/icons'
 import { List, Modal } from 'antd'
 import { Localization } from 'i18n/types'
 import Link from 'next/link'
@@ -71,6 +71,16 @@ const Index = ({ localization, permissions }: { localization: Localization; perm
           </div>
           <div className="text">
             <span>Descargables</span>
+          </div>
+        </div>
+      </div>
+      <div onClick={() => router.push({ pathname: '/[lang]/occupation', query: { lang: router.query.lang } })} className="itemConfig">
+        <div className="subItem">
+          <div className="icon">
+            <CoffeeOutlined />
+          </div>
+          <div className="text">
+            <span>Ocupaciones</span>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 // Google maps and geocode
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 const mapContainerStyle = {
   width: '100%',
   height: '100%'

@@ -75,7 +75,7 @@ const update = (props: { localization: Localization; lang: string; stores: IStor
   return (
     <MainLayout hideButtons lang={lang} title={localization.translations.titleModalUpdate}>
       <Form
-        initialValues={{ ...staff, stores: (staff.stores as IStores[])?.map(e => e._id), services: (staff.services as IService[])?.map(e => e._id) }}
+        initialValues={{ ...staff, stores: (staff.stores as IStores[])?.map(e => e?._id), services: (staff.services as IService[])?.map(e => e._id) }}
         component={false}
         ref={formRef}
       >
