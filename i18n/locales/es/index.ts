@@ -31,6 +31,8 @@ import stores from './stores'
 import brands from './brands'
 import styleHair from './styleHair'
 import schedule from './schedule'
+import bot from './bot'
+
 export default {
   common,
   auth,
@@ -64,5 +66,6 @@ export default {
   stores,
   brands,
   styleHair,
-  schedule
+  schedule,
+  bot
 }
