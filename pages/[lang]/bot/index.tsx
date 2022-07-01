@@ -7,7 +7,7 @@ import { getLocalizationProps } from '@/providers/LenguageContext'
 import { Localization } from '@/i18n/types'
 import { socket } from 'socket'
 import QrCode from 'qrcode.react'
-import { Spin } from 'antd'
+import { Button, message, Modal, Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 
 const Bot = (props: { localization: Localization; lang: string }) => {
@@ -18,7 +18,8 @@ const Bot = (props: { localization: Localization; lang: string }) => {
   //#region state
   const [actualPermission, setActualPermission] = useState<IPermissionsPrivilege>()
   const [code, setCode] = useState<string>('')
-  const [ready, setReady] = useState(false)
+  const [allowAuth, setAllowAuth] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   //#endregion state
 
@@ -41,46 +42,65 @@ const Bot = (props: { localization: Localization; lang: string }) => {
 
   useEffect(() => {
     socket.on('qr', data => {
+      setLoading(true)
       setCode(data)
+      setLoading(false)
     })
 
     socket.on('ready', data => {
-      setReady(data)
+      // setReady(data)
     })
   }, [socket])
-
   //#endregion effect
+
+  const handleAuthBot = async () => {
+    Modal.confirm({
+      content: 'Se desvinculara la cuenta actual y permitirá autenticar un nuevo dispositivo',
+      onOk: async () => {
+        const resp = await fetch('http://localhost:3002/api/login', { method: 'post' })
+        const data = await resp.json()
+        if (data.ok) {
+          message.success({ content: 'Se desvinculó la cuenta satisfactoriamente' })
+          setAllowAuth(true)
+          setLoading(true)
+        }
+      }
+    })
+  }
+
   return (
     <>
       <MainLayout lang={lang} title={localization?.translations.titleSection} create={<></>} getData={() => ''}>
-        <div className="dataBotContainer">
-          <div className="info">
-            <h2>Para vincular un dispositivo al bot:</h2>
-            <ol>
-              <li>Abre WhatsApp en tu teléfono</li>
-              <li>
-                Toca <strong>Menú</strong> o <strong>Configuración</strong> y selecciona <strong>Dispositivos vinculados</strong>
-              </li>
-              <li>Cuando se active la cámara, apunta tu teléfono hacia esta pantalla para escanear el código</li>
-            </ol>
-          </div>
+        <>
+          <div className="dataBotContainer">
+            <div className="info">
+              <h2>Para vincular un dispositivo al bot:</h2>
+              <ol>
+                <li>
+                  Selecciona <strong>Autenticar usuario</strong>, esto desvinculara la cuenta actual y permitirá autenticar un nuevo dispositivo
+                </li>
+                <li>Abre WhatsApp en tu teléfono</li>
+                <li>
+                  Toca <strong>Menú</strong> o <strong>Configuración</strong> y selecciona <strong>Dispositivos vinculados</strong>
+                </li>
+                <li>Cuando se active la cámara, apunta tu teléfono hacia esta pantalla para escanear el código</li>
+              </ol>
+              <Button type="primary" shape="round" onClick={handleAuthBot}>
+                Autenticar usuario
+              </Button>
+            </div>
 
-          <div className="qrCode">
-            {code ? (
-              <QrCode value={code} size={300} level={'M'} />
-            ) : (
-              <Spin
-                size="large"
-                style={{ color: '#000', background: 'rgba(255, 255, 255, 0.5)' }}
-                indicator={<LoadingOutlined spin />}
-                tip="Generando código QR..."
-                className="generating"
-              >
-                <QrCode value={code} size={300} level={'M'} />
-              </Spin>
-            )}
+            <div className="qrCode">
+              {allowAuth ? (
+                <Spin indicator={<LoadingOutlined spin />} spinning={code === '' || loading} tip="Generando código qr...">
+                  <QrCode value={code} size={300} level={'M'} />
+                </Spin>
+              ) : (
+                <QrCode value={''} style={{ opacity: 0.3 }} size={300} level={'M'} />
+              )}
+            </div>
           </div>
-        </div>
+        </>
       </MainLayout>
     </>
   )
