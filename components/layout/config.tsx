@@ -1,18 +1,11 @@
 import { IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
-import { CloudDownloadOutlined, EditOutlined, CoffeeOutlined } from '@ant-design/icons'
-import { List, Modal } from 'antd'
+import { CoffeeOutlined, EditOutlined } from '@ant-design/icons'
 import { Localization } from 'i18n/types'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useState } from 'react'
 import { layoutObj } from './Layout'
-
-const dataList = [
-  {
-    title: 'Plantilla de carga',
-    link: `${process.env.NEXT_PUBLIC_BACK_FILES}/plantilla-carga`
-  }
-]
+import ModalConfig from './ModalConfig'
 
 const Index = ({ localization, permissions }: { localization: Localization; permissions: IPrivilege }) => {
   const router = useRouter()
@@ -24,27 +17,7 @@ const Index = ({ localization, permissions }: { localization: Localization; perm
       icon: <EditOutlined />
     }
   ]
-
-  const openDescargables = () => {
-    Modal.info({
-      title: 'Descargables',
-      okCancel: true,
-      centered: true,
-      content: (
-        <List
-          dataSource={dataList}
-          renderItem={item => (
-            <List.Item>
-              <a href={item?.link} target="_blank" rel="noopener noreferrer">
-                {item?.title}
-              </a>
-            </List.Item>
-          )}
-        />
-      )
-    })
-  }
-
+  const [visible, setVisible] = useState(false)
   return (
     <div className="containerConfig">
       {items.map((item, i) => {
@@ -64,16 +37,7 @@ const Index = ({ localization, permissions }: { localization: Localization; perm
           )
         }
       })}
-      <div onClick={openDescargables} className="itemConfig">
-        <div className="subItem">
-          <div className="icon">
-            <CloudDownloadOutlined />
-          </div>
-          <div className="text">
-            <span>Descargables</span>
-          </div>
-        </div>
-      </div>
+
       <div onClick={() => router.push({ pathname: '/[lang]/occupation', query: { lang: router.query.lang } })} className="itemConfig">
         <div className="subItem">
           <div className="icon">
@@ -81,6 +45,14 @@ const Index = ({ localization, permissions }: { localization: Localization; perm
           </div>
           <div className="text">
             <span>Ocupaciones</span>
+          </div>
+        </div>
+      </div>
+      <div onClick={() => setVisible(true)} className="itemConfig">
+        <div className="subItem">
+          <ModalConfig visible={visible} setVisible={setVisible} />
+          <div className="text">
+            <span>Configuración</span>
           </div>
         </div>
       </div>

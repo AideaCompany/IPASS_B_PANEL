@@ -17,6 +17,7 @@ const stores = {
   zone: 'Zona',
   phone: 'Teléfono',
   contact: 'Contacto',
+  photo: 'Foto',
   //Form
   titleModalCreate: 'Crear Establecimiento',
   titleModalUpdate: 'Actualizar Establecimiento',

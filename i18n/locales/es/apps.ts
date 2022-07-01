@@ -15,11 +15,11 @@ const contact = {
   errorName: 'Por favor inserte un nombre',
   errorUrl: 'Por favor inserte un url',
   //Messages
-  successfullyCreated: 'Aplicación creada con exito',
+  successfullyCreated: 'Aplicación creada con éxito',
   errorCreated: 'error creando aplicación',
-  successfullyUpdated: 'Aplicación actualizada con exito',
+  successfullyUpdated: 'Aplicación actualizada con éxito',
   errorUpdated: 'error actualizando aplicación',
-  successfullyDeleted: 'Aplicación eliminada con exito',
+  successfullyDeleted: 'Aplicación eliminada con éxito',
   errorDeleted: 'error eliminando aplicación'
 }
 export default contact

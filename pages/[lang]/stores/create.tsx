@@ -119,9 +119,7 @@ const create = (props: { localization: Localization; lang: string; timeZone: ITi
               <div className="elementsContainer">
                 {current === 0 && <SelectInMap currentLoc={currentLocation} onChangeCurrentLocation={setCurrentLocation} />}
                 {current === 1 && <FormGeneralInfo timeZone={timeZone} translate={localization.translations} />}
-                {current === 2 && (
-                  <SelectServices setSelectedServices={setSelectedServices} selectedServices={selectedServices} services={services} />
-                )}
+                {current === 2 && <SelectServices setSelectedServices={setSelectedServices} services={services} />}
               </div>
               {error && <div className="error">{error}</div>}
               <div className="buttons">
