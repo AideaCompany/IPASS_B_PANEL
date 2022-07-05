@@ -102,7 +102,7 @@ const uploadPhoto = (props: { name: string; translate: ITranslations; inicialDat
         name={name}
         normalize={normalize}
         style={{ height: '200px' }}
-        rules={[{ required, message: translate[`error${capitalize(Array.isArray(name) ? name[name.length - 1] : name)}`] }]}
+        rules={[{ required, message: translate ? translate[`error${capitalize(Array.isArray(name) ? name[name.length - 1] : name)}`] : '' }]}
       >
         <Upload
           //@ts-ignore

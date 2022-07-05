@@ -80,6 +80,7 @@ const common = {
   typeDocument: 'Tipo de documento',
   document: 'Documento',
   phone: 'Teléfono',
-  schedule: 'Agenda'
+  schedule: 'Agenda',
+  occupation: 'Ocupación'
 }
 export default common

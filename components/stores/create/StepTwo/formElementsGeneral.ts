@@ -1,10 +1,12 @@
-import { IService } from '@/types/interfaces/services/Services.interface'
-import { generes, IStores } from '@/types/interfaces/Stores/stores.interface'
+import { generes } from '@/types/interfaces/Stores/stores.interface'
 import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
-
 import { FormFactory } from '@/types/typeTemplate'
 
-export const formElements = (timeZone: ITimeZone[], services: IService[]): FormFactory.IFormFactoryType<IStores>[] => [
+export const FormElements = (timeZone: ITimeZone[]): FormFactory.IFormFactoryType<undefined>[] => [
+  {
+    name: 'zone',
+    type: 'number'
+  },
   {
     name: 'name',
     type: 'string',
@@ -15,17 +17,11 @@ export const formElements = (timeZone: ITimeZone[], services: IService[]): FormF
     type: 'string',
     required: true
   },
-
   {
     name: 'schedule',
     type: 'selectMultiple',
     required: true,
     data: timeZone
-  },
-  {
-    name: 'services',
-    type: 'selectMultiple',
-    data: services
   },
   {
     name: 'generes',
@@ -44,5 +40,13 @@ export const formElements = (timeZone: ITimeZone[], services: IService[]): FormF
         name: 'Niños'
       }
     ]
+  },
+  {
+    name: 'phone',
+    type: 'string'
+  },
+  {
+    name: 'contact',
+    type: 'string'
   }
 ]
