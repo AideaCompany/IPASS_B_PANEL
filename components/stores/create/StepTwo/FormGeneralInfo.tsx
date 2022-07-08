@@ -67,31 +67,33 @@ const FormGeneralInfo = (props: { translate: ITranslations; isUpdate?: boolean; 
   }
 
   return (
-    <div className="formContainer">
-      <MySelect
-        value={department}
-        onChange={value => {
-          setCity('')
-          setDepartment(value)
-        }}
-        element={{
-          name: 'department',
-          data: lodash.uniq(guatemala.map(e => e.admin_name)),
-          type: 'select'
-        }}
-      />
-      <MySelect
-        value={city}
-        onChange={value => setCity(value)}
-        disabled={department === ''}
-        element={{
-          name: 'city',
-          data: lodash.uniq(guatemala.filter(e => e.admin_name === department).map(e => e.city)),
-          type: 'select'
-        }}
-      />
-      {<FormFactory translate={translate} isUpdate={updating} theme={theme} formElements={FormElements(timeZone)} />}
-    </div>
+    <>
+      <div className="formContainer">
+        <MySelect
+          value={department}
+          onChange={value => {
+            setCity('')
+            setDepartment(value)
+          }}
+          element={{
+            name: 'department',
+            data: lodash.uniq(guatemala.map(e => e.admin_name)),
+            type: 'select'
+          }}
+        />
+        <MySelect
+          value={city}
+          onChange={value => setCity(value)}
+          disabled={department === ''}
+          element={{
+            name: 'city',
+            data: lodash.uniq(guatemala.filter(e => e.admin_name === department).map(e => e.city)),
+            type: 'select'
+          }}
+        />
+        {<FormFactory translate={translate} isUpdate={updating} theme={theme} formElements={FormElements(timeZone)} />}
+      </div>
+    </>
   )
 }
 export default FormGeneralInfo
