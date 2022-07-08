@@ -8,6 +8,7 @@ import {
   FieldTimeOutlined,
   HeartOutlined,
   PlusOutlined,
+  RobotOutlined,
   ScheduleOutlined,
   SettingOutlined,
   ShoppingOutlined,
@@ -174,6 +175,11 @@ const MainLayout = (props: LayoutProps) => {
       path: '/serviceTypes',
       title: localization.translations.serviceTypes,
       icon: <TagsOutlined />
+    },
+    {
+      path: '/bot',
+      title: localization.translations.bot,
+      icon: <RobotOutlined />
     },
     {
       path: '/users',

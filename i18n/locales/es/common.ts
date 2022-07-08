@@ -57,6 +57,7 @@ const common = {
   reload: 'Recargar',
   stores: 'Establecimientos',
   brands: 'Marcas',
+  bot: 'Bot',
   styleHair: 'Estilos de cabello',
   // general message
   successfullyCreated: 'Creado con exito',
