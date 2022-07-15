@@ -64,6 +64,7 @@ const visitorCategory = (props: { localization: Localization; lang: string; time
       <MainLayout create={goToCreate()} getData={getData} lang={lang} title={localization?.translations.titleSection}>
         <TableData
           columns={columns({
+            //@ts-ignore
             services,
             translations: localization.translations,
             actualPermission: actualPermission as IPermissionsPrivilege,

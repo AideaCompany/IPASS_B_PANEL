@@ -41,13 +41,13 @@ const Bot = (props: { localization: Localization; lang: string }) => {
   }, [actualPermission])
 
   useEffect(() => {
-    socket.on('qr', data => {
+    socket.on('qr', (data: any) => {
       setLoading(true)
       setCode(data)
       setLoading(false)
     })
 
-    socket.on('ready', data => {
+    socket.on('ready', (data: any) => {
       // setReady(data)
     })
   }, [socket])
@@ -57,7 +57,7 @@ const Bot = (props: { localization: Localization; lang: string }) => {
     Modal.confirm({
       content: 'Se desvinculara la cuenta actual y permitirá autenticar un nuevo dispositivo',
       onOk: async () => {
-        const resp = await fetch('http://localhost:3002/api/login', { method: 'post' })
+        const resp = await fetch(`${process.env.NEXT_PUBLIC_BOT}/api/login`, { method: 'post' })
         const data = await resp.json()
         if (data.ok) {
           message.success({ content: 'Se desvinculó la cuenta satisfactoriamente' })
