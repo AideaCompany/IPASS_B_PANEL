@@ -116,26 +116,7 @@ const SignIn = (props: { localization: Localization }): JSX.Element => {
               <h1>{localization.translations.titleSingup}</h1>
             </div>
             <div className="inputs">
-              {lic ? (
-                <Form onFinish={verifyKey} layout="vertical">
-                  <Form.Item
-                    name="key"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Debes ingresar la llave para continuar'
-                      }
-                    ]}
-                  >
-                    <Input placeholder={'Llave de activación'}></Input>
-                  </Form.Item>
-                  <Form.Item>
-                    <Button shape={'round'} style={{ width: '100%', marginBottom: '1em' }} htmlType="submit" type={'primary'}>
-                      Continuar
-                    </Button>
-                  </Form.Item>
-                </Form>
-              ) : !confirmForm ? (
+              {!confirmForm ? (
                 <Form onFinish={signUp} layout="vertical">
                   <Form.Item
                     name="name"
