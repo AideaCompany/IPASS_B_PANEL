@@ -5,6 +5,7 @@ const services = {
   photo: 'Icono',
   sex: 'Sexo Designado',
   abbreviation: 'Abreviación',
+  description: 'Descripción',
   type: 'Tipo de Servicio',
   addNew: 'Agrega Productos',
   product: 'Producto',

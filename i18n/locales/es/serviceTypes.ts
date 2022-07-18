@@ -3,6 +3,7 @@ const location = {
   titleSection: 'Tipos de servicios',
   //Table
   name: 'Nombre',
+  description: 'Descripción',
   logo: 'Icono',
   //Form
   titleModalCreate: 'Crear tipo de servicio',

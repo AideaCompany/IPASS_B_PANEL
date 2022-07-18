@@ -3,14 +3,13 @@ import { deleteServiceType } from '@/graphql/serviceType/mutation/deleteServiceT
 import { updateServiceType } from '@/graphql/serviceType/mutation/updateServiceType'
 import { ITranslations } from '@/i18n/types'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { uploadedFile } from '@/types/interfaces'
 import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { IServiceType } from '@/types/interfaces/ServiceType/serviceType.interface'
 import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Image } from 'antd'
 import { ColumnType } from 'antd/lib/table'
 import { gql } from 'apollo-boost'
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 //component
 import ColumnFactory from '../crudFunctions/columnFactory'
 import DeleteItem from '../crudFunctions/delete'
@@ -39,14 +38,7 @@ const columns = (props: {
 
   const operations = (record: IServiceType) => {
     console.log(record)
-    const newLogo = {
-      logo: {
-        filename: '',
-        key: ''
-      }
-    }
-    newLogo.logo.key = `${process.env.NEXT_PUBLIC_S3}/${record.logo?.key}`
-    newLogo.logo.filename = (record.logo as uploadedFile)?.filename
+
     return (
       <>
         <UpdateItem
@@ -55,8 +47,8 @@ const columns = (props: {
           translations={translations}
           mutation={gql(updateServiceType)}
           record={record}
-          FormItems={<FormItems inicialData={newLogo.logo} translations={translations} isUpdate />}
-          formElements={formElements(newLogo.logo)}
+          FormItems={<FormItems inicialData={record.logo} translations={translations} isUpdate />}
+          formElements={formElements(record.logo)}
         />
         <DeleteItem
           afterDelete={after}
