@@ -3,6 +3,7 @@ export const listServiceType = /* GraphQL */ `
     listServiceType {
       _id
       name
+      description
       logo {
         filename
         key

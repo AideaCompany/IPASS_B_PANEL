@@ -8,6 +8,11 @@ export const formElements = (inicialData?: unknown): FormFactory.IFormFactoryTyp
     required: true
   },
   {
+    name: 'description',
+    type: 'textArea',
+    required: true
+  },
+  {
     name: 'logo',
     type: 'avatar',
     show: true,
