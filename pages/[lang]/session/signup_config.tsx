@@ -2,7 +2,6 @@
 import Powered from '@/components/Powered'
 import useData from '@/providers/DataContext'
 import { ThemeContext } from '@/providers/ThemeContext'
-import { verifyKeyFn } from '@/services/auth'
 import { IUserForm } from '@/types/types'
 import { gql, useMutation } from '@apollo/client'
 //AntDesign
@@ -10,7 +9,7 @@ import { Button, Form, Input, message } from 'antd'
 //Next
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import ChangeTheme from '../../../components/layout/ChangeTheme'
 import LocaleSwitcher from '../../../components/layout/LocaleSwitcher'
 //components
@@ -29,7 +28,7 @@ const SignIn = (props: { localization: Localization }): JSX.Element => {
   const router = useRouter()
   //State
   const [confirmForm, setConfirmForm] = useState<boolean>(false)
-  const [lic, setLic] = useState(true)
+
   const [getStoredLocale, setStoredLocale] = useLocalStorage<boolean>('init_config', false)
   //provider
   const { login, setSpinning } = useAuth()
@@ -83,22 +82,22 @@ const SignIn = (props: { localization: Localization }): JSX.Element => {
       })
   }
 
-  const verifyKey = async ({ key }: { key: string }) => {
-    try {
-      setSpinning(true)
-      const res = await verifyKeyFn(key)
-      if (res) {
-        message.success('Clave Correcta')
-        setLic(false)
-      } else {
-        message.warning('Clave invalida')
-      }
-    } catch (error) {
-      message.error('Algo salio mal')
-    } finally {
-      setSpinning(false)
-    }
-  }
+  // const verifyKey = async ({ key }: { key: string }) => {
+  //   try {
+  //     setSpinning(true)
+  //     const res = await verifyKeyFn(key)
+  //     if (res) {
+  //       message.success('Clave Correcta')
+  //       setLic(false)
+  //     } else {
+  //       message.warning('Clave invalida')
+  //     }
+  //   } catch (error) {
+  //     message.error('Algo salio mal')
+  //   } finally {
+  //     setSpinning(false)
+  //   }
+  // }
 
   const [confirmUserTrigger] = useMutation(gql(confirmUser))
   const [signUpTrigger] = useMutation(gql(createFirstUser))
