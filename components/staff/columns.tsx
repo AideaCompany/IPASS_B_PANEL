@@ -92,26 +92,26 @@ const columns = (props: {
         fixed: 'left',
         width: 200
       },
-      {
-        name: 'name1',
-        search: true,
-        width: 150
-      },
-      {
-        name: 'name2',
-        search: true,
-        width: 150
-      },
-      {
-        name: 'lastName1',
-        search: true,
-        width: 150
-      },
-      {
-        name: 'lastName2',
-        search: true,
-        width: 150
-      },
+      // {
+      //   name: 'name1',
+      //   search: true,
+      //   width: 150
+      // },
+      // {
+      //   name: 'name2',
+      //   search: true,
+      //   width: 150
+      // },
+      // {
+      //   name: 'lastName1',
+      //   search: true,
+      //   width: 150
+      // },
+      // {
+      //   name: 'lastName2',
+      //   search: true,
+      //   width: 150
+      // },
       {
         name: 'address',
         search: true,
@@ -122,11 +122,11 @@ const columns = (props: {
         search: true,
         width: 150
       },
-      {
-        name: 'phone1',
-        search: true,
-        width: 150
-      },
+      // {
+      //   name: 'phone1',
+      //   search: true,
+      //   width: 150
+      // },
       {
         name: 'specialty',
         search: true,
