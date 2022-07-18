@@ -3,6 +3,7 @@ export const getService = /* GraphQL */ `
     getService(_id: $_id) {
       _id
       plus
+      description
       name
       abbreviation
       type {

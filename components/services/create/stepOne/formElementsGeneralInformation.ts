@@ -21,6 +21,10 @@ export const formElementsGeneralInformation = (
       data: dataServiceType
     },
     {
+      name: 'description',
+      type: 'textArea'
+    },
+    {
       name: 'plus',
       type: 'boolean'
     },
