@@ -24,6 +24,10 @@ export const FormElements = (timeZone: ITimeZone[]): FormFactory.IFormFactoryTyp
     data: timeZone
   },
   {
+    name: 'reservePercentage',
+    type: 'number'
+  },
+  {
     name: 'generes',
     type: 'selectMultiple',
     data: [

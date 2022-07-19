@@ -9,16 +9,18 @@ const apiKey = process.env.NEXT_PUBLIC_MAPS_KEY
 
 const SelectInMap = ({
   currentLoc,
-  onChangeCurrentLocation
+  onChangeCurrentLocation,
+  inicial
 }: {
   currentLoc: google.maps.LatLngLiteral
   onChangeCurrentLocation: (value: google.maps.LatLngLiteral) => void
+  inicial: google.maps.LatLngLiteral
 }) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: apiKey as string
   })
 
-  const [markers, setMarkers] = useState({
+  const [center] = useState({
     lat: currentLoc.lat,
     lng: currentLoc.lng
   })
@@ -30,10 +32,6 @@ const SelectInMap = ({
   }, [loadError])
 
   const onChange = (event: google.maps.MapMouseEvent) => {
-    setMarkers({
-      lat: event?.latLng?.lat() as number,
-      lng: event?.latLng?.lng() as number
-    })
     onChangeCurrentLocation({
       lat: event?.latLng?.lat() as number,
       lng: event?.latLng?.lng() as number
@@ -48,7 +46,7 @@ const SelectInMap = ({
             <GoogleMap
               mapContainerStyle={mapContainerStyle}
               zoom={12}
-              center={currentLoc}
+              center={center}
               options={{
                 fullscreenControl: false,
                 clickableIcons: true,
@@ -58,7 +56,7 @@ const SelectInMap = ({
                 onChange(event)
               }}
             >
-              <Marker position={markers}></Marker>
+              <Marker position={currentLoc}></Marker>
             </GoogleMap>
           </div>
         </>

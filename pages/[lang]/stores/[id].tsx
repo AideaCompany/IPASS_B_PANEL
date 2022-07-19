@@ -7,10 +7,12 @@ import { Localization } from '@/i18n/types'
 import useAuth from '@/providers/AuthContext'
 import { getLocalizationProps } from '@/providers/LenguageContext'
 import { getAllServiceTypesFn } from '@/services/serviceTypes'
-import { createStoresFn } from '@/services/stores'
+import { getStoresFn, updateStoresFn } from '@/services/stores'
 import { listTimeZonesFn } from '@/services/timeZone'
+import { IService } from '@/types/interfaces/services/Services.interface'
 import { IServiceType } from '@/types/interfaces/ServiceType/serviceType.interface'
 import { ICreateStores } from '@/types/interfaces/Stores/mutationStores.interface'
+import { IStores } from '@/types/interfaces/Stores/stores.interface'
 import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Form, FormInstance, message } from 'antd'
@@ -18,9 +20,9 @@ import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import React, { useCallback, useRef, useState } from 'react'
 
-const create = (props: { localization: Localization; lang: string; timeZone: ITimeZone[]; services: IServiceType[] }) => {
+const editStores = (props: { localization: Localization; lang: string; timeZone: ITimeZone[]; services: IServiceType[]; store: IStores }) => {
   //#region props
-  const { localization, lang, timeZone, services } = props
+  const { localization, lang, timeZone, services, store } = props
   //#endregion props
   //#region providers
   const { setSpinning } = useAuth()
@@ -39,8 +41,8 @@ const create = (props: { localization: Localization; lang: string; timeZone: ITi
   const [selectedServices, setSelectedServices] = useState<string[]>([])
   //Default center, Ciudad de guatemala
   const [currentLocation, setCurrentLocation] = useState<google.maps.LatLngLiteral>({
-    lat: 14.623526,
-    lng: -90.516996
+    lat: store.location.lat,
+    lng: store.location.lng
   })
   //#end region states
 
@@ -68,7 +70,12 @@ const create = (props: { localization: Localization; lang: string; timeZone: ITi
     setData(finalData)
     setSpinning(true)
     try {
-      await createStoresFn({ ...finalData, location: { lat: currentLocation.lat, lng: currentLocation.lng }, services: selectedServices })
+      await updateStoresFn({
+        ...finalData,
+        _id: store._id as string,
+        location: { lat: currentLocation.lat, lng: currentLocation.lng },
+        services: selectedServices
+      })
       message.success(localization.translations.successfullyCreated)
       router.push('/[lang]/stores', `/${lang}/stores`)
     } catch (currentError) {
@@ -107,8 +114,13 @@ const create = (props: { localization: Localization; lang: string; timeZone: ITi
   }
 
   return (
-    <MainLayout hideButtons lang={lang} title={localization.translations.titleModalCreate}>
-      <Form onValuesChange={validateForm} component={false} ref={formRef}>
+    <MainLayout hideButtons lang={lang} title={`${localization.translations.titleModalUpdate} "${store.name}"`}>
+      <Form
+        initialValues={{ ...store, schedule: (store.schedule as ITimeZone[]).map(e => e._id) }}
+        onValuesChange={validateForm}
+        component={false}
+        ref={formRef}
+      >
         <div className="container_create_location flex">
           <div className="containerForms">
             <div className="stepsContainer">
@@ -120,15 +132,17 @@ const create = (props: { localization: Localization; lang: string; timeZone: ITi
                 {current === 0 && (
                   <SelectInMap
                     inicial={{
-                      lat: 14.623526,
-                      lng: -90.516996
+                      lat: store.location.lat,
+                      lng: store.location.lng
                     }}
                     currentLoc={currentLocation}
                     onChangeCurrentLocation={setCurrentLocation}
                   />
                 )}
-                {current === 1 && <FormGeneralInfo timeZone={timeZone} translate={localization.translations} />}
-                {current === 2 && <SelectServices setSelectedServices={setSelectedServices} services={services} />}
+                {current === 1 && <FormGeneralInfo isUpdate timeZone={timeZone} translate={localization.translations} />}
+                {current === 2 && (
+                  <SelectServices inicialValues={store.services as IService[]} setSelectedServices={setSelectedServices} services={services} />
+                )}
               </div>
               {error && <div className="error">{error}</div>}
               <div className="buttons">
@@ -150,7 +164,7 @@ const create = (props: { localization: Localization; lang: string; timeZone: ITi
                   {current === 2 && (
                     <Form.Item noStyle>
                       <Button disabled={false} onClick={createProduct} icon={<PlusOutlined />} shape="round" type="primary">
-                        {localization.translations.titleModalCreate}
+                        {localization.translations.titleModalUpdate}
                       </Button>
                     </Form.Item>
                   )}
@@ -164,11 +178,17 @@ const create = (props: { localization: Localization; lang: string; timeZone: ITi
   )
 }
 
-export default React.memo(create)
+export default React.memo(editStores)
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const localization = getLocalizationProps(ctx, 'stores')
+  if (!ctx.query.id) {
+    return {
+      notFound: true
+    }
+  }
   const timeZone = await listTimeZonesFn()
   const services = await getAllServiceTypesFn()
-  return { props: { localization, timeZone, services } }
+  const store = await getStoresFn(ctx.query.id as string)
+  return { props: { localization, timeZone, services, store } }
 }

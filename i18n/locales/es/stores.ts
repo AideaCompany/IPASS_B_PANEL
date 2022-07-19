@@ -4,6 +4,7 @@ const stores = {
   //Table
   name: 'Nombre',
   address: 'Dirección',
+  reservePercentage: 'Porcentaje de reserva',
   days: 'Días',
   schedule: 'Horario',
   location: 'Locaciones',

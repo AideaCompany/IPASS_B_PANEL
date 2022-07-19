@@ -5,9 +5,12 @@ import { ThemeContext } from '@/providers/ThemeContext'
 import { IPermissionsPrivilege, IPrivilege } from '@/types/interfaces/Privilege/Privilege.interface'
 import { IStores } from '@/types/interfaces/Stores/stores.interface'
 import { ITimeZone } from '@/types/interfaces/TimeZone/TimeZone.interface'
+import { EditOutlined } from '@ant-design/icons'
+import { Tooltip } from 'antd'
 import { ColumnType } from 'antd/lib/table'
 import gql from 'graphql-tag'
-import React, { useContext } from 'react'
+import Link from 'next/link'
+import { useContext } from 'react'
 //component
 import ColumnFactory from '../crudFunctions/columnFactory'
 import DeleteWithUser from '../crudFunctions/deleteWithUser'
@@ -20,11 +23,16 @@ const columns = (props: {
   beforeShowUpdate?: (param: any) => any
   after: () => void
 }): ColumnType<IStores>[] => {
-  const { translations, actualPermission, after } = props
+  const { translations, actualPermission, after, lang } = props
 
   const { theme } = useContext(ThemeContext)
   const operations = (record: any) => (
     <>
+      <Tooltip title="Actualizar servicio">
+        <Link href={{ pathname: '/[lang]/stores/[id]', query: { lang, id: record._id } }}>
+          <EditOutlined />
+        </Link>
+      </Tooltip>
       <DeleteWithUser
         actualPermisions={actualPermission}
         translations={translations}
