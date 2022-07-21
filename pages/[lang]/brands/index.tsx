@@ -33,7 +33,7 @@ const visitorCategory = (props: { localization: Localization; lang: string }) =>
   const { permission } = useAuth()
   //Effect
   useEffect(() => {
-    setActualPermission(permission.permissions?.find(e => e.sectionName === 'Brands'))
+    setActualPermission(permission.permissions?.find(e => e.sectionName === 'brands'))
   }, [permission])
 
   useEffect(() => {
