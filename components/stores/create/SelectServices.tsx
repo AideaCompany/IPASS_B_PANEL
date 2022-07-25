@@ -18,7 +18,7 @@ const SelectServices = ({
     const final = {}
     for (let k = 0; k < services.length; k++) {
       //@ts-ignore
-      final[services[k]._id] = inicialValues?.filter(l => (l.type as IServiceType)._id === services[k]._id).map(x => x._id) ?? []
+      final[services[k]._id] = inicialValues?.filter(l => (l.type as IServiceType)?._id === services[k]._id).map(x => x._id) ?? []
     }
     //@ts-ignore
     setValuesServices(final)

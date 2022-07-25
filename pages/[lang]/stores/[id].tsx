@@ -76,7 +76,7 @@ const editStores = (props: { localization: Localization; lang: string; timeZone:
         location: { lat: currentLocation.lat, lng: currentLocation.lng },
         services: selectedServices
       })
-      message.success(localization.translations.successfullyCreated)
+      message.success(localization.translations.successfullyUpdated)
       router.push('/[lang]/stores', `/${lang}/stores`)
     } catch (currentError) {
       // manageMentError(

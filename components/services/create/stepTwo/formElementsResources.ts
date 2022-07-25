@@ -5,7 +5,7 @@ export const formElementsResources = (dataProducts: IProduct[]): FormFactory.IFo
   const formElementsDynamicProducts: FormFactory.IFormFactoryType<undefined>[] = [
     {
       name: 'product',
-      type: 'selectMultiple',
+      type: 'select',
       data: dataProducts
     },
     {
@@ -13,6 +13,7 @@ export const formElementsResources = (dataProducts: IProduct[]): FormFactory.IFo
       type: 'number'
     }
   ]
+
   return [
     {
       name: 'products',

@@ -31,7 +31,8 @@ const subServices = {
   //messages
   errorName: 'Por favor ingrese un nombre',
   successfullyCreated: 'Creado con éxito',
-  successfullyUpdated: 'Actualizado con éxito'
+  successfullyUpdated: 'Actualizado con éxito',
+  description: 'Descripción'
 }
 
 export default subServices
